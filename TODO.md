@@ -1,0 +1,4 @@
+- generate html websites
+- serve those depending on the url
+- add a CI/CD to build and deploy my blog contents (for each blog change detected)
+- add a CI/CD to publish on all my social network for updates on my blog or projects..
