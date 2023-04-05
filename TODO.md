@@ -1,3 +1,4 @@
+- NO WE DON'T SERVE, WE JUST BUILD THE WEBSITE PAGES
 - serve all public pages
     - serve normal basic files availables in the public folder
     - parse url path to redirect to the appropriate html file content(like a rooter)

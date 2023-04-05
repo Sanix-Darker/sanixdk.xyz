@@ -4,6 +4,7 @@ SHELL := /bin/bash # Use bash syntax
 
 ## install: to install a bunch of stuffs + some libs
 install:
+	# should be run before the docker commands
 	# install gcc and init submodule
 	apt-get install git gcc && git submodule init
 	# cd on externals and compile all the libs
@@ -13,18 +14,13 @@ install:
 
 ## compile: Compile the app itself
 compile:
-	gcc -Wall \
-	-I/usr/local/cyaml/include -lpthread -s \
-	main.c lib.c structs.h lib.h \
-	-o web
+	gcc -Wall -L/usr/local/lib -lcyaml \
+    -I/usr/local/cyaml/include -lpthread -s \
+	main.c lib.c structs.h lib.h -o web
 
 ## build: Build the webpage that are going to be serve
 build:
 	./web build
-
-## serve: Serve the whole webSite
-serve:
-	./web serve
 
 all: help
 help: Makefile

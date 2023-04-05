@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  sanix-darker.com:
+    image: sanix-darker.com:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3003:8080"
