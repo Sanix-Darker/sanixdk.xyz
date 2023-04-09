@@ -6,6 +6,7 @@ SHELL := /bin/bash # Use bash syntax
 install:
 	# should be run before the docker commands
 	# install gcc and init submodule
+	# or git submodule update --init
 	apt-get install git gcc && git submodule init
 	# cd on externals and compile all the libs
 	cd ./externals/ && ./libcyaml.sh
