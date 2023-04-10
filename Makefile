@@ -2,21 +2,20 @@
 
 SHELL := /bin/bash # Use bash syntax
 
-## compile: Compile the app itself
+## compile: Compile the app builder itself
 compile:
-	gcc -Wall -lpthread -s \
-	main.c lib.c lib.h \
-	structs.h \
-	./md4c/entity.c \
-	./md4c/entity.h \
-	./md4c/md4c-html.c \
-	./md4c/md4c-html.h \
-	./md4c/md4c.c \
-	./md4c/md4c.h -o web
+	gcc -Wall -s main.c \
+	./md4c/entity.c ./md4c/entity.h \
+	./md4c/md4c-html.c ./md4c/md4c-html.h \
+	./md4c/md4c.c ./md4c/md4c.h -o sdk
 
-## build: Build the webpage that are going to be serve
+## build: Build the webpage that is going to be serve
 build:
-	./web build
+	./sdk build
+
+## serve: Serve the app (Not implemented/nor ready yet)
+serve:
+	./sdk serve
 
 all: help
 help: Makefile

@@ -1,0 +1,22 @@
+name: Website build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout actionV3
+        uses: actions/checkout@v3
+
+      - name: Build the website builder
+        run: |
+          apt-get install gcc make
+          make compile
+
+      - name: Build the website
+        run: |
+          ./web build

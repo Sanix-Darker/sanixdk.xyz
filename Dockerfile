@@ -5,29 +5,26 @@ RUN apt update -y --fix-missing && apt install gcc -y
 WORKDIR /app
 
 # copy code/src files
-COPY main.c lib.c lib.h structs.h ./
-# copy libs dir
-COPY externals/ externals
+COPY main.c ./
 
-# install externals libs
-RUN cd ./externals/ && ./libcyaml.sh
-
-RUN echo "----"
+# we copy md4c
+COPY ./md4c/ ./md4c/
 
 # build the ./web app
-RUN gcc -Wall -L/usr/local/lib -lcyaml \
-    -I/usr/local/cyaml/include -lpthread -s \
-	main.c lib.c structs.h lib.h -o web
+RUN gcc -Wall -lpthread -s \
+	main.c \
+	./md4c/entity.c ./md4c/entity.h \
+	./md4c/md4c-html.c ./md4c/md4c-html.h \
+	./md4c/md4c.c ./md4c/md4c.h -o sdk
 
-# copy pages/components
-COPY pages/ pages
-COPY components/ components
+# copy content
+COPY content/ content
 
 # just for the public folder
 # COPY public/ public
 
 # We build the html pages and put that in /static
-RUN /app/web build
+RUN /app/sdk build
 
 # FIXME: delete this instruction later, since the builder should create html files
 # FIXME: + minify the html
@@ -35,7 +32,6 @@ RUN mkdir /app/public && \
     echo "H3llo there!" > /app/public/index.html && \
     echo "Hexllo Page 2" > /app/public/page.html && \
     echo "Hello 404 !" > /app/public/404.html
-
 
 # ----------------------- #
 # ----- serve stage ----- #
