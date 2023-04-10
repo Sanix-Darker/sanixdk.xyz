@@ -1,7 +1,14 @@
-- NO WE DON'T SERVE, WE JUST BUILD THE WEBSITE PAGES
-- serve all public pages
-    - serve normal basic files availables in the public folder
-    - parse url path to redirect to the appropriate html file content(like a rooter)
+# We can inspire ourself from https://github.com/dominickpastore/pymd4c
+# we need to parse the markdown with md4c
+# then build the html element
+
+```python
+import md4c
+with open('README.md', 'r') as f:
+    markdown = f.read()
+renderer = md4c.HTMLRenderer()
+html = renderer.parse(markdown)
+```
 
 - generate html websites
     - open and parse yaml files

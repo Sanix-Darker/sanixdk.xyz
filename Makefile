@@ -17,7 +17,16 @@ install:
 compile:
 	gcc -Wall -L/usr/local/lib -lcyaml \
     -I/usr/local/cyaml/include -lpthread -s \
-	main.c lib.c structs.h lib.h -o web
+	main.c \
+		lib.c \
+		lib.h \
+		structs.h \
+		./md4c/entity.c \
+		./md4c/entity.h \
+		./md4c/md4c-html.c \
+		./md4c/md4c-html.h \
+		./md4c/md4c.c \
+		./md4c/md4c.h -o web
 
 ## build: Build the webpage that are going to be serve
 build:
