@@ -24,19 +24,60 @@ static unsigned renderer_flags =
 #else
 static unsigned renderer_flags = MD_HTML_FLAG_DEBUG;
 #endif
-static int want_fullhtml = 1;
-static int want_xhtml = 0;
-static int want_stat = 0;
 
-/*********************************
- ***  Simple grow-able buffer  ***
- *********************************/
-
-/* We render to a memory buffer instead of directly outputting the rendered
- * documents, as this allows using this utility for evaluating performance
- * of MD4C (--stat option). This allows us to measure just time of the parser,
- * without the I/O.
- */
+// Unfortunatelly we need some small css style
+char* css_style =
+    "import "
+    "url(http://fonts.googleapis.com/"
+    "css?family=Roboto:400,100,100italic,300,300ita‌lic,400italic,500,"
+    "500italic,700,700italic,900italic,900);"
+    "html,body,html * {"
+    "  font-family: 'Roboto', sans-serif;"
+    "}"
+    ".container {"
+    "   padding-left: 25%;"
+    "   padding-right: 25%;"
+    "}"
+    "@media screen and (max-width: 1500px) {"
+    "  .container {"
+    "    padding-left: 15%;"
+    "    padding-right: 15%;"
+    "  }"
+    "}"
+    "@media screen and (max-width: 1100px) {"
+    "  .container {"
+    "    padding-left: 10%;"
+    "    padding-right: 10%;"
+    "  }"
+    "}"
+    "@media screen and (max-width: 768px) {"
+    "  .container {"
+    "    padding-left: 5%;"
+    "    padding-right: 5%;"
+    "  }"
+    "}"
+    "pre {"
+    "  background-color: #f6f8fa;"
+    "  border-radius: 3px;"
+    "  padding: 16px;"
+    "}"
+    "code {"
+    "  color: #24292e;"
+    "  font-family: 'Courier New', Courier, monospace;"
+    "  font-size: 14px;"
+    "}"
+    "@media (prefers-color-scheme: dark) {"
+    "body {"
+    "  background-color: #1a1a1a;"
+    "    color: #fff;"
+    "  }"
+    "  pre {"
+    "    background-color: #2d2d2d;"
+    "  }"
+    "  code {"
+    "    color: #ccc;"
+    "  }"
+    "}";
 
 struct membuffer {
     char* data;
@@ -75,15 +116,24 @@ static void membuf_append(struct membuffer* buf, const char* data,
     buf->size += size;
 }
 
-/**********************
- ***  Main program  ***
- **********************/
+void removeNewLines(char* str) {
+    char* p = str;
+    char* q = str;
+
+    while (*p) {
+        if (*p != '\n') {
+            *q++ = *p;
+        }
+        p++;
+    }
+    *q = '\0';
+}
 
 static void process_output(const MD_CHAR* text, MD_SIZE size, void* userdata) {
     membuf_append((struct membuffer*)userdata, text, size);
 }
 
-static int process_file(FILE* in, FILE* out) {
+static int process_file(FILE* in, FILE* out, char* page_title) {
     size_t n;
     struct membuffer buf_in = {0};
     struct membuffer buf_out = {0};
@@ -120,41 +170,30 @@ static int process_file(FILE* in, FILE* out) {
     }
 
     /* Write down the document in the HTML format. */
-    if (want_fullhtml) {
-        if (want_xhtml) {
-            fprintf(out, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-            fprintf(out,
-                    "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" "
-                    "\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n");
-            fprintf(out, "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n");
-        } else {
-            fprintf(out, "<!DOCTYPE html>\n");
-            fprintf(out, "<html>\n");
-        }
-        fprintf(out, "<head>\n");
-        fprintf(out, "<title></title>\n");
-        fprintf(out, "<meta name=\"generator\" content=\"md2html\"%s>\n",
-                want_xhtml ? " /" : "");
-        fprintf(out, "</head>\n");
-        fprintf(out, "<body>\n");
-    }
-
+    fprintf(out,
+            "<!DOCTYPE html>\n"
+            "<html>\n"
+            "<head>\n<title>dk | %s",
+            page_title);
+    fprintf(out,
+            "</title>\n"
+            "<meta charset=\"UTF-8\">");
+    fprintf(out, "<style>%s</style>\n", css_style);
+    fprintf(out,
+            "</head>\n"
+            "<body>"
+            "<div class=\"container\">\n");
     fwrite(buf_out.data, 1, buf_out.size, out);
+    fprintf(out, "</div></body>\n");
+    fprintf(out, "</html>\n");
 
-    if (want_fullhtml) {
-        fprintf(out, "</body>\n");
-        fprintf(out, "</html>\n");
-    }
-
-    if (want_stat) {
-        if (t0 != (clock_t)-1 && t1 != (clock_t)-1) {
-            double elapsed = (double)(t1 - t0) / CLOCKS_PER_SEC;
-            if (elapsed < 1)
-                fprintf(stderr, "Time spent on parsing: %7.2f ms.\n",
-                        elapsed * 1e3);
-            else
-                fprintf(stderr, "Time spent on parsing: %6.3f s.\n", elapsed);
-        }
+    if (t0 != (clock_t)-1 && t1 != (clock_t)-1) {
+        double elapsed = (double)(t1 - t0) / CLOCKS_PER_SEC;
+        if (elapsed < 1)
+            fprintf(stderr, "Time spent on parsing: %7.2f ms.\n",
+                    elapsed * 1e3);
+        else
+            fprintf(stderr, "Time spent on parsing: %6.3f s.\n", elapsed);
     }
 
     /* Success if we have reached here. */
@@ -195,7 +234,7 @@ int main(int argc, char** argv) {
             }
         }
 
-        ret = process_file(in, out);
+        ret = process_file(in, out, "Home");
         if (in != stdin) fclose(in);
         if (out != stdout) fclose(out);
 

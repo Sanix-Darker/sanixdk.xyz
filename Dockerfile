@@ -1,3 +1,4 @@
+# ----- compile stage ----- #
 FROM ubuntu:22.04 as builder
 
 RUN apt update -y --fix-missing && apt install gcc make -y
@@ -13,9 +14,7 @@ RUN make compile
 # We build the html pages and put that in /static
 RUN mkdir ./public && make build
 
-# ----------------------- #
 # ----- serve stage ----- #
-# ----------------------- #
 FROM nginx:stable-alpine3.17-slim as prod
 
 # we copy the nginx conf
