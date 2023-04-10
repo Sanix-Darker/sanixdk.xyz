@@ -1,3 +1,0 @@
-[submodule "externals/libcyaml"]
-	path = externals/libcyaml
-	url = git@github.com:Sanix-Darker/libcyaml.git

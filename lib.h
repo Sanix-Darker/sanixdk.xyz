@@ -3,9 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// for yaml read/write
-#include <cyaml/cyaml.h>
-
 // Read the file (check the path)
 
 // Convert the yaml to html and specify the component as {{
