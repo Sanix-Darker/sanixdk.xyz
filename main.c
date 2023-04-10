@@ -188,7 +188,7 @@ int main(int argc, char** argv) {
             }
         }
         if (output_path != NULL && strcmp(output_path, "-") != 0) {
-            out = fopen(output_path, "wt");
+            out = fopen(output_path, "a+");
             if (out == NULL) {
                 fprintf(stderr, "Cannot open %s.\n", output_path);
                 exit(1);
