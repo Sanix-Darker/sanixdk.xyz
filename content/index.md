@@ -1,5 +1,6 @@
-<!-- COMPONENT (./components/header.md) -->
----
-<!-- COMPONENT (./components/home.md) -->
----
-<!-- COMPONENT (./components/footer.md) -->
+## Hi, am darker
+----------------
+Hey there, my name is SAA DJIO, but you can call me sanix.
+
+Am a Backend engineer for more than 6 years,
+I like to making hacky stuffs + contribute to OpenSource.
