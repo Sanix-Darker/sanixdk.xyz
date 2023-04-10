@@ -17,6 +17,10 @@ build:
 serve:
 	./sdk serve
 
+## docker-build: Docker build for the website
+docker-build:
+	DOCKER_BUILDKIT=0 docker build --rm -t sdk.xyz:latest -f ./Dockerfile .
+
 all: help
 help: Makefile
 	@echo " Choose a command: "
