@@ -21,9 +21,13 @@ serve:
 docker-build:
 	DOCKER_BUILDKIT=0 docker build --rm -t sdk.xyz:latest -f ./Dockerfile .
 
+## docker-run: Docker run for the website
+docker-run:
+	docker run -it sdk.xyz:latest -p 3003:8080
+
 all: help
 help: Makefile
 	@echo " Choose a command: "
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 
-.PHONY: compile build help
+.PHONY: compile build serve help docker-build

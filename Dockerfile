@@ -10,9 +10,6 @@ COPY . .
 # build the ./web app
 RUN make compile
 
-# just for the public folder
-# COPY public/ public
-
 # We build the html pages and put that in /static
 RUN mkdir ./public && make build
 
