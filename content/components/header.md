@@ -1,4 +1,4 @@
-[`home`](/) [`blog`](/blogs) [`projects`](/projects) [`about`](/about)
+[`home`](/) [`blog`](/blogs/) [`projects`](/projects/) [`about`](/about)
 
 ---
 
