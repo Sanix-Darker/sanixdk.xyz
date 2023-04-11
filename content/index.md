@@ -1,11 +1,7 @@
-[`home`](/) [`blog`](/blogs/) [`projects`](/projects/) [`about`](/about)
----
-
 # Hi, am darker
 ----------------
 Am a Backend engineer for more than 6 years,
-I like to making hacky stuffs + contribute to OpenSource.
-
+I like making hacky stuffs + contribute to OpenSource.
 
 ## My work
 ### ZamZam
@@ -16,99 +12,6 @@ const test = () => {
 
 // then we run it
 test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
-test();
 ```
 
 ### DoumDoum
@@ -118,6 +21,3 @@ test();
 
 ## Latest Articles
 <!-- TODO: this content should be generated -->
-
----
-[`github`](/ "github.com") [`twitter`](/blogs/ "twitter.com") [`stackoverflow`](/projects/ "stackoverflow.com") [`gitlab`](/about "gitlab.com")

@@ -26,6 +26,10 @@ static unsigned renderer_flags = MD_HTML_FLAG_DEBUG;
 
 // Unfortunatelly we need some small css style
 char* css_style =
+    "h2 {color: rgb(157, 148, 136);}"
+    "h3 {color: rgb(181, 172, 161);}"
+    "h4 {color: rgb(131, 122, 111);}"
+    "h5 {color: rgb(100, 91, 81);}"
     ".container {"
     "   padding-left: 25%;"
     "   padding-right: 25%;"
@@ -178,6 +182,26 @@ static int process_file(FILE* in, FILE* out, char* page_title) {
     /* Write down the document in the HTML format. */
     fprintf(out, "<!DOCTYPE html><html><head><title>dk | %s </title>",
             page_title);
+    fprintf(
+        out,
+        "<meta name = \"robots\" content = \"index,follow\" />"
+        "<meta name = \"twitter:card\" content = \"summary_large_image\" />"
+        "<meta name = \"twitter:site\" content = \"@sanixdarker\" />"
+        "<meta name = \"twitter:creator\" content = \"@sanixdarker\" />"
+        "<meta property = \"og:title\" content = \"dk\" />"
+        "<meta property = \"og:description\" content = \"\" />"
+        "<meta property = \"og:url\" content = \"https://sxdk.xyz\" />"
+        "<meta property = \"og:image\" content = \"https://sxdk.xyz/og.png\" />"
+        "<meta property = \"og:image:alt\" content = \"Og Image Alt\" />"
+        "<meta property = \"og:image:width\" content = \"1200\" />"
+        "<meta property = \"og:image:height\" content = \"640\" />"
+        "<meta property = \"og:site_name\" content = \"dk\" />"
+        "<link rel = \"canonical\" href = \"https://sxdk.xyz\" />"
+        "<meta charSet = \"utf-8\" />"
+        "<meta content = \"initial-scale=1.0, width=device-width\" name = "
+        "\"viewport\" /><meta content = \"#009efa\" name = \"theme-color\" />"
+        "<link href = \"/favicon.svg\" rel = \"icon\" />");
+
     fprintf(out, "<meta http-equiv=\"content-language\" content=\"en-us,fr\">");
     fprintf(out, "<style>%s</style>", css_style);
     fprintf(out, "</head><body><div class=\"container\">");

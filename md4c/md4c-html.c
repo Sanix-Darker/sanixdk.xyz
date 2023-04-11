@@ -372,13 +372,8 @@ static void render_open_wikilink_span(MD_HTML* r,
 
 static int enter_block_callback(MD_BLOCKTYPE type, void* detail,
                                 void* userdata) {
-    static const MD_CHAR* head[6] = {
-        "<h1>",
-        "<h2 style=\"color: rgb(157, 148, 136);\">",
-        "<h3 style=\"color: rgb(181, 172, 161);\">",
-        "<h4 style=\"color: rgb(131, 122, 111);\">",
-        "<h5 style=\"color: rgb(100, 91, 81);\">",
-        "<h6>"};
+    static const MD_CHAR* head[6] = {"<h1>", "<h2>", "<h3>",
+                                     "<h4>", "<h5>", "<h6>"};
     MD_HTML* r = (MD_HTML*)userdata;
 
     switch (type) {

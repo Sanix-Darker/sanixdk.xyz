@@ -10,8 +10,22 @@ compile:
 	./md4c/md4c.c ./md4c/md4c.h -o sdk
 
 ## build: Build the webpage that is going to be serve
+# TODO: find a way to match components inside the final renderer page
 build:
-	./sdk build
+	mkdir ./public && mkdir ./public/blogs && \
+    mkdir ./public/components \
+    mkdir ./public/projects && ./sdk build
+
+## polish: To concatenate header/footer components to all the pages
+polish:
+	# ./content/projects/*.md since there is no project for now
+	for f in ./content/*.md ./content/blogs/*.md; \
+	do \
+		content=`cat $$f`; \
+		cat ./content/components/header.md > $$f; \
+		echo -ne "$$content" >> $$f; \
+		cat ./content/components/footer.md >> $$f; \
+	done;
 
 ## serve: Serve the app (Not implemented/nor ready yet)
 serve:
