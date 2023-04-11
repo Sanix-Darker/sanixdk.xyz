@@ -26,13 +26,6 @@ static unsigned renderer_flags = MD_HTML_FLAG_DEBUG;
 
 // Unfortunatelly we need some small css style
 char* css_style =
-    "import "
-    "url(http://fonts.googleapis.com/"
-    "css?family=Roboto:400,100,100italic,300,300ita‌lic,400italic,500,"
-    "500italic,700,700italic,900italic,900);"
-    "html,body,html * {"
-    "  font-family: 'Roboto', sans-serif;"
-    "}"
     ".container {"
     "   padding-left: 25%;"
     "   padding-right: 25%;"
@@ -59,6 +52,8 @@ char* css_style =
     "  background-color: #f6f8fa;"
     "  border-radius: 3px;"
     "  padding: 16px;"
+    "  max-height: 300px;"
+    "  overflow-y: auto;"
     "}"
     "code {"
     "  color: #24292e;"
@@ -113,19 +108,6 @@ static void membuf_append(struct membuffer* buf, const char* data,
         membuf_grow(buf, buf->size + buf->size / 2 + size);
     memcpy(buf->data + buf->size, data, size);
     buf->size += size;
-}
-
-void removeNewLines(char* str) {
-    char* p = str;
-    char* q = str;
-
-    while (*p) {
-        if (*p != '\n') {
-            *q++ = *p;
-        }
-        p++;
-    }
-    *q = '\0';
 }
 
 void replaceString(char* original, char* toReplace, char* replacement) {
@@ -194,22 +176,13 @@ static int process_file(FILE* in, FILE* out, char* page_title) {
     }
 
     /* Write down the document in the HTML format. */
-    fprintf(out,
-            "<!DOCTYPE html>\n"
-            "<html>\n"
-            "<head>\n<title>dk | %s",
+    fprintf(out, "<!DOCTYPE html><html><head><title>dk | %s </title>",
             page_title);
-    fprintf(out,
-            "</title>\n"
-            "<meta charset=\"UTF-8\">");
-    fprintf(out, "<style>%s</style>\n", css_style);
-    fprintf(out,
-            "</head>\n"
-            "<body>"
-            "<div class=\"container\">\n");
+    fprintf(out, "<meta http-equiv=\"content-language\" content=\"en-us,fr\">");
+    fprintf(out, "<style>%s</style>", css_style);
+    fprintf(out, "</head><body><div class=\"container\">");
     fwrite(buf_out.data, 1, buf_out.size, out);
-    fprintf(out, "</div></body>\n");
-    fprintf(out, "</html>\n");
+    fprintf(out, "</div></body></html>");
 
     if (t0 != (clock_t)-1 && t1 != (clock_t)-1) {
         double elapsed = (double)(t1 - t0) / CLOCKS_PER_SEC;

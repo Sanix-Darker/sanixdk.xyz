@@ -25,6 +25,8 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # we just copy the built web pages
 COPY --from=builder /app/public/* /usr/share/nginx/html/
+COPY --from=builder /app/public/blogs/* /usr/share/nginx/html/blogs/
+# COPY --from=builder /app/public/blogs/* /usr/share/nginx/html/blogs/
 
 # we expose the port 80
 EXPOSE 80
