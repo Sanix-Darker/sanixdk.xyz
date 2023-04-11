@@ -15,10 +15,6 @@
 #define BUILD_ARG "build"
 #define SERVE_ARG "serve"
 
-// paths for convertion
-static char* input_path = NULL;
-static char* output_path = NULL;
-
 /* Global options. */
 static unsigned parser_flags = 0;
 #ifndef MD4C_USE_ASCII
@@ -234,11 +230,17 @@ out:
     return ret;
 }
 
-void proceedFilesRecursively(char* basePath, FILE* in, FILE* out) {
+void proceedFilesRecursively(char* basePath) {
     char path[1000];
+    char input_path[1000];
+    char output_path[1000];
+
     struct dirent* dp;
     struct stat filestat;
     DIR* dir = opendir(basePath);
+
+    FILE* in = stdin;
+    FILE* out = stdout;
 
     if (!dir) {
         printf("Unable to open directory: %s\n", basePath);
@@ -252,31 +254,27 @@ void proceedFilesRecursively(char* basePath, FILE* in, FILE* out) {
                 continue;
             }
             if (S_ISDIR(filestat.st_mode)) {
-                proceedFilesRecursively(path, in, out);
+                proceedFilesRecursively(path);
             } else if (strstr(dp->d_name, ".md") != NULL) {
-                printf(">>> building %s\n", path);
+                strcpy(input_path, path);
+                strcpy(output_path, path);
 
-                input_path = path;
-                output_path = path;
+                printf(">>> building %s\n", input_path);
 
                 // we replace content by public since we're builing the website
                 replaceString(output_path, "content", "public");
                 replaceString(output_path, ".md", ".html");
 
-                if (input_path != NULL && strcmp(input_path, "-") != 0) {
-                    in = fopen(input_path, "rb");
-                    if (in == NULL) {
-                        fprintf(stderr, "Cannot open %s.\n", input_path);
-                        exit(1);
-                    }
+                in = fopen(input_path, "rb");
+                if (in == NULL) {
+                    fprintf(stderr, "<< Cannot open %s\n", input_path);
+                    exit(1);
                 }
 
-                if (output_path != NULL && strcmp(output_path, "-") != 0) {
-                    out = fopen(output_path, "w");
-                    if (out == NULL) {
-                        fprintf(stderr, "Cannot open %s.\n", output_path);
-                        exit(1);
-                    }
+                out = fopen(output_path, "w+");
+                if (out == NULL) {
+                    fprintf(stderr, ">> Cannot open %s\n", output_path);
+                    exit(1);
                 }
 
                 process_file(in, out, "");
@@ -295,11 +293,8 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
 
-    FILE* in = stdin;
-    FILE* out = stdout;
-
     if (strcmp(argv[1], BUILD_ARG) == 0) {
-        proceedFilesRecursively("./content", in, out);
+        proceedFilesRecursively("./content");
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         printf("NOT IMPLEMENTED YET !");
         return EXIT_SUCCESS;

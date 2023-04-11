@@ -5,14 +5,17 @@ RUN apt update -y --fix-missing && apt install gcc make -y
 
 WORKDIR /app
 
-# copy code/src files
+# Copy code/src files
 COPY . .
 
-# build the ./web app
+# Build the ./web app
 RUN make compile
 
 # We build the html pages and put that in /static
-RUN mkdir ./public && make build
+# TODO: find a way to match components inside the final renderer page
+RUN mkdir ./public && mkdir ./public/blogs && \
+    mkdir ./public/components \
+    mkdir ./public/projects && make build
 
 # ----- serve stage ----- #
 FROM nginx:stable-alpine3.17-slim as prod
