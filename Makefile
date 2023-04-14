@@ -4,22 +4,21 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wall -s main.c main.h\
-	./md4c/entity.c ./md4c/entity.h \
-	./md4c/md4c-html.c ./md4c/md4c-html.h \
-	./md4c/md4c.c ./md4c/md4c.h -o sdk
+	gcc -Wall -s main.c ./md4c/entity.c ./md4c/md4c-html.c ./md4c/md4c.c -o sdk
+
+## compile-resources: To polish all resources suchy as the css or all potential images etc... ?
+compile-resources:
+	# we compress the css (yeah i need that part too unfortunatelly)
+	cat ./content/style.css | tr -d '[:space:]' > ./public/style.css;
 
 ## build: Build the webpage that is going to be serve
 # TODO: find a way to match components inside the final renderer page
 build:
-	mkdir ./public && mkdir ./public/blogs && \
-    mkdir ./public/components \
-    mkdir ./public/projects && ./sdk build
+	mkdir ./public && mkdir ./public/blogs \
+    ./public/components ./public/projects && ./sdk build
 
 ## polish: To concatenate header/footer components to all the pages
 polish:
-	# we compress the css (yeah i need that part too unfortunatelly)
-	cat ./content/style.css | tr -d '[:space:]' >  ./public/style.css;
 	# ./content/projects/*.md since there is no project for now
 	for f in ./content/*.md ./content/blogs/*.md; \
 	do \
@@ -46,4 +45,4 @@ help: Makefile
 	@echo " Choose a command: "
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 
-.PHONY: compile build serve help docker-build
+.PHONY: compile build serve help docker-build polish compile-resources
