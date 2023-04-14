@@ -15,8 +15,11 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install gcc make
 
-      - name: Compile builder
+      - name: Compile the builder
         run: make compile
 
+      - name: Wrap stuffs together (resources/imgs)
+        run: make polish && make compile-resources
+
       - name: Build the website
-        run: make polish && make build
+        run: make build
