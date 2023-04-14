@@ -6,6 +6,18 @@ So, i know this is weird, but i didn't have a website since...
 I probably have one of the quickest personnal website over there
 This is how i made my personnal website loading in <5kb
 
+## My work
+### ZamZam
+```javascript
+const test = () => {
+    console.log("This is just a test to see if it's working !!!");
+}
+
+// then we run it
+test();
+```
+
+
 <script src="https://giscus.app/client.js"
         data-repo="sanix-darker/sanixdk.xyz"
         data-repo-id="[ENTER REPO ID HERE]"
