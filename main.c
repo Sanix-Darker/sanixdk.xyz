@@ -151,6 +151,10 @@ void proceedFilesRecursively(char* basePath) {
     FILE* in = stdin;
     FILE* out = stdout;
 
+    char* string_title_target_replacements[5] = {
+        "public/", ".html", "/blogs/", "/projects/", ".",
+    };
+
     if (!dir) {
         printf("Unable to open directory: %s\n", basePath);
         return;
@@ -186,7 +190,12 @@ void proceedFilesRecursively(char* basePath) {
                     exit(1);
                 }
 
-                process_file(in, out, "");
+                for (int i = 0; i < 5; i++) {
+                    replaceString(output_path,
+                                  string_title_target_replacements[i], "");
+                }
+                // the title will be the file name without some stuffs in it
+                process_file(in, out, output_path);
                 if (in != stdin) fclose(in);
                 if (out != stdout) fclose(out);
             }
