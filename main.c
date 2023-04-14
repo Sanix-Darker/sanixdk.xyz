@@ -236,7 +236,7 @@ void build_header_web_page(FILE* out, char* page_title) {
         "<meta charSet = \"utf-8\" />"
         "<meta content = \"initial-scale=1.0, width=device-width\" name = "
         "\"viewport\" /><meta content = \"#009efa\" name = \"theme-color\" />"
-        "<link rel= \"style.css\"/>"
+        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "<link href = \"/favicon.svg\" rel = \"icon\" />");
 
     fprintf(out, "<meta http-equiv=\"content-language\" content=\"en-us,fr\">");

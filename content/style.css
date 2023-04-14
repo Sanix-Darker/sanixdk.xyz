@@ -2,9 +2,12 @@ h2 {color: rgb(157, 148, 136);}
 h3 {color: rgb(181, 172, 161);}
 h4 {color: rgb(131, 122, 111);}
 h5 {color: rgb(100, 91, 81);}
-.container {
-   padding-left: 25%;
-   padding-right: 25%;
+
+@media screen and (max-width: 1900px) {
+    .container {
+       padding-left: 25%;
+       padding-right: 25%;
+    }
 }
 @media screen and (max-width: 1500px) {
   .container {
@@ -24,6 +27,13 @@ h5 {color: rgb(100, 91, 81);}
     padding-right: 5%;
   }
 }
+@media screen and (max-width: 450px) {
+  .container {
+    padding-left: 0%;
+    padding-right: 0%;
+  }
+}
+
 pre {
   background-color: #f6f8fa;
   border-radius: 3px;

@@ -8,14 +8,15 @@ compile:
 
 ## compile-resources: To polish all resources suchy as the css or all potential images etc... ?
 compile-resources:
+	mkdir ./public && mkdir ./public/blogs \
+    ./public/components ./public/projects && touch ./public/style.css
 	# we compress the css (yeah i need that part too unfortunatelly)
-	cat ./content/style.css | tr -d '[:space:]' > ./public/style.css;
+	cat ./content/style.css | tr -d "\n" > ./public/style.css;
 
 ## build: Build the webpage that is going to be serve
 # TODO: find a way to match components inside the final renderer page
 build:
-	mkdir ./public && mkdir ./public/blogs \
-    ./public/components ./public/projects && ./sdk build
+	./sdk build
 
 ## polish: To concatenate header/footer components to all the pages
 polish:
