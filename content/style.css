@@ -3,6 +3,10 @@ h3 {color: rgb(181, 172, 161);}
 h4 {color: rgb(131, 122, 111);}
 h5 {color: rgb(100, 91, 81);}
 a{text-decoration: none;}
+img[alt="logo"]{
+    position: absolute;
+    width: 1.2em;
+}
 @media screen and (max-width: 1900px) {
     .container {
        padding-left: 25%;
@@ -46,15 +50,13 @@ code {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
 }
-@media (prefers-color-scheme: dark) {
 body {
   background-color: #1a1a1a;
-    color: #fff;
-  }
-  pre {
-    background-color: #2d2d2d;
-  }
-  code {
-    color: #ccc;
-  }
-};
+  color: #fff;
+}
+pre {
+  background-color: #2d2d2d;
+}
+code {
+  color: #ccc;
+}
