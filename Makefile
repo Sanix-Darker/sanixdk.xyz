@@ -8,8 +8,8 @@ compile:
 
 ## compile-resources: To polish all resources suchy as the css or all potential images etc... ?
 compile-resources:
-	mkdir ./public && mkdir ./public/blogs \
-    ./public/components ./public/projects && touch ./public/style.css
+	mkdir ./public && mkdir ./public/blogs ./public/components ./public/projects && \
+	touch ./public/style.css && cp ./content/favicon.ico ./public/favicon.ico
 	# we compress the css (yeah i need that part too unfortunatelly)
 	cat ./content/style.css | tr -d "\n" > ./public/style.css;
 

@@ -2,7 +2,7 @@ h2 {color: rgb(157, 148, 136);}
 h3 {color: rgb(181, 172, 161);}
 h4 {color: rgb(131, 122, 111);}
 h5 {color: rgb(100, 91, 81);}
-
+a{text-decoration: none;}
 @media screen and (max-width: 1900px) {
     .container {
        padding-left: 25%;
