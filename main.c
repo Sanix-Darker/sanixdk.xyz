@@ -1,15 +1,4 @@
-#include <dirent.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-
-#include "./md4c/md4c-html.h"
-#include "./md4c/md4c.h"
+#include "main.h"
 
 #define RENDER 1
 #define BUILD_ARG "build"
@@ -23,59 +12,6 @@ static unsigned renderer_flags =
 #else
 static unsigned renderer_flags = MD_HTML_FLAG_DEBUG;
 #endif
-
-// Unfortunatelly we need some small css style
-char* css_style =
-    "h2 {color: rgb(157, 148, 136);}"
-    "h3 {color: rgb(181, 172, 161);}"
-    "h4 {color: rgb(131, 122, 111);}"
-    "h5 {color: rgb(100, 91, 81);}"
-    ".container {"
-    "   padding-left: 25%;"
-    "   padding-right: 25%;"
-    "}"
-    "@media screen and (max-width: 1500px) {"
-    "  .container {"
-    "    padding-left: 15%;"
-    "    padding-right: 15%;"
-    "  }"
-    "}"
-    "@media screen and (max-width: 1100px) {"
-    "  .container {"
-    "    padding-left: 10%;"
-    "    padding-right: 10%;"
-    "  }"
-    "}"
-    "@media screen and (max-width: 768px) {"
-    "  .container {"
-    "    padding-left: 5%;"
-    "    padding-right: 5%;"
-    "  }"
-    "}"
-    "pre {"
-    "  background-color: #f6f8fa;"
-    "  border-radius: 3px;"
-    "  padding: 16px;"
-    "  max-height: 300px;"
-    "  overflow-y: auto;"
-    "}"
-    "code {"
-    "  color: #24292e;"
-    "  font-family: 'Courier New', Courier, monospace;"
-    "  font-size: 14px;"
-    "}"
-    "@media (prefers-color-scheme: dark) {"
-    "body {"
-    "  background-color: #1a1a1a;"
-    "    color: #fff;"
-    "  }"
-    "  pre {"
-    "    background-color: #2d2d2d;"
-    "  }"
-    "  code {"
-    "    color: #ccc;"
-    "  }"
-    "}";
 
 struct membuffer {
     char* data;
@@ -180,31 +116,7 @@ static int process_file(FILE* in, FILE* out, char* page_title) {
     }
 
     /* Write down the document in the HTML format. */
-    fprintf(out, "<!DOCTYPE html><html><head><title>dk | %s </title>",
-            page_title);
-    fprintf(
-        out,
-        "<meta name = \"robots\" content = \"index,follow\" />"
-        "<meta name = \"twitter:card\" content = \"summary_large_image\" />"
-        "<meta name = \"twitter:site\" content = \"@sanixdarker\" />"
-        "<meta name = \"twitter:creator\" content = \"@sanixdarker\" />"
-        "<meta property = \"og:title\" content = \"dk\" />"
-        "<meta property = \"og:description\" content = \"\" />"
-        "<meta property = \"og:url\" content = \"https://sxdk.xyz\" />"
-        "<meta property = \"og:image\" content = \"https://sxdk.xyz/og.png\" />"
-        "<meta property = \"og:image:alt\" content = \"Og Image Alt\" />"
-        "<meta property = \"og:image:width\" content = \"1200\" />"
-        "<meta property = \"og:image:height\" content = \"640\" />"
-        "<meta property = \"og:site_name\" content = \"dk\" />"
-        "<link rel = \"canonical\" href = \"https://sxdk.xyz\" />"
-        "<meta charSet = \"utf-8\" />"
-        "<meta content = \"initial-scale=1.0, width=device-width\" name = "
-        "\"viewport\" /><meta content = \"#009efa\" name = \"theme-color\" />"
-        "<link href = \"/favicon.svg\" rel = \"icon\" />");
-
-    fprintf(out, "<meta http-equiv=\"content-language\" content=\"en-us,fr\">");
-    fprintf(out, "<style>%s</style>", css_style);
-    fprintf(out, "</head><body><div class=\"container\">");
+    build_header_web_page(out, page_title);
     fwrite(buf_out.data, 1, buf_out.size, out);
     fprintf(out, "</div></body></html>");
 
@@ -301,4 +213,32 @@ int main(int argc, char** argv) {
     }
 
     return EXIT_SUCCESS;
+}
+
+void build_header_web_page(FILE* out, char* page_title) {
+    fprintf(out, "<!DOCTYPE html><html><head><title>dk | %s </title>",
+            page_title);
+    fprintf(
+        out,
+        "<meta name = \"robots\" content = \"index,follow\" />"
+        "<meta name = \"twitter:card\" content = \"summary_large_image\" />"
+        "<meta name = \"twitter:site\" content = \"@sanixdarker\" />"
+        "<meta name = \"twitter:creator\" content = \"@sanixdarker\" />"
+        "<meta property = \"og:title\" content = \"dk\" />"
+        "<meta property = \"og:description\" content = \"\" />"
+        "<meta property = \"og:url\" content = \"https://sxdk.xyz\" />"
+        "<meta property = \"og:image\" content = \"https://sxdk.xyz/og.png\" />"
+        "<meta property = \"og:image:alt\" content = \"Og Image Alt\" />"
+        "<meta property = \"og:image:width\" content = \"1200\" />"
+        "<meta property = \"og:image:height\" content = \"640\" />"
+        "<meta property = \"og:site_name\" content = \"dk\" />"
+        "<link rel = \"canonical\" href = \"https://sxdk.xyz\" />"
+        "<meta charSet = \"utf-8\" />"
+        "<meta content = \"initial-scale=1.0, width=device-width\" name = "
+        "\"viewport\" /><meta content = \"#009efa\" name = \"theme-color\" />"
+        "<link rel= \"style.css\"/>"
+        "<link href = \"/favicon.svg\" rel = \"icon\" />");
+
+    fprintf(out, "<meta http-equiv=\"content-language\" content=\"en-us,fr\">");
+    fprintf(out, "</head><body><div class=\"container\">");
 }

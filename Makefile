@@ -4,7 +4,7 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wall -s main.c \
+	gcc -Wall -s main.c main.h\
 	./md4c/entity.c ./md4c/entity.h \
 	./md4c/md4c-html.c ./md4c/md4c-html.h \
 	./md4c/md4c.c ./md4c/md4c.h -o sdk
@@ -18,6 +18,8 @@ build:
 
 ## polish: To concatenate header/footer components to all the pages
 polish:
+	# we compress the css (yeah i need that part too unfortunatelly)
+	cat ./content/style.css | tr -d '[:space:]' >  ./public/style.css;
 	# ./content/projects/*.md since there is no project for now
 	for f in ./content/*.md ./content/blogs/*.md; \
 	do \

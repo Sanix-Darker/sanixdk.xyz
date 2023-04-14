@@ -1,0 +1,50 @@
+h2 {color: rgb(157, 148, 136);}
+h3 {color: rgb(181, 172, 161);}
+h4 {color: rgb(131, 122, 111);}
+h5 {color: rgb(100, 91, 81);}
+.container {
+   padding-left: 25%;
+   padding-right: 25%;
+}
+@media screen and (max-width: 1500px) {
+  .container {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .container {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+pre {
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  padding: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+code {
+  color: #24292e;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+@media (prefers-color-scheme: dark) {
+body {
+  background-color: #1a1a1a;
+    color: #fff;
+  }
+  pre {
+    background-color: #2d2d2d;
+  }
+  code {
+    color: #ccc;
+  }
+};
