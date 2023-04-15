@@ -1,15 +1,16 @@
-h2 {color: rgb(157, 148, 136);}
-h3 {color: rgb(181, 172, 161);}
-h4 {color: rgb(131, 122, 111);}
-h5 {color: rgb(100, 91, 81);}
+h2 {color: rgb(207, 198, 186);}
+h3 {color: rgb(221, 212, 211);}
+h4 {color: rgb(171, 162, 151);}
+h5 {color: rgb(130, 131, 121);}
 a{text-decoration: none;}
 img[alt="logo"]{
     position: absolute;
-    width: 1.2em;
+    width: 1.5em;
+    margin-top: -0.5em;
 }
 .container {
-   padding-left: 25%;
-   padding-right: 25%;
+   padding-left: 30%;
+   padding-right: 30%;
 }
 @media screen and (max-width: 1500px) {
   .container {
@@ -57,4 +58,9 @@ pre {
 }
 code {
   color: #ccc;
+}
+p img {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    width: 100%;
 }

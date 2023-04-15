@@ -1,23 +1,13 @@
-# Hi, am darker
-----------------
-Am a Backend engineer for more than 6 years,
-I like making hacky stuffs + contribute to OpenSource.
+# Hi, am sanix.
 
-## My work
-### ZamZam
-```javascript
-const test = () => {
-    console.log("This is just a test to see if it's working !!!");
-}
+A software engineer, an electronic Geek, i like create simple tools doing amazing stuffs.
+In this website, i will share my blog posts, projects ideas/realisations, welcome on board.
 
-// then we run it
-test();
-```
+## Most Visited Articles
 
-### DoumDoum
+[![Image description](/favicon.ico)](/blog_url)
+### Blog Title
+Blog description goes here...
 
-## Tech Stack
-<!-- this content should static -->
+## Popular Projects
 
-## Latest Articles
-<!-- TODO: this content should be generated -->

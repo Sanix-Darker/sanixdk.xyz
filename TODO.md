@@ -20,3 +20,5 @@ html = renderer.parse(markdown)
     - add a CI/CD to publish the website when there is an update on the personnal website path
     - add a CI/CD to build and deploy my blog contents (for each blog change detected)
     - add a CI/CD to publish on all my social network a message for updates on my blog or projects.
+
+- track visits on each blog page
