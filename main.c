@@ -139,7 +139,7 @@ out:
     return ret;
 }
 
-char* build_blog_previews(const char* dir_name) {
+char* build_previews(const char* dir_name) {
     DIR* dir;
     struct dirent* entry;
     char* preview;
@@ -263,6 +263,13 @@ void proceed_files_recursivelly(char* basePath) {
 
     char* recent_blogs = preview_recent_blogs();
     char* recent_projects = preview_recent_projects();
+
+    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
+    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
+    printf(recent_projects);
+    printf(recent_blogs);
+    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
+    printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.");
 
     while ((dp = readdir(dir)) != NULL) {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
