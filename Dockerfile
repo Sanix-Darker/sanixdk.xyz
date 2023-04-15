@@ -20,8 +20,9 @@ RUN make compile-resources
 # We build the html pages and put that in /static
 RUN make build
 
-# ----- serve stage ----- #
-FROM nginx:stable-alpine3.17-slim as prod
+# at this step we should already have everything we need to be serve
+# ----- nginx-serve stage ----- #
+FROM nginx:stable-alpine3.17-slim as prod-serve
 
 # we copy the nginx conf
 COPY ./nginx.conf /etc/nginx/nginx.conf

@@ -2,7 +2,7 @@
 
 # Video and Audio Conferencing in your terminal
 -----------
-`2022/05/01 11:03:10 AM`.
+`2022/05/01 11:03:10 AM` **#cli** **#terminal**
 
 Yeah i know, what you guys are thinking "Why ?", "Why do you do that ?", well "just for fun ?" and a way to mastering "real-time parallelism", this is also my first POST ever made!
 
@@ -69,13 +69,11 @@ s2c is Open Source and free !
 
 PS : Any comments or constructive advice are welcome !
 
-
-
 <script src="https://giscus.app/client.js"
         data-repo="sanix-darker/sanixdk.xyz"
         data-repo-id="video-audio-conf"
-        data-category="[ENTER CATEGORY NAME HERE]"
-        data-category-id="[ENTER CATEGORY ID HERE]"
+        data-category="blog"
+        data-category-id="b"
         data-mapping="pathname"
         data-strict="0"
         data-reactions-enabled="1"

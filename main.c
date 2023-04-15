@@ -139,7 +139,108 @@ out:
     return ret;
 }
 
-void proceedFilesRecursively(char* basePath) {
+char* build_blog_previews(const char* dir_name) {
+    DIR* dir;
+    struct dirent* entry;
+    char* preview;
+    int preview_size = 0;
+    int character_size = 500;
+
+    dir = opendir(dir_name);
+    if (dir == NULL) {
+        perror("opendir");
+        return NULL;
+    }
+
+    // Calculate the total size of the previews
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_REG) {
+            char file_path[1024];
+            snprintf(file_path, sizeof(file_path), "%s/%s", dir_name,
+                     entry->d_name);
+            FILE* fp = fopen(file_path, "r");
+            if (fp == NULL) {
+                perror("fopen");
+                closedir(dir);
+                return NULL;
+            }
+            fseek(fp, 0, SEEK_END);
+            int file_size = ftell(fp);
+            fclose(fp);
+
+            int preview_len =
+                file_size > character_size ? character_size : file_size;
+            preview_size += preview_len;
+        }
+    }
+
+    // Allocate memory for the previews
+    preview = (char*)malloc((preview_size + 1) * sizeof(char));
+    if (preview == NULL) {
+        perror("malloc");
+        closedir(dir);
+        return NULL;
+    }
+    preview[0] = '\0';  // initialize the string to the empty string
+
+    // Concatenate the first 1000 characters of each file into the previews
+    rewinddir(dir);  // reset directory stream
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_REG) {
+            char file_path[1024];
+            snprintf(file_path, sizeof(file_path), "%s/%s", dir_name,
+                     entry->d_name);
+            FILE* fp = fopen(file_path, "r");
+            if (fp == NULL) {
+                perror("fopen");
+                closedir(dir);
+                free(preview);
+                return NULL;
+            }
+            char buffer[character_size + 1];
+            int nread = fread(buffer, sizeof(char), character_size, fp);
+            if (nread > 0) {
+                buffer[nread] = '\0';
+                strcat(preview, buffer);
+            }
+            fclose(fp);
+        }
+    }
+
+    closedir(dir);
+
+    return preview;
+}
+
+char* preview_recent_blogs() {
+    char* preview;
+
+    preview = build_previews("./content/blogs/");
+    if (preview == NULL) {
+        fprintf(stderr, "Failed to build blog previews\n");
+    }
+
+    printf("%s\n", preview);
+    free(preview);
+
+    return preview;
+}
+
+char* preview_recent_projects() {
+    char* preview;
+
+    preview = build_previews("./content/projects/");
+    if (preview == NULL) {
+        fprintf(stderr, "Failed to build projects previews\n");
+    }
+
+    printf("%s\n", preview);
+    free(preview);
+
+    return preview;
+}
+
+void proceed_files_recursivelly(char* basePath) {
     char path[1000];
     char input_path[1000];
     char output_path[1000];
@@ -160,6 +261,9 @@ void proceedFilesRecursively(char* basePath) {
         return;
     }
 
+    char* recent_blogs = preview_recent_blogs();
+    char* recent_projects = preview_recent_projects();
+
     while ((dp = readdir(dir)) != NULL) {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
             sprintf(path, "%s/%s", basePath, dp->d_name);
@@ -167,7 +271,7 @@ void proceedFilesRecursively(char* basePath) {
                 continue;
             }
             if (S_ISDIR(filestat.st_mode)) {
-                proceedFilesRecursively(path);
+                proceed_files_recursivelly(path);
             } else if (strstr(dp->d_name, ".md") != NULL) {
                 strcpy(input_path, path);
                 strcpy(output_path, path);
@@ -212,7 +316,7 @@ int main(int argc, char** argv) {
     }
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
-        proceedFilesRecursively("./content");
+        proceed_files_recursivelly("./content");
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         printf("NOT IMPLEMENTED YET !");
         return EXIT_SUCCESS;
@@ -244,7 +348,7 @@ void build_header_web_page(FILE* out, char* page_title) {
         "<link rel = \"canonical\" href = \"https://sxdk.xyz\" />"
         "<meta charSet = \"utf-8\" />"
         "<meta content = \"initial-scale=1.0, width=device-width\" name = "
-        "\"viewport\" /><meta content = \"#009efa\" name = \"theme-color\" />"
+        "\"viewport\" /><meta content = \"#1a1a1a\" name = \"theme-color\" />"
         "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "<link href = \"/favicon.ico\" rel = \"icon\" />");
 

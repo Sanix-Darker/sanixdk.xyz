@@ -22,3 +22,7 @@ html = renderer.parse(markdown)
     - add a CI/CD to publish on all my social network a message for updates on my blog or projects.
 
 - track visits on each blog page
+
+- Creer un volume pour partager les fichiers build avec l'exterieur du container
+    Ceci permet d'eviter un nieme forwarding de requettes a l'interieur du container avec nginx...
+    Constat fait, cela ralentit les requettes...
