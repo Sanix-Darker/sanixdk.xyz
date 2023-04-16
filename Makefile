@@ -4,7 +4,7 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wall -s main.c ./md4c/entity.c ./md4c/md4c-html.c ./md4c/md4c.c -o sdk
+	gcc -Wall -s main.c ./lib.h ./lib.c ./md4c/entity.c ./md4c/md4c-html.c ./md4c/md4c.c -o sdk
 
 ## compile-resources: To polish all resources suchy as the css or all potential images etc... ?
 compile-resources:
