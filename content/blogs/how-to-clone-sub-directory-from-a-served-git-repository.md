@@ -2,7 +2,7 @@
 
 ## How to clone a sub directory of a git project (not a zip)
 -----------
-`2022/05/01 11:03:10 AM` **#git** **#bash** **#github** **#gitlab**
+`2022/04/15 14:32:02 AM` **#git** **#bash** **#github** **#gitlab**
 
 Have you ever tried to get a folder from a git repository either on github, gitlab or bitbucket ?
 
