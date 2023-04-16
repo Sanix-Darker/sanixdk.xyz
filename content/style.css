@@ -3,6 +3,7 @@ h3 {color: rgb(221, 212, 211);}
 h4 {color: rgb(171, 162, 151);}
 h5 {color: rgb(130, 131, 121);}
 a{text-decoration: none;}
+h3 a{color: #9eace3;text-decoration: dashed;}
 p a{color: #9eace3;text-decoration: dashed;}
 img[alt="logo"]{
     position: absolute;

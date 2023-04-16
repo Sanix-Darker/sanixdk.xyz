@@ -1,13 +1,13 @@
 ![Video-Conf](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jldl9kw57wv3z0be076q.jpg)
 
-# Test your entire project(Php, Js, Python, Ruby) with just comments.
+## Test your entire project(Php, Js, Python, Ruby) with just comments.
 -----------
 `2022/05/01 11:03:10 AM` **#cli** **#test**
 
 Hey there, today am presenting you something really special i made about tests, i hope you're going to like the way i build this solution !
 Now, let's jump into it !
 
-## Introduction
+### Introduction
 
 Let's face it frankly, tests are certainly important but they are sometimes extremely boring to write, when you couple that with the fact that each language or each framework has its own way of handling unit tests, it does not help them. things !
 
@@ -18,14 +18,14 @@ So I asked myself a fairly simple question, is it possible to manage unit tests 
 ![solution](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cxyf4p6apcay5uk6te25.gif)
 
 
-## What do all code projects have in common?
+### What do all code projects have in common?
 
 The answer is quite simple, the **comments**; they are the only elements which are present in almost any project, whether it is with a scripting language or a compiled language.
 
 ![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/chvjhuof79i1u2cgn8h9.png)
 
 
-## How can we transform simple comments to unit tests ?
+### How can we transform simple comments to unit tests ?
 
 Here we are trying to create a system that will do unit tests in a file or a project based on comments, so it was a question for us to define a kind of uniform syntax whatever the programming language in which we are, then create a pseudo test environment like a file in which we put all the elements of testa class and we test the corresponding assertion !
 
@@ -81,7 +81,7 @@ What should be remembered here is that if I want to do the same tests on javascr
 // ::testa_end::
 ```
 
-## How to encapsulate a method and define the correct output relative to a precise input ?
+### How to encapsulate a method and define the correct output relative to a precise input ?
 
 Just like the assertion of a simple test case, we define a precise syntax to surround our method !
 ```python
@@ -104,7 +104,7 @@ Unlike the simple case tests, here we have `::code_start::` and `::code_end::` w
 After the execution of the tests in a file/project, testa we generate a test report parraport to the tests which are in success and those which are in failed !
 
 
-## How to manage imports from external libraries !
+### How to manage imports from external libraries !
 
 In some cases we often have functions that call external libs or other functions in other files, to solve this problem, I added to the syntax of testa `::import_start::` and `::import_end::`, this part in a file includes all the imports which will be necessary for the tests in each pseudo environment (files with assertion).
 
@@ -115,7 +115,7 @@ Your imports here
 ```
 
 
-## How to standardize these tests with only one command line.
+### How to standardize these tests with only one command line.
 
 For this last problem I used the configuration file model, a bit like the `package.json` with *npm* or *yarn*, in this case `tesla.json`, but a fairly simple file which describes which directory (file or project) to test, from which language it is and what is the interpreter that must be used, so we have this semblance of structure:
 
@@ -148,7 +148,7 @@ For this last problem I used the configuration file model, a bit like the `packa
 ```
 
 
-## Conclusion
+### Conclusion
 
 In conclusion, we can say that we have made a kind of library which works on the CLI allowing to do unit tests whatever the scripting programming language is and to set it up, it's quite simple.
 

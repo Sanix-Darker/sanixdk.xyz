@@ -1,13 +1,11 @@
 # Hi, am sanix.
+----------------
 
-A software engineer, an electronic Geek, i like create simple tools doing amazing stuffs.
-In this website, i will share my blog posts, projects ideas/realisations, welcome on board.
+A Backend engineer and an electronic Geek;
+I like make hacky stuffs and build simple tools for amazing purposes (or sometimes #useless-tech).
 
-## Most Visited Articles
+\
+In this website, i will share my [blog posts](/blogs/), some [projects ideas](/projects/) that are comming out from my mind.
 
-[![Image description](/favicon.ico)](/blog_url)
-### Blog Title
-Blog description goes here...
 
-## Popular Projects
-
+PS: This website is under constructions and may not be complete for now
