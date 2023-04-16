@@ -2,7 +2,7 @@
 
 ## Asymetric RSA encryption/decryption of your clipboard
 -----------
-`2022/04/16 11:03:10 AM` **#security** **#encryption** **#clipboard**
+`2022/04/16 11:03:10 AM` • 4 min read • https://antran.app/tags/gatsby(tags links for all posts like this) **#security** **#encryption** **#clipboard**
 
 Do you trust your clipboard enough to copy secret information like credentials, tokens, etc... into it ?
 
@@ -84,21 +84,5 @@ main $1
 ```
 
 Source code : [github project](https://github.com/Sanix-Darker/css)
-Have FUN !
 
-<script src="https://giscus.app/client.js"
-        data-repo="sanix-darker/sanixdk.xyz"
-        data-repo-id="asymetric-encrypt-clipboard"
-        data-category="blog"
-        data-category-id="b"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="dark"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
+<script src="https://utteranc.es/client.js" repo="sanix-darker/sanixdk.xyz" issue-term="asymetric-encryption-of-your-clipboard" theme="github-dark" crossorigin="anonymous" async></script>

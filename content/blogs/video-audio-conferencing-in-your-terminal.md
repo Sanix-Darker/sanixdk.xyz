@@ -69,19 +69,4 @@ s2c is Open Source and free !
 
 PS : Any comments or constructive advice are welcome !
 
-<script src="https://giscus.app/client.js"
-        data-repo="sanix-darker/sanixdk.xyz"
-        data-repo-id="video-audio-conf"
-        data-category="blog"
-        data-category-id="b"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="dark"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
+<script src="https://utteranc.es/client.js" repo="sanix-darker/sanixdk.xyz" issue-term="video-audio-conferencing-in-your-terminal" theme="github-dark" crossorigin="anonymous" async></script>

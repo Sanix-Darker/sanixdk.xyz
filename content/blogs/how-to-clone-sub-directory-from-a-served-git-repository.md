@@ -74,21 +74,4 @@ git clone-sub subDir1 https://github.com/auth/repo dev-branch
 
 ![DEMO](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nulatd2q852objx9f7zo.gif)
 
-Thanks for reading, feel free to like and/or subscribe for more 🐼.
-
-<script src="https://giscus.app/client.js"
-        data-repo="sanix-darker/sanixdk.xyz"
-        data-repo-id="clone-sub-directory-from-git"
-        data-category="blog"
-        data-category-id="b"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="dark"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
+<script src="https://utteranc.es/client.js" repo="sanix-darker/sanixdk.xyz" issue-term="how-to-clone-sub-directory-from-a-served-git-repository" theme="github-dark" crossorigin="anonymous" async></script>

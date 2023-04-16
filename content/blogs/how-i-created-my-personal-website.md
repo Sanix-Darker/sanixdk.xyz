@@ -17,20 +17,4 @@ const test = () => {
 test();
 ```
 
-
-<script src="https://giscus.app/client.js"
-        data-repo="sanix-darker/sanixdk.xyz"
-        data-repo-id="[ENTER REPO ID HERE]"
-        data-category="[ENTER CATEGORY NAME HERE]"
-        data-category-id="[ENTER CATEGORY ID HERE]"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="dark"
-        data-lang="en"
-        data-loading="lazy"
-        crossorigin="anonymous"
-        async>
-</script>
+<script src="https://utteranc.es/client.js" repo="sanix-darker/sanixdk.xyz" issue-term="how-i-ceated-my-personnal-website" theme="github-dark" crossorigin="anonymous" async></script>
