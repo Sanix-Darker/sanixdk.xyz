@@ -1,7 +1,5 @@
 #include "lib.h"
 
-#include <stdio.h>
-
 static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
@@ -224,33 +222,33 @@ char* build_previews(const char* dir_name) {
     return preview;
 }
 
-char* preview_recent_blogs() {
-    char* preview;
-
-    preview = build_previews("./content/blogs/");
-    if (preview == NULL) {
-        fprintf(stderr, "Failed to build blog previews\n");
-    }
-
-    printf("%s\n", preview);
-    free(preview);
-
-    return preview;
-}
-
-char* preview_recent_projects() {
-    char* preview;
-
-    preview = build_previews("./content/projects/");
-    if (preview == NULL) {
-        fprintf(stderr, "Failed to build projects previews\n");
-    }
-
-    printf("%s\n", preview);
-    free(preview);
-
-    return preview;
-}
+// char* preview_recent_blogs() {
+//     char* preview;
+//
+//     preview = build_previews("./content/blogs/");
+//     if (preview == NULL) {
+//         fprintf(stderr, "Failed to build blog previews\n");
+//     }
+//
+//     printf("%s\n", preview);
+//     free(preview);
+//
+//     return preview;
+// }
+//
+// char* preview_recent_projects() {
+//     char* preview;
+//
+//     preview = build_previews("./content/projects/");
+//     if (preview == NULL) {
+//         fprintf(stderr, "Failed to build projects previews\n");
+//     }
+//
+//     printf("%s\n", preview);
+//     free(preview);
+//
+//     return preview;
+// }
 
 /* void build_blog_page() { */
 /*     FILE* blog_file = fopen("./content/blogs.md", "w+"); */
