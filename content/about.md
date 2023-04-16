@@ -1,3 +1,7 @@
 # About Me
 -----------
-The list of my articles.
+
+```bash
+Comming soon...
+Basically in this page, am going to give more details of my XP... a kind of CV like ?
+````
