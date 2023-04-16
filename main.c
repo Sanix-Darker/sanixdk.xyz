@@ -340,14 +340,12 @@ void build_header_web_page(FILE* out, char* page_title) {
             page_title);
     fprintf(
         out,
-        "<meta name = \"robots\" content = \"index,follow\" />"
         "<meta name = \"twitter:card\" content = \"summary_large_image\" />"
         "<meta name = \"twitter:site\" content = \"@sanixdarker\" />"
         "<meta name = \"twitter:creator\" content = \"@sanixdarker\" />"
         "<meta property = \"og:title\" content = \"dk\" />"
         "<meta property = \"og:description\" content = \"\" />"
         "<meta property = \"og:url\" content = \"https://sxdk.xyz\" />"
-        "<meta property = \"og:image\" content = \"https://sxdk.xyz/og.png\" />"
         "<meta property = \"og:image:alt\" content = \"Og Image Alt\" />"
         "<meta property = \"og:image:width\" content = \"1200\" />"
         "<meta property = \"og:image:height\" content = \"640\" />"
@@ -357,8 +355,7 @@ void build_header_web_page(FILE* out, char* page_title) {
         "<meta content = \"initial-scale=1.0, width=device-width\" name = "
         "\"viewport\" /><meta content = \"#1a1a1a\" name = \"theme-color\" />"
         "<link rel=\"stylesheet\" href=\"/style.css\"/>"
-        "<link href = \"/favicon.ico\" rel = \"icon\" />");
-
-    fprintf(out, "<meta http-equiv=\"content-language\" content=\"en-us,fr\">");
-    fprintf(out, "</head><body><div class=\"container\">");
+        "<link href = \"/favicon.ico\" rel = \"icon\" />"
+        "<meta http-equiv=\"content-language\" content=\"en-us,fr\">"
+        "</head><body><div class=\"container\">");
 }

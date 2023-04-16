@@ -269,11 +269,11 @@ static void render_open_ol_block(MD_HTML* r, const MD_BLOCK_OL_DETAIL* det) {
     char buf[64];
 
     if (det->start == 1) {
-        RENDER_VERBATIM(r, "<ol>\n");
+        RENDER_VERBATIM(r, "<ol>");
         return;
     }
 
-    snprintf(buf, sizeof(buf), "<ol start=\"%u\">\n", det->start);
+    snprintf(buf, sizeof(buf), "<ol start=\"%u\">", det->start);
     RENDER_VERBATIM(r, buf);
 }
 
@@ -380,10 +380,10 @@ static int enter_block_callback(MD_BLOCKTYPE type, void* detail,
         case MD_BLOCK_DOC: /* noop */
             break;
         case MD_BLOCK_QUOTE:
-            RENDER_VERBATIM(r, "<blockquote>\n");
+            RENDER_VERBATIM(r, "<blockquote>");
             break;
         case MD_BLOCK_UL:
-            RENDER_VERBATIM(r, "<ul>\n");
+            RENDER_VERBATIM(r, "<ul>");
             break;
         case MD_BLOCK_OL:
             render_open_ol_block(r, (const MD_BLOCK_OL_DETAIL*)detail);
@@ -393,7 +393,7 @@ static int enter_block_callback(MD_BLOCKTYPE type, void* detail,
             break;
         case MD_BLOCK_HR:
             RENDER_VERBATIM(
-                r, (r->flags & MD_HTML_FLAG_XHTML) ? "<hr />\n" : "<hr>\n");
+                r, (r->flags & MD_HTML_FLAG_XHTML) ? "<hr />" : "<hr>");
             break;
         case MD_BLOCK_H:
             RENDER_VERBATIM(r, head[((MD_BLOCK_H_DETAIL*)detail)->level - 1]);
@@ -407,16 +407,16 @@ static int enter_block_callback(MD_BLOCKTYPE type, void* detail,
             RENDER_VERBATIM(r, "<p>");
             break;
         case MD_BLOCK_TABLE:
-            RENDER_VERBATIM(r, "<table>\n");
+            RENDER_VERBATIM(r, "<table>");
             break;
         case MD_BLOCK_THEAD:
-            RENDER_VERBATIM(r, "<thead>\n");
+            RENDER_VERBATIM(r, "<thead>");
             break;
         case MD_BLOCK_TBODY:
-            RENDER_VERBATIM(r, "<tbody>\n");
+            RENDER_VERBATIM(r, "<tbody>");
             break;
         case MD_BLOCK_TR:
-            RENDER_VERBATIM(r, "<tr>\n");
+            RENDER_VERBATIM(r, "<tr>");
             break;
         case MD_BLOCK_TH:
             render_open_td_block(r, "th", (MD_BLOCK_TD_DETAIL*)detail);
@@ -431,24 +431,24 @@ static int enter_block_callback(MD_BLOCKTYPE type, void* detail,
 
 static int leave_block_callback(MD_BLOCKTYPE type, void* detail,
                                 void* userdata) {
-    static const MD_CHAR* head[6] = {"</h1>\n", "</h2>\n", "</h3>\n",
-                                     "</h4>\n", "</h5>\n", "</h6>\n"};
+    static const MD_CHAR* head[6] = {"</h1>", "</h2>", "</h3>",
+                                     "</h4>", "</h5>", "</h6>"};
     MD_HTML* r = (MD_HTML*)userdata;
 
     switch (type) {
         case MD_BLOCK_DOC: /*noop*/
             break;
         case MD_BLOCK_QUOTE:
-            RENDER_VERBATIM(r, "</blockquote>\n");
+            RENDER_VERBATIM(r, "</blockquote>");
             break;
         case MD_BLOCK_UL:
-            RENDER_VERBATIM(r, "</ul>\n");
+            RENDER_VERBATIM(r, "</ul>");
             break;
         case MD_BLOCK_OL:
-            RENDER_VERBATIM(r, "</ol>\n");
+            RENDER_VERBATIM(r, "</ol>");
             break;
         case MD_BLOCK_LI:
-            RENDER_VERBATIM(r, "</li>\n");
+            RENDER_VERBATIM(r, "</li>");
             break;
         case MD_BLOCK_HR: /*noop*/
             break;
@@ -456,30 +456,30 @@ static int leave_block_callback(MD_BLOCKTYPE type, void* detail,
             RENDER_VERBATIM(r, head[((MD_BLOCK_H_DETAIL*)detail)->level - 1]);
             break;
         case MD_BLOCK_CODE:
-            RENDER_VERBATIM(r, "</code></pre>\n");
+            RENDER_VERBATIM(r, "</code></pre>");
             break;
         case MD_BLOCK_HTML: /* noop */
             break;
         case MD_BLOCK_P:
-            RENDER_VERBATIM(r, "</p>\n");
+            RENDER_VERBATIM(r, "</p>");
             break;
         case MD_BLOCK_TABLE:
-            RENDER_VERBATIM(r, "</table>\n");
+            RENDER_VERBATIM(r, "</table>");
             break;
         case MD_BLOCK_THEAD:
-            RENDER_VERBATIM(r, "</thead>\n");
+            RENDER_VERBATIM(r, "</thead>");
             break;
         case MD_BLOCK_TBODY:
-            RENDER_VERBATIM(r, "</tbody>\n");
+            RENDER_VERBATIM(r, "</tbody>");
             break;
         case MD_BLOCK_TR:
-            RENDER_VERBATIM(r, "</tr>\n");
+            RENDER_VERBATIM(r, "</tr>");
             break;
         case MD_BLOCK_TH:
-            RENDER_VERBATIM(r, "</th>\n");
+            RENDER_VERBATIM(r, "</th>");
             break;
         case MD_BLOCK_TD:
-            RENDER_VERBATIM(r, "</td>\n");
+            RENDER_VERBATIM(r, "</td>");
             break;
     }
 
@@ -598,13 +598,12 @@ static int text_callback(MD_TEXTTYPE type, const MD_CHAR* text, MD_SIZE size,
             break;
         case MD_TEXT_BR:
             RENDER_VERBATIM(
-                r,
-                (r->image_nesting_level == 0
-                     ? ((r->flags & MD_HTML_FLAG_XHTML) ? "<br />\n" : "<br>\n")
-                     : " "));
+                r, (r->image_nesting_level == 0
+                        ? ((r->flags & MD_HTML_FLAG_XHTML) ? "<br />" : "<br>")
+                        : " "));
             break;
         case MD_TEXT_SOFTBR:
-            RENDER_VERBATIM(r, (r->image_nesting_level == 0 ? "\n" : " "));
+            RENDER_VERBATIM(r, (r->image_nesting_level == 0 ? "" : " "));
             break;
         case MD_TEXT_HTML:
             render_verbatim(r, text, size);
@@ -622,7 +621,7 @@ static int text_callback(MD_TEXTTYPE type, const MD_CHAR* text, MD_SIZE size,
 
 static void debug_log_callback(const char* msg, void* userdata) {
     MD_HTML* r = (MD_HTML*)userdata;
-    if (r->flags & MD_HTML_FLAG_DEBUG) fprintf(stderr, "MD4C: %s\n", msg);
+    if (r->flags & MD_HTML_FLAG_DEBUG) fprintf(stderr, "MD4C: %s", msg);
 }
 
 int md_html(const MD_CHAR* input, MD_SIZE input_size,
