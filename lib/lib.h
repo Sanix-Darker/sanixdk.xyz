@@ -1,5 +1,5 @@
 /* Global options. */
-#ifndef MD4C_USE_ASCII
+#ifndef SDK_LIBS
 
 #include <dirent.h>
 #include <stdbool.h>
@@ -11,8 +11,8 @@
 #include <sys/types.h>
 #include <time.h>
 
-#include "./md4c/md4c-html.h"
-#include "./md4c/md4c.h"
+#include "./md4c-html.h"
+#include "./md4c.h"
 
 #define RENDER 1
 #define BUILD_ARG "build"

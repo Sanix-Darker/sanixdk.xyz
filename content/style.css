@@ -11,8 +11,8 @@ img[alt="logo"]{
     margin-top: -0.5em;
 }
 .container {
-   padding-left: 30%;
-   padding-right: 30%;
+   padding-left: 27%;
+   padding-right: 27%;
 }
 @media screen and (max-width: 1500px) {
   .container {

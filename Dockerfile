@@ -12,11 +12,7 @@ COPY . .
 RUN make compile
 
 # this step is to add headers/footers on  all files
-RUN make polish
-
 # this step is to polish everything related to css or any resources involve
-RUN make compile-resources
-
 # We build the html pages and put that in /static
 RUN make build
 

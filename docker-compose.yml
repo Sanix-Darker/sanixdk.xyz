@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   sxdk.xyz:
-    image: sxdk.xyz:latest
+    image: sanixdk.xyz:latest
     build:
       context: .
       dockerfile: Dockerfile
