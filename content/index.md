@@ -1,5 +1,4 @@
 # HI, AM SANIX.
-----------------
 
 A Backend engineer and an electronic Geek;
 I like make hacky stuffs and build simple tools for amazing purposes (or sometimes #useless-tech).

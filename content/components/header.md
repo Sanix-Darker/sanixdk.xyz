@@ -1,4 +1,1 @@
-[![logo](/favicon.ico)](/) • • ◦ [`home`](/) • [`blog`](/blogs/) • [`projects`](/projects/) • [`about`](/about)
-
-----------------
-
+[![logo](/favicon.ico)](/) • • ◦ [`home`](/) •   [`blog`](/blogs/) • [`projects`](/projects/) • [`about`](/about)
