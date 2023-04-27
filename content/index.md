@@ -1,4 +1,4 @@
-# Hi, am sanix.
+# HI, AM SANIX.
 ----------------
 
 A Backend engineer and an electronic Geek;

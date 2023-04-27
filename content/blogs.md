@@ -1,4 +1,4 @@
-# My Blog Posts
+# BLOG POSTS
 ----------------
 
 ### [Asymetric encryption of your clipboard](/blogs/asymetric-encryption-of-your-clipboard)
