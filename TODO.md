@@ -10,12 +10,6 @@ renderer = md4c.HTMLRenderer()
 html = renderer.parse(markdown)
 ```
 
-- generate html websites
-    - open and parse yaml files
-    - write those parsed yaml files into html (in the public folder)
-    - open and parse markdown files
-    - write those parsed markdown files into yaml (now html pages)
-
 - setUp the CI/CD
     - add a CI/CD to publish the website when there is an update on the personnal website path
     - add a CI/CD to build and deploy my blog contents (for each blog change detected)
