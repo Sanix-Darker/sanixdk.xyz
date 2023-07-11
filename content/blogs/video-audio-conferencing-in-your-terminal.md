@@ -69,11 +69,5 @@ s2c is Open Source and free !
 
 PS : Any comments or constructive advice are welcome !
 
-<script
-    src="https://utteranc.es/client.js"
-    repo="sanix-darker/sanixdk.xyz"
-    issue-term="video-audio-conferencing-in-your-terminal"
-    theme="github-dark"
-    crossorigin="anonymous"
-    async
-></script>
+<script defer src="https://cdn.commento.io/js/commento.js"></script>
+<div id="commento"></div>

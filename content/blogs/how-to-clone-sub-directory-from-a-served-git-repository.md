@@ -74,11 +74,5 @@ git clone-sub subDir1 https://github.com/auth/repo dev-branch
 
 ![DEMO](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nulatd2q852objx9f7zo.gif)
 
-<script
-    src="https://utteranc.es/client.js"
-    repo="sanix-darker/sanixdk.xyz"
-    issue-term="how-to-clone-sub-directory-from-a-served-git-repository"
-    theme="github-dark"
-    crossorigin="anonymous"
-    async
-></script>
+<script defer src="https://cdn.commento.io/js/commento.js"></script>
+<div id="commento"></div>

@@ -17,11 +17,5 @@ const test = () => {
 test();
 ```
 
-<script
-    src="https://utteranc.es/client.js"
-    repo="sanix-darker/sanixdk.xyz"
-    issue-term="how-i-ceated-my-personnal-website"
-    theme="github-dark"
-    crossorigin="anonymous"
-    async
-></script>
+<script defer src="https://cdn.commento.io/js/commento.js"></script>
+<div id="commento"></div>
