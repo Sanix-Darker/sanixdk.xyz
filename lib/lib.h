@@ -37,3 +37,6 @@ void processFile(const char* filename);
 void processMarkdownFiles();
 void createDirectories();
 void createStyleFileAndCopyFavicon();
+
+// for minifying the code output
+void minifyDirfiles(const char* path);

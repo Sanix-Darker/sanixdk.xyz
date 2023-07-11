@@ -4,6 +4,117 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
+void minifyFile(const char* filePath) {
+    // Open the source file for reading
+    FILE* sourceFile = fopen(filePath, "r");
+    if (sourceFile == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    // Determine the size of the file
+    fseek(sourceFile, 0L, SEEK_END);
+    long fileSize = ftell(sourceFile);
+    rewind(sourceFile);
+
+    // Allocate memory for the file contents
+    char* fileContent = (char*)malloc(fileSize + 1);
+    if (fileContent == NULL) {
+        perror("Error allocating memory");
+        fclose(sourceFile);
+        return;
+    }
+
+    // Read the file contents into memory
+    size_t bytesRead = fread(fileContent, 1, fileSize, sourceFile);
+    if (bytesRead != (size_t)fileSize) {
+        perror("Error reading file");
+        free(fileContent);
+        fclose(sourceFile);
+        return;
+    }
+    fileContent[bytesRead] = '\0';
+
+    // Close the source file
+    fclose(sourceFile);
+
+    // Remove newlines from the file content
+    char* newLineRemovedContent = (char*)malloc(fileSize + 1);
+    if (newLineRemovedContent == NULL) {
+        perror("Error allocating memory");
+        free(fileContent);
+        return;
+    }
+
+    char* srcPtr = fileContent;
+    char* destPtr = newLineRemovedContent;
+
+    while (*srcPtr != '\0') {
+        if (*srcPtr != '\n' && *srcPtr != '\r') {
+            *destPtr = *srcPtr;
+            destPtr++;
+        }
+        srcPtr++;
+    }
+    *destPtr = '\0';
+
+    // Open the destination file for writing
+    FILE* destinationFile = fopen(filePath, "w");
+    if (destinationFile == NULL) {
+        perror("Error opening file for writing");
+        free(fileContent);
+        free(newLineRemovedContent);
+        return;
+    }
+
+    // Write the new file content to the destination file
+    size_t bytesWritten =
+        fwrite(newLineRemovedContent, 1, strlen(newLineRemovedContent),
+               destinationFile);
+    if (bytesWritten != strlen(newLineRemovedContent)) {
+        perror("Error writing to file");
+    }
+
+    // Close the destination file
+    fclose(destinationFile);
+
+    // Free allocated memory
+    free(fileContent);
+    free(newLineRemovedContent);
+}
+
+void minifyDirfiles(const char* path) {
+    DIR* directory;
+    struct dirent* entry;
+
+    directory = opendir(path);
+    if (directory == NULL) {
+        perror("Error opening directory");
+        return;
+    }
+
+    while ((entry = readdir(directory)) != NULL) {
+        char filePath[300];
+        snprintf(filePath, sizeof(filePath), "%s/%s", path, entry->d_name);
+
+        if (entry->d_type == DT_DIR) {
+            // Ignore "." and ".." directories
+            if (strcmp(entry->d_name, ".") != 0 &&
+                strcmp(entry->d_name, "..") != 0) {
+                minifyDirfiles(filePath);
+            }
+        } else {
+            // Check if the file is HTML or CSS
+            char* extension = strrchr(entry->d_name, '.');
+            if (extension != NULL && (strcmp(extension, ".html") == 0 ||
+                                      strcmp(extension, ".css") == 0)) {
+                minifyFile(filePath);
+            }
+        }
+    }
+
+    closedir(directory);
+}
 void processFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {

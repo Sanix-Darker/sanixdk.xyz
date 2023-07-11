@@ -9,12 +9,17 @@ int main(int argc, char** argv) {
     }
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
-        // setting everything up
+        // set dirs/files
         createDirectories();
         processMarkdownFiles();
         createStyleFileAndCopyFavicon();
 
+        // build md -> html
         proceed_files_recursivelly(CONTENT_DIR);
+
+        // minify/bundle htmls/css files
+        const char* minifyPath = "./public/";
+        minifyDirfiles(minifyPath);
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         // no plan to implement it so far because it's docker-compose based
         // serve.
