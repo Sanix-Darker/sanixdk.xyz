@@ -84,6 +84,3 @@ main $1
 ```
 
 Source code : [github project](https://github.com/Sanix-Darker/css)
-
-<script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>

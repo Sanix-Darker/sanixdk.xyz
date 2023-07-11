@@ -18,8 +18,10 @@ int main(int argc, char** argv) {
         proceed_files_recursivelly(CONTENT_DIR);
 
         // minify/bundle htmls/css files
-        const char* minifyPath = "./public/";
-        minifyDirfiles(minifyPath);
+        // FIXME: doesn't sweet well with <pre> tags, will need to update that
+        // in the future
+        // const char* minifyPath = "./public/";
+        // minifyDirfiles(minifyPath);
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         // no plan to implement it so far because it's docker-compose based
         // serve.

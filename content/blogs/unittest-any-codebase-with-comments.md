@@ -157,6 +157,3 @@ In conclusion, we can say that we have made a kind of library which works on the
 Testa is a free and open source project, this is some link !
 - Source code : [On github](https://github.com/Sanix-Darker/testa),
 - The demo : [VIDEO-DEMO](https://www.loom.com/share/6d691436356a48ad9ac3ba768459f883)
-
-<script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>

@@ -16,6 +16,3 @@ const test = () => {
 // then we run it
 test();
 ```
-
-<script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>

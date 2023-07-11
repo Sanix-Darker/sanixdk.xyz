@@ -40,6 +40,3 @@ This is a pretty short list of the cool ones :
 - `!ls` to run a command from your history starting with `ls`
 
 With these 4 items, you can basically play/mix around with your bash history and get great stuffs like the one up there with a substitution string.
-
-<script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>

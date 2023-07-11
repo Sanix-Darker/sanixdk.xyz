@@ -112,6 +112,3 @@ main $1 $2
 ```
 
 Source code : [Gist-Code](https://gist.github.com/Sanix-Darker/e571c1fdc2d0a5ecdb9959fecaa3416a)
-
-<script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>

@@ -161,11 +161,33 @@ void processFile(const char* filename) {
         exit(1);
     }
 
+    FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
+    if (commentFile == NULL) {
+        perror("Error opening footer-comment file");
+        free(content);
+        fclose(outputFile);
+        fclose(headerFile);
+        fclose(footerFile);
+        exit(1);
+    }
+
     char line[1000];
+    // we write the header
     while (fgets(line, sizeof(line), headerFile) != NULL) {
         fputs(line, outputFile);
     }
     fputs(content, outputFile);
+
+    // We append the comment component only if it's blogs or projects
+    if (strstr(filename, ".md") != NULL &&
+        (strstr(filename, "blogs/") != NULL ||
+         strstr(filename, "projects/") != NULL)) {
+        while (fgets(line, sizeof(line), commentFile) != NULL) {
+            fputs(line, outputFile);
+        }
+    }
+
+    // we write the footer
     while (fgets(line, sizeof(line), footerFile) != NULL) {
         fputs(line, outputFile);
     }
@@ -173,6 +195,7 @@ void processFile(const char* filename) {
     fclose(headerFile);
     fclose(footerFile);
     fclose(outputFile);
+    fclose(commentFile);
     free(content);
 }
 
