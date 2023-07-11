@@ -41,11 +41,5 @@ This is a pretty short list of the cool ones :
 
 With these 4 items, you can basically play/mix around with your bash history and get great stuffs like the one up there with a substitution string.
 
-<script
-    src="https://utteranc.es/client.js"
-    repo="sanix-darker/sanixdk.xyz"
-    issue-term="how-to-use-exclamations-marks-in-bash-like-a-pro"
-    theme="github-dark"
-    crossorigin="anonymous"
-    async
-></script>
+<script defer src="https://cdn.commento.io/js/commento.js"></script>
+<div id="commento"></div>

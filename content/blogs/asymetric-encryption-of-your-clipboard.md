@@ -85,11 +85,5 @@ main $1
 
 Source code : [github project](https://github.com/Sanix-Darker/css)
 
-<script
-    src="https://utteranc.es/client.js"
-    repo="sanix-darker/sanixdk.xyz"
-    issue-term="asymetric-encryption-of-your-clipboard"
-    theme="github-dark"
-    crossorigin="anonymous"
-    async
-></script>
+<script defer src="https://cdn.commento.io/js/commento.js"></script>
+<div id="commento"></div>
