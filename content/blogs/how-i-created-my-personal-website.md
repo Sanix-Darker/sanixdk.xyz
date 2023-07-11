@@ -17,4 +17,11 @@ const test = () => {
 test();
 ```
 
-<script src="https://utteranc.es/client.js" repo="sanix-darker/sanixdk.xyz" issue-term="how-i-ceated-my-personnal-website" theme="github-dark" crossorigin="anonymous" async></script>
+<script
+    src="https://utteranc.es/client.js"
+    repo="sanix-darker/sanixdk.xyz"
+    issue-term="how-i-ceated-my-personnal-website"
+    theme="github-dark"
+    crossorigin="anonymous"
+    async
+></script>

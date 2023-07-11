@@ -113,4 +113,11 @@ main $1 $2
 
 Source code : [Gist-Code](https://gist.github.com/Sanix-Darker/e571c1fdc2d0a5ecdb9959fecaa3416a)
 
-<script src="https://utteranc.es/client.js" repo="sanix-darker/sanixdk.xyz" issue-term="how-to-search-for-code-whatever-branch-time-or-commit" theme="github-dark" crossorigin="anonymous" async></script>
+<script
+    src="https://utteranc.es/client.js"
+    repo="sanix-darker/sanixdk.xyz"
+    issue-term="how-to-search-for-code-whatever-branch-time-or-commit"
+    theme="github-dark"
+    crossorigin="anonymous"
+    async
+></script>
