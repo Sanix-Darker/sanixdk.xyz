@@ -71,3 +71,15 @@ p img {
     padding-bottom: 0.3em;
     width: 100%;
 }
+
+/* For styling on comments */
+.utterances-frame {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.utterances-frame .utterances {
+    max-height: 400px;
+    overflow-y: auto;
+}
