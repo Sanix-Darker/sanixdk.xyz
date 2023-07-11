@@ -9,6 +9,11 @@ int main(int argc, char** argv) {
     }
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
+        // setting everything up
+        processMarkdownFiles();
+        createDirectories();
+        createStyleFileAndCopyFavicon();
+
         proceed_files_recursivelly(CONTENT_DIR);
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         printf("NOT IMPLEMENTED YET !");

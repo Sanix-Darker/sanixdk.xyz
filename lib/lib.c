@@ -4,6 +4,71 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
+void processFile(const char* filename) {
+    // Replace the logic inside ./builder process with your custom processing
+    // code
+    printf("Processing file: %s\n", filename);
+}
+
+void processMarkdownFiles() {
+    DIR* dir;
+    struct dirent* entry;
+
+    // Process files in ./content/*.md
+    dir = opendir("./content");
+    if (dir == NULL) {
+        perror("Error opening directory");
+        exit(1);
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_REG && strstr(entry->d_name, ".md") != NULL) {
+            char filepath[256];
+            snprintf(filepath, sizeof(filepath), "./content/%s", entry->d_name);
+            processFile(filepath);
+        }
+    }
+
+    closedir(dir);
+
+    // Process files in ./content/blogs/*.md
+    dir = opendir("./content/blogs");
+    if (dir == NULL) {
+        perror("Error opening directory");
+        exit(1);
+    }
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (entry->d_type == DT_REG && strstr(entry->d_name, ".md") != NULL) {
+            char filepath[256];
+            snprintf(filepath, sizeof(filepath), "./content/blogs/%s",
+                     entry->d_name);
+            processFile(filepath);
+        }
+    }
+
+    closedir(dir);
+}
+
+void createDirectories() {
+    int status =
+        system("mkdir -p ./public/blogs ./public/components ./public/projects");
+    if (status != 0) {
+        perror("Error creating directories");
+        exit(1);
+    }
+}
+
+void createStyleFileAndCopyFavicon() {
+    int status = system(
+        "touch ./public/style.css && cp ./content/favicon.ico "
+        "./public/favicon.ico");
+    if (status != 0) {
+        perror("Error creating style.css file or copying favicon.ico");
+        exit(1);
+    }
+}
+
 static void membuf_init(struct membuffer* buf, MD_SIZE new_asize) {
     buf->size = 0;
     buf->asize = new_asize;
