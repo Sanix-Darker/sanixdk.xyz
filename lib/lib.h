@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "./md4c-html.h"
 #include "./md4c.h"
@@ -30,3 +31,9 @@ struct membuffer {
 
 // to proveed files recursivelly
 void proceed_files_recursivelly(char* basePath);
+
+// for the build
+void processFile(const char* filename);
+void processMarkdownFiles();
+void createDirectories();
+void createStyleFileAndCopyFavicon();
