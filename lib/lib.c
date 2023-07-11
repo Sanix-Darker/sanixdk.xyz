@@ -106,7 +106,8 @@ void minifyDirfiles(const char* path) {
         } else {
             // Check if the file is HTML or CSS
             char* extension = strrchr(entry->d_name, '.');
-            if (extension != NULL && (strcmp(extension, ".html") == 0 ||
+            // only js and css files for now
+            if (extension != NULL && (strcmp(extension, ".js") == 0 ||
                                       strcmp(extension, ".css") == 0)) {
                 minifyFile(filePath);
             }
@@ -337,9 +338,13 @@ void build_header_web_page(FILE* out, char* page_title) {
         "<meta charSet = \"utf-8\" />"
         "<meta content = \"initial-scale=1.0, width=device-width\" name = "
         "\"viewport\" /><meta content = \"#1a1a1a\" name = \"theme-color\" />"
-        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "<link href = \"/favicon.ico\" rel = \"icon\" />"
         "<meta http-equiv=\"content-language\" content=\"en-us,fr\">"
+        "<link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
+        "prism.min.css\""
+        "rel=\"stylesheet\"/>"
+        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "</head><body><div class=\"container\">");
 }
 
@@ -382,7 +387,13 @@ static int process_file(FILE* in, FILE* out, char* page_title) {
     /* Write down the document in the HTML format. */
     build_header_web_page(out, page_title);
     fwrite(buf_out.data, 1, buf_out.size, out);
-    fprintf(out, "</div></body></html>");
+    fprintf(
+        out,
+        "</div> <script "
+        "src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"
+        "\"></script><script "
+        "src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/"
+        "autoloader/prism-autoloader.min.js\"></script></body></html>");
 
     if (t0 != (clock_t)-1 && t1 != (clock_t)-1) {
         double elapsed = (double)(t1 - t0) / CLOCKS_PER_SEC;
