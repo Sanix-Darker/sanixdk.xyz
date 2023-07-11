@@ -345,6 +345,10 @@ void build_header_web_page(FILE* out, char* page_title) {
         "prism.min.css\""
         "rel=\"stylesheet\"/>"
         "<link rel=\"stylesheet\" href=\"/style.css\"/>"
+        "<link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/"
+        "prism-atom-dark.css\""
+        "rel=\"stylesheet\"/>"
         "</head><body><div class=\"container\">");
 }
 
