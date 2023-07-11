@@ -16,6 +16,8 @@ int main(int argc, char** argv) {
 
         proceed_files_recursivelly(CONTENT_DIR);
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
+        // no plan to implement it so far because it's docker-compose based
+        // serve.
         printf("NOT IMPLEMENTED YET !");
         return EXIT_SUCCESS;
     } else {
