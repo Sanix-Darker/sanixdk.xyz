@@ -23,7 +23,7 @@ void processMarkdownFiles() {
 
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_REG && strstr(entry->d_name, ".md") != NULL) {
-            char filepath[256];
+            char filepath[300];
             snprintf(filepath, sizeof(filepath), "./content/%s", entry->d_name);
             processFile(filepath);
         }
@@ -40,7 +40,7 @@ void processMarkdownFiles() {
 
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_REG && strstr(entry->d_name, ".md") != NULL) {
-            char filepath[256];
+            char filepath[300];
             snprintf(filepath, sizeof(filepath), "./content/blogs/%s",
                      entry->d_name);
             processFile(filepath);
