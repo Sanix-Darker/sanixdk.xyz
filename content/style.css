@@ -16,55 +16,49 @@ img[alt="logo"]{
     margin-top: -0.5em;
 }
 .container {
-   padding-left: 27%;
-   padding-right: 27%;
+    padding-left: 27%;
+    padding-right: 27%;
 }
 @media screen and (max-width: 1500px) {
-  .container {
-    padding-left: 15%;
-    padding-right: 15%;
-  }
+    .container {
+        padding-left: 15%;
+        padding-right: 15%;
+    }
 }
 @media screen and (max-width: 1100px) {
-  .container {
-    padding-left: 10%;
-    padding-right: 10%;
-  }
+    .container {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
 }
 @media screen and (max-width: 768px) {
-  .container {
-    padding-left: 5%;
-    padding-right: 5%;
-  }
+    .container {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
 }
 @media screen and (max-width: 450px) {
-  .container {
-    padding-left: 0%;
-    padding-right: 0%;
-  }
+    .container {
+        padding-left: 0%;
+        padding-right: 0%;
+    }
 }
 
 pre {
-  background-color: #f6f8fa;
-  border-radius: 3px;
-  padding: 16px;
-  max-height: 300px;
-  overflow-y: auto;
+    background-color: #2d2d2d;
+    border-radius: 3px;
+    padding: 16px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 code {
-  color: #24292e;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
+    color: #ccc;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
 }
 body {
-  background-color: #1a1a1a;
-  color: #fff;
-}
-pre {
-  background-color: #2d2d2d;
-}
-code {
-  color: #ccc;
+    background-color: #131516;
+    color: #fff;
 }
 p img {
     padding-top: 0.3em;
