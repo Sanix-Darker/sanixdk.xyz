@@ -1,23 +1,9 @@
-# We can inspire ourself from https://github.com/dominickpastore/pymd4c
-# we need to parse the markdown with md4c
-# then build the html element
+- setUp the CI/CD for:
+    - publish the website when there is an update on the personnal website path
+    - build and deploy my blog contents (for each blog change detected)
+    - publish on all my social network a message for updates on my blog or projects.
 
-```python
-import md4c
-with open('README.md', 'r') as f:
-    markdown = f.read()
-renderer = md4c.HTMLRenderer()
-html = renderer.parse(markdown)
-```
+- track visits on each blog page (need to implement/buy this... should not be hard)
 
-- setUp the CI/CD
-    - add a CI/CD to publish the website when there is an update on the personnal website path
-    - add a CI/CD to build and deploy my blog contents (for each blog change detected)
-    - add a CI/CD to publish on all my social network a message for updates on my blog or projects.
-
-- track visits on each blog page
-
-- Creer un volume pour partager les fichiers build avec l'exterieur du container
-    Ceci permet d'eviter un nieme forwarding de requettes a l'interieur du container avec nginx...
-    Constat fait, cela ralentit les requettes...
-We need to put all the make polish steps inside the C code directly
+- tags refs (https://antran.app/tags/gatsby(tags links for all posts like this) )
+- search on blogs/posts
