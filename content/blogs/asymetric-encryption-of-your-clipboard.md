@@ -2,7 +2,7 @@
 
 ## Asymetric RSA encryption/decryption of your clipboard
 -----------
-`2022/04/16 11:03:10 AM` • 4 min read • https://antran.app/tags/gatsby(tags links for all posts like this) **#security** **#encryption** **#clipboard**
+`2022/04/16 11:03:10 AM` • 4 min read • **#security** **#encryption** **#clipboard**
 
 Do you trust your clipboard enough to copy secret information like credentials, tokens, etc... into it ?
 
@@ -84,6 +84,3 @@ main $1
 ```
 
 Source code : [github project](https://github.com/Sanix-Darker/css)
-
-<script defer src="https://cdn.commento.io/js/commento.js"></script>
-<div id="commento"></div>

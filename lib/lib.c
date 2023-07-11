@@ -4,6 +4,118 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
+void minifyFile(const char* filePath) {
+    // Open the source file for reading
+    FILE* sourceFile = fopen(filePath, "r");
+    if (sourceFile == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    // Determine the size of the file
+    fseek(sourceFile, 0L, SEEK_END);
+    long fileSize = ftell(sourceFile);
+    rewind(sourceFile);
+
+    // Allocate memory for the file contents
+    char* fileContent = (char*)malloc(fileSize + 1);
+    if (fileContent == NULL) {
+        perror("Error allocating memory");
+        fclose(sourceFile);
+        return;
+    }
+
+    // Read the file contents into memory
+    size_t bytesRead = fread(fileContent, 1, fileSize, sourceFile);
+    if (bytesRead != (size_t)fileSize) {
+        perror("Error reading file");
+        free(fileContent);
+        fclose(sourceFile);
+        return;
+    }
+    fileContent[bytesRead] = '\0';
+
+    // Close the source file
+    fclose(sourceFile);
+
+    // Remove newlines from the file content
+    char* newLineRemovedContent = (char*)malloc(fileSize + 1);
+    if (newLineRemovedContent == NULL) {
+        perror("Error allocating memory");
+        free(fileContent);
+        return;
+    }
+
+    char* srcPtr = fileContent;
+    char* destPtr = newLineRemovedContent;
+
+    while (*srcPtr != '\0') {
+        if (*srcPtr != '\n' && *srcPtr != '\r') {
+            *destPtr = *srcPtr;
+            destPtr++;
+        }
+        srcPtr++;
+    }
+    *destPtr = '\0';
+
+    // Open the destination file for writing
+    FILE* destinationFile = fopen(filePath, "w");
+    if (destinationFile == NULL) {
+        perror("Error opening file for writing");
+        free(fileContent);
+        free(newLineRemovedContent);
+        return;
+    }
+
+    // Write the new file content to the destination file
+    size_t bytesWritten =
+        fwrite(newLineRemovedContent, 1, strlen(newLineRemovedContent),
+               destinationFile);
+    if (bytesWritten != strlen(newLineRemovedContent)) {
+        perror("Error writing to file");
+    }
+
+    // Close the destination file
+    fclose(destinationFile);
+
+    // Free allocated memory
+    free(fileContent);
+    free(newLineRemovedContent);
+}
+
+void minifyDirfiles(const char* path) {
+    DIR* directory;
+    struct dirent* entry;
+
+    directory = opendir(path);
+    if (directory == NULL) {
+        perror("Error opening directory");
+        return;
+    }
+
+    while ((entry = readdir(directory)) != NULL) {
+        char filePath[300];
+        snprintf(filePath, sizeof(filePath), "%s/%s", path, entry->d_name);
+
+        if (entry->d_type == DT_DIR) {
+            // Ignore "." and ".." directories
+            if (strcmp(entry->d_name, ".") != 0 &&
+                strcmp(entry->d_name, "..") != 0) {
+                minifyDirfiles(filePath);
+            }
+        } else {
+            // Check if the file is HTML or CSS
+            char* extension = strrchr(entry->d_name, '.');
+            // only js and css files for now
+            if (extension != NULL && (strcmp(extension, ".js") == 0 ||
+                                      strcmp(extension, ".css") == 0)) {
+                minifyFile(filePath);
+            }
+        }
+    }
+
+    closedir(directory);
+}
 void processFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -50,11 +162,33 @@ void processFile(const char* filename) {
         exit(1);
     }
 
+    FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
+    if (commentFile == NULL) {
+        perror("Error opening footer-comment file");
+        free(content);
+        fclose(outputFile);
+        fclose(headerFile);
+        fclose(footerFile);
+        exit(1);
+    }
+
     char line[1000];
+    // we write the header
     while (fgets(line, sizeof(line), headerFile) != NULL) {
         fputs(line, outputFile);
     }
     fputs(content, outputFile);
+
+    // We append the comment component only if it's blogs or projects
+    if (strstr(filename, ".md") != NULL &&
+        (strstr(filename, "blogs/") != NULL ||
+         strstr(filename, "projects/") != NULL)) {
+        while (fgets(line, sizeof(line), commentFile) != NULL) {
+            fputs(line, outputFile);
+        }
+    }
+
+    // we write the footer
     while (fgets(line, sizeof(line), footerFile) != NULL) {
         fputs(line, outputFile);
     }
@@ -62,6 +196,7 @@ void processFile(const char* filename) {
     fclose(headerFile);
     fclose(footerFile);
     fclose(outputFile);
+    fclose(commentFile);
     free(content);
 }
 
@@ -203,9 +338,13 @@ void build_header_web_page(FILE* out, char* page_title) {
         "<meta charSet = \"utf-8\" />"
         "<meta content = \"initial-scale=1.0, width=device-width\" name = "
         "\"viewport\" /><meta content = \"#1a1a1a\" name = \"theme-color\" />"
-        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "<link href = \"/favicon.ico\" rel = \"icon\" />"
         "<meta http-equiv=\"content-language\" content=\"en-us,fr\">"
+        "<link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
+        "prism.min.css\""
+        "rel=\"stylesheet\"/>"
+        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "</head><body><div class=\"container\">");
 }
 
@@ -248,7 +387,13 @@ static int process_file(FILE* in, FILE* out, char* page_title) {
     /* Write down the document in the HTML format. */
     build_header_web_page(out, page_title);
     fwrite(buf_out.data, 1, buf_out.size, out);
-    fprintf(out, "</div></body></html>");
+    fprintf(
+        out,
+        "</div> <script "
+        "src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"
+        "\"></script><script "
+        "src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/"
+        "autoloader/prism-autoloader.min.js\"></script></body></html>");
 
     if (t0 != (clock_t)-1 && t1 != (clock_t)-1) {
         double elapsed = (double)(t1 - t0) / CLOCKS_PER_SEC;
