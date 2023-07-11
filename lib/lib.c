@@ -5,9 +5,64 @@ static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
 void processFile(const char* filename) {
-    // Replace the logic inside ./builder process with your custom processing
-    // code
-    printf("Processing file: %s\n", filename);
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Error opening file");
+        exit(1);
+    }
+
+    // Read the content of the file
+    fseek(file, 0, SEEK_END);
+    long file_size = ftell(file);
+    rewind(file);
+    char* content = malloc(file_size + 1);
+    if (content == NULL) {
+        perror("Error allocating memory");
+        fclose(file);
+        exit(1);
+    }
+    fread(content, 1, file_size, file);
+    content[file_size] = '\0';
+    fclose(file);
+
+    // Modify the file contents
+    FILE* outputFile = fopen(filename, "w");
+    if (outputFile == NULL) {
+        perror("Error opening file for writing");
+        free(content);
+        exit(1);
+    }
+
+    FILE* headerFile = fopen("./content/components/header.md", "r");
+    if (headerFile == NULL) {
+        perror("Error opening header file");
+        free(content);
+        fclose(outputFile);
+        exit(1);
+    }
+
+    FILE* footerFile = fopen("./content/components/footer.md", "r");
+    if (footerFile == NULL) {
+        perror("Error opening footer file");
+        free(content);
+        fclose(outputFile);
+        fclose(headerFile);
+        exit(1);
+    }
+
+    char line[1000];
+    while (fgets(line, sizeof(line), headerFile) != NULL) {
+        fputs(line, outputFile);
+    }
+    fputs(content, outputFile);
+    while (fgets(line, sizeof(line), footerFile) != NULL) {
+        fputs(line, outputFile);
+    }
+
+    fclose(headerFile);
+    fclose(footerFile);
+    fclose(outputFile);
+    free(content);
 }
 
 void processMarkdownFiles() {
@@ -61,7 +116,7 @@ void createDirectories() {
 
 void createStyleFileAndCopyFavicon() {
     int status = system(
-        "touch ./public/style.css && cp ./content/favicon.ico "
+        "cp ./content/style.css ./public/style.css && cp ./content/favicon.ico "
         "./public/favicon.ico");
     if (status != 0) {
         perror("Error creating style.css file or copying favicon.ico");
@@ -286,45 +341,6 @@ char* build_previews(const char* dir_name) {
 
     return preview;
 }
-
-// char* preview_recent_blogs() {
-//     char* preview;
-//
-//     preview = build_previews("./content/blogs/");
-//     if (preview == NULL) {
-//         fprintf(stderr, "Failed to build blog previews\n");
-//     }
-//
-//     printf("%s\n", preview);
-//     free(preview);
-//
-//     return preview;
-// }
-//
-// char* preview_recent_projects() {
-//     char* preview;
-//
-//     preview = build_previews("./content/projects/");
-//     if (preview == NULL) {
-//         fprintf(stderr, "Failed to build projects previews\n");
-//     }
-//
-//     printf("%s\n", preview);
-//     free(preview);
-//
-//     return preview;
-// }
-
-/* void build_blog_page() { */
-/*     FILE* blog_file = fopen("./content/blogs.md", "w+"); */
-/*     fprintf(blog_file, "# My Blog Posts\n"); */
-/*     fprintf(blog_file, "-----------\n\n"); */
-/*     fprintf(blog_file, "This is the list of all my recent blogs post.\n"); */
-
-/*     char* recent_blogs = preview_recent_blogs(); */
-/*     /1* replaceString(recent_blogs, "#", "###"); *1/ */
-/*     fprintf(blog_file, "%s", recent_blogs); */
-/* } */
 
 void proceed_files_recursivelly(char* basePath) {
     char path[1000];

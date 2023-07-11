@@ -10,8 +10,8 @@ int main(int argc, char** argv) {
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
         // setting everything up
-        processMarkdownFiles();
         createDirectories();
+        processMarkdownFiles();
         createStyleFileAndCopyFavicon();
 
         proceed_files_recursivelly(CONTENT_DIR);
