@@ -9,8 +9,15 @@ int main(int argc, char** argv) {
     }
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
+        // setting everything up
+        createDirectories();
+        processMarkdownFiles();
+        createStyleFileAndCopyFavicon();
+
         proceed_files_recursivelly(CONTENT_DIR);
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
+        // no plan to implement it so far because it's docker-compose based
+        // serve.
         printf("NOT IMPLEMENTED YET !");
         return EXIT_SUCCESS;
     } else {
