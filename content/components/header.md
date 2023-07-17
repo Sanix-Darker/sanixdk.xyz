@@ -15,7 +15,16 @@
 
 <div class="container">
 
-[`home`](/) •  [`blog`](/blogs/) • [`projects`](/projects/) • [`about`](/about)
+[`home`](/) •  [`blog`](/blogs/) • [`projects`](/projects/) • [`about`](/about) • [`bonus`](/bonus)
+
+<!--
+bonus will contain
+    - feed xml (like https://bernsteinbear.com/feed.xml)
+    - dev stack (my laptop specs and my common stack)
+    - about me in general (hobbies and everything).
+
+    setup a feed client like nom : https://github.com/guyfedwards/nom
+-->
 
 ----
 
