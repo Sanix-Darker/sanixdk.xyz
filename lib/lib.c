@@ -319,39 +319,6 @@ static void process_output(const MD_CHAR* text, MD_SIZE size, void* userdata) {
     membuf_append((struct membuffer*)userdata, text, size);
 }
 
-void build_header_web_page(FILE* out, char* page_title) {
-    fprintf(out, "<!DOCTYPE html><html><head><title>dk | %s </title>",
-            page_title);
-    fprintf(
-        out,
-        "<meta name = \"twitter:card\" content = \"summary_large_image\" />"
-        "<meta name = \"twitter:site\" content = \"@sanixdarker\" />"
-        "<meta name = \"twitter:creator\" content = \"@sanixdarker\" />"
-        "<meta property = \"og:title\" content = \"dk\" />"
-        "<meta property = \"og:description\" content = \"\" />"
-        "<meta property = \"og:url\" content = \"https://sanixdk.xyz\" />"
-        "<meta property = \"og:image:alt\" content = \"Og Image Alt\" />"
-        "<meta property = \"og:image:width\" content = \"1200\" />"
-        "<meta property = \"og:image:height\" content = \"640\" />"
-        "<meta property = \"og:site_name\" content = \"dk\" />"
-        "<link rel = \"canonical\" href = \"https://sanixdk.xyz\" />"
-        "<meta charSet = \"utf-8\" />"
-        "<meta content = \"initial-scale=1.0, width=device-width\" name = "
-        "\"viewport\" /><meta content = \"#1a1a1a\" name = \"theme-color\" />"
-        "<link href = \"/favicon.ico\" rel = \"icon\" />"
-        "<meta http-equiv=\"content-language\" content=\"en-us,fr\">"
-        "<link "
-        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
-        "prism.min.css\""
-        "rel=\"stylesheet\"/>"
-        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
-        "<link "
-        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/"
-        "prism-atom-dark.css\""
-        "rel=\"stylesheet\"/>"
-        "</head><body><div class=\"container\">");
-}
-
 static int process_file(FILE* in, FILE* out, char* page_title) {
     size_t n;
     struct membuffer buf_in = {0};
@@ -389,15 +356,7 @@ static int process_file(FILE* in, FILE* out, char* page_title) {
     }
 
     /* Write down the document in the HTML format. */
-    build_header_web_page(out, page_title);
     fwrite(buf_out.data, 1, buf_out.size, out);
-    fprintf(
-        out,
-        "</div> <script "
-        "src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"
-        "\"></script><script "
-        "src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/"
-        "autoloader/prism-autoloader.min.js\"></script></body></html>");
 
     if (t0 != (clock_t)-1 && t1 != (clock_t)-1) {
         double elapsed = (double)(t1 - t0) / CLOCKS_PER_SEC;
