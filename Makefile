@@ -23,6 +23,10 @@ docker-build:
 docker-run: docker-build
 	docker run -it sanixdk.xyz:latest -p 3003:8080
 
+## compose to build and deploy the website
+compose:
+	docker-compose up --build # --force-restart
+
 all: help
 help: Makefile
 	@echo " Choose a command: "

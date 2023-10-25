@@ -1,9 +1,11 @@
-- handle meta tags for link sharing
-- project list builder
-- setUp the CI/CD for:
-    - publish the website when there is an update on the personnal website path
-    - build and deploy my blog contents (for each blog change detected)
-    - publish on all my social network a message for updates on my blog or projects.
-- track visits on each blog page (need to implement/buy this... should not be hard)
-- tags refs (https://antran.app/tags/gatsby(tags links for all posts like this) )
-- search on blogs/posts
+## TODO
+
+- [  ] handle meta tags for link sharing
+- [  ] projects and blogs list builder
+- [  ] track visits on each blog page (need to implement/buy this... should not be hard)
+- [  ] setUp the CI/CD for:
+    - [  ] publish the website when there is an update on the personnal website path
+    - [  ] build and deploy my blog contents (for each blog change detected)
+    - [  ] publish on all my social network a message for updates on my blog or projects.
+- [  ] tags refs (https://antran.app/tags/gatsby(tags links for all posts like this) )
+- [  ] search on blogs/posts
