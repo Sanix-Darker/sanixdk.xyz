@@ -1,5 +1,6 @@
 .DEFAULT_GOAL := help
 
+# $ git restore content/ && rm -rf public/ && make build && hs ./public/
 SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself

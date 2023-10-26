@@ -12,75 +12,46 @@ void minifyFile(const char* filePath) {
         return;
     }
 
-    // Determine the size of the file
-    fseek(sourceFile, 0L, SEEK_END);
-    long fileSize = ftell(sourceFile);
-    rewind(sourceFile);
-
-    // Allocate memory for the file contents
-    char* fileContent = (char*)malloc(fileSize + 1);
-    if (fileContent == NULL) {
-        perror("Error allocating memory");
+    // Create a temporary file for writing
+    char tempFilePath[FILENAME_MAX];
+    strcpy(tempFilePath, filePath);
+    strcat(tempFilePath, ".temp");
+    FILE* tempFile = fopen(tempFilePath, "w");
+    if (tempFile == NULL) {
+        perror("Error creating temporary file");
         fclose(sourceFile);
         return;
     }
 
-    // Read the file contents into memory
-    size_t bytesRead = fread(fileContent, 1, fileSize, sourceFile);
-    if (bytesRead != (size_t)fileSize) {
-        perror("Error reading file");
-        free(fileContent);
-        fclose(sourceFile);
-        return;
-    }
-    fileContent[bytesRead] = '\0';
-
-    // Close the source file
-    fclose(sourceFile);
-
-    // Remove newlines from the file content
-    char* newLineRemovedContent = (char*)malloc(fileSize + 1);
-    if (newLineRemovedContent == NULL) {
-        perror("Error allocating memory");
-        free(fileContent);
-        return;
-    }
-
-    char* srcPtr = fileContent;
-    char* destPtr = newLineRemovedContent;
-
-    while (*srcPtr != '\0') {
-        if (*srcPtr != '\n' && *srcPtr != '\r') {
-            *destPtr = *srcPtr;
-            destPtr++;
+    // Process the source file line by line
+    char line[1024];
+    while (fgets(line, sizeof(line), sourceFile) != NULL) {
+        size_t length = strlen(line);
+        // Remove newline characters
+        while (length > 0 &&
+               (line[length - 1] == '\n' || line[length - 1] == '\r')) {
+            line[length - 1] = '\0';
+            length--;
         }
-        srcPtr++;
+        // Write the line to the temporary file
+        fputs(line, tempFile);
     }
-    *destPtr = '\0';
 
-    // Open the destination file for writing
-    FILE* destinationFile = fopen(filePath, "w");
-    if (destinationFile == NULL) {
-        perror("Error opening file for writing");
-        free(fileContent);
-        free(newLineRemovedContent);
+    // Close the files
+    fclose(sourceFile);
+    fclose(tempFile);
+
+    // Remove the original file
+    if (remove(filePath) != 0) {
+        perror("Error removing source file");
         return;
     }
 
-    // Write the new file content to the destination file
-    size_t bytesWritten =
-        fwrite(newLineRemovedContent, 1, strlen(newLineRemovedContent),
-               destinationFile);
-    if (bytesWritten != strlen(newLineRemovedContent)) {
-        perror("Error writing to file");
+    // Rename the temporary file to the original file name
+    if (rename(tempFilePath, filePath) != 0) {
+        perror("Error renaming temporary file");
+        return;
     }
-
-    // Close the destination file
-    fclose(destinationFile);
-
-    // Free allocated memory
-    free(fileContent);
-    free(newLineRemovedContent);
 }
 
 void minifyDirfiles(const char* path) {
@@ -94,13 +65,13 @@ void minifyDirfiles(const char* path) {
     }
 
     while ((entry = readdir(directory)) != NULL) {
-        char filePath[300];
-        snprintf(filePath, sizeof(filePath), "%s/%s", path, entry->d_name);
-
         if (entry->d_type == DT_DIR) {
             // Ignore "." and ".." directories
             if (strcmp(entry->d_name, ".") != 0 &&
                 strcmp(entry->d_name, "..") != 0) {
+                char filePath[300];
+                snprintf(filePath, sizeof(filePath), "%s/%s", path,
+                         entry->d_name);
                 minifyDirfiles(filePath);
             }
         } else {
@@ -109,6 +80,9 @@ void minifyDirfiles(const char* path) {
             // only js and css files for now
             if (extension != NULL && (strcmp(extension, ".js") == 0 ||
                                       strcmp(extension, ".css") == 0)) {
+                char filePath[300];
+                snprintf(filePath, sizeof(filePath), "%s/%s", path,
+                         entry->d_name);
                 minifyFile(filePath);
             }
         }
@@ -116,6 +90,7 @@ void minifyDirfiles(const char* path) {
 
     closedir(directory);
 }
+
 void processFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -145,6 +120,7 @@ void processFile(const char* filename) {
         exit(1);
     }
 
+    char line[1000];
     FILE* headerFile = fopen("./content/components/header.md", "r");
     if (headerFile == NULL) {
         perror("Error opening header file");
@@ -152,34 +128,33 @@ void processFile(const char* filename) {
         fclose(outputFile);
         exit(1);
     }
+    while (fgets(line, sizeof(line), headerFile) != NULL) {
+        fputs(line, outputFile);
+    }
+    fclose(headerFile);
+
+    fputs(content, outputFile);
 
     FILE* footerFile = fopen("./content/components/footer.md", "r");
     if (footerFile == NULL) {
         perror("Error opening footer file");
         free(content);
         fclose(outputFile);
-        fclose(headerFile);
         exit(1);
     }
+    while (fgets(line, sizeof(line), footerFile) != NULL) {
+        fputs(line, outputFile);
+    }
+    fclose(footerFile);
 
     FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
     if (commentFile == NULL) {
         perror("Error opening footer-comment file");
         free(content);
         fclose(outputFile);
-        fclose(headerFile);
-        fclose(footerFile);
         exit(1);
     }
 
-    char line[1000];
-    // we write the header
-    while (fgets(line, sizeof(line), headerFile) != NULL) {
-        fputs(line, outputFile);
-    }
-    fputs(content, outputFile);
-
-    // We append the comment component only if it's blogs or projects
     if (strstr(filename, ".md") != NULL &&
         (strstr(filename, "blogs/") != NULL ||
          strstr(filename, "projects/") != NULL)) {
@@ -188,24 +163,17 @@ void processFile(const char* filename) {
         }
     }
 
-    // we write the footer
-    while (fgets(line, sizeof(line), footerFile) != NULL) {
-        fputs(line, outputFile);
-    }
-
-    fclose(headerFile);
-    fclose(footerFile);
-    fclose(outputFile);
     fclose(commentFile);
+    fclose(outputFile);
+
     free(content);
 }
 
-void processMarkdownFiles() {
+void processDirectoryMarkdowns(const char* directory) {
     DIR* dir;
     struct dirent* entry;
 
-    // Process files in ./content/*.md
-    dir = opendir("./content");
+    dir = opendir(directory);
     if (dir == NULL) {
         perror("Error opening directory");
         exit(1);
@@ -214,24 +182,7 @@ void processMarkdownFiles() {
     while ((entry = readdir(dir)) != NULL) {
         if (entry->d_type == DT_REG && strstr(entry->d_name, ".md") != NULL) {
             char filepath[300];
-            snprintf(filepath, sizeof(filepath), "./content/%s", entry->d_name);
-            processFile(filepath);
-        }
-    }
-
-    closedir(dir);
-
-    // Process files in ./content/blogs/*.md
-    dir = opendir("./content/blogs");
-    if (dir == NULL) {
-        perror("Error opening directory");
-        exit(1);
-    }
-
-    while ((entry = readdir(dir)) != NULL) {
-        if (entry->d_type == DT_REG && strstr(entry->d_name, ".md") != NULL) {
-            char filepath[300];
-            snprintf(filepath, sizeof(filepath), "./content/blogs/%s",
+            snprintf(filepath, sizeof(filepath), "%s/%s", directory,
                      entry->d_name);
             processFile(filepath);
         }
@@ -240,18 +191,16 @@ void processMarkdownFiles() {
     closedir(dir);
 }
 
-void createDirectories() {
-    int status =
-        system("mkdir -p ./public/blogs ./public/components ./public/projects");
-    if (status != 0) {
-        perror("Error creating directories");
-        exit(1);
-    }
+void processMarkdownFiles() {
+    processDirectoryMarkdowns("./content");
+    processDirectoryMarkdowns("./content/blogs");
 }
 
 void createStyleFileAndCopyFavicon() {
     int status = system(
-        "cp ./content/style.css ./public/style.css && cp ./content/favicon.ico "
+        "mkdir -p public public/blogs public/projects public/components && cp "
+        "./content/style.css ./public/style.css && cp "
+        "./content/favicon.ico "
         "./public/favicon.ico");
     if (status != 0) {
         perror("Error creating style.css file or copying favicon.ico");
@@ -407,7 +356,7 @@ char* build_previews(const char* dir_name) {
             fclose(fp);
 
             int preview_len =
-                file_size > character_size ? character_size : file_size;
+                (file_size > character_size) ? character_size : file_size;
             preview_size += preview_len;
         }
     }

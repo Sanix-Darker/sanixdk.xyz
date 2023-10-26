@@ -10,7 +10,6 @@ int main(int argc, char** argv) {
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
         // set dirs/files
-        createDirectories();
         processMarkdownFiles();
         createStyleFileAndCopyFavicon();
 

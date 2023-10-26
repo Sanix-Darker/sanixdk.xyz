@@ -35,7 +35,6 @@ void proceed_files_recursivelly(char* basePath);
 // for the build
 void processFile(const char* filename);
 void processMarkdownFiles();
-void createDirectories();
 void createStyleFileAndCopyFavicon();
 
 // for minifying the code output
