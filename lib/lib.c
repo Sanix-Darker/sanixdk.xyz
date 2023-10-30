@@ -4,8 +4,16 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
+/**
+ * Removes newline characters from a file and saves the modified content to the
+ * same file. Input:
+ * - filePath: A C-style string representing the path to the file.
+ * - The file at filePath should exist and be readable.
+ * - The file at filePath should have write permission.
+ * - The path for the temporary file (filePath + ".temp") should have write
+ * permission.
+ */
 void minifyFile(const char* filePath) {
-    // Open the source file for reading
     FILE* sourceFile = fopen(filePath, "r");
     if (sourceFile == NULL) {
         perror("Error opening file");
@@ -54,6 +62,17 @@ void minifyFile(const char* filePath) {
     }
 }
 
+/**
+ * Recursively minifies files in a given directory.
+ *
+ * @param path - The path to the directory to be minified.
+ *
+ * The function opens the directory specified by 'path' and iterates through
+ * each entry in the directory. If a subdirectory is found, it ignores the "."
+ * and ".." directories and recursively calls the function with the path to the
+ * subdirectory. If a file is found, it checks if the file has a ".js" or ".css"
+ * extension and calls the 'minifyFile' function to minify the file.
+ */
 void minifyDirfiles(const char* path) {
     DIR* directory;
     struct dirent* entry;
@@ -91,6 +110,32 @@ void minifyDirfiles(const char* path) {
     closedir(directory);
 }
 
+/**
+ * This function processes a file by performing the following steps:
+ * 1. Opens the file specified by the 'filename' parameter for reading.
+ * 2. If the file opening fails, an error message is printed and the function
+ * exits. Input: filename (const char*) - the name of the file to be processed
+ *
+ * 3. Reads the content of the file into a dynamically allocated buffer.
+ *    Input: file (FILE*) - the file pointer to read from
+ *    Output: content (char*) - a dynamically allocated buffer that contains the
+ * file content
+ *
+ * 4. Modifies the file contents by performing the following operations:
+ *    - Opens the same file for writing.
+ *    - Opens the "header.md" file for reading, and appends its content to the
+ * output file.
+ *    - Appends the content of the input file to the output file.
+ *    - Opens the "comment-footer.md" file for reading, and appends its content
+ * to the output file (only if the input file is a Markdown file and located in
+ * either the "blogs" or "projects" directory).
+ *    - Opens the "footer.md" file for reading, and appends its content to the
+ * output file. Input: outputFile (FILE*) - the file pointer to write to content
+ * (char*) - the buffer containing the file content filename (const char*) - the
+ * name of the file to be processed
+ *
+ * 5. Closes all opened files and frees the dynamically allocated buffer.
+ */
 void processFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -135,6 +180,24 @@ void processFile(const char* filename) {
 
     fputs(content, outputFile);
 
+    FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
+    if (commentFile == NULL) {
+        perror("Error opening footer-comment file");
+        free(content);
+        fclose(outputFile);
+        exit(1);
+    }
+    // we add comments as footer only if its from a blog-post
+    if (strstr(filename, ".md") != NULL &&
+        (strstr(filename, "blogs/") != NULL ||
+         strstr(filename, "projects/") != NULL)) {
+        while (fgets(line, sizeof(line), commentFile) != NULL) {
+            fputs(line, outputFile);
+        }
+    }
+    fclose(commentFile);
+
+    // we write the footer component
     FILE* footerFile = fopen("./content/components/footer.md", "r");
     if (footerFile == NULL) {
         perror("Error opening footer file");
@@ -147,28 +210,35 @@ void processFile(const char* filename) {
     }
     fclose(footerFile);
 
-    FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
-    if (commentFile == NULL) {
-        perror("Error opening footer-comment file");
-        free(content);
-        fclose(outputFile);
-        exit(1);
-    }
-
-    if (strstr(filename, ".md") != NULL &&
-        (strstr(filename, "blogs/") != NULL ||
-         strstr(filename, "projects/") != NULL)) {
-        while (fgets(line, sizeof(line), commentFile) != NULL) {
-            fputs(line, outputFile);
-        }
-    }
-
-    fclose(commentFile);
     fclose(outputFile);
-
     free(content);
 }
 
+/*
+ * This function takes in a directory path as input and processes all the
+ * markdown files present in that directory.
+ *
+ * Input:
+ * - directory: A string representing the directory path where the markdown
+ * files are located.
+ *
+ * Output: None
+ *
+ * Steps:
+ * 1. Open the directory specified by the input directory path.
+ * 2. If the directory cannot be opened, print an error message and exit the
+ * program.
+ * 3. Iterate through each entry (file or subdirectory) in the directory.
+ * 4. Check if the entry is a regular file and if its name contains ".md"
+ * (indicating a markdown file).
+ * 5. If the conditions in step 4 are satisfied, create the file path by
+ * combining the directory path and the entry name.
+ * 6. Call the processFile function, passing the file path as an argument to
+ * process the file.
+ * 7. Repeat steps 3-6 for all entries in the directory.
+ * 8. Close the directory.
+ *
+ */
 void processDirectoryMarkdowns(const char* directory) {
     DIR* dir;
     struct dirent* entry;
@@ -191,12 +261,10 @@ void processDirectoryMarkdowns(const char* directory) {
     closedir(dir);
 }
 
-void processMarkdownFiles() {
-    processDirectoryMarkdowns("./content");
-    processDirectoryMarkdowns("./content/blogs");
-}
-
 void createStyleFileAndCopyFavicon() {
+    // FIXME: change this to be C oriented code.
+    // Yeah, i know, messy messy messy
+    // I don't care, will change the loggic when i will be happy
     int status = system(
         "mkdir -p public public/blogs public/projects public/components && cp "
         "./content/style.css ./public/style.css && cp "
@@ -239,6 +307,19 @@ static void membuf_append(struct membuffer* buf, const char* data,
     buf->size += size;
 }
 
+/**
+ * This function replaces all occurrences of a substring in a string with
+ * another substring.
+ *
+ * @param original - the original string to be modified
+ * @param toReplace - the substring to be replaced
+ * @param replacement - the substring to replace all occurrences of "toReplace"
+ *
+ * The function modifies the "original" string by replacing all occurrences of
+ * "toReplace" with "replacement". It uses a temporary buffer to hold the
+ * modified string, and then copies the modified string back to the "original"
+ * string.
+ */
 void replaceString(char* original, char* toReplace, char* replacement) {
     char buffer[1000] = {0};
     char* insertPoint = &buffer[0];
@@ -268,6 +349,34 @@ static void process_output(const MD_CHAR* text, MD_SIZE size, void* userdata) {
     membuf_append((struct membuffer*)userdata, text, size);
 }
 
+/*
+ * This function processes a file by reading its contents, parsing it into HTML
+ * format, and writing the result to an output file.
+ *
+ * Input:
+ * - in: A FILE pointer representing the input file.
+ * - out: A FILE pointer representing the output file.
+ * - page_title: A pointer to a char array representing the title of the page.
+ *
+ * Output:
+ * - Returns an integer indicating the success of the function. Returns 0 if
+ * successful, and a negative value otherwise.
+ * - Writes the parsed HTML contents to the output file.
+ *
+ * Steps:
+ * 1. Initialize memory buffers for input and output.
+ * 2. Read the contents of the input file into the input buffer.
+ * 3. Initialize the output buffer with an estimated size based on the input
+ * size.
+ * 4. Parse the input document into HTML format using the md_html function, with
+ * callbacks provided via the md_renderer_t structure.
+ * 5. Measure the time taken to parse the document.
+ * 6. If parsing fails, print an error message and return.
+ * 7. Write the parsed HTML contents to the output file.
+ * 8. If time measurement was successful, print the time spent on parsing.
+ * 9. Clean up and free the memory buffers.
+ * 10. Return the result of the function.
+ */
 static int process_file(FILE* in, FILE* out, char* page_title) {
     size_t n;
     struct membuffer buf_in = {0};
@@ -326,80 +435,132 @@ out:
     return ret;
 }
 
-char* build_previews(const char* dir_name) {
-    DIR* dir;
-    struct dirent* entry;
-    char* preview;
-    int preview_size = 0;
-    int character_size = 300;
+/**
+ * Builds previews for files in a given directory.
+ *
+ * @param dir_name The directory name where the files are located.
+ * @return A pointer to a char array containing the previews of the files, or
+ * NULL if an error occurs.
+ *
 
-    dir = opendir(dir_name);
-    if (dir == NULL) {
-        perror("opendir");
-        return NULL;
-    }
+ * Open the given directory
+ * If the directory cannot be opened, return NULL
+ * Calculate the total size of the previews by iterating through the files in
+ * the directory Allocate memory for the previews If memory allocation fails,
+ * return NULL Concatenate the first 300 characters of each file into the
+ * previews Close the directory Return the previews as a char array
+ *
+*/
+// char* buildPreviews(const char* dir_name) { */
+//     DIR* dir; */
+//     struct dirent* entry; */
+//     char* preview; */
+//     int preview_size = 0; */
+//     int character_size = 300; */
 
-    // Calculate the total size of the previews
-    while ((entry = readdir(dir)) != NULL) {
-        if (entry->d_type == DT_REG) {
-            char file_path[1024];
-            snprintf(file_path, sizeof(file_path), "%s/%s", dir_name,
-                     entry->d_name);
-            FILE* fp = fopen(file_path, "r");
-            if (fp == NULL) {
-                perror("fopen");
-                closedir(dir);
-                return NULL;
-            }
-            fseek(fp, 0, SEEK_END);
-            int file_size = ftell(fp);
-            fclose(fp);
+//     dir = opendir(dir_name); */
+//     if (dir == NULL) { */
+//         perror("opendir"); */
+//         return NULL; */
+//     } */
 
-            int preview_len =
-                (file_size > character_size) ? character_size : file_size;
-            preview_size += preview_len;
-        }
-    }
+//     // Calculate the total size of the previews */
+//     while ((entry = readdir(dir)) != NULL) { */
+//         if (entry->d_type == DT_REG) { */
+//             char file_path[1024]; */
+//             snprintf(file_path, sizeof(file_path), "%s/%s", dir_name, */
+//                      entry->d_name); */
+//             FILE* fp = fopen(file_path, "r"); */
+//             if (fp == NULL) { */
+//                 perror("fopen"); */
+//                 closedir(dir); */
+//                 return NULL; */
+//             } */
+//             fseek(fp, 0, SEEK_END); */
+//             int file_size = ftell(fp); */
+//             fclose(fp); */
 
-    // Allocate memory for the previews
-    preview = (char*)malloc((preview_size + 1) * sizeof(char));
-    if (preview == NULL) {
-        perror("malloc");
-        closedir(dir);
-        return NULL;
-    }
-    preview[0] = '\0';  // initialize the string to the empty string
+//             int preview_len = */
+//                 (file_size > character_size) ? character_size : file_size; */
+//             preview_size += preview_len; */
+//         } */
+//     } */
 
-    // Concatenate the first 1000 characters of each file into the previews
-    rewinddir(dir);  // reset directory stream
-    while ((entry = readdir(dir)) != NULL) {
-        if (entry->d_type == DT_REG) {
-            char file_path[1024];
-            snprintf(file_path, sizeof(file_path), "%s/%s", dir_name,
-                     entry->d_name);
-            FILE* fp = fopen(file_path, "r");
-            if (fp == NULL) {
-                perror("fopen");
-                closedir(dir);
-                free(preview);
-                return NULL;
-            }
-            char buffer[character_size + 1];
-            int nread = fread(buffer, sizeof(char), character_size, fp);
-            if (nread > 0) {
-                buffer[nread] = '\0';
-                strcat(preview, buffer);
-            }
-            fclose(fp);
-        }
-    }
+//     // Allocate memory for the previews */
+//     preview = (char*)malloc((preview_size + 1) * sizeof(char)); */
+//     if (preview == NULL) { */
+//         perror("malloc"); */
+//         closedir(dir); */
+//         return NULL; */
+//     } */
+//     preview[0] = '\0';  // initialize the string to the empty string */
 
-    closedir(dir);
+//     // Concatenate the first 1000 characters of each file into the previews
+//
+//     rewinddir(dir);  // reset directory stream */
+//     while ((entry = readdir(dir)) != NULL) { */
+//         if (entry->d_type == DT_REG) { */
+//             char file_path[1024]; */
+//             snprintf(file_path, sizeof(file_path), "%s/%s", dir_name, */
+//                      entry->d_name); */
+//             FILE* fp = fopen(file_path, "r"); */
+//             if (fp == NULL) { */
+//                 perror("fopen"); */
+//                 closedir(dir); */
+//                 free(preview); */
+//                 return NULL; */
+//             } */
+//             char buffer[character_size + 1]; */
+//             int nread = fread(buffer, sizeof(char), character_size, fp); */
+//             if (nread > 0) { */
+//                 buffer[nread] = '\0'; */
+//                 strcat(preview, buffer); */
+//             } */
+//             fclose(fp); */
+//         } */
+//     } */
 
-    return preview;
-}
+//     closedir(dir); */
 
-void proceed_files_recursivelly(char* basePath) {
+//     return preview; */
+// } */
+
+/**
+ * Recursively proceeds through files in a directory and its subdirectories.
+ *
+ * @param basePath - the base path of the directory to start from
+ *
+ * Input:
+ * - basePath: the base path of the directory to start from
+ *
+ * Output: None
+ *
+ * Steps:
+ * 1. Set up variables for path, input_path, and output_path.
+ * 2. Open the directory specified by basePath.
+ * 3. Set up input and output file pointers as stdin and stdout.
+ * 4. Create an array of string replacements for title formatting.
+ * 5. If the directory cannot be opened, print an error message and return.
+ * 6. While there are more files in the directory,
+ *    a. If the file is not the current directory or the parent directory,
+ *       - Build the complete path by concatenating basePath and the current
+ * file name.
+ *       - Check if the path corresponds to a directory.
+ *       - If it is a directory, call the function recursively with the new
+ * path.
+ *       - If it is a file with a ".md" extension,
+ *         - Copy the input path and output path to their respective variables.
+ *         - Replace "content" with "public" and replace ".md" with ".html" in
+ * the output path.
+ *         - Open the input and output files.
+ *         - For each string in the string_title_target_replacements array,
+ * replace it with an empty string in the output path.
+ *         - Process the file by calling the process_file function with the
+ * input, output, and output path arguments.
+ *         - Close the input and output files if they are not stdin and stdout.
+ * 7. Close the directory.
+ */
+void proceedFilesRecursivelly(char* basePath) {
     char path[1000];
     char input_path[1000];
     char output_path[1000];
@@ -430,7 +591,7 @@ void proceed_files_recursivelly(char* basePath) {
                 continue;
             }
             if (S_ISDIR(filestat.st_mode)) {
-                proceed_files_recursivelly(path);
+                proceedFilesRecursivelly(path);
             } else if (strstr(dp->d_name, ".md") != NULL) {
                 strcpy(input_path, path);
                 strcpy(output_path, path);
