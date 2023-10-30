@@ -9,3 +9,10 @@
     - [  ] publish on all my social network a message for updates on my blog or projects.
 - [  ] tags refs (https://antran.app/tags/gatsby(tags links for all posts like this) )
 - [  ] search on blogs/posts
+
+- /stack should just redirect to an article about my dev stack
+- feed xml (like https://bernsteinbear.com/feed.xml)
+- about me in general (hobbies and everything).
+
+setup a feed client like nom : https://github.com/guyfedwards/nom
+
