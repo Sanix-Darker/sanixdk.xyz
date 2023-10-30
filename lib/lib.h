@@ -29,14 +29,13 @@ struct membuffer {
     size_t size;
 };
 
-// to proveed files recursivelly
-void proceed_files_recursivelly(char* basePath);
+// to proceed files recursivelly
+void proceedFilesRecursivelly(char* basePath);
 
 // for the build
 void processFile(const char* filename);
-void processMarkdownFiles();
-void createDirectories();
 void createStyleFileAndCopyFavicon();
+void processDirectoryMarkdowns();
 
 // for minifying the code output
 void minifyDirfiles(const char* path);

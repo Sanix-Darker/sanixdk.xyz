@@ -1,5 +1,5 @@
 # ----- compile stage ----- #
-FROM ubuntu:22.04 as builder
+FROM ubuntu:16.04 as builder
 
 RUN apt update -y --fix-missing && apt install gcc make -y
 

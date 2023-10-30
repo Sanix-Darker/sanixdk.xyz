@@ -1,10 +1,11 @@
 .DEFAULT_GOAL := help
 
+# $ git restore content/ && rm -rf public/ && make build && hs ./public/
 SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wall -s main.c ./lib/* -o builder
+	gcc -Wold-style-declaration -Wall -s main.c ./lib/* -o builder
 
 # build: Build the webpage that is going to be serve
 # To concatenate header/footer components to all the pages
@@ -17,11 +18,15 @@ serve:
 
 ## docker-build: Docker build for the website
 docker-build:
-	DOCKER_BUILDKIT=0 docker build --rm -t sanixdk.xyz:latest -f ./Dockerfile .
+	docker build --rm -t sanixdk.xyz:latest -f ./Dockerfile .
 
 ## docker-run: Docker run for the website
 docker-run: docker-build
-	docker run -it sanixdk.xyz:latest -p 3003:8080
+	docker run --volume ./public/:/usr/share/nginx/html/ -it sanixdk.xyz:latest -p 3003:8080
+
+## compose to build and deploy the website
+compose:
+	docker-compose up --build # --force-restart
 
 all: help
 help: Makefile
