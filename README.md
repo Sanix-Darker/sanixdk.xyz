@@ -1,7 +1,8 @@
-## Sanixdk.xyz
+## sanixdk.xyz
 
 Hi.
-since this is a personnal website i don't know why there should be a readme for it... but whatever...
+since this is a personnal website i don't know why there should be a readme for it...
+but whatever...
 
 There are multiple steps/stage, but you can run the website under docker and the Makefile itself has a lot of instructions from it.
 You just need to be use to bash tweaks :).

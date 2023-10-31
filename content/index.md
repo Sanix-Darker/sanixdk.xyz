@@ -1,12 +1,12 @@
 # HI, AM SANIX.
 
-Am a Backend engineer, an electronic Geek and an otaku "guru";
+Am a Backend engineer and an electronic geek.
 
-I like doing hacky stuffs, writing about tech subjects in general just build everything i have in mind.
+I like everything related to tech in general and also hacking stuffs, writing about my discoveries in general and finally build everything i have in mind.
 
 ## CODING ACTIVITY
 
-> from embed.md (need to update the ci on my personnal preview from github to update that file i will just then post the content here)
+From embed.md (need to update the ci on my personnal preview from github to update that file i will just then post the content here)
 
 ## LATEST BLOG POSTS
 

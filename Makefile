@@ -22,7 +22,8 @@ docker-build:
 
 ## docker-run: Docker run for the website
 docker-run: docker-build
-	docker run --volume ./public/:/usr/share/nginx/html/ -it sanixdk.xyz:latest -p 3003:8080
+	# --volume ./public/:/usr/share/nginx/html/
+	docker run -it sanixdk.xyz:latest -p 3003:8080
 
 ## compose: To build and deploy the website
 compose:

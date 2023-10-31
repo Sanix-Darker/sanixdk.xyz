@@ -29,6 +29,16 @@ struct membuffer {
     size_t size;
 };
 
+/***** for jinja templating ***/
+// struct just like hashmap key-value
+typedef struct {
+    const char* key;
+    const char* value;
+} KeyValue;
+
+// To apply to template
+const char* apply_template(const char* template_str, KeyValue* params);
+
 // to proceed files recursivelly
 void proceedFilesRecursivelly(char* basePath);
 

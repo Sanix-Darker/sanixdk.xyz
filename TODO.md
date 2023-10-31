@@ -1,5 +1,6 @@
 ## TODO
 
+- [  ] handle jinja templating.
 - [  ] handle meta tags for link sharing
 - [  ] projects and blogs list builder
 - [  ] track visits on each blog page (need to implement/buy this... should not be hard)
