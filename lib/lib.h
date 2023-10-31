@@ -12,6 +12,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "./jinjac/jinjac.h"
 #include "./md4c-html.h"
 #include "./md4c.h"
 
@@ -35,9 +36,6 @@ typedef struct {
     const char* key;
     const char* value;
 } KeyValue;
-
-// To apply to template
-const char* apply_template(const char* template_str, KeyValue* params);
 
 // to proceed files recursivelly
 void proceedFilesRecursivelly(char* basePath);

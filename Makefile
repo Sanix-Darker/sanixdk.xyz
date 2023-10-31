@@ -5,7 +5,9 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wold-style-declaration -Wall -s main.c ./lib/* -o builder
+	gcc -Wold-style-declaration -Wall \
+		-s main.c ./lib/*.c ./lib/jinjac/*.c \
+		-o builder
 
 # build: Build the webpage that is going to be serve
 # To concatenate header/footer components to all the pages

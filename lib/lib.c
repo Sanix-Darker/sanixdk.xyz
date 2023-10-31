@@ -629,53 +629,24 @@ void proceedFilesRecursivelly(char* basePath) {
     closedir(dir);
 }
 
-/**
- * This function takes a template string, an array of KeyValue pairs, and the
- * number of parameters, and applies the parameters to the template string by
- * replacing occurrences of {{key}} with the corresponding value. The resulting
- * string is returned.
- *
- * Example :
- *
- *  const char* template_str = "Hello, {{ name }}! Today is {{ day }}.";
- *  KeyValue params[] = {{"name", "John"}, {"day", "Monday"}};
- *
- *  const char* result = apply_template(template_str, params);
- *  printf("%s\n", result);
- *  free(result); // because c (fml)
- */
-const char* apply_template(const char* template_str, KeyValue* params) {
-    // how to fix this, just give me the code :
-    int params_count = (int)sizeof(params) / (int)sizeof(params[0]);
-    char* result = malloc(strlen(template_str) * sizeof(char));
-    strcpy(result, template_str);
+/*char* template = **"Hello from jinjac {{ user }} !\n" *
+                  "{% for x in data -%}\n" * " -> data {{ x }}\n" *
+                  "{% endfor %}\n" * "end template\n";
 
-    for (int i = 0; i < params_count; i++) {
-        char* open_acolads = "{{";
-        char* close_acolads = "}}";
+*jinjac_init();
 
-        char* token = strchr(result, *open_acolads);
-        if (token == NULL) break;
+*jinjac_parameter john;
+*john.type = TYPE_STRING;
+*john.value.type_string = "John";
 
-        char* end = strchr(token + 2, *close_acolads);
-        if (end == NULL) break;
+*jinjac_parameter_insert("user", &john);
 
-        int token_length = end - token + 2;
-        char* key = malloc((token_length - 4) * sizeof(char));
-        strncpy(key, token + 2, token_length - 4);
-        key[token_length - 4] = '\0';
+*char* pResult = NULL;
+*int sizeResult = 0;
 
-        for (int j = 0; j < params_count; j++) {
-            if (strcmp(params[j].key, key) == 0) {
-                strcat(result, params[j].value);
-                break;
-            }
-        }
+*jinjac_render_with_buffer(template, strlen(template), &pResult, *&sizeResult);
+*fprintf(stdout, "%s\n", pResult);
 
-        char* remaining = end + 2;
-        strcat(result, remaining);
-        free(key);
-    }
-
-    return result;
-}
+*free(pResult);
+*jinjac_destroy();
+*/
