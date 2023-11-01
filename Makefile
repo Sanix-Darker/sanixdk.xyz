@@ -29,7 +29,7 @@ docker-run: docker-build
 
 ## compose: To build and deploy the website
 compose:
-	docker-compose up --build # --force-restart
+	docker compose up --build # --force-restart
 
 all: help
 help: Makefile

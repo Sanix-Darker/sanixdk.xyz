@@ -10,7 +10,7 @@
 
 <div class="container">
 
-[`home`](/) •  [`blog`](/blogs/) • [`projects`](/projects/) • [`CV`](/about) • [`stack`](/stack)
+[`home`](/) •  [`blogs`](/blogs/) • [`projects`](/projects/) • [`about`](/about)
 
 
 ----

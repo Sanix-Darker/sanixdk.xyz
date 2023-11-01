@@ -1,6 +1,6 @@
 # HI, AM SANIX.
 
-Am a Backend engineer and an electronic geek.
+Am a Backend engineer and an electronic geek...
 
 I like everything related to tech in general and also hacking stuffs, writing about my discoveries in general and finally build everything i have in mind.
 
