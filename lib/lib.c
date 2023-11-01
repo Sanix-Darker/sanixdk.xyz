@@ -629,24 +629,25 @@ void proceedFilesRecursivelly(char* basePath) {
     closedir(dir);
 }
 
-/*char* template = **"Hello from jinjac {{ user }} !\n" *
-                  "{% for x in data -%}\n" * " -> data {{ x }}\n" *
-                  "{% endfor %}\n" * "end template\n";
+// char template = **"Hello from jinjac {{ user }} !\n"
+// "{% for x in data -%}\n" *
+//     " -> data {{ x }}\n"
+//     "{% endfor %}\n" *
+//     "end template\n";
 
-*jinjac_init();
+// jinjac_init();
 
-*jinjac_parameter john;
-*john.type = TYPE_STRING;
-*john.value.type_string = "John";
-
-*jinjac_parameter_insert("user", &john);
-
-*char* pResult = NULL;
-*int sizeResult = 0;
-
-*jinjac_render_with_buffer(template, strlen(template), &pResult, *&sizeResult);
-*fprintf(stdout, "%s\n", pResult);
-
-*free(pResult);
-*jinjac_destroy();
-*/
+// jinjac_parameter john;
+// john.type = TYPE_STRING;
+// john.value.type_string = "John";
+//
+// jinjac_parameter_insert("user", &john);
+//
+// char* pResult = NULL;
+// int sizeResult = 0;
+//
+// jinjac_render_with_buffer(template, strlen(template), &pResult,
+// *&sizeResult); fprintf(stdout, "%s\n", pResult);
+//
+// free(pResult);
+// jinjac_destroy();

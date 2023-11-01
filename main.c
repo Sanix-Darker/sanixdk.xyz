@@ -1,7 +1,7 @@
 #include "./lib/lib.h"
 
 int main(int argc, char** argv) {
-    /* char CONTENT_DIR[] = "./content"; */
+    char CONTENT_DIR[] = "./content";
 
     if (argc < 2) {
         printf("? Usage: ./builder build|serve");
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
         createStyleFileAndCopyFavicon();
 
         // build md -> html
-        // proceedFilesRecursivelly(CONTENT_DIR);
+        proceedFilesRecursivelly(CONTENT_DIR);
 
         // minify/bundle htmls/css files
         // FIXME: doesn't sweet well with <pre> tags, will need to update

@@ -1,6 +1,7 @@
 ## TODO
 
 - [  ] handle jinja templating.
+- [  ] add my devStack to the about page
 - [  ] handle meta tags for link sharing
 - [  ] projects and blogs list builder
 - [  ] track visits on each blog page (need to implement/buy this... should not be hard)

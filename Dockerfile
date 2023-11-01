@@ -1,4 +1,4 @@
-FROM ubuntu:16.04 as builder
+FROM ubuntu:20.04 as builder
 
 WORKDIR /app
 
@@ -9,7 +9,9 @@ RUN apt update -y --fix-missing && \
 COPY . .
 
 # Build the ./web app
-RUN gcc -Wold-style-declaration -Wall -s main.c ./lib/* -o builder
+RUN gcc -Wold-style-declaration -Wall \
+		-s main.c ./lib/*.c ./lib/jinjac/*.c \
+		-o builder
 
 # This step is to add headers/footers on  all files
 # this step is to polish everything related to css or any resources involve
@@ -23,6 +25,7 @@ FROM nginx:stable-alpine3.17-slim as prod-serve
 COPY ./nginx.conf /etc/nginx/nginx.conf
 # we just copy the built web pages
 COPY --from=builder /app/public/* /usr/share/nginx/html/
+COPY --from=builder /app/public/blogs/* /usr/share/nginx/html/blogs/
 
 # we expose the port 80
 EXPOSE 80
