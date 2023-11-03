@@ -136,7 +136,7 @@ void minifyDirfiles(const char* path) {
  *
  * 5. Closes all opened files and frees the dynamically allocated buffer.
  */
-void processFile(const char* filename) {
+void addHeaderFooterToFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error opening file");
@@ -214,6 +214,21 @@ void processFile(const char* filename) {
     free(content);
 }
 
+void createStyleFileAndCopyFavicon() {
+    // FIXME: change this to be C oriented code.
+    // Yeah, i know, messy messy messy
+    // I don't care, will change the loggic when i will be happy
+    int status = system(
+        "mkdir -p public public/blogs public/projects public/components && cp "
+        "./content/style.css ./public/style.css && cp "
+        "./content/favicon.ico "
+        "./public/favicon.ico");
+    if (status != 0) {
+        perror("Error creating style.css file or copying favicon.ico");
+        exit(1);
+    }
+}
+
 /*
  * This function takes in a directory path as input and processes all the
  * markdown files present in that directory.
@@ -233,13 +248,17 @@ void processFile(const char* filename) {
  * (indicating a markdown file).
  * 5. If the conditions in step 4 are satisfied, create the file path by
  * combining the directory path and the entry name.
- * 6. Call the processFile function, passing the file path as an argument to
- * process the file.
+ * 6. Call the addHeaderFooterToFile function, passing the file path as an
+ * argument to process the file.
  * 7. Repeat steps 3-6 for all entries in the directory.
  * 8. Close the directory.
  *
  */
-void processDirectoryMarkdowns(const char* directory) {
+void buildComponentsIntoMarkdownsFiles(const char* directory) {
+    // FIXME: this is just to set up all styles
+    // should not be a part of this function btw
+    createStyleFileAndCopyFavicon();
+
     DIR* dir;
     struct dirent* entry;
 
@@ -254,26 +273,11 @@ void processDirectoryMarkdowns(const char* directory) {
             char filepath[300];
             snprintf(filepath, sizeof(filepath), "%s/%s", directory,
                      entry->d_name);
-            processFile(filepath);
+            addHeaderFooterToFile(filepath);
         }
     }
 
     closedir(dir);
-}
-
-void createStyleFileAndCopyFavicon() {
-    // FIXME: change this to be C oriented code.
-    // Yeah, i know, messy messy messy
-    // I don't care, will change the loggic when i will be happy
-    int status = system(
-        "mkdir -p public public/blogs public/projects public/components && cp "
-        "./content/style.css ./public/style.css && cp "
-        "./content/favicon.ico "
-        "./public/favicon.ico");
-    if (status != 0) {
-        perror("Error creating style.css file or copying favicon.ico");
-        exit(1);
-    }
 }
 
 static void membuf_init(struct membuffer* buf, MD_SIZE new_asize) {

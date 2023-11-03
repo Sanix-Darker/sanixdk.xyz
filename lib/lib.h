@@ -41,9 +41,7 @@ typedef struct {
 void proceedFilesRecursivelly(char* basePath);
 
 // for the build
-void processFile(const char* filename);
-void createStyleFileAndCopyFavicon();
-void processDirectoryMarkdowns();
+void buildComponentsIntoMarkdownsFiles(const char* directory);
 
 // for minifying the code output
 void minifyDirfiles(const char* path);

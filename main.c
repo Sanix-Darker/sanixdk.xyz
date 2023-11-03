@@ -9,12 +9,12 @@ int main(int argc, char** argv) {
     }
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
-        // set dirs/files
-        processDirectoryMarkdowns("./content");
-        processDirectoryMarkdowns("./content/blogs");
-        createStyleFileAndCopyFavicon();
+        // build headers/footers for all contents
+        buildComponentsIntoMarkdownsFiles("./content");
+        buildComponentsIntoMarkdownsFiles("./content/blogs");
+        // TODO: buildComponentsIntoMarkdownsFiles("./content/projects");
 
-        // build md -> html
+        // transform .md -> .html (files)
         proceedFilesRecursivelly(CONTENT_DIR);
 
         // minify/bundle htmls/css files

@@ -5,7 +5,7 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wold-style-declaration -Wall \
+	gcc -Wall \
 		-s main.c ./lib/*.c ./lib/jinjac/*.c \
 		-o builder
 
