@@ -1,7 +1,8 @@
 ## TODO
 
+- [  ] for the next deploy (populate the nginx caching to the prod server)
 - [  ] handle jinja templating.
-- [  ] add my devStack to the about page
+- [  ] add my devStack to the about page at the end, take this : https://dotfiles.substack.com/p/18-sanix-darker
 - [  ] handle meta tags for link sharing
 - [  ] projects and blogs list builder
 - [  ] track visits on each blog page (need to implement/buy this... should not be hard)

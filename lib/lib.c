@@ -219,12 +219,11 @@ void createStyleFileAndCopyFavicon() {
     // Yeah, i know, messy messy messy
     // I don't care, will change the loggic when i will be happy
     int status = system(
-        "mkdir -p public public/blogs public/projects public/components && cp "
-        "./content/style.css ./public/style.css && cp "
-        "./content/favicon.ico "
-        "./public/favicon.ico");
+        "mkdir -p public public/blogs public/projects public/components && "
+        "cp ./content/style.css ./content/favicon.ico ./content/robots.txt "
+        "./public/");
     if (status != 0) {
-        perror("Error creating style.css file or copying favicon.ico");
+        perror("Error setting resources files (style, ico,...) ");
         exit(1);
     }
 }
