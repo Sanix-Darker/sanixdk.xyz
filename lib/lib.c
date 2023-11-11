@@ -137,81 +137,81 @@ void minifyDirfiles(const char* path) {
  * 5. Closes all opened files and frees the dynamically allocated buffer.
  */
 void addHeaderFooterToFile(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
+    FILE* fileInReadMode = fopen(filename, "r");
+    if (fileInReadMode == NULL) {
         perror("Error opening file");
         exit(1);
     }
 
     // Read the content of the file
-    fseek(file, 0, SEEK_END);
-    long file_size = ftell(file);
-    rewind(file);
-    char* content = malloc(file_size + 1);
-    if (content == NULL) {
+    fseek(fileInReadMode, 0, SEEK_END);
+    long file_size = ftell(fileInReadMode);
+    rewind(fileInReadMode);
+    char* contentOfFile = malloc(file_size + 1);
+    if (contentOfFile == NULL) {
         perror("Error allocating memory");
-        fclose(file);
+        fclose(fileInReadMode);
         exit(1);
     }
-    fread(content, 1, file_size, file);
-    content[file_size] = '\0';
-    fclose(file);
+    fread(contentOfFile, 1, file_size, fileInReadMode);
+    contentOfFile[file_size] = '\0';
+    fclose(fileInReadMode);
 
     // Modify the file contents
-    FILE* outputFile = fopen(filename, "w");
-    if (outputFile == NULL) {
+    FILE* fileInWriteMode = fopen(filename, "w");
+    if (fileInWriteMode == NULL) {
         perror("Error opening file for writing");
-        free(content);
+        free(contentOfFile);
         exit(1);
     }
 
     char line[1000];
-    FILE* headerFile = fopen("./content/components/header.md", "r");
-    if (headerFile == NULL) {
+    FILE* headerFileInReadMode = fopen("./content/components/header.md", "r");
+    if (headerFileInReadMode == NULL) {
         perror("Error opening header file");
-        free(content);
-        fclose(outputFile);
+        free(contentOfFile);
+        fclose(fileInWriteMode);
         exit(1);
     }
-    while (fgets(line, sizeof(line), headerFile) != NULL) {
-        fputs(line, outputFile);
+    while (fgets(line, sizeof(line), headerFileInReadMode) != NULL) {
+        fputs(line, fileInWriteMode);
     }
-    fclose(headerFile);
+    fclose(headerFileInReadMode);
+    fputs(contentOfFile, fileInWriteMode);
 
-    fputs(content, outputFile);
-
-    FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
-    if (commentFile == NULL) {
+    FILE* commentFooterFileInReadMode =
+        fopen("./content/components/comment-footer.md", "r");
+    if (commentFooterFileInReadMode == NULL) {
         perror("Error opening footer-comment file");
-        free(content);
-        fclose(outputFile);
+        free(contentOfFile);
+        fclose(fileInWriteMode);
         exit(1);
     }
-    // we add comments as footer only if its from a blog-post
+    // we add comments-footer-component only if its from a blog-post file
     if (strstr(filename, ".md") != NULL &&
         (strstr(filename, "blogs/") != NULL ||
          strstr(filename, "projects/") != NULL)) {
-        while (fgets(line, sizeof(line), commentFile) != NULL) {
-            fputs(line, outputFile);
+        while (fgets(line, sizeof(line), commentFooterFileInReadMode) != NULL) {
+            fputs(line, fileInWriteMode);
         }
     }
-    fclose(commentFile);
+    fclose(commentFooterFileInReadMode);
 
     // we write the footer component
-    FILE* footerFile = fopen("./content/components/footer.md", "r");
-    if (footerFile == NULL) {
+    FILE* footerFileInReadMode = fopen("./content/components/footer.md", "r");
+    if (footerFileInReadMode == NULL) {
         perror("Error opening footer file");
-        free(content);
-        fclose(outputFile);
+        free(contentOfFile);
+        fclose(fileInWriteMode);
         exit(1);
     }
-    while (fgets(line, sizeof(line), footerFile) != NULL) {
-        fputs(line, outputFile);
+    while (fgets(line, sizeof(line), footerFileInReadMode) != NULL) {
+        fputs(line, fileInWriteMode);
     }
-    fclose(footerFile);
+    fclose(footerFileInReadMode);
 
-    fclose(outputFile);
-    free(content);
+    fclose(fileInWriteMode);
+    free(contentOfFile);
 }
 
 void createStyleFileAndCopyFavicon() {

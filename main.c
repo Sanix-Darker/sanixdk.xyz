@@ -21,7 +21,6 @@ int main(int argc, char** argv) {
         // FIXME: doesn't sweet well with <pre> tags, will need to update
         // that in the future
         minifyDirfiles("./public/");
-
         return EXIT_SUCCESS;
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         // no plan to implement it so far because it's docker-compose based
