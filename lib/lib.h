@@ -23,19 +23,12 @@
 #else
 static unsigned renderer_flags = MD_HTML_FLAG_DEBUG;
 #endif
-
+// struct mem buffer for writing/reading into files
 struct membuffer {
     char* data;
     size_t asize;
     size_t size;
 };
-
-/***** for jinja templating ***/
-// struct just like hashmap key-value
-typedef struct {
-    const char* key;
-    const char* value;
-} KeyValue;
 
 // to proceed files recursivelly
 void proceedFilesRecursivelly(char* basePath);
@@ -45,3 +38,14 @@ void buildComponentsIntoMarkdownsFiles(const char* directory);
 
 // for minifying the code output
 void minifyDirfiles(const char* path);
+
+/***** for YamlParsing templating ***/
+// Yaml parse|read
+// struct to hold the key-value pairs (for key/val hashMaps)
+typedef struct {
+    char key[256];
+    char value[256];
+} KeyValuePair;
+KeyValuePair* parseYamlFile(const char* filePath, int* numPairs);
+const char* getValueByKey(const KeyValuePair* hashMap, int numPairs,
+                          const char* key);

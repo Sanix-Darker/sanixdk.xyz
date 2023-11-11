@@ -145,16 +145,16 @@ void addHeaderFooterToFile(const char* filename) {
 
     // Read the content of the file
     fseek(fileInReadMode, 0, SEEK_END);
-    long file_size = ftell(fileInReadMode);
+    long fileSize = ftell(fileInReadMode);
     rewind(fileInReadMode);
-    char* contentOfFile = malloc(file_size + 1);
+    char* contentOfFile = malloc(fileSize + 1);
     if (contentOfFile == NULL) {
         perror("Error allocating memory");
         fclose(fileInReadMode);
         exit(1);
     }
-    fread(contentOfFile, 1, file_size, fileInReadMode);
-    contentOfFile[file_size] = '\0';
+    fread(contentOfFile, 1, fileSize, fileInReadMode);
+    contentOfFile[fileSize] = '\0';
     fclose(fileInReadMode);
 
     // Modify the file contents
@@ -272,6 +272,7 @@ void buildComponentsIntoMarkdownsFiles(const char* directory) {
             char filepath[300];
             snprintf(filepath, sizeof(filepath), "%s/%s", directory,
                      entry->d_name);
+            printf(">>>>>>>>>>>>>>>>>>>>> %s\n\n", filepath);
             addHeaderFooterToFile(filepath);
         }
     }
@@ -631,6 +632,80 @@ void proceedFilesRecursivelly(char* basePath) {
 
     closedir(dir);
 }
+
+// ******* yaml file parsing and exploiting *******
+//   int numPairs;
+//   KeyValuePair* hashMap = parseYamlFile("content/metadatas.yml", &numPairs);
+//
+//   if (hashMap != NULL) {
+//       const char* link = getValueByKey(hashMap, numPairs, "link");
+//       const char* title = getValueByKey(hashMap, numPairs, "title");
+//       const char* image = getValueByKey(hashMap, numPairs, "image");
+//       const char* description = getValueByKey(hashMap, numPairs,
+//       "description");
+//
+//       printf("Link: %s\n", link);
+//       printf("Title: %s\n", title);
+//       printf("Image: %s\n", image);
+//       printf("Description: %s\n", description);
+//
+//       free(hashMap);
+//   }
+
+// Function to read and parse the content/metadatas.yml file
+KeyValuePair* parseYamlFile(const char* filePath, int* numPairs) {
+    FILE* file = fopen(filePath, "r");
+    if (file == NULL) {
+        printf("Failed to open the file.\n");
+        return NULL;
+    }
+
+    // Allocate memory for storing key-value pairs
+    KeyValuePair* hashMap = (KeyValuePair*)malloc(256 * sizeof(KeyValuePair));
+    if (hashMap == NULL) {
+        printf("Memory allocation failed.\n");
+        fclose(file);
+        return NULL;
+    }
+
+    char line[256];
+    int count = 0;
+    while (fgets(line, sizeof(line), file)) {
+        // Ignore empty lines
+        if (strlen(line) <= 1) {
+            continue;
+        }
+
+        // Parse the line
+        char* key = strtok(line, ":");
+        char* value = strtok(NULL, "\n");
+        if (key != NULL && value != NULL) {
+            // Store the key-value pair in the hashMap
+            strcpy(hashMap[count].key, key);
+            strcpy(hashMap[count].value, value);
+            count++;
+        }
+    }
+
+    fclose(file);
+
+    // Update the number of key-value pairs found
+    *numPairs = count;
+
+    return hashMap;
+}
+
+// Function to get the value by key string from the hashMap
+const char* getValueByKey(const KeyValuePair* hashMap, int numPairs,
+                          const char* key) {
+    for (int i = 0; i < numPairs; i++) {
+        if (strcmp(hashMap[i].key, key) == 0) {
+            return hashMap[i].value;
+        }
+    }
+    return NULL;  // Key not found
+}
+// ******* yaml file parsing and exploiting *******
 
 // char template = **"Hello from jinjac {{ user }} !\n"
 // "{% for x in data -%}\n" *
