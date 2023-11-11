@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Hack&display=swap');
 body { font-family: 'Hack', monospace; }
+p{ line-height: 1.7; }
 h1 {
     text-align: right;
     border-bottom: 1px dashed;
@@ -57,7 +58,7 @@ code {
     font-size: 14px;
 }
 body {
-    background-color: #131516;
+    background-color: rgb(15, 17, 17);
     color: #fff;
 }
 p img {

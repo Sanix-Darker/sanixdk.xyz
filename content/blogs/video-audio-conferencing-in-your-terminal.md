@@ -68,3 +68,6 @@ s2c is Open Source and free !
 - Pypi-Package : [s2c pypi](https://pypi.org/project/s2c)
 
 PS : Any comments or constructive advice are welcome !
+
+-----------
+[<< blogs](/blogs/)
