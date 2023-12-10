@@ -1,4 +1,4 @@
-# BLOG POSTS
+# BLOG POSTS <small id="blog-count" />
 
 <input type="text" id="inp" placeholder="Search for a blog title..."/>
 

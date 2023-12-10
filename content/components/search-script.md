@@ -24,4 +24,6 @@
             }
         }
     );
+    const countBlogs = document.querySelectorAll("h3").length;
+    document.getElementById("blog-count").innerHTML = `(${countBlogs})`
 </script>
