@@ -4,6 +4,16 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
+EntryMap getMetadataForFilePath(EntryMap* entryMap, const char* filePath,
+                                int count) {
+    for (int i = 0; i < count; i++) {
+        if (strcmp(entryMap[i].entry.path, filePath) == 0) {
+            return entryMap[i];
+        }
+    }
+    return entryMap[0];
+}
+
 /**
  * Removes newline characters from a file and saves the modified content to the
  * same file. Input:
@@ -136,7 +146,9 @@ void minifyDirfiles(const char* path) {
  *
  * 5. Closes all opened files and frees the dynamically allocated buffer.
  */
-void addHeaderFooterToFile(const char* filename) {
+
+void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
+                           int count) {
     FILE* fileInReadMode = fopen(filename, "r");
     if (fileInReadMode == NULL) {
         perror("Error opening file");
@@ -183,6 +195,9 @@ void addHeaderFooterToFile(const char* filename) {
     if (strstr(filename, ".md") != NULL &&
         (strstr(filename, "blogs/") != NULL ||
          strstr(filename, "projects/") != NULL)) {
+        // get metadatas for the file
+        EntryMap eM = getMetadataForFilePath(entryMap, filename, count);
+
         FILE* commentFooterFileInReadMode =
             fopen("./content/components/comment-footer.md", "r");
         if (commentFooterFileInReadMode == NULL) {
@@ -278,6 +293,12 @@ void buildComponentsIntoMarkdownsFiles(const char* directory) {
     // should not be a part of this function btw
     createStyleFileAndCopyFavicon();
 
+    // for metadatas
+    // we add to the header of the file what we read from the metadata file
+    EntryMap entryMap[MAX_ENTRIES];
+    int count = 0;
+    parse_txt("content/metadatas.txt", entryMap, &count);
+
     DIR* dir;
     struct dirent* entry;
 
@@ -292,8 +313,9 @@ void buildComponentsIntoMarkdownsFiles(const char* directory) {
             char filepath[300];
             snprintf(filepath, sizeof(filepath), "%s/%s", directory,
                      entry->d_name);
+
             printf(">>>>>>>>>>>>>>>>>>>>> %s\n\n", filepath);
-            addHeaderFooterToFile(filepath);
+            addHeaderFooterToFile(entryMap, filepath, count);
         }
     }
 
@@ -460,96 +482,6 @@ out:
 }
 
 /**
- * Builds previews for files in a given directory.
- *
- * @param dir_name The directory name where the files are located.
- * @return A pointer to a char array containing the previews of the files, or
- * NULL if an error occurs.
- *
-
- * Open the given directory
- * If the directory cannot be opened, return NULL
- * Calculate the total size of the previews by iterating through the files in
- * the directory Allocate memory for the previews If memory allocation fails,
- * return NULL Concatenate the first 300 characters of each file into the
- * previews Close the directory Return the previews as a char array
- *
-*/
-// char* buildPreviews(const char* dir_name) { */
-//     DIR* dir; */
-//     struct dirent* entry; */
-//     char* preview; */
-//     int preview_size = 0; */
-//     int character_size = 300; */
-
-//     dir = opendir(dir_name); */
-//     if (dir == NULL) { */
-//         perror("opendir"); */
-//         return NULL; */
-//     } */
-
-//     // Calculate the total size of the previews */
-//     while ((entry = readdir(dir)) != NULL) { */
-//         if (entry->d_type == DT_REG) { */
-//             char file_path[1024]; */
-//             snprintf(file_path, sizeof(file_path), "%s/%s", dir_name, */
-//                      entry->d_name); */
-//             FILE* fp = fopen(file_path, "r"); */
-//             if (fp == NULL) { */
-//                 perror("fopen"); */
-//                 closedir(dir); */
-//                 return NULL; */
-//             } */
-//             fseek(fp, 0, SEEK_END); */
-//             int file_size = ftell(fp); */
-//             fclose(fp); */
-
-//             int preview_len = */
-//                 (file_size > character_size) ? character_size : file_size; */
-//             preview_size += preview_len; */
-//         } */
-//     } */
-
-//     // Allocate memory for the previews */
-//     preview = (char*)malloc((preview_size + 1) * sizeof(char)); */
-//     if (preview == NULL) { */
-//         perror("malloc"); */
-//         closedir(dir); */
-//         return NULL; */
-//     } */
-//     preview[0] = '\0';  // initialize the string to the empty string */
-
-//     // Concatenate the first 1000 characters of each file into the previews
-//
-//     rewinddir(dir);  // reset directory stream */
-//     while ((entry = readdir(dir)) != NULL) { */
-//         if (entry->d_type == DT_REG) { */
-//             char file_path[1024]; */
-//             snprintf(file_path, sizeof(file_path), "%s/%s", dir_name, */
-//                      entry->d_name); */
-//             FILE* fp = fopen(file_path, "r"); */
-//             if (fp == NULL) { */
-//                 perror("fopen"); */
-//                 closedir(dir); */
-//                 free(preview); */
-//                 return NULL; */
-//             } */
-//             char buffer[character_size + 1]; */
-//             int nread = fread(buffer, sizeof(char), character_size, fp); */
-//             if (nread > 0) { */
-//                 buffer[nread] = '\0'; */
-//                 strcat(preview, buffer); */
-//             } */
-//             fclose(fp); */
-//         } */
-//     } */
-
-//     closedir(dir); */
-
-//     return preview; */
-// } */
-
-/**
  * Recursively proceeds through files in a directory and its subdirectories.
  *
  * @param basePath - the base path of the directory to start from
@@ -653,79 +585,62 @@ void proceedFilesRecursivelly(char* basePath) {
     closedir(dir);
 }
 
-// ******* yaml file parsing and exploiting *******
-//   int numPairs;
-//   KeyValuePair* hashMap = parseYamlFile("content/metadatas.yml", &numPairs);
-//
-//   if (hashMap != NULL) {
-//       const char* link = getValueByKey(hashMap, numPairs, "link");
-//       const char* title = getValueByKey(hashMap, numPairs, "title");
-//       const char* image = getValueByKey(hashMap, numPairs, "image");
-//       const char* description = getValueByKey(hashMap, numPairs,
-//       "description");
-//
-//       printf("Link: %s\n", link);
-//       printf("Title: %s\n", title);
-//       printf("Image: %s\n", image);
-//       printf("Description: %s\n", description);
-//
-//       free(hashMap);
-//   }
-
-// Function to read and parse the content/metadatas.yml file
-KeyValuePair* parseYamlFile(const char* filePath, int* numPairs) {
-    FILE* file = fopen(filePath, "r");
-    if (file == NULL) {
-        printf("Failed to open the file.\n");
-        return NULL;
-    }
-
-    // Allocate memory for storing key-value pairs
-    KeyValuePair* hashMap = (KeyValuePair*)malloc(256 * sizeof(KeyValuePair));
-    if (hashMap == NULL) {
-        printf("Memory allocation failed.\n");
-        fclose(file);
-        return NULL;
+void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        perror("Error opening file");
+        return;
     }
 
     char line[256];
-    int count = 0;
-    while (fgets(line, sizeof(line), file)) {
-        // Ignore empty lines
-        if (strlen(line) <= 1) {
-            continue;
-        }
+    EntryMap currentEntry;
+    int entryIndex = 0;
 
-        // Parse the line
-        char* key = strtok(line, ":");
-        char* value = strtok(NULL, "\n");
-        if (key != NULL && value != NULL) {
-            // Store the key-value pair in the hashMap
-            strcpy(hashMap[count].key, key);
-            strcpy(hashMap[count].value, value);
-            count++;
+    while (fgets(line, sizeof(line), file) != NULL) {
+        // Check for the end of an entry
+        if (line[0] == '\n') {
+            /* Extract key from filename */
+            char* dot = strrchr(currentEntry.key, '.');
+            if (dot != NULL) {
+                size_t keyLength = dot - currentEntry.key;
+                currentEntry.key[keyLength] = '\0';
+            }
+
+            entryMap[entryIndex++] = currentEntry;
+            // Reset currentEntry for the next iteration
+            memset(&currentEntry, 0, sizeof(currentEntry));
+        } else {
+            // Parse each line of the entry
+            char key[256], value[256];
+            sscanf(line, "%s %255[^\n]", key, value);
+
+            if (strcmp(key, "path:") == 0)
+                strncpy(currentEntry.entry.path, value,
+                        sizeof(currentEntry.entry.path));
+            if (strcmp(key, "link:") == 0)
+                strncpy(currentEntry.entry.link, value,
+                        sizeof(currentEntry.entry.link));
+            else if (strcmp(key, "title:") == 0)
+                strncpy(currentEntry.entry.title, value,
+                        sizeof(currentEntry.entry.title));
+            else if (strcmp(key, "image:") == 0)
+                strncpy(currentEntry.entry.image, value,
+                        sizeof(currentEntry.entry.image));
+            else if (strcmp(key, "date:") == 0)
+                strncpy(currentEntry.entry.date, value,
+                        sizeof(currentEntry.entry.date));
+
+            // Save the key as well (filename)
+            if (strcmp(key, "filename:") == 0)
+                strncpy(currentEntry.key, value, sizeof(currentEntry.key));
         }
     }
 
+    *count = entryIndex;
+
+    // Close the file
     fclose(file);
-
-    // Update the number of key-value pairs found
-    *numPairs = count;
-
-    return hashMap;
 }
-
-// Function to get the value by key string from the hashMap
-const char* getValueByKey(const KeyValuePair* hashMap, int numPairs,
-                          const char* key) {
-    for (int i = 0; i < numPairs; i++) {
-        if (strcmp(hashMap[i].key, key) == 0) {
-            return hashMap[i].value;
-        }
-    }
-    return NULL;  // Key not found
-}
-// ******* yaml file parsing and exploiting *******
 
 // char template = **"Hello from jinjac {{ user }} !\n"
 // "{% for x in data -%}\n" *

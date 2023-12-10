@@ -39,13 +39,19 @@ void buildComponentsIntoMarkdownsFiles(const char* directory);
 // for minifying the code output
 void minifyDirfiles(const char* path);
 
-/***** for YamlParsing templating ***/
-// Yaml parse|read
-// struct to hold the key-value pairs (for key/val hashMaps)
+// for yaml processing.
+#define MAX_ENTRIES 100
+
 typedef struct {
-    char key[256];
-    char value[256];
-} KeyValuePair;
-KeyValuePair* parseYamlFile(const char* filePath, int* numPairs);
-const char* getValueByKey(const KeyValuePair* hashMap, int numPairs,
-                          const char* key);
+    char path[256];
+    char link[256];
+    char title[256];
+    char image[256];
+    char date[20];
+} Entry;
+
+typedef struct {
+    char key[256];  // <- not needed i guess for now.
+    Entry entry;
+} EntryMap;
+void parse_txt(const char* filename, EntryMap entryMap[], int* count);
