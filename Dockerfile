@@ -10,8 +10,7 @@ COPY . .
 
 # Build the ./web app
 RUN gcc -Wold-style-declaration -Wall \
-		-s main.c ./lib/*.c ./lib/jinjac/*.c \
-		-o builder
+		-s main.c ./lib/*.c -o builder
 
 # This step is to add headers/footers on  all files
 # this step is to polish everything related to css or any resources involve

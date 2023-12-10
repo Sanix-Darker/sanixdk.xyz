@@ -12,7 +12,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "./jinjac/jinjac.h"
 #include "./md4c-html.h"
 #include "./md4c.h"
 

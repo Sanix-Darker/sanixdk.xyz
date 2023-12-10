@@ -1,6 +1,5 @@
 ## TODO
 
-- [ ] handle jinja templating.
 - [ ] for the next deploy (populate the nginx caching to the prod server).
 - [ ] add a "return blogs/projects" when am in a blog article and i want to come back.
 - [ ] add my devStack to the about page at the end, take this : https://dotfiles.substack.com/p/18-sanix-darker.

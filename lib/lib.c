@@ -4,7 +4,7 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
-EntryMap getMetadataForFilePath(EntryMap* entryMap, const char* filePath,
+EntryMap getMetadataForFilePath(const EntryMap* entryMap, const char* filePath,
                                 int count) {
     for (int i = 0; i < count; i++) {
         if (strcmp(entryMap[i].entry.path, filePath) == 0) {
@@ -119,6 +119,44 @@ void minifyDirfiles(const char* path) {
 
     closedir(directory);
 }
+void writeMetadatasToHeader(FILE* file, Entry* eM) {
+    const char* templateStart =
+        "<!DOCTYPE html>\n<html>\n<head>\n<meta charSet=\"utf-8\" /> <link "
+        "href=\"/favicon.ico\" "
+        "rel=\"icon\" /><link rel=\"canonical\" href=\"https://sanixdk.xyz\" />"
+        "<meta content=\"initial-scale=1.0,width=device-width\" "
+        "name=\"viewport\" />"
+        "<meta content=\"#131516\" name=\"theme-color\" />"
+        "<meta http-equiv=\"content-language\" content=\"en-us,fr\"><link "
+        "rel=\"stylesheet\" href=\"/style.css\"/><link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
+        "prism.min.css\" rel=\"stylesheet\"/>"
+        "   <link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/"
+        "prism-atom-dark.css\" rel=\"stylesheet\"/>"
+        "   <title>sanix | %s</title> "
+        "   <meta property=\"og:url\" content=\"https://sanixdk.xyz%s\"> "
+        "<meta property=\"og:type\" content=\"website\">"
+        "   <meta property=\"og:title\" content=\"%s\"> <meta "
+        "property=\"og:image\" content=\"%s\">\n"
+        "   <meta name=\"twitter:card\" content=\"%s\"> <meta "
+        "property=\"twitter:url\" content=\"https://sanixdk.xyz%s\">"
+        "   <meta property=\"twitter:domain\" content=\"sanixdk.xyz\"> <meta "
+        "name=\"twitter:title\" content=\"%s\">"
+        "   <meta name=\"twitter:image\" content=\"%s\">\n</head>\n<body>\n"
+        "<div class=\"container\">\n[`home`](/) • [`blogs`](/blogs/) • "
+        "[`about`](/about)\n"
+        "----</div>\n</body>\n</html>\n";
+
+    char contentOfFile[4096];  // Adjust the buffer size as needed
+
+    // Replace placeholders in the template with actual content
+    sprintf(contentOfFile, templateStart, eM->title, eM->link, eM->title,
+            eM->image, eM->image, eM->link, eM->title, eM->image);
+
+    // Write the content to the file
+    fputs(contentOfFile, file);
+}
 
 /**
  * This function processes a file by performing the following steps:
@@ -178,18 +216,6 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
     }
 
     char line[1000];
-    FILE* headerFileInReadMode = fopen("./content/components/header.md", "r");
-    if (headerFileInReadMode == NULL) {
-        perror("Error opening header file");
-        free(contentOfFile);
-        fclose(fileInWriteMode);
-        exit(1);
-    }
-    while (fgets(line, sizeof(line), headerFileInReadMode) != NULL) {
-        fputs(line, fileInWriteMode);
-    }
-    fclose(headerFileInReadMode);
-    fputs(contentOfFile, fileInWriteMode);
 
     // We add comments-footer-component only if its from a blog-post file
     if (strstr(filename, ".md") != NULL &&
@@ -197,6 +223,11 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
          strstr(filename, "projects/") != NULL)) {
         // get metadatas for the file
         EntryMap eM = getMetadataForFilePath(entryMap, filename, count);
+
+        // write metadatas to file while building it
+        writeMetadatasToHeader(fileInWriteMode, &eM.entry);
+
+        fputs(contentOfFile, fileInWriteMode);
 
         FILE* commentFooterFileInReadMode =
             fopen("./content/components/comment-footer.md", "r");
@@ -212,6 +243,20 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
         }
 
         fclose(commentFooterFileInReadMode);
+    } else {
+        FILE* headerFileInReadMode =
+            fopen("./content/components/header.md", "r");
+        if (headerFileInReadMode == NULL) {
+            perror("Error opening header file");
+            free(contentOfFile);
+            fclose(fileInWriteMode);
+            exit(1);
+        }
+        while (fgets(line, sizeof(line), headerFileInReadMode) != NULL) {
+            fputs(line, fileInWriteMode);
+        }
+        fclose(headerFileInReadMode);
+        fputs(contentOfFile, fileInWriteMode);
     }
 
     // we add search-script component to the blogs.md
@@ -537,9 +582,6 @@ void proceedFilesRecursivelly(char* basePath) {
         return;
     }
 
-    /* build_blog_page(); */
-    /* char* recent_projects = preview_recent_projects(); */
-
     while ((dp = readdir(dir)) != NULL) {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
             sprintf(path, "%s/%s", basePath, dp->d_name);
@@ -638,29 +680,5 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
 
     *count = entryIndex;
 
-    // Close the file
     fclose(file);
 }
-
-// char template = **"Hello from jinjac {{ user }} !\n"
-// "{% for x in data -%}\n" *
-//     " -> data {{ x }}\n"
-//     "{% endfor %}\n" *
-//     "end template\n";
-
-// jinjac_init();
-
-// jinjac_parameter john;
-// john.type = TYPE_STRING;
-// john.value.type_string = "John";
-//
-// jinjac_parameter_insert("user", &john);
-//
-// char* pResult = NULL;
-// int sizeResult = 0;
-//
-// jinjac_render_with_buffer(template, strlen(template), &pResult,
-// *&sizeResult); fprintf(stdout, "%s\n", pResult);
-//
-// free(pResult);
-// jinjac_destroy();
