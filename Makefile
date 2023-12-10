@@ -27,9 +27,13 @@ docker-run: docker-build
 	# --volume ./public/:/usr/share/nginx/html/
 	docker run -it sanixdk.xyz:latest -p 3003:8080
 
-## compose: To build and deploy the website
-compose:
-	docker compose up --build # --force-restart
+## up: To build and deploy the website
+up:
+	docker compose -f ./docker-compose.yml up --build
+
+## down: To get down the service
+down:
+	docker compose -f ./docker-compose.yml down
 
 all: help
 help: Makefile
