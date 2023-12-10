@@ -22,7 +22,7 @@
 #else
 static unsigned renderer_flags = MD_HTML_FLAG_DEBUG;
 #endif
-
+// struct mem buffer for writing/reading into files
 struct membuffer {
     char* data;
     size_t asize;
@@ -33,9 +33,24 @@ struct membuffer {
 void proceedFilesRecursivelly(char* basePath);
 
 // for the build
-void processFile(const char* filename);
-void createStyleFileAndCopyFavicon();
-void processDirectoryMarkdowns();
+void buildComponentsIntoMarkdownsFiles(const char* directory);
 
 // for minifying the code output
 void minifyDirfiles(const char* path);
+
+// for yaml processing.
+#define MAX_ENTRIES 100
+
+typedef struct {
+    char path[256];
+    char link[256];
+    char title[256];
+    char image[256];
+    char date[20];
+} Entry;
+
+typedef struct {
+    char key[256];  // <- not needed i guess for now.
+    Entry entry;
+} EntryMap;
+void parse_txt(const char* filename, EntryMap entryMap[], int* count);

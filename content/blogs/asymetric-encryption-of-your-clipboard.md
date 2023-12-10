@@ -84,3 +84,6 @@ main $1
 ```
 
 Source code : [github project](https://github.com/Sanix-Darker/css)
+
+-----------
+[<< blogs](/blogs/)

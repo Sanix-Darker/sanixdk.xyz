@@ -1,18 +1,16 @@
 # HI, AM SANIX.
 
-Am a Backend engineer, an electronic Geek and an otaku "guru";
+Am a Backend engineer, an electronic geek and an Otaku Guru.
 
-I like doing hacky stuffs, writing about tech subjects in general just build everything i have in mind.
+I like everything related to tech in general and also hacking stuffs,
+writing about my discoveries in general and play with everything i have in mind.
 
-## CODING ACTIVITY
+## WORKING ON...
 
-> from embed.md (need to update the ci on my personnal preview from github to update that file i will just then post the content here)
+- [sanixdk.xyz](https://github.com/Sanix-Darker/sanixdk.xyz) : my personnal website.
 
-## LATEST BLOG POSTS
+- [dotfiles](https://github.com/Sanix-Darker/dotfiles) : my dofiles/personal setup stack.
 
-- [Asymetric encryption of your clipboard](/blogs/asymetric-encryption-of-your-clipboard) `2022/04/16 11:03:10 AM` | 4min.
+- [s2c](https://github.com/sanix-darker/s2c) : a secret video chat in terminal.
 
-
-## ONGOING PROJECTS
-
-- [s2c](https://github.com/sanix-darker/s2c) A secret video chat in terminal using strongd PGP encryptions and AES encryptions.
+- [snips](https://github.com/Sanix-Darker/snips.nvim) : a nvim plugin to create code snippets.

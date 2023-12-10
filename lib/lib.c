@@ -4,6 +4,16 @@ static unsigned parser_flags = 0;
 static unsigned renderer_flags =
     MD_HTML_FLAG_DEBUG | MD_HTML_FLAG_SKIP_UTF8_BOM;
 
+EntryMap getMetadataForFilePath(const EntryMap* entryMap, const char* filePath,
+                                int count) {
+    for (int i = 0; i < count; i++) {
+        if (strcmp(entryMap[i].entry.path, filePath) == 0) {
+            return entryMap[i];
+        }
+    }
+    return entryMap[0];
+}
+
 /**
  * Removes newline characters from a file and saves the modified content to the
  * same file. Input:
@@ -109,6 +119,44 @@ void minifyDirfiles(const char* path) {
 
     closedir(directory);
 }
+void writeMetadatasToHeader(FILE* file, Entry* eM) {
+    const char* templateStart =
+        "<!DOCTYPE html>\n<html>\n<head>\n<meta charSet=\"utf-8\" /> <link "
+        "href=\"/favicon.ico\" "
+        "rel=\"icon\" /><link rel=\"canonical\" href=\"https://sanixdk.xyz\" />"
+        "<meta content=\"initial-scale=1.0,width=device-width\" "
+        "name=\"viewport\" />"
+        "<meta content=\"#131516\" name=\"theme-color\" />"
+        "<meta http-equiv=\"content-language\" content=\"en-us,fr\"><link "
+        "rel=\"stylesheet\" href=\"/style.css\"/><link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
+        "prism.min.css\" rel=\"stylesheet\"/>"
+        "   <link "
+        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/"
+        "prism-atom-dark.css\" rel=\"stylesheet\"/>"
+        "   <title>sanix | %s</title> "
+        "   <meta property=\"og:url\" content=\"https://sanixdk.xyz%s\"> "
+        "<meta property=\"og:type\" content=\"website\">"
+        "   <meta property=\"og:title\" content=\"%s\"> <meta "
+        "property=\"og:image\" content=\"%s\">\n"
+        "   <meta name=\"twitter:card\" content=\"%s\"> <meta "
+        "property=\"twitter:url\" content=\"https://sanixdk.xyz%s\">"
+        "   <meta property=\"twitter:domain\" content=\"sanixdk.xyz\"> <meta "
+        "name=\"twitter:title\" content=\"%s\">"
+        "   <meta name=\"twitter:image\" content=\"%s\">\n</head>\n<body>\n"
+        "<div class=\"container\"><p><a href=\"/\"><code>home</code></a> •  <a "
+        "href=\"/blogs/\"><code>blogs</code></a> • <a href=\"/about\">"
+        "<code>about</code></a></p>\n\n----\n\n";
+
+    char contentOfFile[4096];  // Adjust the buffer size as needed
+
+    // Replace placeholders in the template with actual content
+    sprintf(contentOfFile, templateStart, eM->title, eM->link, eM->title,
+            eM->image, eM->image, eM->link, eM->title, eM->image);
+
+    // Write the content to the file
+    fputs(contentOfFile, file);
+}
 
 /**
  * This function processes a file by performing the following steps:
@@ -136,82 +184,127 @@ void minifyDirfiles(const char* path) {
  *
  * 5. Closes all opened files and frees the dynamically allocated buffer.
  */
-void processFile(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
+
+void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
+                           int count) {
+    FILE* fileInReadMode = fopen(filename, "r");
+    if (fileInReadMode == NULL) {
         perror("Error opening file");
         exit(1);
     }
 
     // Read the content of the file
-    fseek(file, 0, SEEK_END);
-    long file_size = ftell(file);
-    rewind(file);
-    char* content = malloc(file_size + 1);
-    if (content == NULL) {
+    fseek(fileInReadMode, 0, SEEK_END);
+    long fileSize = ftell(fileInReadMode);
+    rewind(fileInReadMode);
+    char* contentOfFile = malloc(fileSize + 1);
+    if (contentOfFile == NULL) {
         perror("Error allocating memory");
-        fclose(file);
+        fclose(fileInReadMode);
         exit(1);
     }
-    fread(content, 1, file_size, file);
-    content[file_size] = '\0';
-    fclose(file);
+    fread(contentOfFile, 1, fileSize, fileInReadMode);
+    contentOfFile[fileSize] = '\0';
+    fclose(fileInReadMode);
 
     // Modify the file contents
-    FILE* outputFile = fopen(filename, "w");
-    if (outputFile == NULL) {
+    FILE* fileInWriteMode = fopen(filename, "w");
+    if (fileInWriteMode == NULL) {
         perror("Error opening file for writing");
-        free(content);
+        free(contentOfFile);
         exit(1);
     }
 
     char line[1000];
-    FILE* headerFile = fopen("./content/components/header.md", "r");
-    if (headerFile == NULL) {
-        perror("Error opening header file");
-        free(content);
-        fclose(outputFile);
-        exit(1);
-    }
-    while (fgets(line, sizeof(line), headerFile) != NULL) {
-        fputs(line, outputFile);
-    }
-    fclose(headerFile);
 
-    fputs(content, outputFile);
-
-    FILE* commentFile = fopen("./content/components/comment-footer.md", "r");
-    if (commentFile == NULL) {
-        perror("Error opening footer-comment file");
-        free(content);
-        fclose(outputFile);
-        exit(1);
-    }
-    // we add comments as footer only if its from a blog-post
+    // We add comments-footer-component only if its from a blog-post file
     if (strstr(filename, ".md") != NULL &&
         (strstr(filename, "blogs/") != NULL ||
          strstr(filename, "projects/") != NULL)) {
-        while (fgets(line, sizeof(line), commentFile) != NULL) {
-            fputs(line, outputFile);
+        // get metadatas for the file
+        EntryMap eM = getMetadataForFilePath(entryMap, filename, count);
+
+        // write metadatas to file while building it
+        writeMetadatasToHeader(fileInWriteMode, &eM.entry);
+        fputs(contentOfFile, fileInWriteMode);
+
+        FILE* commentFooterFileInReadMode =
+            fopen("./content/components/comment-footer.md", "r");
+        if (commentFooterFileInReadMode == NULL) {
+            perror("Error opening footer-comment file");
+            free(contentOfFile);
+            fclose(fileInWriteMode);
+            exit(1);
         }
+
+        while (fgets(line, sizeof(line), commentFooterFileInReadMode) != NULL) {
+            fputs(line, fileInWriteMode);
+        }
+
+        fclose(commentFooterFileInReadMode);
+    } else {
+        FILE* headerFileInReadMode =
+            fopen("./content/components/header.md", "r");
+        if (headerFileInReadMode == NULL) {
+            perror("Error opening header file");
+            free(contentOfFile);
+            fclose(fileInWriteMode);
+            exit(1);
+        }
+        while (fgets(line, sizeof(line), headerFileInReadMode) != NULL) {
+            fputs(line, fileInWriteMode);
+        }
+        fclose(headerFileInReadMode);
+        fputs(contentOfFile, fileInWriteMode);
     }
-    fclose(commentFile);
+
+    // we add search-script component to the blogs.md
+    if (strstr(filename, "blogs.md") != NULL) {
+        FILE* searchFileComponent =
+            fopen("./content/components/search-script.md", "r");
+        if (searchFileComponent == NULL) {
+            perror("Error opening search-script file");
+            free(contentOfFile);
+            fclose(fileInWriteMode);
+            exit(1);
+        }
+
+        while (fgets(line, sizeof(line), searchFileComponent) != NULL) {
+            fputs(line, fileInWriteMode);
+        }
+
+        fclose(searchFileComponent);
+    }
 
     // we write the footer component
-    FILE* footerFile = fopen("./content/components/footer.md", "r");
-    if (footerFile == NULL) {
+    FILE* footerFileInReadMode = fopen("./content/components/footer.md", "r");
+    if (footerFileInReadMode == NULL) {
         perror("Error opening footer file");
-        free(content);
-        fclose(outputFile);
+        free(contentOfFile);
+        fclose(fileInWriteMode);
         exit(1);
     }
-    while (fgets(line, sizeof(line), footerFile) != NULL) {
-        fputs(line, outputFile);
+    while (fgets(line, sizeof(line), footerFileInReadMode) != NULL) {
+        fputs(line, fileInWriteMode);
     }
-    fclose(footerFile);
+    fclose(footerFileInReadMode);
 
-    fclose(outputFile);
-    free(content);
+    fclose(fileInWriteMode);
+    free(contentOfFile);
+}
+
+void createStyleFileAndCopyFavicon() {
+    // FIXME: change this to be C oriented code.
+    // Yeah, i know, messy messy messy
+    // I don't care, will change the loggic when i will be happy
+    int status = system(
+        "mkdir -p public public/blogs public/projects public/components && "
+        "cp ./content/style.css ./content/favicon.ico ./content/robots.txt "
+        "./public/");
+    if (status != 0) {
+        perror("Error setting resources files (style, ico,...) ");
+        exit(1);
+    }
 }
 
 /*
@@ -233,13 +326,23 @@ void processFile(const char* filename) {
  * (indicating a markdown file).
  * 5. If the conditions in step 4 are satisfied, create the file path by
  * combining the directory path and the entry name.
- * 6. Call the processFile function, passing the file path as an argument to
- * process the file.
+ * 6. Call the addHeaderFooterToFile function, passing the file path as an
+ * argument to process the file.
  * 7. Repeat steps 3-6 for all entries in the directory.
  * 8. Close the directory.
  *
  */
-void processDirectoryMarkdowns(const char* directory) {
+void buildComponentsIntoMarkdownsFiles(const char* directory) {
+    // FIXME: this is just to set up all styles
+    // should not be a part of this function btw
+    createStyleFileAndCopyFavicon();
+
+    // for metadatas
+    // we add to the header of the file what we read from the metadata file
+    EntryMap entryMap[MAX_ENTRIES];
+    int count = 0;
+    parse_txt("content/metadatas.txt", entryMap, &count);
+
     DIR* dir;
     struct dirent* entry;
 
@@ -254,26 +357,13 @@ void processDirectoryMarkdowns(const char* directory) {
             char filepath[300];
             snprintf(filepath, sizeof(filepath), "%s/%s", directory,
                      entry->d_name);
-            processFile(filepath);
+
+            printf(">>>>>>>>>>>>>>>>>>>>> %s\n\n", filepath);
+            addHeaderFooterToFile(entryMap, filepath, count);
         }
     }
 
     closedir(dir);
-}
-
-void createStyleFileAndCopyFavicon() {
-    // FIXME: change this to be C oriented code.
-    // Yeah, i know, messy messy messy
-    // I don't care, will change the loggic when i will be happy
-    int status = system(
-        "mkdir -p public public/blogs public/projects public/components && cp "
-        "./content/style.css ./public/style.css && cp "
-        "./content/favicon.ico "
-        "./public/favicon.ico");
-    if (status != 0) {
-        perror("Error creating style.css file or copying favicon.ico");
-        exit(1);
-    }
 }
 
 static void membuf_init(struct membuffer* buf, MD_SIZE new_asize) {
@@ -436,96 +526,6 @@ out:
 }
 
 /**
- * Builds previews for files in a given directory.
- *
- * @param dir_name The directory name where the files are located.
- * @return A pointer to a char array containing the previews of the files, or
- * NULL if an error occurs.
- *
-
- * Open the given directory
- * If the directory cannot be opened, return NULL
- * Calculate the total size of the previews by iterating through the files in
- * the directory Allocate memory for the previews If memory allocation fails,
- * return NULL Concatenate the first 300 characters of each file into the
- * previews Close the directory Return the previews as a char array
- *
-*/
-// char* buildPreviews(const char* dir_name) { */
-//     DIR* dir; */
-//     struct dirent* entry; */
-//     char* preview; */
-//     int preview_size = 0; */
-//     int character_size = 300; */
-
-//     dir = opendir(dir_name); */
-//     if (dir == NULL) { */
-//         perror("opendir"); */
-//         return NULL; */
-//     } */
-
-//     // Calculate the total size of the previews */
-//     while ((entry = readdir(dir)) != NULL) { */
-//         if (entry->d_type == DT_REG) { */
-//             char file_path[1024]; */
-//             snprintf(file_path, sizeof(file_path), "%s/%s", dir_name, */
-//                      entry->d_name); */
-//             FILE* fp = fopen(file_path, "r"); */
-//             if (fp == NULL) { */
-//                 perror("fopen"); */
-//                 closedir(dir); */
-//                 return NULL; */
-//             } */
-//             fseek(fp, 0, SEEK_END); */
-//             int file_size = ftell(fp); */
-//             fclose(fp); */
-
-//             int preview_len = */
-//                 (file_size > character_size) ? character_size : file_size; */
-//             preview_size += preview_len; */
-//         } */
-//     } */
-
-//     // Allocate memory for the previews */
-//     preview = (char*)malloc((preview_size + 1) * sizeof(char)); */
-//     if (preview == NULL) { */
-//         perror("malloc"); */
-//         closedir(dir); */
-//         return NULL; */
-//     } */
-//     preview[0] = '\0';  // initialize the string to the empty string */
-
-//     // Concatenate the first 1000 characters of each file into the previews
-//
-//     rewinddir(dir);  // reset directory stream */
-//     while ((entry = readdir(dir)) != NULL) { */
-//         if (entry->d_type == DT_REG) { */
-//             char file_path[1024]; */
-//             snprintf(file_path, sizeof(file_path), "%s/%s", dir_name, */
-//                      entry->d_name); */
-//             FILE* fp = fopen(file_path, "r"); */
-//             if (fp == NULL) { */
-//                 perror("fopen"); */
-//                 closedir(dir); */
-//                 free(preview); */
-//                 return NULL; */
-//             } */
-//             char buffer[character_size + 1]; */
-//             int nread = fread(buffer, sizeof(char), character_size, fp); */
-//             if (nread > 0) { */
-//                 buffer[nread] = '\0'; */
-//                 strcat(preview, buffer); */
-//             } */
-//             fclose(fp); */
-//         } */
-//     } */
-
-//     closedir(dir); */
-
-//     return preview; */
-// } */
-
-/**
  * Recursively proceeds through files in a directory and its subdirectories.
  *
  * @param basePath - the base path of the directory to start from
@@ -581,9 +581,6 @@ void proceedFilesRecursivelly(char* basePath) {
         return;
     }
 
-    /* build_blog_page(); */
-    /* char* recent_projects = preview_recent_projects(); */
-
     while ((dp = readdir(dir)) != NULL) {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
             sprintf(path, "%s/%s", basePath, dp->d_name);
@@ -627,4 +624,60 @@ void proceedFilesRecursivelly(char* basePath) {
     }
 
     closedir(dir);
+}
+
+void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        perror("Error opening file");
+        return;
+    }
+
+    char line[256];
+    EntryMap currentEntry;
+    int entryIndex = 0;
+
+    while (fgets(line, sizeof(line), file) != NULL) {
+        // Check for the end of an entry
+        if (line[0] == '\n') {
+            /* Extract key from filename */
+            char* dot = strrchr(currentEntry.key, '.');
+            if (dot != NULL) {
+                size_t keyLength = dot - currentEntry.key;
+                currentEntry.key[keyLength] = '\0';
+            }
+
+            entryMap[entryIndex++] = currentEntry;
+            // Reset currentEntry for the next iteration
+            memset(&currentEntry, 0, sizeof(currentEntry));
+        } else {
+            // Parse each line of the entry
+            char key[256], value[256];
+            sscanf(line, "%s %255[^\n]", key, value);
+
+            if (strcmp(key, "path:") == 0)
+                strncpy(currentEntry.entry.path, value,
+                        sizeof(currentEntry.entry.path));
+            if (strcmp(key, "link:") == 0)
+                strncpy(currentEntry.entry.link, value,
+                        sizeof(currentEntry.entry.link));
+            else if (strcmp(key, "title:") == 0)
+                strncpy(currentEntry.entry.title, value,
+                        sizeof(currentEntry.entry.title));
+            else if (strcmp(key, "image:") == 0)
+                strncpy(currentEntry.entry.image, value,
+                        sizeof(currentEntry.entry.image));
+            else if (strcmp(key, "date:") == 0)
+                strncpy(currentEntry.entry.date, value,
+                        sizeof(currentEntry.entry.date));
+
+            // Save the key as well (filename)
+            if (strcmp(key, "filename:") == 0)
+                strncpy(currentEntry.key, value, sizeof(currentEntry.key));
+        }
+    }
+
+    *count = entryIndex;
+
+    fclose(file);
 }

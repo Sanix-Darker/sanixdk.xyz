@@ -7,10 +7,10 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    volumes:
-      - public/:/usr/share/nginx/html/
+    # volumes:
+    #   - public/:/usr/share/nginx/html/
     ports:
       - "3003:8080"
 
-volumes:
-  public:
+# volumes:
+#   public:

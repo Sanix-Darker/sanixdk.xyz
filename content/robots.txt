@@ -1,0 +1,39 @@
+
+# give me a sample of robots.txt for a better SEO please for my website in ./public dir
+User-agent: *
+Disallow:
+
+User-agent: Googlebot
+Disallow:
+
+Allow: /*.html$
+Disallow: # /admin/
+
+# Disallow specific directories
+# Disallow: /images/
+
+# Disallow specific file types
+# Disallow: /*.pdf$
+# Disallow: /*.csv$
+# Disallow: /*.doc$
+
+# Block specific pages
+# Disallow: /page1.html
+# Disallow: /page2.html
+
+# Block specific parameters
+Disallow: /*?sort=
+Disallow: /*?filter=
+
+# Block crawling of duplicate content
+Disallow: /duplicate-content/
+
+# Crawl-delay
+Crawl-delay: 5
+
+# Disable crawling of session IDs
+Disallow: /*;jsessionid=
+
+# Block access to specific IP addresses
+# Disallow: / private/
+# Disallow: /192.168.0.1/

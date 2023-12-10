@@ -5,7 +5,7 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wold-style-declaration -Wall -s main.c ./lib/* -o builder
+	gcc -Wall -s main.c ./lib/*.c -o builder
 
 # build: Build the webpage that is going to be serve
 # To concatenate header/footer components to all the pages
@@ -22,11 +22,16 @@ docker-build:
 
 ## docker-run: Docker run for the website
 docker-run: docker-build
-	docker run --volume ./public/:/usr/share/nginx/html/ -it sanixdk.xyz:latest -p 3003:8080
+	# --volume ./public/:/usr/share/nginx/html/
+	docker run -it sanixdk.xyz:latest -p 3003:8080
 
-## compose to build and deploy the website
-compose:
-	docker-compose up --build # --force-restart
+## up: To build and deploy the website
+up:
+	docker compose -f ./docker-compose.yml up --build
+
+## down: To get down the service
+down:
+	docker compose -f ./docker-compose.yml down
 
 all: help
 help: Makefile
