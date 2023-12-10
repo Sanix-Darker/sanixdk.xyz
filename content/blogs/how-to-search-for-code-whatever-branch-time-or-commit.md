@@ -2,7 +2,7 @@
 
 ## Git search for code whatever the branch, the time or the commit
 -----------
-`2022/04/16 12:03:10 AM` **#cli** **#terminal**
+`2023-10-02 04:03AM` **#cli** **#terminal**
 
 Git has a nice feature called `grep`, when you want to get a commit for an old code, and it's a kind of search, but not enough for me !
 I wrote a bash script to search for a "piece of code" inside a git project history whatever the branch and time.

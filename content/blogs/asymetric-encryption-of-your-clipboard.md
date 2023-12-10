@@ -2,7 +2,7 @@
 
 ## Asymetric RSA encryption/decryption of your clipboard
 -----------
-`2022/04/16 11:03:10 AM` • 4 min read • **#security** **#encryption** **#clipboard**
+`2023-12-13 11:03AM` • 4 min read • **#security** **#encryption** **#clipboard**
 
 Do you trust your clipboard enough to copy secret information like credentials, tokens, etc... into it ?
 
