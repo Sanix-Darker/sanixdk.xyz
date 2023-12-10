@@ -1,34 +1,34 @@
-path: asymetric-encryption-of-your-clipboard.md
+path: ./content/blogs/asymetric-encryption-of-your-clipboard.md
 link: /blogs/asymetric-encryption-of-your-clipboard
 title: Asymetric encryption of your clipboard.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/trll5o1vunz89h906al5.jpg
 date: 2023-12-13 11:03AM
 
-path: video-audio-conferencing-in-your-terminal.md
+path: ./content/blogs/video-audio-conferencing-in-your-terminal.md
 link: /blogs/video-audio-conferencing-in-your-terminal
 title: Video & Audio calls in a terminal.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ic32yegr54gnjvok9ezy.png
 date: 2023-12-10 10:03PM
 
-path: how-to-clone-sub-directory-from-a-served-git-repository.md
+path: ./content/blogs/how-to-clone-sub-directory-from-a-served-git-repository.md
 link: /blogs/how-to-clone-sub-directory-from-a-served-git-repository
 title: How to clone sub directories.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/epjs5yraqmidvxv1e7ih.jpg
 date: 2023-11-20 06:03AM
 
-path: unittest-any-codebase-with-comments.md
+path: ./content/blogs/unittest-any-codebase-with-comments.md
 link: /blogs/unittest-any-codebase-with-comments
 title: Unittest any codebase based on comments.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jldl9kw57wv3z0be076q.jpg
 date: 2023-11-16 11:03PM
 
-path: how-to-use-exclamations-marks-in-bash-like-a-pro.md
+path: ./content/blogs/how-to-use-exclamations-marks-in-bash-like-a-pro.md
 link: /blogs/how-to-use-exclamations-marks-in-bash-like-a-pro
 title: Use exclamations marks in bash command line like a pro.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gh260avy87m5rzw4yhrh.png
 date: 2023-11-08 10:03AM
 
-path: how-to-search-for-code-whatever-branch-time-or-commit.md
+path: ./content/blogs/how-to-search-for-code-whatever-branch-time-or-commit.md
 link: /blogs/how-to-search-for-code-whatever-branch-time-or-commit
 title: Search code whatever the branch, time/commit.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg
