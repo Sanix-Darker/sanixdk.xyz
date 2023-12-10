@@ -179,23 +179,43 @@ void addHeaderFooterToFile(const char* filename) {
     fclose(headerFileInReadMode);
     fputs(contentOfFile, fileInWriteMode);
 
-    FILE* commentFooterFileInReadMode =
-        fopen("./content/components/comment-footer.md", "r");
-    if (commentFooterFileInReadMode == NULL) {
-        perror("Error opening footer-comment file");
-        free(contentOfFile);
-        fclose(fileInWriteMode);
-        exit(1);
-    }
-    // we add comments-footer-component only if its from a blog-post file
+    // We add comments-footer-component only if its from a blog-post file
     if (strstr(filename, ".md") != NULL &&
         (strstr(filename, "blogs/") != NULL ||
          strstr(filename, "projects/") != NULL)) {
+        FILE* commentFooterFileInReadMode =
+            fopen("./content/components/comment-footer.md", "r");
+        if (commentFooterFileInReadMode == NULL) {
+            perror("Error opening footer-comment file");
+            free(contentOfFile);
+            fclose(fileInWriteMode);
+            exit(1);
+        }
+
         while (fgets(line, sizeof(line), commentFooterFileInReadMode) != NULL) {
             fputs(line, fileInWriteMode);
         }
+
+        fclose(commentFooterFileInReadMode);
     }
-    fclose(commentFooterFileInReadMode);
+
+    // we add search-script component to the blogs.md
+    if (strstr(filename, "blogs.md") != NULL) {
+        FILE* searchFileComponent =
+            fopen("./content/components/search-script.md", "r");
+        if (searchFileComponent == NULL) {
+            perror("Error opening search-script file");
+            free(contentOfFile);
+            fclose(fileInWriteMode);
+            exit(1);
+        }
+
+        while (fgets(line, sizeof(line), searchFileComponent) != NULL) {
+            fputs(line, fileInWriteMode);
+        }
+
+        fclose(searchFileComponent);
+    }
 
     // we write the footer component
     FILE* footerFileInReadMode = fopen("./content/components/footer.md", "r");
