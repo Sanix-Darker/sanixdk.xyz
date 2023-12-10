@@ -144,9 +144,9 @@ void writeMetadatasToHeader(FILE* file, Entry* eM) {
         "   <meta property=\"twitter:domain\" content=\"sanixdk.xyz\"> <meta "
         "name=\"twitter:title\" content=\"%s\">"
         "   <meta name=\"twitter:image\" content=\"%s\">\n</head>\n<body>\n"
-        "<div class=\"container\">\n[`home`](/) • [`blogs`](/blogs/) • "
-        "[`about`](/about)\n"
-        "----</div>\n</body>\n</html>\n";
+        "<div class=\"container\"><p><a href=\"/\"><code>home</code></a> •  <a "
+        "href=\"/blogs/\"><code>blogs</code></a> • <a href=\"/about\">"
+        "<code>about</code></a></p>\n\n----\n\n";
 
     char contentOfFile[4096];  // Adjust the buffer size as needed
 
@@ -226,7 +226,6 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
 
         // write metadatas to file while building it
         writeMetadatasToHeader(fileInWriteMode, &eM.entry);
-
         fputs(contentOfFile, fileInWriteMode);
 
         FILE* commentFooterFileInReadMode =
