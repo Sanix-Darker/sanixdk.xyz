@@ -7,6 +7,8 @@ writing about my discoveries in general and play with everything i have in mind.
 
 ## WORKING ON...
 
+- [prev] : an AI wrapper for code reviews (source code will be share soon).
+
 - [sanixdk.xyz](https://github.com/Sanix-Darker/sanixdk.xyz) : my personnal website.
 
 - [dotfiles](https://github.com/Sanix-Darker/dotfiles) : my dofiles/personal setup stack.
