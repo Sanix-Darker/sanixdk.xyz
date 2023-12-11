@@ -1,6 +1,12 @@
 # ABOUT ME
 
-## Experience
+## Dev Stack
+
+![stack](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0b073eb-d7c8-47b6-be88-17fc8b6b5c1b_1280x720.jpeg)
+
+To know more about my dev-stack, i encourage you to check this [article](https://dotfiles.substack.com/p/18-sanix-darker) written by a dev bloger on twitter [@adib_hanna](https://twitter.com/Adib_Hanna). (didn't had the time yet to write my own article about it... comming soon).
+
+## Experience (CV)
 
 #### Backend Engineer
 
@@ -17,16 +23,6 @@ As a Backend engineer and in the data team, am optimizing the data flow and work
 *   Some automatisations in the data flow process with clients.
 *   Some Deployment pipeline to ensure to never have bugs on production.
 
-###### Technologies used:
-
-*   CI/CD/Pipeline
-*   K6
-*   Bash
-*   Golang
-*   MongoDB
-*   SQL
-*   Docker
-
 #### DevSecOps
 
 [Meta-Nutrition](https://www.metnu.com/)
@@ -39,11 +35,6 @@ As DevSecOps, I am in charge of maintaining the servers where the frontEnd and t
 
 *   A lot of Bash scripts to automatize deployments stuffs with Docker.
 *   Some Deployment pipeline to ensure to never have bugs on production.
-
-###### Technologies used:
-
-*   Bashs
-*   Docker
 
 #### Backend Engineer
 
@@ -58,12 +49,6 @@ As backend engineer i was in charge to work on the whole architecture of all ser
 *   A NodeJs backend application that can generate meals from ingredients as input.
 *   A Python service for scrapping, and managing recipes all over web-sites.
 *   A Service to handle payments using Stripe SDK/API on the backend application.
-
-###### Technologies used:
-
-*   Python
-*   NodeJs
-*   MongoDB
 
 #### Lead Backend Developer
 
@@ -85,18 +70,6 @@ As a Lead, i have implemented some interesting applications too, such as:
 *   An OCR app that use ML(Machine-learning) to extract data of a person on his National ID.
 *   A Machine-Learning application that can learn by reading a blockchain, analyse it and estimate a potential FRAUD !
 
-###### Technologies used:
-
-*   Python
-*   Java
-*   C++
-*   MongoDB
-*   Rabbitmq
-*   Redis
-*   Celery
-*   ReactJs
-*   HTML/SASS
-
 #### Software Developer
 
 C-Point
@@ -111,15 +84,6 @@ I was working on two main applications, theese applications was for creating and
 
 *   A Front-End application to manage Ads, create and update, then publish it.
 *   A Microservice that was in charge of extract a correct text from a Handwriting.
-
-###### Technologies used:
-
-*   NodeJs
-*   PHP
-*   Yii2
-*   HTML/SASS
-*   Ruby On Rails
-*   AngularJs
 
 #### Intern + Full Stack Developer
 
@@ -136,10 +100,3 @@ One of my best creation when i was working at Afric's Apps was a web application
 *   Some web applications and static websites.
 *   A Mobile app with Ionic to manage funds.
 
-###### Technologies used:
-
-*   JavaScript
-*   Java
-*   HTML/CSS/SASS
-*   AngularJs
-*   IONIC
