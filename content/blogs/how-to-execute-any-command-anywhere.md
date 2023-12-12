@@ -2,7 +2,7 @@
 
 ## How to execute any command from anywhere to anywhere in your laptop !
 -----------
-`2023-12-12 02:03AM` **#bash** **#unix** **#terminal**
+`2023-12-14 02:03AM` **#bash** **#unix** **#terminal**
 
 Sometimes i got in situations where i want to execute a specific command or multiple commands inside a given directory without moving there as quickly as i can !
 This may sound obvious to just jump there, do the stuff and come back but as a lazy guy, i like doing that as quickly as possible and hit enter once !
