@@ -33,3 +33,9 @@ link: /blogs/how-to-search-for-code-whatever-branch-time-or-commit
 title: Search code whatever the branch, time/commit.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg
 date: 2023-10-02 04:03AM
+
+path: ./content/blogs/how-to-execute-any-command-anywhere.md
+link: /blogs/how-to-execute-any-command-anywhere
+title: How to execute any command from anywhere to anywhere in your laptop !
+image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg
+date: 2023-12-12 02:03AM
