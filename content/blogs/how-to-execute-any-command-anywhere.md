@@ -1,11 +1,3 @@
----
-title: How to execute any command from anywhere to anywhere in your laptop !
-published: true
-description: In this tip i will show you how simple it is to run a command to any directory in your local machine
-tags: bash, linux, unix, terminal
-cover_image:
----
-
 ![cover](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg)
 
 ## How to execute any command from anywhere to anywhere in your laptop !
@@ -29,3 +21,5 @@ So this is my tip:
 Then add it inside your `~/.bash_aliases` and you're good to go !
 
 You can copy the source code from [here](https://gist.github.com/Sanix-Darker/27a0cb536b9c2ec7f29f93c70b942785) !
+
+-----------

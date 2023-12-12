@@ -1,3 +1,5 @@
+[<< blogs](/blogs/)
+
 <script src="https://giscus.app/client.js"
         data-repo="sanix-darker/sanixdk.xyz"
         data-repo-id="R_kgDOJSF_ow"

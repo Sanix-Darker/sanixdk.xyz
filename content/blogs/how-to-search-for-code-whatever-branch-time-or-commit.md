@@ -114,4 +114,3 @@ main $1 $2
 Source code : [Gist-Code](https://gist.github.com/Sanix-Darker/e571c1fdc2d0a5ecdb9959fecaa3416a)
 
 -----------
-[<< blogs](/blogs/)

@@ -159,4 +159,3 @@ Testa is a free and open source project, this is some link !
 - The demo : [VIDEO-DEMO](https://www.loom.com/share/6d691436356a48ad9ac3ba768459f883)
 
 -----------
-[<< blogs](/blogs/)

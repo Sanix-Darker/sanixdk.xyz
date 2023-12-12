@@ -42,4 +42,3 @@ This is a pretty short list of the cool ones :
 With these 4 items, you can basically play/mix around with your bash history and get great stuffs like the one up there with a substitution string.
 
 -----------
-[<< blogs](/blogs/)

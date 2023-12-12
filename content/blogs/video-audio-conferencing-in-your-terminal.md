@@ -70,4 +70,3 @@ s2c is Open Source and free !
 PS : Any comments or constructive advice are welcome !
 
 -----------
-[<< blogs](/blogs/)
