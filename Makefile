@@ -7,8 +7,8 @@ SHELL := /bin/bash # Use bash syntax
 compile:
 	gcc -Wall -s main.c ./lib/*.c -o builder
 
-# build: Build the webpage that is going to be serve
 # To concatenate header/footer components to all the pages
+## build: Build the webpage that is going to be serve
 build: compile
 	./builder build
 
@@ -35,7 +35,7 @@ down:
 
 all: help
 help: Makefile
-	@echo " Choose a command: "
+	@echo " Choose a command..."
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 
 .PHONY: compile build serve help docker-build docker-run

@@ -5,28 +5,28 @@ Am a Backend engineer, an electronic geek and an Otaku Guru.
 I like everything related to tech in general and also hacking stuffs,
 writing about my discoveries in general and play with everything i have in mind.
 
-## WHAT I DO (apart from my daily job)
+---
 
-Currently working, maintaining :
+Currently working and maintaining :
 
 - [gitrows-api](https://github.com/Sanix-Darker/gitrowspack-api) : Transform a github repo into a NoSQL database as a service.
 
-- [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localisation.
+- [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localization(<5km).
 
 - [zzollo](https://github.com/Sanix-Darker/zzollo) : Search Engine for open-source projects on github/gitlab and bitbucket.
 
 - [ogramCloud](https://github.com/Sanix-Darker/ogramcloud) : An Infinite Storage system based on Telegram Servers.
 
-- [s2c](https://github.com/sanix-darker/s2c) : Secret video/audio chat in terminal (ASCII).
+- [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in terminal with PGP encryption.
 
 - [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
 
 
 Made some `PET` projects :
 
-- [Testa](https://github.com/Sanix-Darker/testa) : Test your code based on comments and prediction from input/output behaviours.
+- [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments assertions from your codebase by defining expected input/output.
 
-- [Ziim](https://github.com/Sanix-Darker/ziim) : TraceBack from your terminal to solution forums online with this CLI.
+- [Ziim](https://github.com/Sanix-Darker/ziim) : TraceBack from your terminal to solution on online forums online with this CLI.
 
 - [Solar](https://github.com/Sanix-Darker/solar) : Chrome Web Extension allowing you to run code online from more than 40 tools.
 
