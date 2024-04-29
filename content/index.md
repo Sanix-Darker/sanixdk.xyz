@@ -5,14 +5,46 @@ Am a Backend engineer, an electronic geek and an Otaku Guru.
 I like everything related to tech in general and also hacking stuffs,
 writing about my discoveries in general and play with everything i have in mind.
 
-## WORKING ON...
+## WHAT I DO (apart from my daily job)
 
-- [prev] : an AI wrapper for code reviews (source code will be share soon).
+Currently working, maintaining :
 
-- [sanixdk.xyz](https://github.com/Sanix-Darker/sanixdk.xyz) : my personnal website.
+- [gitrows-api](https://github.com/Sanix-Darker/gitrowspack-api) : Transform a github repo into a NoSQL database as a service.
 
-- [dotfiles](https://github.com/Sanix-Darker/dotfiles) : my dofiles/personal setup stack.
+- [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localisation.
 
-- [s2c](https://github.com/sanix-darker/s2c) : a secret video chat in terminal.
+- [zzollo](https://github.com/Sanix-Darker/zzollo) : Search Engine for open-source projects on github/gitlab and bitbucket (client based).
 
-- [snips](https://github.com/Sanix-Darker/snips.nvim) : a nvim plugin to create code snippets.
+- [ogramCloud](https://github.com/Sanix-Darker/ogramcloud) : An Infinite Storage system based on Telegram Servers.
+
+- [s2c](https://github.com/sanix-darker/s2c) : Secret video/audio chat in terminal (ASCII).
+
+- [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
+
+
+and some `PET` projects :
+
+- [Testa](https://github.com/Sanix-Darker/testa) : Test your code based on comments and prediction from input/output behaviours.
+
+- [Ziim](https://github.com/Sanix-Darker/ziim) : TraceBack from your terminal to solution forums online with this CLI.
+
+- [Solar](https://github.com/Sanix-Darker/solar) : Chrome Web Extension allowing you to run code online from more than 40 tools.
+
+- [go-bind](https://github.com/Sanix-Darker/go_bind) : (golang -> python) bindings collection of tools for perfs.
+
+- [cicli](https://github.com/Sanix-Darker/cicli) : Follow github actions logs from your terminal.
+
+- [falla](https://github.com/Sanix-Darker/falla) : Search Engine CLI scraper on your terminal.
+
+- [.exe](https://github.com/Sanix-Darker/.exe) & [.exe-gh](https://github.com/Sanix-Darker/d-exe-action) & [.exe-ie](https://github.com/Sanix-Darker/d-exe-action-example) : Run Code from markdown code snippets with this service.
+
+- [FlashIt](https://github.com/Sanix-Darker/flashit) : Watch, follow and get notify when a price drop on any eCommerce webSite directly in your telegram.
+
+
+OpenSource Contributor on :
+
+- [fzf-vim](https://github.com/junegunn/fzf.vim) : fzf in vim.
+
+- [gh-dash](https://github.com/dlvhdr/gh-dash) : A TUI dashboard for PR and issues accross github linked to you.
+
+- [Sharuco](https://github.com/ln-dev7/sharuco) : OpenSource platform for sharing code & manage Forms (like google form) & links.
