@@ -13,7 +13,7 @@ Currently working, maintaining :
 
 - [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localisation.
 
-- [zzollo](https://github.com/Sanix-Darker/zzollo) : Search Engine for open-source projects on github/gitlab and bitbucket (client based).
+- [zzollo](https://github.com/Sanix-Darker/zzollo) : Search Engine for open-source projects on github/gitlab and bitbucket.
 
 - [ogramCloud](https://github.com/Sanix-Darker/ogramcloud) : An Infinite Storage system based on Telegram Servers.
 
@@ -22,7 +22,7 @@ Currently working, maintaining :
 - [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
 
 
-and some `PET` projects :
+Made some `PET` projects :
 
 - [Testa](https://github.com/Sanix-Darker/testa) : Test your code based on comments and prediction from input/output behaviours.
 
