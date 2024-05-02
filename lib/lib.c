@@ -128,13 +128,12 @@ void writeMetadatasToHeader(FILE* file, Entry* eM) {
         "name=\"viewport\" />"
         "<meta content=\"#131516\" name=\"theme-color\" />"
         "<meta http-equiv=\"content-language\" content=\"en-us,fr\">"
-        "<link rel=\"stylesheet\" href=\"/style.css\"/>"
         "<link "
         "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
         "prism.min.css\" rel=\"stylesheet\"/>"
-        "<link "
-        "href=\"https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/"
-        "prism-atom-dark.css\" rel=\"stylesheet\"/>"
+        "<link rel=\"stylesheet\" "
+        "href=\"https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/"
+        "content/style.min.css\"/>"
         "<title>sanix | %s</title> "
         "<meta property=\"og:url\" content=\"https://sanixdk.xyz%s\"> "
         "<meta property=\"og:type\" content=\"website\">"
@@ -227,7 +226,6 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
         // get metadatas for the file
         EntryMap eM = getMetadataForFilePath(entryMap, filename, count);
 
-        // write metadatas to file while building it
         writeMetadatasToHeader(fileInWriteMode, &eM.entry);
         fputs(contentOfFile, fileInWriteMode);
 
@@ -302,7 +300,7 @@ void createStyleFileAndCopyFavicon() {
     // I don't care, will change the loggic when i will be happy
     int status = system(
         "mkdir -p public public/blogs public/projects public/components && "
-        "cp ./content/style.css ./content/favicon.ico ./content/robots.txt "
+        "cp ./content/favicon.ico ./content/robots.txt "
         "./public/");
     if (status != 0) {
         perror("Error setting resources files (style, ico,...) ");
