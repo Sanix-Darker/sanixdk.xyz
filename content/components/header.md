@@ -7,13 +7,12 @@
         <meta content="initial-scale=1.0,width=device-width" name="viewport" />
         <meta content="#131516" name="theme-color" />
         <meta http-equiv="content-language" content="en-us,fr"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/style.min.css"/>
         <title>sanix blog</title>
-        <meta property="og:url" content="https://sanixdk.xyz/">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="dk's blog.">
-        <meta property="og:description" content="dk's blog.">
+        <meta property="og:url" content="https://sanixdk.xyz/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="dk's blog." />
+        <meta property="og:description" content="dk's blog." />
         <!-- <meta property="og:image" content="%s"> -->
         <!-- <meta name="twitter:card" content="%s"> -->
         <meta property="twitter:url" content="https://sanixdk.xyz/">
