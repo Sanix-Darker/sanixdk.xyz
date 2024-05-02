@@ -16,3 +16,4 @@
         crossorigin="anonymous"
         async>
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" ></script>
