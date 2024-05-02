@@ -5,7 +5,7 @@
 	src: url(https://lea.verou.me/logo.otf);
 	font-family: 'LeaVerou';
 }
-body { font-family: 'LeaVerou', monospace; }
+body { font-family: 'LeaVerou'; }
 p{ line-height: 1.7; }
 h1 {
     text-align: right;
