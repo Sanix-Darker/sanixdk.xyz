@@ -1,6 +1,5 @@
 [<< blogs](/blogs/)
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" ></script>
 <script src="https://giscus.app/client.js"
         data-repo="sanix-darker/sanixdk.xyz"
         data-repo-id="R_kgDOJSF_ow"
