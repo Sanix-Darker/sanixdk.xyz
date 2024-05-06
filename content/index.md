@@ -26,7 +26,7 @@ Made some `PET` projects :
 
 - [tidi](https://github.com/Sanix-Darker/tidi) : The 2kb smallest Chat preReact component (with it's backend).
 
-- [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments assertions from your codebase by defining expected input/output.
+- [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments on your codebase by defining expected input/output.
 
 - [Ziim](https://github.com/Sanix-Darker/ziim) : From an error traceBack on your terminal to solutions, no browser needed.
 
