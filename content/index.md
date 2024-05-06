@@ -9,13 +9,13 @@ writing about my discoveries in general and play with everything i have in mind.
 
 Currently working and maintaining :
 
-- [gitrows-api](https://github.com/Sanix-Darker/gitrowspack-api) : Transform a github repo into a NoSQL database as a service.
+- [gitrows-api](https://github.com/Sanix-Darker/gitrowspack-api) : Transform a github/gitlab repo into a NoSQL database as a service.
 
 - [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localization(<5km).
 
-- [zzollo](https://github.com/Sanix-Darker/zzollo) : Search Engine for open-source projects on github/gitlab and bitbucket.
+- [zzollo](https://github.com/Sanix-Darker/zzollo) : Web Search Engine for open-source projects on github/gitlab & bitbucket.
 
-- [ogramCloud](https://github.com/Sanix-Darker/ogramcloud) : An Infinite Storage system based on Telegram Servers.
+- [ogramCloud](https://github.com/Sanix-Darker/ogramcloud) : Infinite Storage system based on a bot and Telegram Servers.
 
 - [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in your terminal with encryption.
 
@@ -28,7 +28,7 @@ Made some `PET` projects :
 
 - [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments assertions from your codebase by defining expected input/output.
 
-- [Ziim](https://github.com/Sanix-Darker/ziim) : From an error traceBack on your terminal to solutions, no browser search needed.
+- [Ziim](https://github.com/Sanix-Darker/ziim) : From an error traceBack on your terminal to solutions, no browser needed.
 
 - [Solar](https://github.com/Sanix-Darker/solar) : Chrome Web Extension allowing you to run code online from more than 40 tools.
 
@@ -38,7 +38,7 @@ Made some `PET` projects :
 
 - [.exe](https://github.com/Sanix-Darker/.exe) & [.exe-gh](https://github.com/Sanix-Darker/d-exe-action) & [.exe-ie](https://github.com/Sanix-Darker/d-exe-action-example) : Run Code from markdown code snippets with this service.
 
-- [FlashIt](https://github.com/Sanix-Darker/flashit) : Watch and get notify when a product's price drop on any eCommerce webSite.
+- [FlashIt](https://github.com/Sanix-Darker/flashit) : Watch and get notified when a product's price drop on any eCommerce webSite.
 
 
 OpenSource Contributor on :
