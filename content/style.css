@@ -1,11 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Questrial);
-@import url(https://fonts.googleapis.com/css?family=Arvo);
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-@font-face {
-	src: url(https://lea.verou.me/logo.otf);
-	font-family: 'LeaVerou';
-}
-body { font-family: 'LeaVerou'; }
+body { font-family: 'Roboto Condensed'; }
 p{ line-height: 1.7; }
 h1 {
     text-align: right;

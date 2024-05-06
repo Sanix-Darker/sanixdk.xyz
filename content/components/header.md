@@ -8,6 +8,7 @@
         <meta content="#131516" name="theme-color" />
         <meta http-equiv="content-language" content="en-us,fr"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/style.min.css"/>
+        <!-- <link rel="stylesheet" href="/content/style.css"/> -->
         <title>sanix blog</title>
         <meta property="og:url" content="https://sanixdk.xyz/" />
         <meta property="og:type" content="website" />
