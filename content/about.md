@@ -1,53 +1,65 @@
 # ABOUT ME
 
-## Dev Stack
+## DEV STACK
 
 ![stack](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd0b073eb-d7c8-47b6-be88-17fc8b6b5c1b_1280x720.jpeg)
 
 To know more about my dev-stack, i encourage you to check this [article](https://dotfiles.substack.com/p/18-sanix-darker) written by a dev bloger on twitter [@adib_hanna](https://twitter.com/Adib_Hanna). (didn't had the time yet to write my own article about it... comming soon).
 
-## Dev Experience
+## DEV EXPERIENCE
 
-#### -> Backend Engineer
 
-> [Toucan Toco](https://www.toucantoco.com/en/)
+#### -> BACKEND ENGINEER
 
-`Jul 2021 - Now`
+`Jul 2021 - Now` | at [Toucan Toco](https://www.toucantoco.com/en/)
 
 As a Backend engineer and in the data team, am optimizing the data flow and work on the data processing of all clients having externals data source on platforms and systems like Snowflake or MongoDB.
 
-#### -> Backend Engineer & DevSecOps
+*`Flask`*, *`FastApi`*, *`Docker`*, *`NestJs`*, *`Rust`*, *`K6`*
 
-> [Meta-Nutrition](https://www.metnu.com/)
+.
 
-`Dec 2020 - March 2021`
+#### -> BACKEND ENGINEER & DEVSECOPS
+
+`Dec 2020 - March 2021` | at [Meta-Nutrition](https://www.metnu.com/)
 
 As DevSecOps, I am in charge of maintaining the servers where the frontEnd and the backend are deployed, I am also in charge of the security of the whole architecture.
 
+*`Bash`*, *`kubernetes`*, *`Docker`*
+
 `Apr 2020 - Nov 2020`
 
-As backend engineer i was in charge to work on the whole architecture of all services and applications running behind the scenes, such as payments, requests, REST-API.
+As a backend engineer, my role was to optimize and maintain the main service that serve meals plans and compute Kcals formulas.
 
-#### -> Lead Backend Developer
+*`Django`*, *`NodeJS`*
 
-> [Variance Tech(Qognitiv)](https://qognitiv.io/)
+.
 
-`Nov 2018 - Mar 2020`
+#### -> LEAD BACKEND DEV
 
-As backend development team leader I was responsible for organizing teams and managing certain projects, creating architectures for microservices and their communications with clients-app.
+`Nov 2018 - Mar 2020` | at [Variance Tech(now Qognitiv)](https://qognitiv.io/)
 
-#### -> Software Developer
+As backend lead, responsible on developing the microservices architecture and managing the backend side.
+For the inovative bank app we were building ( involving facial recognition, ML, BlockChain, ... ).
 
-> C-Point
+*`Python`*, *`Redis`*, *`RabbitMQ`*, *`Celery`*
 
-`Oct 2017 - Sept 2018`
+.
 
-This was a remote Job, i was working from home with engineers based in California and around the world, every week we had a meeting to know how the work was going.
+#### -> SOFTWARE DEVELOPER
 
-#### -> Intern + Full Stack Developer
+`Oct 2017 - Sept 2018` | at **C-Point**
 
-> Worldevs / Afric's Apps
+First remote Job experience, working on a marketing digital media builder.
 
-`Nov 2016 - Oct 2017`
+*`Yii2`*, *`NodeJS`*, *`RoR (RubyOnRails)`*
 
-As a full stack developer i created some interesting mobile/web applications and i was the lead on some projects.
+.
+
+#### -> INTERN + FULL STACK DEVELOPER
+
+`Nov 2016 - Oct 2017` | at **Worldevs / Afric's Apps**
+
+As an intern and full stack developer i worked and maintained mobile/web apps for clients in B2B.
+
+*`JAVA`*, *`IONIC`*, *`AngularJS`*
