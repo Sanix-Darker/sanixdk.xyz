@@ -15,14 +15,14 @@ Currently working and maintaining :
 
 - [zzollo](https://github.com/Sanix-Darker/zzollo) : Web Search Engine for open-source projects on github/gitlab & bitbucket.
 
-- [ogramCloud](https://github.com/Sanix-Darker/ogramcloud) : Infinite Storage system based on a bot and Telegram Servers.
+- [oCloud](https://github.com/Sanix-Darker/ocloud) & [oBot](https://github.com/Sanix-Darker/obot) : Infinite Storage system throught a bot and Telegram Servers.
 
 - [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in your terminal with encryption.
 
 - [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
 
 
-Made some `PET` projects :
+Made some **`PET`** projects :
 
 - [tidi](https://github.com/Sanix-Darker/tidi) : The 2kb smallest Chat preReact component (with it's backend).
 
