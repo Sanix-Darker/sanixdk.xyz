@@ -1,5 +1,6 @@
 # BLOG POSTS <small id="blog-count" />
 
+### `2024-05-11` [How to create a TODO note CLI app with bash.](/blogs/how-to-create-a-todo-note-cli-with-just-bash)
 ### `2023-12-14` [Execute any command from anywhere to anywhere using bash command line.](/blogs/how-to-execute-any-command-anywhere)
 ### `2023-12-13` [Asymetric encryption of your clipboard using xclip.](/blogs/asymetric-encryption-of-your-clipboard)
 ### `2023-12-10` [Video & Audio calls in a terminal with `s2c` using ASCII art.](/blogs/video-audio-conferencing-in-your-terminal)
