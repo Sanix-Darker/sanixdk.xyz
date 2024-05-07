@@ -83,6 +83,4 @@ $ note topic # will seach for notes on this topic
 $ note # will list for you all notes taken globally
 ```
 
-The fzf and ag are search and filter layers here.
-
 -----------
