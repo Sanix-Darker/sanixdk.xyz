@@ -10,6 +10,8 @@ The most simple app that covers a lot in term of accessing memory, data and hand
 most programming language.
 
 
+![demo-gif](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/demo.gif)
+
 ## REQUIREMENTS
 
 - bash (>5 recommended) (should work on all their variants `sh`, `zsh`...).
