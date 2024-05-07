@@ -6,10 +6,9 @@
 `2024-05-11 12:23PM` **#fzf** **#bash** **#cli**
 
 A TODO app, the most 'basic' app we (as dev) always build, or found on Tutorials when we're trying
-to learn a new stack, programming language (after a 'hello world' ofc).
+ to learn a new stack or a new programming language (after a 'hello world' ofc).
 
-The most simple app that covers a lot in term of accessing memory, data and handling basics knowledges of
-most programming language.
+The most simple app that covers a lot in terms of dealing memory, manipulating basic data-structure and store data.
 
 ## REQUIREMENTS
 
@@ -79,9 +78,10 @@ note(){
 Example of Uses cases :
 
 ```bash
-$ note topic note to my self... # will add a new note for the topic
-$ note topic # will seach for notes on this topic
-$ note # will list for you all notes taken globally
+# the fist arg been the topic by default.
+$ note topic note to my self... # will add a new note for the <topic>
+$ note topic # will seach for notes on this <topic>
+$ note # will list for you all notes taken globally using fzf
 ```
 
 ![demo-gif](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/demo.gif)
