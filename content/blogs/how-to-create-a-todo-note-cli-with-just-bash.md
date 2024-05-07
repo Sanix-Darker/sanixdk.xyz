@@ -1,3 +1,5 @@
+![note-taking](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/preview.jpg)
+
 ## HOW TO CREATE A TODO NOTE CLI APP WITH BASH
 
 -----------
@@ -8,9 +10,6 @@ to learn a new stack, programming language (after a 'hello world' ofc).
 
 The most simple app that covers a lot in term of accessing memory, data and handling basics knowledges of
 most programming language.
-
-
-![demo-gif](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/demo.gif)
 
 ## REQUIREMENTS
 
@@ -84,5 +83,7 @@ $ note topic note to my self... # will add a new note for the topic
 $ note topic # will seach for notes on this topic
 $ note # will list for you all notes taken globally
 ```
+
+![demo-gif](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/demo.gif)
 
 -----------

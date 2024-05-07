@@ -1,7 +1,7 @@
 path: ./content/blogs/how-to-create-a-todo-note-cli-with-just-bash.md
 link: /blogs/how-to-create-a-todo-note-cli-with-just-bash
 title: How to create a TODO note CLI app with bash
-image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/preview.jpg
 date: 2024-05-11 12:23PM
 
 path: ./content/blogs/how-to-execute-any-command-anywhere.md
