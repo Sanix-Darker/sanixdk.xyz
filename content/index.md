@@ -24,6 +24,8 @@ Currently working and maintaining :
 
 Made some **`PET`** projects :
 
+- [toucanor](https://github.com/Sanix-Darker/toucanor) : A 2D terminal game right into your terminal.
+
 - [tidi](https://github.com/Sanix-Darker/tidi) : The 2kb smallest Chat preReact component (with it's backend).
 
 - [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments on your codebase by defining expected input/output.
