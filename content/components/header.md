@@ -7,8 +7,8 @@
         <meta content="initial-scale=1.0,width=device-width" name="viewport" />
         <meta content="#131516" name="theme-color" />
         <meta http-equiv="content-language" content="en-us,fr"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/style.min.css"/>
-        <!-- <link rel="stylesheet" href="/content/style.css"/> -->
+        <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+        <link rel="stylesheet" href="https://matcha.mizu.sh/styles/@syntax-highlighting/mod.css">
         <title>sanix blog</title>
         <meta property="og:url" content="https://sanixdk.xyz/" />
         <meta property="og:type" content="website" />
@@ -25,6 +25,7 @@
 <body>
 
 <div class="container">
+<hr/>
 
 [`home`](/) •  [`blogs`](/blogs/) <!-- lazy guy, will code this later, • [`projects`](/projects/) --> • [`about`](/about)
 
