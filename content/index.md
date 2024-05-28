@@ -9,17 +9,19 @@ writing about my discoveries in general and play with everything i have in mind.
 
 Currently working and maintaining :
 
+- [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
+
+- [dockdb.nvim](https://github.com/Sanix-Darker/dockdb.nvim) : Nvim plugin to bind the code editor with more than 7 DBs running with docker.
+
+- [zzollo](https://github.com/Sanix-Darker/zzollo) : Web Search Engine for open-source projects on github/gitlab & bitbucket.
+
 - [gitrows-api](https://github.com/Sanix-Darker/gitrowspack-api) : Transform a github/gitlab repo into a NoSQL database as a service.
 
 - [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localization(<5km).
 
-- [zzollo](https://github.com/Sanix-Darker/zzollo) : Web Search Engine for open-source projects on github/gitlab & bitbucket.
-
 - [oCloud](https://github.com/Sanix-Darker/ocloud) & [oBot](https://github.com/Sanix-Darker/obot) : Infinite Storage system throught a bot and Telegram Servers.
 
 - [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in your terminal with encryption.
-
-- [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
 
 
 Made some **`PET`** projects :
