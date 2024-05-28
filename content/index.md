@@ -9,9 +9,9 @@ writing about my discoveries in general and play with everything i have in mind.
 
 Currently working and maintaining :
 
-- [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets.
+- [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets and share links like pastebin.
 
-- [dockdb.nvim](https://github.com/Sanix-Darker/dockdb.nvim) : Nvim plugin to bind the code editor with more than 7 DBs running with docker.
+- [dockdb.nvim](https://github.com/Sanix-Darker/dockdb.nvim) : Nvim plugin to bind the code editor with more than 7 type of DBs running with docker(NoSQL/SQL/key-value).
 
 - [zzollo](https://github.com/Sanix-Darker/zzollo) : Web Search Engine for open-source projects on github/gitlab & bitbucket.
 
