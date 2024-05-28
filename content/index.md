@@ -47,8 +47,10 @@ Made some **`PET`** projects :
 
 OpenSource Contributor on :
 
-- [fzf-vim](https://github.com/junegunn/fzf.vim) : fzf in vim.
+- [bun](https://github.com/oven-sh/bun) : fast JavaScript runtime, bundler, test runner, and package manage.
 
-- [gh-dash](https://github.com/dlvhdr/gh-dash) : A TUI dashboard for PR and issues accross github linked to you.
+- [fzf-vim](https://github.com/junegunn/fzf.vim) : fzf in (N)vim.
+
+- [gh-dash](https://github.com/dlvhdr/gh-dash) : A TUI dashboard for PR and issues accross github.
 
 - [Sharuco](https://github.com/ln-dev7/sharuco) : OpenSource platform for sharing code & manage Forms (like google form) & links.
