@@ -150,9 +150,9 @@ void writeMetadatasToHeader(FILE* file, Entry* eM) {
         "<meta name='twitter:description' content='%s'>"
         "<meta name='twitter:image' content='%s'>"
         "</head><body>"
-        "<div class='container'><p><a href='/'><code>home</code></a> •  "
+        "<div class='container'><hr/><a href='/'><code>home</code></a> •  "
         "<a href='/blogs/'><code>blogs</code></a> • <a href='/about'>"
-        "<code>about</code></a></p>\n\n----\n\n";
+        "<code>about</code></a>\n\n----\n\n";
 
     char contentOfFile[4096];  // Adjust the buffer size as needed
 
