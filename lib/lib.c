@@ -120,44 +120,29 @@ void minifyDirfiles(const char* path) {
     closedir(directory);
 }
 void writeMetadatasToHeader(FILE* file, Entry* eM) {
-    const char* templateStart =
-        "<!DOCTYPE html>\n<html>\n<head>\n<meta charSet='utf-8' />"
-        "<link href='/favicon.ico' rel='icon' />"
-        "<link rel='canonical' href='https://sanixdk.xyz' />"
-        "<meta content='initial-scale=1.0,width=device-width' "
-        "name='viewport' />"
-        "<meta content='#131516' name='theme-color' />"
-        "<meta http-equiv='content-language' content='en-us,fr'>"
-        "<link "
-        "href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/"
-        "prism.min.css' rel='stylesheet'/>"
-        "<link "
-        "href='https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/"
-        "prism-atom-dark.css' rel='stylesheet'/>"
-        "<link rel='stylesheet' href='https://matcha.mizu.sh/matcha.css'>"
-        "<link rel='stylesheet' "
-        "href='https://matcha.mizu.sh/styles/@syntax-highlighting/mod.css'>"
-        "<title>sanix | %s</title> "
-        "<meta property='og:url' content='https://sanixdk.xyz%s'> "
-        "<meta property='og:type' content='website'>"
-        "<meta property='og:title' content='dk's blog.'>"
-        "<meta property='og:description' content='%s'>"
-        "<meta property='og:image' content='%s'>"
-        "<meta name='twitter:card' content='%s'>"
-        "<meta property='twitter:url' content='https://sanixdk.xyz%s'>"
-        "<meta property='twitter:domain' content='sanixdk.xyz'>"
-        "<meta name='twitter:title' content='dk's blog.'>"
-        "<meta name='twitter:description' content='%s'>"
-        "<meta name='twitter:image' content='%s'>"
-        "</head><body>"
-        "<div class='container'><hr/><a href='/'><code>home</code></a> •  "
-        "<a href='/blogs/'><code>blogs</code></a> • <a href='/about'>"
-        "<code>about</code></a>\n\n----\n\n";
+    FILE* templateFile = fopen("./content/components/blog-header.md", "r");
+
+    // Determine file size
+    fseek(templateFile, 0, SEEK_END);
+    long fileSize = ftell(templateFile);
+    fseek(templateFile, 0, SEEK_SET);
+
+    // Allocate memory for file content
+    char* templateContent = malloc(fileSize + 1);
+    if (templateContent == NULL) {
+        perror("Failed to allocate memory");
+        fclose(templateFile);
+    }
+
+    // Read file content
+    fread(templateContent, 1, fileSize, templateFile);
+    templateContent[fileSize] = '\0';  // Null-terminate the string
+    fclose(templateFile);
 
     char contentOfFile[4096];  // Adjust the buffer size as needed
 
     // Replace placeholders in the template with actual content
-    sprintf(contentOfFile, templateStart, eM->title, eM->link, eM->title,
+    sprintf(contentOfFile, templateContent, eM->title, eM->link, eM->title,
             eM->image, eM->image, eM->link, eM->title, eM->image);
 
     // Write the content to the file

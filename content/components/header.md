@@ -8,24 +8,19 @@
         <meta content="#131516" name="theme-color" />
         <meta http-equiv="content-language" content="en-us,fr"/>
         <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
-        <link rel="stylesheet" href="https://matcha.mizu.sh/styles/@syntax-highlighting/mod.css">
         <title>sanix blog</title>
         <meta property="og:url" content="https://sanixdk.xyz/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="dk's blog." />
         <meta property="og:description" content="dk's blog." />
-        <!-- <meta property="og:image" content="%s"> -->
-        <!-- <meta name="twitter:card" content="%s"> -->
         <meta property="twitter:url" content="https://sanixdk.xyz/">
         <meta property="twitter:domain" content="sanixdk.xyz">
         <meta name="twitter:title" content="dk's blog.">
-        <!-- <meta name="twitter:description" content="%s"> -->
-        <!-- <meta name="twitter:image" content="%s"> -->
     </head>
 <body>
 
 <div class="container">
-<hr/>
+    <br>
 
 [`home`](/) •  [`blogs`](/blogs/) <!-- lazy guy, will code this later, • [`projects`](/projects/) --> • [`about`](/about)
 
