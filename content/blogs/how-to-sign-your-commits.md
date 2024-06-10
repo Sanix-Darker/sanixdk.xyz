@@ -19,26 +19,21 @@ First, we will create a GPG key and add it to GitHub or GitLab.
 
     ```bash
     # Check if a GPG key already exists
-    GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
-    if [ -z "$GPG_KEY" ]; then
+    $ GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
+    $ if [ -z "$GPG_KEY" ]; then
         echo "No GPG key found. Generating a new GPG key..."
         # Generate a new GPG key
         gpg --full-generate-key
     fi
     ```
 
-    This command checks if a GPG key exists. If not, it generates a new GPG key.
-
 2. **Print the generated public key:**
 
     ```bash
     # Fetch the generated GPG key
-    GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
-    echo "Generated public key for $GPG_KEY:"
-    gpg --armor --export "$GPG_KEY"
+    $ GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
+    $ gpg --armor --export "$GPG_KEY"
     ```
-
-    This command prints the generated public key.
 
 3. **Follow the prompts to generate your GPG key:**
 
@@ -73,7 +68,7 @@ First, we will create a GPG key and add it to GitHub or GitLab.
 1. **Set your GPG key in Git:**
 
     ```bash
-    git config --global user.signingkey <YOUR_GPG_KEY_ID>
+    $ git config --global user.signingkey <YOUR_GPG_KEY_ID>
     ```
 
     Replace `<YOUR_GPG_KEY_ID>` with your GPG key ID. You can find this in the output of `gpg --list-secret-keys --keyid-format LONG`.
@@ -81,7 +76,7 @@ First, we will create a GPG key and add it to GitHub or GitLab.
 2. **Tell Git to sign all your commits by default:**
 
     ```bash
-    git config --global commit.gpgSign true
+    $ git config --global commit.gpgSign true
     ```
 
 3. **Optionally, sign individual commits:**
@@ -89,7 +84,7 @@ First, we will create a GPG key and add it to GitHub or GitLab.
     If you prefer to sign commits individually, use the `-S` flag:
 
     ```bash
-    git commit -S -m "bloops bloops bloops"
+    $ git commit -S -m "bloops bloops bloops"
     ```
 
 ##### Step 4: Verify Signed Commits on GitHub or GitLab
@@ -97,7 +92,7 @@ First, we will create a GPG key and add it to GitHub or GitLab.
 1. **Push your signed commits to GitHub or GitLab:**
 
     ```bash
-    git push origin main
+    $ git push origin master
     ```
 
 2. **Check the commits in the repository:**

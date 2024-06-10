@@ -39,7 +39,7 @@ func main() {}
 Compile the Go code into a shared library:
 
 ```bash
-go build -o libexample.so -buildmode=c-shared example.go
+$ go build -o libexample.so -buildmode=c-shared example.go
 ```
 
 This will produce two files: `libexample.so` (the shared library) and `libexample.h` (the header file).
@@ -49,7 +49,7 @@ This will produce two files: `libexample.so` (the shared library) and `libexampl
 Ensure that the PHP `FFI` extension is installed and enabled. You can install it via PECL if it’s not already available:
 
 ```bash
-pecl install ffi
+$ pecl install ffi
 ```
 
 Add the extension to your `php.ini`:
@@ -83,7 +83,7 @@ echo "The result is: " . $result . "\n";
 Run your PHP script:
 
 ```bash
-php use_go.php
+$ php use_go.php
 ```
 
 By following these steps, you can leverage Go’s performance advantages within a PHP codebase. This method is particularly useful for performance-critical sections of your application.
