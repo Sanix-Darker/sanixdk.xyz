@@ -1,3 +1,9 @@
+path: ./content/blogs/how-to-sign-your-commits.md
+link: /blogs/how-to-sign-your-commits
+title: HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-sign-your-commits/preview.jpg
+date: 2024-06-15 11:12AM
+
 path: ./content/blogs/build-go-code-and-use-in-php-codebase.md
 link: /blogs/build-go-code-and-use-in-php-codebase
 title: HOW TO BOOST YOUR PHP CODE WITH GOLANG
