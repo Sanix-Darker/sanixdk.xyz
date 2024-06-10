@@ -14,8 +14,9 @@
     <style>img{width: 100%;}pre{padding: 0px!important; border-radius: 7px;font-size: auto;box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);}</style>
     <meta property='og:url' content='https://sanixdk.xyz%s'>
     <meta property='og:type' content='website'>
-    <meta property='og:title' content='dk's blog.'>
-    <meta property='og:description' content='%s'>
+    <meta property='og:title' content='%s'>
+    <meta name='twitter:title' content='%s'>
+    <!-- <meta property='og:description' content=''> -->
     <meta property='og:image' content='%s'>
     <meta name='twitter:card' content='%s'>
     <meta property='twitter:url' content='https://sanixdk.xyz%s'>

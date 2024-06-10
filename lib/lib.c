@@ -211,7 +211,7 @@ void writeMetadatasToHeader(FILE* file, Entry* eM) {
 
     // Replace placeholders in the template with actual content
     sprintf(contentOfFile, templateContent, eM->title, eM->link, eM->title,
-            eM->image, eM->image, eM->link, eM->title, eM->image);
+            eM->title, eM->image, eM->image, eM->link, eM->title, eM->image);
 
     // Write the content to the file
     fputs(contentOfFile, file);
