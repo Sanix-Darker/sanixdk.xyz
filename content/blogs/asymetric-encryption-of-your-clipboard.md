@@ -1,6 +1,6 @@
 ![Video Conf](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/trll5o1vunz89h906al5.jpg)
 
-## Asymetric RSA encryption/decryption of your clipboard
+## ASYMETRIC RSA ENCRYPTION/DECRYPTION OF YOUR CLIPBOARD
 -----------
 `2023-12-13 11:03AM` • 4 min read • **#security** **#encryption** **#clipboard**
 

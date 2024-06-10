@@ -1,3 +1,9 @@
+path: ./content/blogs/build-go-code-and-use-in-php-codebase.md
+link: /blogs/build-go-code-and-use-in-php-codebase
+title: HOW TO BOOST YOUR PHP CODE WITH GOLANG
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/build-go-code-and-use-in-php-codebase/preview.jpg
+date: 2024-06-10 07:03AM
+
 path: ./content/blogs/how-to-create-a-todo-note-cli-with-just-bash.md
 link: /blogs/how-to-create-a-todo-note-cli-with-just-bash
 title: HOW TO CREATE A TODO NOTE CLI APP WITH BASH

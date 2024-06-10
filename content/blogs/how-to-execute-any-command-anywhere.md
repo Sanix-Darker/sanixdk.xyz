@@ -1,6 +1,6 @@
 ![cover](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg)
 
-## How to execute any command from anywhere to anywhere in your laptop !
+## HOW TO EXECUTE ANY COMMAND FROM ANYWHERE TO ANYWHERE IN YOUR LAPTOP !
 -----------
 `2023-12-14 02:03AM` **#bash** **#unix** **#terminal**
 

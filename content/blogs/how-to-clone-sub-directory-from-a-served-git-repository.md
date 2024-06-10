@@ -1,6 +1,6 @@
 ![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/epjs5yraqmidvxv1e7ih.jpg)
 
-## How to clone a sub directory of a git project (not a zip)
+## HOW TO CLONE A SUB DIRECTORY OF A GIT PROJECT (NOT A ZIP)
 -----------
 `2023-11-20 06:03AM` **#git** **#bash** **#github** **#gitlab**
 

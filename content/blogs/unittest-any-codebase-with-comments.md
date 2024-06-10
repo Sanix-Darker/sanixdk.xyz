@@ -1,6 +1,6 @@
 ![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jldl9kw57wv3z0be076q.jpg)
 
-## Test your entire project(Php, Js, Python, Ruby) with just comments.
+## TEST YOUR ENTIRE PROJECT(PHP, JS, PYTHON, RUBY) WITH JUST COMMENTS.
 -----------
 `2023-11-16 11:03PM` **#cli** **#test**
 

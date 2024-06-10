@@ -1,6 +1,6 @@
 ![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg)
 
-## Git search for code whatever the branch, the time or the commit
+## GIT SEARCH FOR CODE WHATEVER THE BRANCH, THE TIME OR THE COMMIT
 -----------
 `2023-10-02 04:03AM` **#cli** **#terminal**
 

@@ -1,6 +1,6 @@
 ![Example](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gh260avy87m5rzw4yhrh.png)
 
-## Bash and exclamation marks !!!!
+## BASH AND EXCLAMATION MARKS !!!!
 ----------------
 `2023-11-08 10:03AM` **#bash** **#cli** **#terminal**
 

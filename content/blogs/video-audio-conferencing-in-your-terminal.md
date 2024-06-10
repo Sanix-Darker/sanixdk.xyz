@@ -1,6 +1,6 @@
 ![Video-Conf](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ic32yegr54gnjvok9ezy.png)
 
-## Video and Audio Conferencing in your terminal
+## VIDEO AND AUDIO CONFERENCING IN YOUR TERMINAL
 -----------
 `2023-12-10 10:03PM` **#cli** **#terminal**
 
