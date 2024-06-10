@@ -9,6 +9,10 @@ int main(int argc, char** argv) {
     }
 
     if (strcmp(argv[1], BUILD_ARG) == 0) {
+        // Build the blog list as
+        writeMetadatasToBlogList("./content/metadatas.txt",
+                                 "./content/blogs.md");
+
         // build headers/footers for all contents
         buildComponentsIntoMarkdownsFiles("./content");
         buildComponentsIntoMarkdownsFiles("./content/blogs");
@@ -22,9 +26,6 @@ int main(int argc, char** argv) {
         // that in the future
         minifyDirfiles("./public/");
 
-        // Build the blog list as
-        writeMetadatasToBlogList("./content/metadatas.txt",
-                                 "./content/blogs.md");
         return EXIT_SUCCESS;
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
         // no plan to implement it so far because it's docker-compose based
