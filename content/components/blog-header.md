@@ -1,6 +1,6 @@
 <!-- Template for blog header -->
 <!DOCTYPE html>
-<html>
+<html data-color-scheme="dark">
 <head>
     <meta charSet='utf-8' />
     <link href='/favicon.ico' rel='icon' />

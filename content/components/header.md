@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-color-scheme="dark">
     <head>
         <meta charSet="utf-8" />
         <link href="/favicon.ico" rel="icon" />
@@ -9,6 +9,7 @@
         <meta http-equiv="content-language" content="en-us,fr"/>
         <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
         <title>sanix blog</title>
+        <style> article{margin: 0px} article img { width: 100%; max-height: 10em; object-fit: cover; }</style>
         <meta property="og:url" content="https://sanixdk.xyz/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="dk's blog." />

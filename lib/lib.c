@@ -119,6 +119,74 @@ void minifyDirfiles(const char* path) {
 
     closedir(directory);
 }
+
+void writeMetadatasToBlogList(const char* input_filename,
+                              const char* output_filename) {
+    FILE* input_file = fopen(input_filename, "r");
+    FILE* output_file = fopen(output_filename, "w");
+
+    if (!input_file || !output_file) {
+        perror("File opening failed");
+        return;
+    }
+
+    Entry metadata;
+    char line[1024];
+
+    // Write the beginning of the HTML document
+    fprintf(output_file,
+            "<h1> BLOG POSTS <small id='blog-count' /></h1> <hr/>");
+
+    while (fgets(line, sizeof(line), input_file)) {
+        // Read path
+        if (sscanf(line, "path: %[^\n]", metadata.path) != 1) continue;
+        fgets(line, sizeof(line), input_file);
+
+        // Read link
+        sscanf(line, "link: %[^\n]", metadata.link);
+        fgets(line, sizeof(line), input_file);
+
+        // Read title
+        sscanf(line, "title: %[^\n]", metadata.title);
+        fgets(line, sizeof(line), input_file);
+
+        // Read image
+        sscanf(line, "image: %[^\n]", metadata.image);
+        fgets(line, sizeof(line), input_file);
+
+        // Read date
+        sscanf(line, "date: %[^\n]", metadata.date);
+
+        // Write the HTML <article> section for this metadata
+        fprintf(output_file, "<article>\n");
+        fprintf(output_file, "  <header>\n");
+        fprintf(output_file, "    <a href=\"%s\">\n", metadata.link);
+        fprintf(output_file, "      <h3>\n");
+        fprintf(output_file, "        <img src=\"%s\" alt>\n", metadata.image);
+        fprintf(output_file, "        %s\n", metadata.title);
+        fprintf(output_file, "      </h3>\n");
+        fprintf(output_file, "    </a>\n");
+        fprintf(output_file, "  </header>\n");
+        // FIXME: later on, replace this with short description shrinked
+        // fprintf(output_file, "  <p>\n");
+        /* fprintf(output_file, */
+        /*         "    Lorem ipsum dolor sit amet, qui minim labore adipisicing
+         * " */
+        /*         "minim sint cillum sint consectetur cupidatat...\n"); */
+        fprintf(output_file, "    <br/>\n");
+        fprintf(output_file, "    <br/>\n");
+        fprintf(output_file, "    <code>%s</code>\n", metadata.date);
+        // fprintf(output_file, "  </p>\n");
+        fprintf(output_file, "</article><br/>");
+    }
+
+    // Write the end of the HTML document
+    // fprintf(output_file, "</body>\n</html>");
+
+    fclose(input_file);
+    fclose(output_file);
+}
+
 void writeMetadatasToHeader(FILE* file, Entry* eM) {
     FILE* templateFile = fopen("./content/components/blog-header.md", "r");
 

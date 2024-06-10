@@ -9,44 +9,44 @@ To know more about my dev-stack, i encourage you to check this [article](https:/
 ## DEV EXPERIENCE
 
 
-#### -> BACKEND ENGINEER
+### -> BACKEND ENGINEER
 
 `Jul 2021 - Now` | at [Toucan Toco](https://www.toucantoco.com/en/)
 
-As a Backend engineer and in the data team, am optimizing the data flow and work on the data processing of all clients having externals data source on platforms and systems like Snowflake or MongoDB.
+As a Backend engineer, am responsible to optimize all services around the data flow and processing of B2B clients, from the extraction to the guide-analytic decision making.
 
-*`Flask`*, *`FastApi`*, *`Docker`*, *`NestJs`*, *`Rust`*, *`K6`*
+*`Python`*, *`FastApi`*, *`Docker`*, *`NestJs`*, *`Rust`*, *`K6`*
 
 .
 
-#### -> BACKEND ENGINEER & DEVSECOPS
+### -> BACKEND ENGINEER & DEVSECOPS
 
 `Dec 2020 - March 2021` | at [Meta-Nutrition](https://www.metnu.com/)
 
-As DevSecOps, I am in charge of maintaining the servers where the frontEnd and the backend are deployed, I am also in charge of the security of the whole architecture.
+As a DevSecOps, I was in charge of maintaining the whole CI/CD deployment process and security audit on third-party tools used.
 
 *`Bash`*, *`kubernetes`*, *`Docker`*
 
 `Apr 2020 - Nov 2020`
 
-As a backend engineer, my role was to optimize and maintain the main service that serve meals plans and compute Kcals formulas.
+As a backend engineer, my role was to optimize and maintain the main service that serve meals plans and compute Kcals formulas based on alimentation habits.
 
 *`Django`*, *`NodeJS`*
 
 .
 
-#### -> LEAD BACKEND DEV
+### -> LEAD BACKEND DEV
 
 `Nov 2018 - Mar 2020` | at [Variance Tech(now Qognitiv)](https://qognitiv.io/)
 
-As backend lead, responsible on developing the microservices architecture and managing the backend side.
-For the inovative bank app we were building ( involving facial recognition, ML, BlockChain, ... ).
+As backend lead, i was responsible on designing and developing the microservices architecture.
+For the inovative bank app we were building an inteligent ecosystem around self-banking ( involving facial recognition, ML, BlockChain, ... ).
 
 *`Python`*, *`Redis`*, *`RabbitMQ`*, *`Celery`*
 
 .
 
-#### -> SOFTWARE DEVELOPER
+### -> SOFTWARE DEVELOPER
 
 `Oct 2017 - Sept 2018` | at **C-Point**
 
@@ -56,10 +56,11 @@ First remote Job experience, working on a marketing digital media builder.
 
 .
 
-#### -> INTERN + FULL STACK DEVELOPER
+### -> INTERN + FULL STACK DEVELOPER
 
 `Nov 2016 - Oct 2017` | at **Worldevs / Afric's Apps**
 
 As an intern and full stack developer i worked and maintained mobile/web apps for clients in B2B.
 
 *`JAVA`*, *`IONIC`*, *`AngularJS`*
+

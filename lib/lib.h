@@ -54,3 +54,6 @@ typedef struct {
     Entry entry;
 } EntryMap;
 void parse_txt(const char* filename, EntryMap entryMap[], int* count);
+
+void writeMetadatasToBlogList(const char* input_filename,
+                              const char* output_filename);
