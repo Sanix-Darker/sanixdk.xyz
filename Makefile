@@ -5,7 +5,7 @@ SHELL := /bin/bash # Use bash syntax
 
 ## compile: Compile the app builder itself
 compile:
-	gcc -Wall -s main.c ./lib/*.c -o builder
+	gcc -pipe -Wall -s main.c ./lib/*.c -o builder
 
 # To concatenate header/footer components to all the pages
 ## build: Build the webpage that is going to be serve
