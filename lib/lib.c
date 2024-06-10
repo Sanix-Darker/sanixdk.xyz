@@ -135,7 +135,7 @@ void writeMetadatasToBlogList(const char* input_filename,
 
     // Write the beginning of the HTML document
     fprintf(output_file,
-            "<h1> BLOG POSTS <small id='blog-count' /></h1> <hr/>");
+            "<h1> BLOG POSTS <small id='blog-count' /></h1> <br/>");
 
     while (fgets(line, sizeof(line), input_file)) {
         // Read path
