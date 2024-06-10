@@ -1,7 +1,6 @@
 ![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg)
 
 ## GIT SEARCH FOR CODE WHATEVER THE BRANCH, THE TIME OR THE COMMIT
------------
 `2023-10-02 04:03AM` **#cli** **#terminal**
 
 Git has a nice feature called `grep`, when you want to get a commit for an old code, and it's a kind of search, but not enough for me !

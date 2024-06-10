@@ -1,7 +1,6 @@
 ![note-taking](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/preview.jpg)
 
 ## HOW TO CREATE A TODO NOTE CLI APP WITH BASH
------------
 `2024-05-11 12:23PM` **#fzf** **#bash** **#cli**
 
 A TODO app, the most 'basic' app we (as dev) always build, or found on Tutorials when we're trying
