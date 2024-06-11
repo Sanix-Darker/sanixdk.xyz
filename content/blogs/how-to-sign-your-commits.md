@@ -1,7 +1,7 @@
 ![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-sign-your-commits/preview.jpg)
 
 ### HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
-`2024-06-15 11:12AM` • 5 min read • **#git** **#security** **#gpg**
+`2024-06-11 11:12AM` • 5 min read • **#git** **#security** **#gpg**
 
 This tutorial will guide you through creating a GPG key, adding it to your GitHub or GitLab account, and using it to sign your commits. Signing commits helps ensure the authenticity and integrity of your code by verifying that the commits were indeed made by you.
 
