@@ -31,28 +31,25 @@ First, we will create a GPG key and add it to GitHub or GitLab.
     ```bash
     # Check if a GPG key already exists
     $ GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
-    $ if [ -z "$GPG_KEY" ]; then
-        echo "No GPG key found. Generating a new GPG key..."
-        # Generate a new GPG key
-        gpg --full-generate-key
-    fi
+    # This will generate the key if ther is none available
+    $ [ -z "$GPG_KEY" ] && gpg --full-generate-key
     ```
-
-2. **Print the generated public key:**
-
-    ```bash
-    # Fetch the generated GPG key
-    $ GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
-    $ gpg --armor --export "$GPG_KEY"
-    ```
-
-3. **Follow the prompts to generate your GPG key:**
+     **FOLLOW THE PROMPTS TO GENERATE YOUR GPG KEY:**
 
     - Select the type of key you want (e.g., RSA and RSA).
     - Choose the key size (2048 or 4096 bits).
     - Set the expiration date for the key.
     - Provide your name and email address.
     - Set a passphrase for the key.
+
+2. **Print the generated public key:**
+
+    ```bash
+    # Fetch the generated GPG key
+    $ GPG_KEY=$(gpg --list-secret-keys --keyid-format LONG | awk '/^sec/ { getline; print $1 }')
+    # Export it in your terminal
+    $ gpg --armor --export "$GPG_KEY"
+    ```
 
 ##### Step 2: Add Your GPG Key to GitHub or GitLab
 
@@ -97,6 +94,14 @@ First, we will create a GPG key and add it to GitHub or GitLab.
     ```bash
     $ git commit -S -m "bloops bloops bloops"
     ```
+
+NOTE: There is a `commit -s` (in lower case this time), but this does not include or need cryptography, it will just added the `Signed-of-by` message at the end of the commit information automatically.
+Example :
+```
+fix(core): fixed bug in bissect module with an iterative solution.
+
+Signed-off-by: Sanix Darker <s4nixd@gmail.com>
+```
 
 ##### Step 4: Verify Signed Commits on GitHub or GitLab
 
