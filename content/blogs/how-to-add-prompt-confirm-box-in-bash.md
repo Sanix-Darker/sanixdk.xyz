@@ -1,11 +1,17 @@
 ![bash-confirm](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-prompt-confirm-box-in-bash/preview.jpg)
 
 ### HOW TO ADD PROMPT BOX CONFIRMATION IN BASH
-`2024-06-15 03:30PM` • 12 min read • **#cli** **#bash**
+`2024-06-15 03:30PM` • 12 min read • **#cli** **#bash** **#linux**
 
-Creating a prompt confirm feature in Bash is essential for scripts that require user confirmation before executing critical actions. This feature can help prevent accidental commands that might disrupt systems or cause data loss. In this tutorial, we'll build a `_confirm` function in Bash that prompts the user for confirmation and executes a command based on their response. We'll also explain each part of the function step by step and provide examples of how to use it.
+Yo, what's up ? It's me again, with a #uselesstech linux/bash tips for you.
 
-#### INTRODUCTION TO THE *my `_confirm`* FUNCTION
+Creating a prompt confirm feature in Bash(or shell scripting in general) is essential for scripts that require user confirmation before executing 'critical' actions.
+This feature can help prevent accidental commands that might disrupt systems or cause data loss (since most of them ar irreversible).
+In this tutorial, we'll build a `_confirm` function in Bash that prompts the user for confirmation and executes a command based on their response. We'll also explain each part of the function step by step and provide examples of how to use it.
+
+
+
+#### INTRODUCTION TO *my `_confirm`* FUNCTION
 
 The `_confirm` function is a method i made myself and i use it everytime when composing conditionals operations, it takes a message as input and, based on the user's response, executes a command. It also includes a non-interactive mode for automated scripts. Here is the complete `_confirm` function, followed by a detailed explanation of each part:
 
@@ -119,7 +125,7 @@ $ directory="/path/to/directory"
 $ _confirm "> Delete directory $directory?" rm -rf $directory
 ```
 
-In this example, the function prompts the user with the message "> Delete directory /path/to/directory?" If the user confirms, the script deletes the specified directory using `rm -rf`.
+In this example, the function prompts the user with the message `"> Delete directory /path/to/directory?"` If the user confirms, the script deletes the specified directory using `rm -rf`.
 
 #### DEMO
 
@@ -130,7 +136,10 @@ In this example, the function prompts the user with the message "> Delete direct
 The `_confirm` function in Bash is a versatile tool i made myself for adding confirmation prompts on scripts, that you can adapt for your needs.
 It handles both interactive and non-interactive modes, ensuring that user confirmation is sought only when needed. By following the step-by-step breakdown, you can customize and enhance this function to fit your specific requirements, adding a layer of safety to your Bash scripts.
 
-With this guide, you should now be able to implement a prompt confirm feature in your own Bash scripts, making them more robust and user-friendly. Happy scripting!
+With this guide, you should now be able to implement a prompt confirm feature in your own Bash scripts, making them more robust and user-friendly.
+
+Don't forget to leave a reaction or a comment if you have any question or suggestion.
+Thanks for reading and Happy scripting :)
 
 
 -----------
