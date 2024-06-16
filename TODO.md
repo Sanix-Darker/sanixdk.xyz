@@ -1,5 +1,6 @@
 ## TODO
 
+- [ ] Add a new field in metadatas.txt (so that i can make public or private a blog post i may be still writing...)
 - [ ] track visits on each blog page (need to implement/buy this... should not be hard)
 - [ ] setUp the CI/CD for:
     - [ ] publish the website when there is an update on the personnal website path.

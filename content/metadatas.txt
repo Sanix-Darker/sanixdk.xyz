@@ -1,3 +1,9 @@
+path: ./content/blogs/how-to-optimize-python-code-with-golang.md
+link: /blogs/how-to-optimize-python-code-with-golang
+title: HOW TO OPTIMIZE YOUR PYTHON CODE WITH GOLANG: A COMPREHENSIVE GUIDE
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-optimize-python-code-with-golang/preview.jpg
+date: 2024-06-20 08:12AM
+
 path: ./content/blogs/how-to-add-prompt-confirm-box-in-bash.md
 link: /blogs/how-to-add-prompt-confirm-box-in-bash
 title: HOW TO ADD PROMPT BOX CONFIRMATION IN BASH

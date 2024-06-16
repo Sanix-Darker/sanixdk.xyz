@@ -1,10 +1,10 @@
 ![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-sign-your-commits/preview.jpg)
 
-### HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
+## HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
 `2024-06-11 11:12AM` • 5 min read • **#git** **#security** **#gpg**
 
 
-#### WHY EVEN CARE ABOUT SIGNING ?
+### WHY EVEN CARE ABOUT SIGNING ?
 
 Just like in the real world, signing something adds an 'indelible' mark to it. In our case, you're probably wondering, what is this 'gus' talking about? Why should I care about signing what I commit? Well, I will refer you to this Pull Request I created a long time ago:
 [CHECK THIS](https://github.com/Sanix-Darker/sign-your-commits/pull/1)
@@ -16,15 +16,15 @@ You see, Git is a fantastic tool for versioning what you do... and the way it af
 
 So, this tutorial will guide you through creating a GPG key, adding it to your GitHub or GitLab account, and using it to sign your commits. Signing commits helps ensure the authenticity and integrity of your code by verifying that the commits were indeed made by you.
 
-#### WHAT IS A GPG KEY?
+### WHAT IS A GPG KEY?
 
 A GPG (GNU Privacy Guard) key is a cryptographic key used for securing communication and data. It is part of the GPG encryption tool, which provides cryptographic privacy and authentication through the use of public and private key pairs. In the context of Git, a GPG key allows you to sign your commits and tags, proving that they were made by you and have not been tampered with.
 
-#### CREATE YOUR GPG KEY
+### CREATE YOUR GPG KEY
 
 First, we will create a GPG key and add it to GitHub or GitLab.
 
-##### Step 1: Generate a GPG Key
+#### Step 1: Generate a GPG Key
 
 1. **Check if a GPG key already exists and generate one if it doesn't:**
 
@@ -51,7 +51,7 @@ First, we will create a GPG key and add it to GitHub or GitLab.
     $ gpg --armor --export "$GPG_KEY"
     ```
 
-##### Step 2: Add Your GPG Key to GitHub or GitLab
+#### Step 2: Add Your GPG Key to GitHub or GitLab
 
 1. **Copy your GPG key:**
 
@@ -69,9 +69,9 @@ First, we will create a GPG key and add it to GitHub or GitLab.
     - Click "Add new GPG key".
     - Paste your GPG key into the provided field and click "Add key".
 
-#### SIGNING YOUR COMMITS
+### SIGNING YOUR COMMITS
 
-##### Step 3: Configure Git to Sign Your Commits
+#### Step 3: Configure Git to Sign Your Commits
 
 1. **Set your GPG key in Git:**
 
@@ -103,7 +103,7 @@ fix(core): fixed bug in bissect module with an iterative solution.
 Signed-off-by: Sanix Darker <s4nixd@gmail.com>
 ```
 
-##### Step 4: Verify Signed Commits on GitHub or GitLab
+#### Step 4: Verify Signed Commits on GitHub or GitLab
 
 1. **Push your signed commits to GitHub or GitLab:**
 
