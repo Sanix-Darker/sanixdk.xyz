@@ -47,6 +47,10 @@ Made some **`PET`** projects :
 
 OpenSource Contributor on :
 
+- [firecrawl](https://github.com/mendableai/firecrawl) : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.
+
+- [oss-cammeroon](https://github.com/osscameroon) :  Open source projects driven by Cameroonian developers.
+
 - [bun](https://github.com/oven-sh/bun) : fast JavaScript runtime, bundler, test runner, and package manage.
 
 - [fzf-vim](https://github.com/junegunn/fzf.vim) : fzf in (N)vim.
