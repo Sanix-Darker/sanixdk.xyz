@@ -49,13 +49,24 @@ This will produce two files: `libexample.so` (the shared library) and `libexampl
 Ensure that the PHP `FFI` extension is installed and enabled. You can install it via PECL if it’s not already available:
 
 ```bash
+# install libffi if not available already
+# This command is for .DEB distro
+$ apt-get install libffi-dev -y
 $ pecl install ffi
+
+# On error, you may use a specific channel
 ```
 
-Add the extension to your `php.ini`:
+Add the extension to your `php.ini`, depending on the php version you installed (for example for php8.2 -> `/etc/php/8.2/apache2/php.ini`):
 
 ```ini
 extension=ffi.so
+```
+
+Then restart the apache2 service (if it's the webserver you're using).
+
+```bash
+$ sudo service apache2 restart
 ```
 
 ### USE THE SHARED LIBRARY IN PHP
