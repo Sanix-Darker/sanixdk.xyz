@@ -7,7 +7,7 @@ writing about my discoveries in general and play with everything i have in mind.
 
 ---
 
-Currently working and maintaining :
+### CURRENTLY WORKING AND MAINTAINING :
 
 - [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets and share links like pastebin.
 
@@ -24,31 +24,34 @@ Currently working and maintaining :
 - [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in your terminal with encryption.
 
 
-Made some **`PET`** projects :
+### MADE SOME **`PET`** PROJECTS :
 
-- GIT HOOKS :
-    - [gaga](https://github.com/Sanix-Darker/gaga) : Encrypt some of your versionned file.
-    - [ii](https://github.com/sanix-darker/ii) : Check if you have to run `xxx install` after a pull or checkout.
-    - [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
+#### GIT HOOKS :
 
-
-- CLI :
-    - [toucanor](https://github.com/Sanix-Darker/toucanor) : A 2D 'eat egg' game right into your terminal.
-    - [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments on your codebase by defining expected input/output.
-    - [Ziim](https://github.com/Sanix-Darker/ziim) : From an error traceBack on your terminal to solutions, no browser needed.
-    - [falla](https://github.com/Sanix-Darker/falla) : Search Engine CLI scraper on your terminal.
+- [gaga](https://github.com/Sanix-Darker/gaga) : Encrypt some of your versionned file.
+- [ii](https://github.com/sanix-darker/ii) : Check if you have to run `xxx install` after a pull or checkout.
+- [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
 
 
-- OTHERS (web, libs, builder...) :
-    - [dycow](https://github.com/Sanix-Darker/dycow) : Config file to backdoor as web server.
-    - [tidi](https://github.com/Sanix-Darker/tidi) : The 2kb smallest Chat preReact component (with it's backend).
-    - [Solar](https://github.com/Sanix-Darker/solar) : Chrome Web Extension allowing you to run code online from more than 40 tools.
-    - [go-bind](https://github.com/Sanix-Darker/go_bind) : (golang -> python) bindings collection of tools for perfs.
-    - [.exe](https://github.com/Sanix-Darker/.exe) & [.exe-gh](https://github.com/Sanix-Darker/d-exe-action) & [.exe-ie](https://github.com/Sanix-Darker/d-exe-action-example) : Run Code from markdown code snippets with this service.
-    - [FlashIt](https://github.com/Sanix-Darker/flashit) : Watch and get notified when a product's price drop on any eCommerce webSite.
+#### CLI :
+
+- [toucanor](https://github.com/Sanix-Darker/toucanor) : A 2D 'eat egg' game right into your terminal.
+- [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments on your codebase by defining expected input/output.
+- [Ziim](https://github.com/Sanix-Darker/ziim) : From an error traceBack on your terminal to solutions, no browser needed.
+- [falla](https://github.com/Sanix-Darker/falla) : Search Engine CLI scraper on your terminal.
 
 
-OpenSource Contributor on :
+#### OTHERS (web, libs, builder...) :
+
+- [dycow](https://github.com/Sanix-Darker/dycow) : Config file to backdoor as web server.
+- [tidi](https://github.com/Sanix-Darker/tidi) : The 2kb smallest Chat preReact component (with it's backend).
+- [Solar](https://github.com/Sanix-Darker/solar) : Chrome Web Extension allowing you to run code online from more than 40 tools.
+- [go-bind](https://github.com/Sanix-Darker/go_bind) : (golang -> python) bindings collection of tools for perfs.
+- [.exe](https://github.com/Sanix-Darker/.exe) & [.exe-gh](https://github.com/Sanix-Darker/d-exe-action) & [.exe-ie](https://github.com/Sanix-Darker/d-exe-action-example) : Run Code from markdown code snippets with this service.
+- [FlashIt](https://github.com/Sanix-Darker/flashit) : Watch and get notified when a product's price drop on any eCommerce webSite.
+
+
+### OPENSOURCE CONTRIBUTOR ON :
 
 - [firecrawl](https://github.com/mendableai/firecrawl) : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.
 
