@@ -1,5 +1,5 @@
 ## HOW TO HACK and SECURE YOUR TERMBIN content
-`2023-12-14 02:03AM` **#bash** **#unix** **#terminal**
+`2025-01-01 13:12AM` **#bash** **#unix** **#terminal**
 
 ### WHAT THE HECK IS TERMBIN ?
 
