@@ -38,4 +38,7 @@ help: Makefile
 	@echo " Choose a command..."
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 
+prod:
+	git restore ./content && git update && make compile && make build
+
 .PHONY: compile build serve help docker-build docker-run

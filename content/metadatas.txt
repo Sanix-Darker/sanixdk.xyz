@@ -1,5 +1,5 @@
 path: ./content/blogs/how-to-hack-and-secure-your-termbin-content.md
-link: /blogs/how-to-hack-and-secure-your-termbin-content
+link: /blogs/how-to-hack-and-secure-your-termbin-public
 title: HOW TO HACK AND SECURE YOUR TERMBIN CONTENT
 image: no
 date: 2025-01-01 13:12AM
