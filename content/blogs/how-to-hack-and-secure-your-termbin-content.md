@@ -4,9 +4,11 @@
 ### WHAT THE HECK IS TERMBIN ?
 
 **termbin.com** is a variation of **pastebin.com** but right on your terminal,
-it is a really great tool if you're a [`tty`](https://en.wikipedia.org/wiki/Tty_(Unix)) fan like me, and you want to share text content accross the internet, whether it's the standard output/err of commands to someone or programmatically to another service or anything else (as text),
+
+It is a really great tool if you're a [`tty`](https://en.wikipedia.org/wiki/Tty_(Unix)) fan like me, and you want to share text content accross the internet, whether it's the standard output/err of commands to someone or programmatically to another service or anything else (as text),
 
 All you need is to pipe the output to a netcat command line to achieve this, so `netcat` need to be installed.
+
 ```bash
 $ echo "hello WaZabi" | nc termbin.com 9999
 https://termbin.com/h9id
@@ -30,6 +32,7 @@ The lifespan of any data or content posted on the service is limited to one week
 #### FROM COMMAND LINE
 
 How can this tool be usefull from command line ? you may ask;
+
 Imagine, you have an error on compile-time of a C program,
 
 ```c
@@ -56,6 +59,7 @@ in.c:5:2: error: #error "Array index out of bounds!"
 The easiest way is to pipe the output of the command to the termbin :
 
 **BUT WAIT**, this is a command that will surelly fail, and if it fails, the pipe to termbin will not happens.
+
 We can "patch" that with `2>&1`, and here we're doing 2 things:
    - Redirects file descriptor 2 (stderr) to file descriptor 1 (stdout), combining them.
    - Ensures both standard output and error messages are piped into the next command (termbin).
@@ -86,10 +90,11 @@ The `tee` command reads from standard input and writes to standard output and fi
 
 ### WHAT IS MISSING (THE PROBLEM)
 
-Even though I found termbin really amazing... I think it's a lack of "security"... how ?
-These generated links are publis and do not require authentication nor authorization to access them... this means that anyone can randomly click on a termbin link and get someone's saved content;
+Even though I found termbin really amazing... I think it lack of "security"... how ?
 
-**FOR EDUCATIONAL PURPOSES ONLY** i will demonstrate you that by creating this small python program that can loop over a randomly selected link and if the content seems valid it is saved to a file :
+These generated links are publics and do not require authentication nor authorization to access them... this means that anyone can randomly click on a termbin link and get someone else saved content;
+
+**FOR EDUCATIONAL PURPOSES ONLY**, I will demonstrate you that by creating this small python program that can loop over a randomly selected link and if the content seems valid it is saved to a file :
 
 ```python
 import requests
@@ -160,8 +165,8 @@ Generated 991
 Time elapsed: 191.86978006362915 s
 ```
 
-The most scary part of this is how people can share extreme sensitive informations there,
-i can go further by adding a filtering on content fetched to try to extract each line containing 'password' or 'token'
+The most crazy scary part of this is how people can share extreme sensitive informations over there,
+i can go further by adding a filtering strategy on content fetched to try to extract each line containing 'password' or 'token'
 keyword... but that's not the purpose of this blog post.
 
 And from the website you can read this :
@@ -175,6 +180,7 @@ The service owner is not responsible for any wrongdoing, illegal activity, or an
 
 Use encryption of your content before sending to termbin,
 In my case i use `gpg` for all the content am publishing there,
+
 You can install `gnupg` depending on your OS with :
 
 ```bash
