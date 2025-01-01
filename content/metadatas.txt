@@ -1,3 +1,9 @@
+path: ./content/blogs/how-to-hack-and-secure-your-termbin-content.md
+link: /blogs/how-to-hack-and-secure-your-termbin-content
+title: HOW TO HACK AND SECURE YOUR TERMBIN CONTENT
+image: no
+date: 2025-01-01 13:12AM
+
 path: ./content/blogs/how-to-optimize-python-code-with-golang.md
 link: /blogs/how-to-optimize-python-code-with-golang
 title: HOW TO OPTIMIZE YOUR PYTHON CODE WITH GOLANG: A COMPREHENSIVE GUIDE

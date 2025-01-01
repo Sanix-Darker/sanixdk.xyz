@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   sanixdk.xyz:
     image: sanixdk.xyz:latest
