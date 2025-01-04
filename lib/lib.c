@@ -164,9 +164,6 @@ void writeMetadatasToBlogList(const char* input_filename,
         fprintf(output_file, "  <header>\n");
         fprintf(output_file, "    <a href=\"%s\">\n", metadata.link);
         fprintf(output_file, "      <h3>\n");
-        if (strlen(metadata.image) > 5) {
-            fprintf(output_file, "        <img src=\"%s\" alt>\n", metadata.image);
-        }
         fprintf(output_file, "        %s\n", metadata.title);
         fprintf(output_file, "      </h3>\n");
         fprintf(output_file, "    </a>\n");
