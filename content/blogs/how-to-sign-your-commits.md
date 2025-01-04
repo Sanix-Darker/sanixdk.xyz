@@ -3,7 +3,6 @@
 ## HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
 `2024-06-11 11:12AM` • 5 min read • **#git** **#security** **#gpg**
 
-
 ### WHY EVEN CARE ABOUT SIGNING ?
 
 Just like in the real world, signing something adds an 'indelible' mark to it. In our case, you're probably wondering, what is this 'gus' talking about? Why should I care about signing what I commit? Well, I will refer you to this Pull Request I created a long time ago:

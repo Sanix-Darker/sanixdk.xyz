@@ -1,7 +1,7 @@
 ![Video-Conf](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ic32yegr54gnjvok9ezy.png)
 
 ## VIDEO AND AUDIO CONFERENCING IN YOUR TERMINAL
-`2023-12-10 10:03PM` **#cli** **#terminal**
+`2023-12-10 10:03PM` • 7 min read • **#cli** **#terminal**
 
 Yeah i know, what you guys are thinking "Why ?", "Why do you do that ?", well "just for fun ?" and a way to mastering "real-time parallelism", this is also my first POST ever made!
 
