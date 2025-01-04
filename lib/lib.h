@@ -48,6 +48,7 @@ typedef struct {
     char image[256];
     char date[20];
     char tags[150];
+    char time[25];
 } Entry;
 
 typedef struct {

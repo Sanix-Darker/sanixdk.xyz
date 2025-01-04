@@ -138,26 +138,25 @@ void writeMetadatasToBlogList(const char* input_filename,
             "<h1> BLOG POSTS <small id='blog-count' /></h1> <br/>");
 
     while (fgets(line, sizeof(line), input_file)) {
-        // Read path
         if (sscanf(line, "path: %[^\n]", metadata.path) != 1) continue;
         fgets(line, sizeof(line), input_file);
 
-        // Read link
         sscanf(line, "link: %[^\n]", metadata.link);
         fgets(line, sizeof(line), input_file);
 
-        // Read title
         sscanf(line, "title: %[^\n]", metadata.title);
         fgets(line, sizeof(line), input_file);
 
-        // Read image
         sscanf(line, "image: %[^\n]", metadata.image);
         fgets(line, sizeof(line), input_file);
 
-        // Read date
         sscanf(line, "date: %[^\n]", metadata.date);
+        fgets(line, sizeof(line), input_file);
 
         sscanf(line, "tags: %[^\n]", metadata.tags);
+        fgets(line, sizeof(line), input_file);
+
+        sscanf(line, "time: %[^\n]", metadata.time);
 
         // Write the HTML <article> section for this metadata
         fprintf(output_file, "<article>\n");
@@ -176,7 +175,9 @@ void writeMetadatasToBlogList(const char* input_filename,
         /*         "minim sint cillum sint consectetur cupidatat...\n"); */
         fprintf(output_file, "    <br/>\n");
         fprintf(output_file, "    <br/>\n");
-        fprintf(output_file, "    <code>%s | %s</code>\n", metadata.date, metadata.tags);
+        fprintf(output_file, "    <code style='width: fit-content'>%s read", metadata.time);
+        fprintf(output_file, " | %s ", metadata.tags);
+        fprintf(output_file, " | %s</code>\n", metadata.date);
         // fprintf(output_file, "  </p>\n");
         fprintf(output_file, "</article><br/>");
     }

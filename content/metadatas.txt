@@ -4,6 +4,7 @@ title: HOW TO HACK AND SECURE YOUR TERMBIN CONTENT
 image: no
 date: 2025-01-01 13:12AM
 tags: #bash #unix #terminal
+time: 12 min
 
 path: ./content/blogs/how-to-optimize-python-code-with-golang.md
 link: /blogs/how-to-optimize-python-code-with-golang
@@ -11,6 +12,7 @@ title: HOW TO OPTIMIZE YOUR PYTHON CODE WITH GOLANG: A COMPREHENSIVE GUIDE
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-optimize-python-code-with-golang/preview.jpg
 date: 2024-06-20 08:12AM
 tags: #go #python #perf #speed
+time: 15 min
 
 path: ./content/blogs/how-to-add-prompt-confirm-box-in-bash.md
 link: /blogs/how-to-add-prompt-confirm-box-in-bash
@@ -18,6 +20,7 @@ title: HOW TO ADD PROMPT BOX CONFIRMATION IN BASH
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-prompt-confirm-box-in-bash/preview.jpg
 date: 2024-06-15 15:30PM
 tags: #cli #bash #linux
+time: 11 min
 
 path: ./content/blogs/how-to-sign-your-commits.md
 link: /blogs/how-to-sign-your-commits
@@ -25,6 +28,7 @@ title: HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-sign-your-commits/preview.jpg
 date: 2024-06-11 11:12AM
 tags: #git #security #gpg #cli
+time: 5 min
 
 path: ./content/blogs/build-go-code-and-use-in-php-codebase.md
 link: /blogs/build-go-code-and-use-in-php-codebase
@@ -32,6 +36,7 @@ title: HOW TO BOOST YOUR PHP CODE WITH GOLANG
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/build-go-code-and-use-in-php-codebase/preview.jpg
 date: 2024-06-10 07:03AM
 tags: #php #go #perf #php
+time: 7 min
 
 path: ./content/blogs/how-to-create-a-todo-note-cli-with-just-bash.md
 link: /blogs/how-to-create-a-todo-note-cli-with-just-bash
@@ -39,6 +44,7 @@ title: HOW TO CREATE A TODO NOTE CLI APP WITH BASH
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-create-a-todo-note-cli-with-just-bash/preview.jpg
 date: 2024-05-11 12:23PM
 tags: #fzf #bash #cli
+time: 5 min
 
 path: ./content/blogs/how-to-execute-any-command-anywhere.md
 link: /blogs/how-to-execute-any-command-anywhere
@@ -46,6 +52,7 @@ title: HOW TO EXECUTE ANY COMMAND FROM ANYWHERE TO ANYWHERE IN YOUR LAPTOP !
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg
 date: 2023-12-14 02:03AM
 tags: #bash #unix #terminal
+time: 1 min
 
 path: ./content/blogs/asymetric-encryption-of-your-clipboard.md
 link: /blogs/asymetric-encryption-of-your-clipboard
@@ -53,6 +60,7 @@ title: ASYMETRIC ENCRYPTION OF YOUR CLIPBOARD.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/trll5o1vunz89h906al5.jpg
 date: 2023-12-13 11:03AM
 tags: #security #encryption #clipboard
+time: 4 min
 
 path: ./content/blogs/video-audio-conferencing-in-your-terminal.md
 link: /blogs/video-audio-conferencing-in-your-terminal
@@ -60,6 +68,7 @@ title: VIDEO & AUDIO CALLS IN A TERMINAL.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ic32yegr54gnjvok9ezy.png
 date: 2023-12-10 10:03PM
 tags: #cli #terminal
+time: 7 min
 
 path: ./content/blogs/how-to-clone-sub-directory-from-a-served-git-repository.md
 link: /blogs/how-to-clone-sub-directory-from-a-served-git-repository
@@ -67,6 +76,7 @@ title: HOW TO CLONE SUB DIRECTORIES.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/epjs5yraqmidvxv1e7ih.jpg
 date: 2023-11-20 06:03AM
 tags: #git #bash #github #gitlab
+time: 3 min
 
 path: ./content/blogs/unittest-any-codebase-with-comments.md
 link: /blogs/unittest-any-codebase-with-comments
@@ -74,6 +84,7 @@ title: UNITTEST ANY CODEBASE BASED ON COMMENTS.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jldl9kw57wv3z0be076q.jpg
 date: 2023-11-16 11:03PM
 tags: #git #bash #github #gitlab
+time: 9 min
 
 path: ./content/blogs/how-to-use-exclamations-marks-in-bash-like-a-pro.md
 link: /blogs/how-to-use-exclamations-marks-in-bash-like-a-pro
@@ -81,6 +92,7 @@ title: USE EXCLAMATIONS MARKS IN BASH COMMAND LINE LIKE A PRO.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gh260avy87m5rzw4yhrh.png
 date: 2023-11-08 10:03AM
 tags: #bash #cli #terminal
+time: 3 min
 
 path: ./content/blogs/how-to-search-for-code-whatever-branch-time-or-commit.md
 link: /blogs/how-to-search-for-code-whatever-branch-time-or-commit
@@ -88,3 +100,4 @@ title: SEARCH CODE WHATEVER THE BRANCH, TIME/COMMIT.
 image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg
 date: 2023-10-02 04:03AM
 tags: #cli #terminal
+time: 3 min

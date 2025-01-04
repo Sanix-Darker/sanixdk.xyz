@@ -11,6 +11,7 @@ compile:
 ## build: Build the webpage that is going to be serve
 build: compile
 	./builder build
+	git restore ./content/
 
 ## serve: Serve the app (Not implemented/nor ready yet)
 serve:
