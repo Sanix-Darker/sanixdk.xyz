@@ -157,6 +157,8 @@ void writeMetadatasToBlogList(const char* input_filename,
         // Read date
         sscanf(line, "date: %[^\n]", metadata.date);
 
+        sscanf(line, "tags: %[^\n]", metadata.tags);
+
         // Write the HTML <article> section for this metadata
         fprintf(output_file, "<article>\n");
         fprintf(output_file, "  <header>\n");
@@ -177,7 +179,7 @@ void writeMetadatasToBlogList(const char* input_filename,
         /*         "minim sint cillum sint consectetur cupidatat...\n"); */
         fprintf(output_file, "    <br/>\n");
         fprintf(output_file, "    <br/>\n");
-        fprintf(output_file, "    <code>%s</code>\n", metadata.date);
+        fprintf(output_file, "    <code>%s | %s</code>\n", metadata.date, metadata.tags);
         // fprintf(output_file, "  </p>\n");
         fprintf(output_file, "</article><br/>");
     }

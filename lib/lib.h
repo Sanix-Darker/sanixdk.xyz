@@ -47,6 +47,7 @@ typedef struct {
     char title[256];
     char image[256];
     char date[20];
+    char tags[150];
 } Entry;
 
 typedef struct {
