@@ -9,7 +9,7 @@
         <meta http-equiv="content-language" content="en-us,fr"/>
         <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.lite.css">
         <title>sanix blog</title>
-        <style>p, li{font-size: 15px} article{margin: 0px} article img { width: 100%; max-height: 10em; object-fit: cover; }</style>
+        <style>p, li{font-size: 17px} article{margin: 0px} article img { width: 100%; max-height: 10em; object-fit: cover; }</style>
         <meta property="og:url" content="https://sanixdk.xyz/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="sanixdk blog." />
