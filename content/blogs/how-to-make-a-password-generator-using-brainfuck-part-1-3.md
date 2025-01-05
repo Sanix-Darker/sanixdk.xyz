@@ -22,7 +22,7 @@ But hey, it's a fun language i discovered 4 years ago without given too much att
 It's a Turing-complete language, so it has loops, iterations, shifts, you can even make arithmetics operations with it (CRAZY RIGHT ???).
 
 This is an example of Brainfuck code :
-```brainfuck
+```txt
 >>+>>[<++>-]>+<<-
 ```
 
