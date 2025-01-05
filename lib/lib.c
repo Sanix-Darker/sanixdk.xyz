@@ -173,8 +173,6 @@ void writeMetadatasToBlogList(const char* input_filename,
         /*         "    Lorem ipsum dolor sit amet, qui minim labore adipisicing
          * " */
         /*         "minim sint cillum sint consectetur cupidatat...\n"); */
-        fprintf(output_file, "    <br/>\n");
-        fprintf(output_file, "    <br/>\n");
         fprintf(output_file, "    <code style='width: fit-content'>%s read", metadata.time);
         fprintf(output_file, " | %s ", metadata.tags);
         fprintf(output_file, " | %s</code>\n", metadata.date);
