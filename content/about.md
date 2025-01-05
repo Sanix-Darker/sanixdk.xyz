@@ -6,7 +6,7 @@
 
 To know more about my dev-stack, i encourage you to check this [article](https://dotfiles.substack.com/p/18-sanix-darker) written by a dev bloger on twitter [@adib_hanna](https://twitter.com/Adib_Hanna). (didn't had the time yet to write my own article about it... comming soon).
 
----
+-----------
 
 ## DEV EXPERIENCE
 
