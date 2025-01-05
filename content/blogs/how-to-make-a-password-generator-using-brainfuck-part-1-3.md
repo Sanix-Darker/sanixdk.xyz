@@ -275,7 +275,8 @@ int memory_shift_printer(const char *input) {
 }
 ```
 pretty simple right ?
-i added some comments where it can be confusing to get what's going on.
+
+I added some comments where it can be confusing to get what's going on.
 this is not complicated YET, for what's comming in future parts.
 
 
@@ -318,7 +319,8 @@ memory pointer
 
 ```
 
-NICE !!!
+***NICE !!!***
+
 We can see our memory blocks array, the memory pointer(cursor) on the last operation too.
 
 
@@ -347,7 +349,7 @@ And that is the input code for "Hello World!" message.
 
 Maybe some of you already found the flaws and ways to optimize the code (but it's the part of the game ;)).
 
-You can get the full first version of the source code here : https://gist.github.com/Sanix-Darker/e9e2438a2333b3e3589884b91b27ec60
+You can get the full first version of the source code [HERE](https://gist.github.com/Sanix-Darker/e9e2438a2333b3e3589884b91b27ec60)
 
 
 ## CONCLUSION | END OF PART 1
@@ -361,9 +363,9 @@ So keep in touch ;)
 
 ## RESOURCES USED
 
-- https://gist.github.com/roachhd/dce54bec8ba55fb17d3a (I HIGHTLY RECOMMEND)
-- https://www.codecademy.com/learn/linear-data-structures/modules/cspath-stacks/cheatsheet
-- https://en.wikipedia.org/wiki/Standard_streams
+- [https://gist.github.com/roachhd/dce54bec8ba55fb17d3a (I HIGHTLY RECOMMEND)](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a)
+- [https://www.codecademy.com/learn/linear-data-structures/modules/cspath-stacks/cheatsheet](https://www.codecademy.com/learn/linear-data-structures/modules/cspath-stacks/cheatsheet)
+- [https://en.wikipedia.org/wiki/Standard_streams](https://en.wikipedia.org/wiki/Standard_streams)
 
 
 -----------
