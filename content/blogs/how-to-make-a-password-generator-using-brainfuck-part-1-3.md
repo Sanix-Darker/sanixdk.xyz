@@ -15,7 +15,8 @@
 ### FUNKY INTRODUCTION
 
 For those who don't know BrainFuck, it's an esoteric programming language with only 8 commands (<>+-[],.) created by Urban Müller in 1993.
-Yeah, basically, a programming language invented to CAP in front of your dev friends/collegues (sorry for this bad joke).
+
+Yeah, basically, a programming language invented to FLEX in front of your dev friends/collegues (sorry for this bad joke).
 
 But hey, it's a fun language i discovered 4 years ago without given too much attention on it, and in the recent weeks i challenged my self to give it a "REAL TRY" (just to cap...).
 
