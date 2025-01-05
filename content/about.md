@@ -9,6 +9,17 @@ To know more about my dev-stack, i encourage you to check this [article](https:/
 ## DEV EXPERIENCE
 
 
+### -> SENIOR MEMBER OF TECHNICAL STAFF
+
+`Jul 2021 - Now` | at [Odaseva](https://www.odaseva.com/en/)
+
+As a Senior Member of Technical Staff at Odaseva, some of my roles are to maintain our systems, keep our clients data secure, and make sure all security requirements are met.
+
+
+*`Python`*, *`PHP`*, *`Docker`*, *`Golang`*, *`AWS`*
+
+.
+
 ### -> BACKEND ENGINEER
 
 `Jul 2021 - Now` | at [Toucan Toco](https://www.toucantoco.com/en/)

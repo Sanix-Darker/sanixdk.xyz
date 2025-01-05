@@ -357,6 +357,7 @@ You can get the full first version of the source code [HERE](https://gist.github
 ## CONCLUSION | END OF PART 1
 
 I hope you enjoyed this first part of a serie of 3 about the brainfuck password generator am building.
+
 In the Next step, we will do two main things :
 - Optimize the brainfuck VISUALIZER c code.
 - Write brainfuck code to get some input and actually generate stuffs.
