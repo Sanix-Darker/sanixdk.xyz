@@ -1,6 +1,6 @@
 path: ./content/blogs/how-to-add-website-analytics-using-only-nginx.md
 link: /blogs/how-to-add-website-analytics-using-only-nginx
-title: HOW TO ADD WEBSITE ANALYTICS USING ONLY NGINX
+title: HOW TO TRACK WEBSITE ANALYTICS USING ONLY NGINX AND PURE BASH
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/akii.png
 date: 2025-01-12 20:10
 tags: #bash #nginx #terminal

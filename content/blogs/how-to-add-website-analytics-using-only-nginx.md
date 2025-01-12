@@ -1,6 +1,6 @@
 ![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/akii.png)
 
-## HOW TO ADD WEBSITE ANALYTICS USING ONLY NGINX AND BASH
+## HOW TO TRACK WEBSITE ANALYTICS USING ONLY NGINX AND PURE BASH
 
 `2025-01-26 10:04` • 19 min read • **#bash** **#nginx** **#terminal**
 
