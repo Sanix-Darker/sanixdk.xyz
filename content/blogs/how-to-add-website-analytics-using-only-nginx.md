@@ -10,9 +10,11 @@
 
 Hi there, what's up ?
 
-Today, am going to share with you a small tip... using only `bash` and `nginx` to add views on a website,
+Today, am going to share with you a 'small' tip, using only `bash` and `nginx` to have google-analytics's like, tracking metrics service on your websites,
 
-You may be wondering... *"why even DOING THAT ?"*, you see, long time ago, i decided to make my personal website using only C, yup, the one you're looking right now, and i used a lot of existing "markdown -> html" C code pre-existing to add my own sauce.
+You may be wondering... *"WHY DOING THAT ?"*; you see, long time ago, i decided to make my personal website using only C.
+
+Yup, the one you're looking right now, and reading from; and i used a lot of existing "markdown -> html" C code to add my own sauce (it's a little messy but i like it).
 
 ![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/ccc.png)
 
@@ -21,9 +23,11 @@ You may be wondering... *"why even DOING THAT ?"*, you see, long time ago, i dec
 This was a really really really BAD idea....
 did i said "really" enough ?
 
-But hey, making mistakes makes you grow (Spoiler alert am still DUMB af, at this day).
+Why ? well... basically, most of my blogs are markdowns, to match the 'modern way of browsing the internet' i made a `lib.c` that rule the website build (am not going to go deeper on this article tho).
 
-So, the problem with building something html/markdown only is that you don't have JS involves... and tbh, that was the first point (not because i hate modern JS *heavy :wink: to my JS homies*);
+But hey, making mistakes makes you grow... right ?.... RIGHHHT ?
+
+Anyway, the problem with building something html/markdown only is that you don't have JS involves... and tbh, that was the first point (not because i hate modern JS *heavy :wink: to my JS homies*);
 
 Therefore, it was a 'NO GO on google analytics' for me...
 
@@ -39,7 +43,7 @@ Since i was just returning basic html, after a build of the website/blogs, no "s
 
 BUT, i was(still) using nginx for the requests handling part and i asked myself, if that service logs basically access-logs, why not use it to collect metrics directly ? (fair enough right ?).
 
-So, adding "analytics"" system based on Nginx typically involves configuring Nginx to basically just log requests(with enough infos), process those logs to count views, ips, timing and possibly visualize the data.
+So, adding an "analytics system" based on Nginx typically involves configuring Nginx to basically just log requests (with enough of verbose infos), process those logs to count views, ips, timing and possibly visualize the data.
 
 ---
 
@@ -58,7 +62,7 @@ $ vim /etc/nginx/nginx.conf
 
 then in the `http` section,
 
-```nginx
+```ini
 # Simple example for views
 http {
     log_format views '$remote_addr - $remote_user [$time_local] "$request" '
@@ -86,7 +90,8 @@ $ nginx -t
 
 Below is an example that captures much more in terms of tracking :
 
-```nginx
+```ini
+# Most verbose example with more infos than before
 http {
     log_format analytics '$remote_addr - $remote_user [$time_local] '
                         '"$request" $status $body_bytes_sent '
@@ -121,29 +126,35 @@ in our case, */var/log/nginx/access.log*, it will looks like :
 
 ```bash
 $ cat /var/log/nginx/access.log
+```
 
+```txt
 18.220.122.122 - - [12/Jan/2025:17:15:19 +0000] "GET / HTTP/1.1" 400 666 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/126.0.0.0 Safari/537.36" "147.182.205.116" "/"$
+
 54.36.148.9 - - [12/Jan/2025:17:16:15 +0000] "GET /robots.txt HTTP/1.1" 200 719 "-" "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)" "sanixdk.xyz" "/robots.txt"$
+
 51.222.253.18 - - [12/Jan/2025:17:16:16 +0000] "GET /blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3 HTTP/1.1" 200 7569 "-" "Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)" "sanixdk.xyz" "/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3"$
+
 124.44.90.81 - - [12/Jan/2025:17:22:41 +0000] "GET / HTTP/1.0" 404 162 "-" "curl/7.88.1" "147.182.205.116" "/"$
+
 95.214.55.226 - - [12/Jan/2025:17:26:19 +0000] "GET / HTTP/1.1" 404 162 "-" "-" "147.182.205.116" "/"$
 ```
 
-Those a a lot infos, as mentioned up there, that we're going to parse, and extract what's relevant for us.
+Now, we have those, let's read, parse, understand and exploit them.
 
 ---
 
 ### NOW, LET's DO SOME PROGRAMMING
 
 You know i like bash...
-I mean, i LOVE bash,
-WHY ?
+ I mean, i LOVE bash,
+ WHY ?
 
-Well, it's should be obvious by now, but, whatever linux distro you got into...
+Well, it should be obvious by now, but, whatever linux distro you got into... Or you just installed, it's already there, no need to install `gcc`, or `python` or anything...
 
-Or you just installed, it's already there, no need to install `gcc`, or `python` or anything... Because it's the shell btw, so we're going to use it.
+Because it's the shell btw, so we're going to use it.
 
-Let's break down each steps to the service collecting all the metrics we need.
+Let's break down each steps, from the source code to the service collecting all the metrics we need.
 
 ---
 
@@ -161,7 +172,7 @@ Each instruction is documented as much as possible, fill free to ask questions i
 LOG_FILE="/var/log/nginx/access.log"
 OUTPUT_FILE="/var/www/html/nginx-analytics.json"
 
-# Safety check: Ensure LOG_FILE exists
+# Just a Safety check: Ensure LOG_FILE exists
 if [[ ! -f "$LOG_FILE" ]]; then
   echo "Error: Nginx log file not found at $LOG_FILE"
   exit 1
@@ -174,7 +185,7 @@ fi
 visits_by_url=$(
   awk '{
     # $5 might be something like: "GET /index.html HTTP/1.1"
-    # So split on space.
+    # So we split on space.
     split($5, req_parts, " ")
     url=req_parts[2]
     if (url != "") {
@@ -203,7 +214,7 @@ top_ips=$(
   | head -n 5
 )
 
-# 3) Average request time ($request_time), assume it's field #10 in your custom log format
+# 3) Average request time ($request_time), assume it's field #10 in our log format
 avg_request_time=$(
   awk '{
     sum+=$10; count++
@@ -243,20 +254,22 @@ top_status_codes=$(
 )
 
 # ------------------------------------------------------------
-# Convert the above variables to JSON.
+# Now, the less painfull section,
+# Convert the above variables to a comprehensible JSON.
 # We'll do minimal parsing to produce valid JSON arrays/objects.
 # ------------------------------------------------------------
 
-# Helper function to convert "count value" lines into JSON array entries
+# 'lines_to_json_array' to convert "count value" lines into JSON array entries
 # e.g., "123 /home" -> { "value": "/home", "count": 123 }
 function lines_to_json_array() {
   local input="$1"
   local result="["
   local first=1
   while IFS= read -r line; do
-    # split line into "count" and "value"
+    # Here we just split line into "count" and "value"
     count=$(echo "$line" | awk '{print $1}')
     value=$(echo "$line" | awk '{print $2}')
+    # IMPORTANT NOTE:
     # If "value" has spaces, handle carefully. (In simplest cases, it won't.)
     # If you have more complex parsing, you'd do more robust splitting.
     if [ "$first" -eq 1 ]; then
@@ -270,16 +283,16 @@ function lines_to_json_array() {
   echo "$result"
 }
 
-# visits_by_url -> JSON array
+# visits_by_url -> JSON-array
 visits_by_url_json=$(lines_to_json_array "$visits_by_url")
 
-# top_ips -> JSON array
+# top_ips -> JSON-array
 top_ips_json=$(lines_to_json_array "$top_ips")
 
-# top_status_codes -> JSON array
+# top_status_codes -> JSON-array
 top_status_codes_json=$(lines_to_json_array "$top_status_codes")
 
-# Build final JSON object
+# ET VOILA, our json ready
 json_output=$(
   cat <<EOF
 {
@@ -298,7 +311,7 @@ echo "$json_output" > "$OUTPUT_FILE"
 # Or simply echo to stdout if you prefer:
 # echo "$json_output"
 
-exit 0
+exit 0 # you can should to exit with something else, your code, you choose :wink:
 ```
 
 Save the following to `/usr/local/bin/nginx-analytics.sh` (adjust paths as needed)
