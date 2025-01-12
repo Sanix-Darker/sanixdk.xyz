@@ -581,7 +581,7 @@ For my use case i made a small html index view to consume it that looks like thi
 
 The final result is not bad (with my weak level at front-end):
 
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/nginx-analyzer.png)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/metric.png)
 
 ---
 
