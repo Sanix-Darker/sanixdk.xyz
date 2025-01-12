@@ -1,4 +1,4 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/aki.jpg)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/akii.png)
 
 ## HOW TO ADD WEBSITE ANALYTICS USING ONLY NGINX AND BASH
 

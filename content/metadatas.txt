@@ -1,7 +1,7 @@
 path: ./content/blogs/how-to-add-website-analytics-using-only-nginx.md
 link: /blogs/how-to-add-website-analytics-using-only-nginx
 title: HOW TO ADD WEBSITE ANALYTICS USING ONLY NGINX
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/aki.jpg
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/akii.png
 date: 2025-01-12 20:10
 tags: #bash #nginx #terminal
 time: 19 min
