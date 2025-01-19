@@ -1,43 +1,47 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/fujigoru.png)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png)
 
 ## HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2/3)
-`2025-01-12 11:22` • 17 min read • **#bash** **#brainfuck** **#terminal** **#c**
-
+`2025-01-19 09:20PM` • 22 min read • **#bash** **#brainfuck** **#terminal** **#c**
 
 **NOTE:* Before reading this, make sure to check [The First Part](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3)*
 
-Last time we did nothing really interesting so far, just a buggy brainfuck visualizer, in this article we're going to try our best feel a little inteligent... you know ? together.
-
-### SPOILERS ALERT
+Last time we did nothing really interesting so far, just a buggy brainfuck visualizer in C, in this article we're going to try our best to be a little more inteligent... you know ? together.
 
 <gif generation matrix>
 
 ### OBJECTIVES
 
-- Explain some missing points from the First Part,
+- Explain some missing points from the First Part related to bf,
 - Fix our buggy bv (a.k.a brainfuck memory visualizer),
-- Explain why exactly we need a bv,
-- Add Interesting updates to our bv (a.k.a brainfuck memory visualizer),
 - Add the CHAOS (not like what Thanos did, but something a little bit similar in our context),
 - First overview of our PassWord Generator
 
-### MISSING POINTS
+### BRIEF RECAP
 
-I got some interesting feedbacks about points mentioned in the previous article, that am going to clarify here :
+I got some interesting feedbacks/questions about things mentioned/explained in the previous article, that am going to clarify here :
 
-- 1.) ARE YOU A HUMAN ?
+- > "Are you insane ?"
 
-    huh... yeah ? ( i mean... i hope so ? )
+    yes.
 
+_
+- > "Can you again explain in a single sentence what the hell is brain fuck ?"
 
-- 2.) WHY DOING THAT ?
+    Imagine you have an array, and `>`, `<` are what you use to move between each block,
+        `+`, `-` are what you use to increase/decrease the integer value of each block,
+        you have the bare minimum to start coding using brainFuck.
 
-    Taken from Part 1 :
+    So *`>>>++<-`* actually means:
 
-    > - For people asking "WHY THE HECK DO YOU WANT TO DO THAT ?"... well... because i can ?
+        - ">>>" move 3 times on the right,
+        - "++" increase 2 times the current block,
+        - "<" go on left one time,
+        - "-" decrease one time.
 
+    Now, you can then add `[`, `]` that represents loops, `,`, `.` for stdin/stdout.
 
-- 3.) I DON'T GET HOW THAT BF CODE BECAME "HELLO WORLD"
+_
+- > I don't get how that brain fuck code became, integers to "hello world".
 
     Just to recap, it's linked to the section, i was mentioning that this brain fuck code is inteprated as "Hello World"
 
@@ -48,14 +52,50 @@ I got some interesting feedbacks about points mentioned in the previous article,
     > Hello World!
     > ```
 
-    You see, when we reach a certain number in a memory block, the interprator try to call `putchar` that is responsible for printing the ASCII letter representing the actual number
+    You see, when we reach a certain number in a memory block, the interprator try to call [`putchar`](https://en.cppreference.com/w/c/io/putchar) that is responsible for printing the [ASCII](https://en.wikipedia.org/wiki/ASCII) letter representing the actual number in the alphabet.
 
     And you can test that by yourself by using this bash command for example :
-    ```
+    ```console
     $ echo $(printf \\$(printf '%03o' <valid-ascii-number>))
 
+    # So for example, 72 -> H
     $ echo $(printf \\$(printf '%03o' 72))
     H
     ```
 
+    This means, to print "Hey" with BrainFuck, we just have to (in bash) use 72 101 and 121, which each represents "H", "e" and "y":
+
+    ```console
+    $ echo $(printf \\$(printf '%03o' 72))$(printf \\$(printf '%03o' 101))$(printf \\$(printf '%03o' 121))
+    Hey
+    ```
+
+    or in C  :
+    ```c
+    #include <stdio.h>
+
+    int main() {
+        putchar(72);
+        putchar(101);
+        putchar(121);
+        putchar(10);
+        return 0;
+    }
+    ```
+
+    ```console
+    $ gcc ./hey.c -o ./hey && ./hey
+    Hey
+    ```
+
+    So, the brainfuck memory representing that word of three letter is just : `[ 72] [101] [ 10]`.
+
+    which is actually : `-[------->+<]>-.-[->+++++<]>++.[--->+<]>++.`
+
+    ```console
+    $ echo "-[------->+<]>-.-[->+++++<]>++.[--->+<]>++." | bf /dev/stdin
+    Hey
+    ```
+
+    And that's how the code below got transformed to "Hello World", maggic right ?
 -----------

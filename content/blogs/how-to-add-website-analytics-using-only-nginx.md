@@ -1,4 +1,4 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/akii.png)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginx/akii.png)
 
 ## HOW TO TRACK WEBSITE ANALYTICS USING ONLY NGINX AND PURE BASH
 
@@ -16,7 +16,7 @@ You may be wondering... *"WHY DOING THAT ?"*; you see, long time ago, i decided 
 
 Yup, the one you're looking right now, and reading from; and i used a lot of existing "markdown -> html" C code to add my own sauce (it's a little messy but i like it).
 
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/ccc.png)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginxccc.png)
 
 [SEE THE REPO](https://github.com/Sanix-Darker/sanixdk.xyz)
 
@@ -581,7 +581,7 @@ For my use case i made a small html index view to consume it that looks like thi
 
 The final result is not bad (with my weak level at front-end):
 
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/metric.png)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginx/metric.png)
 
 ---
 

@@ -1,4 +1,4 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/gojo.jpg)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/gojo.jpg)
 
 ## HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 1/3)
 `2025-01-05 14:10` • 10 min read • **#bash** **#brainfuck** **#terminal** **#c**
