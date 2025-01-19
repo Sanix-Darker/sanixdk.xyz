@@ -1,8 +1,9 @@
 # HI, AM SANIX.
 
-Am a Backend engineer, an electronic geek and an Otaku Guru.
+Am a Backend Engineer, an electronic geek and an Otaku Guru.
 
-I like everything related to tech in general and also hacking stuffs,
+Most of the time, just trying to solve interesting problems, with my small brain.
+I like everything related to tech & hacking/making in general, software and hardware,
 writing about my discoveries in general and play with everything i have in mind.
 
 ---

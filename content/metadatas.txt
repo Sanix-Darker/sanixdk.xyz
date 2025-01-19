@@ -1,16 +1,24 @@
+path: ./content/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3.md
+link: /blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3
+title: HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2/3)
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png
+date: 2025-01-12 11:22AM
+tags: #bash #brainfuck #terminal #c
+time: 17 min
+
 path: ./content/blogs/how-to-add-website-analytics-using-only-nginx.md
 link: /blogs/how-to-add-website-analytics-using-only-nginx
 title: HOW TO TRACK WEBSITE ANALYTICS USING ONLY NGINX AND PURE BASH
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/akii.png
-date: 2025-01-12 20:10
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginx/akii.png
+date: 2025-01-12 08:10PM
 tags: #bash #nginx #terminal
 time: 19 min
 
 path: ./content/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3.md
 link: /blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3
 title: HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 1/3)
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/gojo.jpg
-date: 2025-01-05 14:10
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/gojo.jpg
+date: 2025-01-05 02:10PM
 tags: #bash #brainfuck #terminal #c
 time: 10 min
 
@@ -18,7 +26,7 @@ path: ./content/blogs/how-to-hack-and-secure-your-termbin-content.md
 link: /blogs/how-to-hack-and-secure-your-termbin-public
 title: HOW TO HACK AND SECURE YOUR TERMBIN CONTENT
 image: no
-date: 2025-01-01 13:12AM
+date: 2025-01-01 01:12PM
 tags: #bash #unix #terminal
 time: 12 min
 
@@ -34,7 +42,7 @@ path: ./content/blogs/how-to-add-prompt-confirm-box-in-bash.md
 link: /blogs/how-to-add-prompt-confirm-box-in-bash
 title: HOW TO ADD PROMPT BOX CONFIRMATION IN BASH
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-prompt-confirm-box-in-bash/preview.jpg
-date: 2024-06-15 15:30PM
+date: 2024-06-15 03:30PM
 tags: #cli #bash #linux
 time: 11 min
 
