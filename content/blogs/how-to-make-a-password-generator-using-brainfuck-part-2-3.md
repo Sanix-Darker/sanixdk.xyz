@@ -1,3 +1,12 @@
+
+path: ./content/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3.md
+link: /blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3
+title: HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2/3)
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png
+date: 2025-01-19 09:20PM
+tags: #bash #brainfuck #terminal #c
+time: 22 min
+
 ![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png)
 
 ## HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2/3)
@@ -83,6 +92,7 @@ _
     }
     ```
 
+    if you compile and try to execute that you have :
     ```console
     $ gcc ./hey.c -o ./hey && ./hey
     Hey
@@ -90,7 +100,7 @@ _
 
     So, the brainfuck memory representing that word of three letter is just : `[ 72] [101] [ 10]`.
 
-    which is actually : `-[------->+<]>-.-[->+++++<]>++.[--->+<]>++.`
+    which is actually : `-[------->+<]>-.-[->+++++<]>++.[--->+<]>++.`, and you can test that by yourself with bf:
 
     ```console
     $ echo "-[------->+<]>-.-[->+++++<]>++.[--->+<]>++." | bf /dev/stdin
@@ -98,4 +108,12 @@ _
     ```
 
     And that's how the code below got transformed to "Hello World", maggic right ?
+
+
+### WHAT WAS WRONG WITH our bv ?
+
+If you noticed on the part 1, we didn't handle yet `,` and `.` on  the brainfuck visualizer, and that was intentional, because for now, in order to keep things extremly simple, we're going to not use those to have linear code for manipulation.
+
+If we try to run the Hello World code with our previous bv;
+
 -----------
