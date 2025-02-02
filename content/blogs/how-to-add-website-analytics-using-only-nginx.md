@@ -16,7 +16,7 @@ You may be wondering... *"WHY DOING THAT ?"*; you see, long time ago, i decided 
 
 Yup, the one you're looking right now, and reading from; and i used a lot of existing "markdown -> html" C code to add my own sauce (it's a little messy but i like it).
 
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginxccc.png)
+![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginx/how-to-add-website-analytics-using-only-nginxccc.png)
 
 [SEE THE REPO](https://github.com/Sanix-Darker/sanixdk.xyz)
 
