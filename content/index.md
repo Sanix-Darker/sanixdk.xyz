@@ -10,6 +10,9 @@ writing about my discoveries in general and play with everything i have in mind.
 
 ### CURRENTLY WORKING AND MAINTAINING :
 
+
+- [stackfetch](https://github.com/Sanix-Darker/stackfetch) : Fetch/Grab stack/lang/system infos (inspired by neofetch).
+
 - [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets and share links like pastebin.
 
 - [dockdb.nvim](https://github.com/Sanix-Darker/dockdb.nvim) : Nvim plugin to bind the code editor with more than 7 types of SGBD containers (NoSQL/SQL/key-value).
@@ -29,6 +32,7 @@ writing about my discoveries in general and play with everything i have in mind.
 
 #### GIT HOOKS :
 
+
 - [gaga](https://github.com/Sanix-Darker/gaga) : Encrypt some of your versionned file.
 - [ii](https://github.com/sanix-darker/ii) : Check if you have to run `xxx install` after a pull or checkout.
 - [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
@@ -36,6 +40,8 @@ writing about my discoveries in general and play with everything i have in mind.
 
 #### CLI :
 
+
+- [castthat](https://github.com/Sanix-Darker/castthat) : broadCast an area of your screen over http network with a single bash script.
 - [toucanor](https://github.com/Sanix-Darker/toucanor) : A 2D 'eat egg' game right into your terminal.
 - [Testa](https://github.com/Sanix-Darker/testa) : Run tests based on comments on your codebase by defining expected input/output.
 - [Ziim](https://github.com/Sanix-Darker/ziim) : From an error traceBack on your terminal to solutions, no browser needed.
@@ -44,6 +50,8 @@ writing about my discoveries in general and play with everything i have in mind.
 
 #### OTHERS (web, libs, builder...) :
 
+
+- [docka](https://github.com/Sanix-Darker/docka) : Build, test and run any public git repository link that has Dockerfile or/and docker-compose.
 - [dycow](https://github.com/Sanix-Darker/dycow) : Config file to backdoor as web server.
 - [tidi](https://github.com/Sanix-Darker/tidi) : The 2kb smallest Chat preReact component (with it's backend).
 - [Solar](https://github.com/Sanix-Darker/solar) : Chrome Web Extension allowing you to run code online from more than 40 tools.
