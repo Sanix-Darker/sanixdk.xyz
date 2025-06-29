@@ -212,6 +212,8 @@ On a 3D Visualization for two grid, the bf visualizer works like this :
 
 ## FULL SOURCE (Appendix)
 
+<details><summary>Click to expand 340 lines of weird C code written by a weird nerd.</summary>
+
 > Warning: long code ahead. Skip if you value your retina and you have a life.
 
 ```c
@@ -391,6 +393,8 @@ int main(int argc, char *argv[]) {
 ```
 
 (If the scroll wheel starts smoking, you’ve found the end.)
+
+</details>
 
 ---
 
