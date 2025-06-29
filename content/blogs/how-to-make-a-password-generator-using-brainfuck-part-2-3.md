@@ -156,7 +156,7 @@ case ']':                      // Exit loop
     break;
 ```
 
-Want the entire 350-line beast? [Grab it here](http://localhost:3003/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3#source-code) or keep scrolling to the appendix.
+Want the entire 350-line beast? keep scrolling to the appendix.
 
 ---
 
@@ -204,9 +204,11 @@ More on that in Part 3, where we’ll:
 
 ## DEMO (SHOW TIIIIMME)
 
-On a 3D Visualization for two grid and
+On a 3D Visualization for two grid, the bf visualizer works like this :
 
-![video_loading_...](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/demo2D.mp4)
+<video style="width: 100%;height: 80%;" controls>
+  <source src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/demo2D.mp4" type="video/mp4">
+</video>
 
 ## FULL SOURCE (Appendix)
 
@@ -395,10 +397,12 @@ int main(int argc, char *argv[]) {
 ## WRAP-UP
 
 You survived Part 2, WAOUW !
+
 We fixed the visualizer, dipped our toes into randomness, and prepped the battlefield for a full-blown Brainfuck password generator.
 
 **Next stop:** Part 3, where entropy meets insanity.
 
 *Until then, may your brackets always match and your pointers never segfault.*
+
 
 -----------
