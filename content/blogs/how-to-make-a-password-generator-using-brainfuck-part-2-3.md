@@ -8,8 +8,10 @@
 
 ---
 
-> **Seven. Months. Later.**
+> **JEEEZZZZ, Seven. Months. Later hun...**
+>
 > Yes, yes, I know, that’s longer than a celebrity marriage.
+>
 > My laziness defeated my “weekly” motivation, *but* we’re back, so let’s fry our brains once more!
 
 ---
@@ -25,7 +27,9 @@
 
 ## BRIEF RECAP
 
-### “Can you explain Brain-what-now in one sentence?”
+Since i got some questions from the precedent part... let's answer some,
+
+### “Can you explain Brain-fck in one sentence?”
 
 > Imagine an infinitely long tape.
 > `>` and `<` scoot your cursor along it,
