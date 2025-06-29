@@ -92,7 +92,8 @@ Magic? Nope, just lovingly-abused pointers.
 
 ## WHAT WAS WRONG WITH OUR BV?
 
-In Part 1 we heroically ignored `,` and `.` because *simplicity*.
+In Part 1 we heroically ignored `,` and `.` because *simplicity* (lazy demons in me).
+
 We also assumed a **1-D tape** (boring) and left the code about as stable as a Jenga tower in an earthquake.
 
 Run the classic “Hello World” through the old BV and it coughs up mismatched brackets and existential dread. Time for a refactor.
@@ -181,7 +182,7 @@ unsigned char random_byte(void) {
 }
 ```
 
-> *Yes, Windows folks, you’ll need another trick, stay tuned.*
+> *Yes, Windows folks, you’ll need another trick, stay tuned (and pray...).*
 
 ---
 
@@ -213,6 +214,8 @@ On a 3D Visualization for two grid, the bf visualizer works like this :
 <video style="width: 100%;height: 80%;" controls>
   <source src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/demo2D.mp4" type="video/mp4">
 </video>
+
+---
 
 ## FULL SOURCE (Appendix)
 
