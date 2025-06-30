@@ -416,4 +416,9 @@ We fixed the visualizer, dipped our toes into randomness, and prepped the battle
 *Until then, may your brackets always match and your pointers never segfault.*
 
 
+> You can now jump to [Part3](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3)
+>
+> Or go back in time on [Part1](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3)
+
+
 -----------

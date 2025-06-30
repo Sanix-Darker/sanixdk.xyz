@@ -372,4 +372,6 @@ So keep in touch ;)
 - [https://en.wikipedia.org/wiki/Standard_streams](https://en.wikipedia.org/wiki/Standard_streams)
 
 
+> You can now jump to [Part2](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3)
+
 -----------
