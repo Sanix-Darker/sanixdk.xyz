@@ -2,9 +2,9 @@ path: ./content/blogs/how-to-make-a-password-generator-using-brainfuck-part-3-3.
 link: /blogs/how-to-make-a-password-generator-using-brainfuck-part-3-3
 title: HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 3/3)
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/sukuna.png
-date: 2025-06-30 07:20AM
+date: 2025-06-30 08:42AM
 tags: #bash #brainfuck #terminal #c
-time: 18 min
+time: 11 min
 
 path: ./content/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3.md
 link: /blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3
@@ -12,7 +12,7 @@ title: HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2/3)
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png
 date: 2025-06-29 11:20PM
 tags: #bash #brainfuck #terminal #c
-time: 22 min
+time: 15 min
 
 path: ./content/blogs/how-to-add-website-analytics-using-only-nginx.md
 link: /blogs/how-to-add-website-analytics-using-only-nginx

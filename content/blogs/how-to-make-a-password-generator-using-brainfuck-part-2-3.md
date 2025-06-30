@@ -2,7 +2,7 @@
 
 ## HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2 / 3)
 
-`2025-06-29  11:20 PM` • 22 min read • **#bash #brainfuck #terminal #c**
+`2025-06-29  11:20 PM` • 15 min read • **#bash #brainfuck #terminal #c**
 
 > **NOTE:** Before you dive in, make sure you’ve read [Part 1](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3), otherwise nothing here will make sense, and you’ll blame me, and I’ll blame coffee.
 
