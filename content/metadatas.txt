@@ -1,3 +1,11 @@
+path: ./content/blogs/the-weird-concept-of-branchless-programming.md
+link: /blogs/the-weird-concept-of-branchless-programming
+title: THE WEIRD CONCEPT OF 'BRANCHLESS PROGRAMMING'
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png
+date: 2025-07-08 01:37PM
+tags: #c #branchless
+time: 19 min
+
 path: ./content/blogs/how-to-make-a-password-generator-using-brainfuck-part-3-3.md
 link: /blogs/how-to-make-a-password-generator-using-brainfuck-part-3-3
 title: HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 3/3)
