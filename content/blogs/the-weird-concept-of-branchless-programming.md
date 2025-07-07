@@ -4,7 +4,7 @@
 
 `2025-07-08 01:37` • 19+ min read • #c #branchless
 
----
+
 
 ## DISCLAIMERS
 
@@ -13,11 +13,13 @@
 - Drastic measures (e.g. `-O3 -ffast-math -march=native -fomit-this-entire-function`) were taken.
 
 
+
 ## 0×00 FUNKY INTRODUCTION
 
 Modern CPUs are predictive creatures. They guess what you're about to do, like a nosy algorithm trying to sell you sneakers after you Googled "foot pain." Branch predictors make CPUs fast by speculating on branches... until they guess wrong and everything grinds to a halt for 15,20 cycles.
 
 Branchless programming is how we get around this: we rewrite our code to **not branch at all**. Instead of jumping to conclusions, we manipulate bits like 1980s assembly gremlins.
+
 
 
 ### WHAT IS A BRANCH
@@ -59,7 +61,8 @@ From a CPU perspective, each conditional check and potential jump is a “fork i
 
 This is why branches can be so dangerous in tight loops or performance-critical code: even one mispredicted branch can cost dozens of cycles, ruining your cache-fueled dreams.
 
-### Why Is Branchless Programming Important?
+
+### WHY IS BRANCHLESS PROGRAMMING IMPORTANT?
 
 Branches, when predictable, are cheap. But when unpredictable, they're evil. Imagine a tight loop that checks a condition based on data from user input, or real-world sensors, or shuffled arrays. The branch predictor stumbles, and every misstep means flushing the pipeline ,  a costly affair on modern superscalar out-of-order CPUs.
 
@@ -72,6 +75,7 @@ We're going to take you on a wild ride through three increasingly complex exampl
 3. `partition()` ,  a full algorithm with data-dependent control flow
 
 We'll compare these in **C** (our performance-hungry workhorse), we'll show you how these concepts look in both worlds, how they perform.
+
 
 
 ## 0×01 ABS: THE LOW-HANGING BRANCH
@@ -93,13 +97,14 @@ int abs_branchless(int x) {
 }
 ```
 
-### Explanation (for the branchless implementation)
+
+### BRANCHLESS EXPLANATION
 
 - Arithmetic right-shift of a signed 32-bit integer by 31 yields all 0s for non-negatives, all 1s (i.e., -1) for negatives.
 - Adding `mask` to `x` either increments or doesn't.
 - XORing with `mask` flips bits only if `mask` is -1.
 
-### Bonus Variant
+### BONUS VARIANT
 
 ```c
 int abs_alt(int x) {
@@ -110,7 +115,7 @@ int abs_alt(int x) {
 
 Produces identical results; different taste of the same bit soup.
 
-### Assembly Breakdown
+### ASSEMBLY BREAKDOWN
 
 ```asm
 mov eax, edi       ; move x into eax
@@ -122,7 +127,8 @@ xor eax, edi       ; eax = result = (x + mask) ^ mask
 
 Fast. No jumps. Pure ALU (arithmetic logic unit).
 
-## 0×02 CLAMP: SQUASHING RANGES WITHOUT IFs
+
+## 0×02 CLAMP: SQUASHING RANGES WITHOUT IFS
 
 The clamp is more complex. You want to bound a value between a `min` and `max`.
 We want to ensure a value stays within `[min, max]` without branches. This is key in physics simulations, rendering, and safety constraints.
@@ -140,13 +146,13 @@ int clamp_branchless(int x, int min, int max) {
 }
 ```
 
-### Explanation (for the branchless implementation)
+### BRANCHLESS EXPLANATION
 
 - `(x - min) >> 31` creates a mask that's all 1s if `x < min`.
 - Mask is used to select `min` when necessary.
 - Second line applies the same trick to limit the upper bound.
 
-### Disassembled Strategy
+### DISASSEMBLED STRATEGY
 
 ```asm
 sub eax, min
@@ -201,7 +207,7 @@ int partition_branchless(int* arr, int low, int high) {
 }
 ```
 
-### Optional Bitmask Variant
+### OPTIONAL BITMASK VARIANT
 
 ```c
 i += ((arr[i] - pivot) >> 31) & 1;
@@ -209,7 +215,7 @@ i += ((arr[i] - pivot) >> 31) & 1;
 
 Relies on arithmetic right shift and masking to conditionally increment.
 
-### Assembly-Level Insight
+### ASSEMBLY-LEVEL INSIGHT
 
 ```asm
 mov eax, [arr+i*4]
@@ -238,7 +244,7 @@ Clever use of `adc` (add with carry) after compare to branchlessly increment.
 | `partition()`  | \~6ms   | \~5ms      | 1.20x   |
 ```
 
-### Summary
+### SUMMARY
 
 * `abs()` and `clamp()` show negligible gains; branch prediction handles them well.
 * `partition()` shows improvement due to high branch unpredictability.
@@ -377,15 +383,17 @@ int main() {
 </details>
 
 
+
 ## FINAL THOUGHTS: SHOULD YOU BRANCHLESS?
 
-### When You Should
+
+### WHEN YOU SHOULD
 
 * Hot loops with unpredictable conditions
 * Cryptographic or timing-sensitive code
 * SIMD/vectorization where branching kills performance
 
-### When You Shouldn’t
+### WHEN YOU SHOULDN’T
 
 * Code clarity matters more than nanoseconds
 * Predictable branches dominate (e.g., error handling)
