@@ -1,3 +1,11 @@
+path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
+link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
+title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png
+date: 2025-08-08 10:04AM
+tags: #c #csv #perfs
+time: 27 min
+
 path: ./content/blogs/the-weird-concept-of-branchless-programming.md
 link: /blogs/the-weird-concept-of-branchless-programming
 title: THE WEIRD CONCEPT OF 'BRANCHLESS PROGRAMMING'
