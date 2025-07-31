@@ -134,8 +134,12 @@ void writeMetadatasToBlogList(const char* input_filename,
     char line[1024];
 
     // Write the beginning of the HTML document
-    fprintf(output_file,
-            "<h1> BLOG POSTS <small id='blog-count' /></h1> <br/>");
+    fprintf(output_file, "<h1 class='typing'> BLOG POSTS <small id='blog-count'></small></h1> <br/>");
+
+    // FIXME:handle search later
+    //fprintf(output_file, "<div class='search-container'> <div class='search-wrapper'> <input type='text' class='search-input' placeholder='search by title or content...' id='search-input' > </div> </div><br/>");
+
+    fprintf(output_file, "<div class='blog-posts'>");
 
     while (fgets(line, sizeof(line), input_file)) {
         if (sscanf(line, "path: %[^\n]", metadata.path) != 1) continue;
@@ -160,25 +164,24 @@ void writeMetadatasToBlogList(const char* input_filename,
 
         // Write the HTML <article> section for this metadata
         fprintf(output_file, "<article>\n");
-        fprintf(output_file, "  <header>\n");
         fprintf(output_file, "    <a href=\"%s\">\n", metadata.link);
-        fprintf(output_file, "      <h3>\n");
+        fprintf(output_file, "      \n");
         fprintf(output_file, "        %s\n", metadata.title);
-        fprintf(output_file, "      </h3>\n");
+        fprintf(output_file, "      \n");
         fprintf(output_file, "    </a>\n");
-        fprintf(output_file, "  </header>\n");
+        fprintf(output_file, "    <br/><code style='width: fit-content'>%s read", metadata.time);
+        fprintf(output_file, " | %s ", metadata.tags);
+        fprintf(output_file, " | %s</code>\n", metadata.date);
         // FIXME: later on, replace this with short description shrinked
         // fprintf(output_file, "  <p>\n");
         /* fprintf(output_file, */
         /*         "    Lorem ipsum dolor sit amet, qui minim labore adipisicing
          * " */
         /*         "minim sint cillum sint consectetur cupidatat...\n"); */
-        fprintf(output_file, "    <code style='width: fit-content'>%s read", metadata.time);
-        fprintf(output_file, " | %s ", metadata.tags);
-        fprintf(output_file, " | %s</code>\n", metadata.date);
         // fprintf(output_file, "  </p>\n");
-        fprintf(output_file, "</article><br/>");
+        fprintf(output_file, "</article>");
     }
+    fprintf(output_file, "</div>");
 
     // Write the end of the HTML document
     // fprintf(output_file, "</body>\n</html>");

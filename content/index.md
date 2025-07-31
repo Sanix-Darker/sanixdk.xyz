@@ -11,20 +11,14 @@ writing about my discoveries in general and play with everything i have in mind.
 ### CURRENTLY WORKING AND MAINTAINING :
 
 
+- [gitMark](https://github.com/Sanix-Darker/gitmark) : Bookmark comments from any git hub (gitlab,github,bitbucket, sourcehut...).
 - [stackfetch](https://github.com/Sanix-Darker/stackfetch) : Fetch/Grab stack/lang/system infos (inspired by neofetch).
-
 - [snips.nvim](https://github.com/Sanix-Darker/snips.nvim) : Nvim plugin to create code snippets and share links like pastebin.
-
 - [dockdb.nvim](https://github.com/Sanix-Darker/dockdb.nvim) : Nvim plugin to bind the code editor with more than 7 types of SGBD containers (NoSQL/SQL/key-value).
-
 - [zzollo](https://github.com/Sanix-Darker/zzollo) : Web Search Engine for open-source projects on github/gitlab & bitbucket.
-
 - [gitrows-api](https://github.com/Sanix-Darker/gitrowspack-api) : Transform a github/gitlab repo into a NoSQL database as a service.
-
 - [tchaka](https://github.com/Sanix-Darker/tchaka) : Telegram bot to Chat with people around your localization(<5km).
-
 - [oCloud](https://github.com/Sanix-Darker/ocloud) & [oBot](https://github.com/Sanix-Darker/obot) : Infinite Storage system throught a bot and Telegram Servers.
-
 - [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in your terminal with encryption.
 
 
@@ -63,13 +57,8 @@ writing about my discoveries in general and play with everything i have in mind.
 ### OPENSOURCE CONTRIBUTOR ON :
 
 - [firecrawl](https://github.com/mendableai/firecrawl) : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.
-
 - [oss-cammeroon](https://github.com/osscameroon) :  Open source projects driven by Cameroonian developers.
-
 - [bun](https://github.com/oven-sh/bun) : fast JavaScript runtime, bundler, test runner, and package manage.
-
 - [fzf-vim](https://github.com/junegunn/fzf.vim) : fzf in (N)vim.
-
 - [gh-dash](https://github.com/dlvhdr/gh-dash) : A TUI dashboard for PR and issues accross github.
-
 - [Sharuco](https://github.com/ln-dev7/sharuco) : OpenSource platform for sharing code & manage Forms (like google form) & links.
