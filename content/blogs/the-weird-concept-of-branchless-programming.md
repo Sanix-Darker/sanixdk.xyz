@@ -1,10 +1,10 @@
-![samourai](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png" />
 
 ## THE WEIRD CONCEPT OF 'BRANCHLESS PROGRAMMING'
 
 `2025-07-08 01:37` • 19+ min read • #c #branchless
 
-
+---
 
 ## DISCLAIMERS
 

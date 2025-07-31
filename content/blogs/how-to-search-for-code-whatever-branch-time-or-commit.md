@@ -1,7 +1,9 @@
-![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg)
+<img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xo5l2448mxa8beq1l4o5.jpeg" />
 
 ## GIT SEARCH FOR CODE WHATEVER THE BRANCH, THE TIME OR THE COMMIT
 `2023-10-02 04:03AM` • 3 min read • **#cli** **#terminal**
+
+---
 
 Git has a nice feature called `grep`, when you want to get a commit for an old code, and it's a kind of search, but not enough for me !
 I wrote a bash script to search for a "piece of code" inside a git project history whatever the branch and time.

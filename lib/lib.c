@@ -139,7 +139,7 @@ void writeMetadatasToBlogList(const char* input_filename,
     // FIXME:handle search later
     //fprintf(output_file, "<div class='search-container'> <div class='search-wrapper'> <input type='text' class='search-input' placeholder='search by title or content...' id='search-input' > </div> </div><br/>");
 
-    fprintf(output_file, "<div class='blog-posts'>");
+    fprintf(output_file, "<div class=\"blog-list\">");
 
     while (fgets(line, sizeof(line), input_file)) {
         if (sscanf(line, "path: %[^\n]", metadata.path) != 1) continue;
@@ -162,27 +162,32 @@ void writeMetadatasToBlogList(const char* input_filename,
 
         sscanf(line, "time: %[^\n]", metadata.time);
 
-        // Write the HTML <article> section for this metadata
-        fprintf(output_file, "<article>\n");
-        fprintf(output_file, "    <a href=\"%s\">\n", metadata.link);
-        fprintf(output_file, "      \n");
-        fprintf(output_file, "        %s\n", metadata.title);
-        fprintf(output_file, "      \n");
-        fprintf(output_file, "    </a>\n");
-        fprintf(output_file, "    <br/><code style='width: fit-content'>%s read", metadata.time);
-        fprintf(output_file, " | %s ", metadata.tags);
-        fprintf(output_file, " | %s</code>\n", metadata.date);
-        // FIXME: later on, replace this with short description shrinked
-        // fprintf(output_file, "  <p>\n");
-        /* fprintf(output_file, */
-        /*         "    Lorem ipsum dolor sit amet, qui minim labore adipisicing
-         * " */
-        /*         "minim sint cillum sint consectetur cupidatat...\n"); */
-        // fprintf(output_file, "  </p>\n");
-        fprintf(output_file, "</article>");
+        // Write the HTML structure for this blog item
+        fprintf(output_file, "<div class=\"blog-item\">\n");
+        fprintf(output_file, "    <h2><a href=\"%s\" class=\"blog-title\">%s</a></h2>\n", metadata.link, metadata.title);
+        fprintf(output_file, "    <div class=\"blog-meta\">\n");
+        fprintf(output_file, "        <span>%s</span>\n", metadata.date);
+        // Assuming you want to keep tags in meta, or move them below
+        fprintf(output_file, "        <span>%s</span>\n", metadata.time);
+        fprintf(output_file, "    </div>\n");
+        // Excerpt would go here if you have it
+        fprintf(output_file, "    <p class=\"blog-excerpt\">\n");
+        // TODO: add in metadatas, the section for a resume of the blog post
+        // that should be in this p tag
+        // so this need to be done by also updating the current struct
+        fprintf(output_file, "    ");
+        fprintf(output_file, "    </p>\n");
+        fprintf(output_file, "    <div class=\"tags\">\n");
+        // Process tags - assuming they are comma-separated
+        char *token = strtok(metadata.tags, ",");
+        while (token != NULL) {
+            fprintf(output_file, "        <span class=\"tag\">%s</span>\n", token);
+            token = strtok(NULL, ",");
+        }
+        fprintf(output_file, "    </div>\n");
+        fprintf(output_file, "</div>\n");
     }
     fprintf(output_file, "</div>");
-
     // Write the end of the HTML document
     // fprintf(output_file, "</body>\n</html>");
 

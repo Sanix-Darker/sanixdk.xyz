@@ -1,5 +1,8 @@
+
 ## HOW TO HACK and SECURE YOUR TERMBIN content
 `2025-01-01 13:12AM` • 12 min read • **#bash** **#unix** **#terminal**
+
+---
 
 ### WHAT THE HECK IS TERMBIN ?
 

@@ -1,7 +1,9 @@
-![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/epjs5yraqmidvxv1e7ih.jpg)
+<img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/epjs5yraqmidvxv1e7ih.jpg" />
 
 ## HOW TO CLONE A SUB DIRECTORY OF A GIT PROJECT (NOT A ZIP)
 `2023-11-20 06:03AM` • 3 min read • **#git** **#bash** **#github** **#gitlab**
+
+---
 
 Have you ever tried to get a folder from a git repository either on github, gitlab or bitbucket ?
 

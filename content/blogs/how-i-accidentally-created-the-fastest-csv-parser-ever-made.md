@@ -1,9 +1,9 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png" />
 
 ## HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE, cisv.
 `2025-08-08 10:04 AM` • 27 min read • **#c** **#csv** **#perfs**
 
-
+---
 
 ### THE CHALLENGE THAT STARTED IT ALL
 
@@ -307,6 +307,17 @@ A Final Thought:
 
 4.  [CS:APP – Computer Systems: A Programmer’s Perspective](http://csapp.cs.cmu.edu/): The foundational textbook for understanding how computers actually work, from the hardware up.
 
+
+<!-- WHEH I WILL BE DONE WITH THE WRITING
+
+path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
+link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
+title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png
+date: 2025-08-08 10:04AM
+tags: #c #csv #perfs
+time: 27 min
+-->
 
 
 -----------

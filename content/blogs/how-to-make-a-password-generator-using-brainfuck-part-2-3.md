@@ -1,8 +1,10 @@
-![Garou looking just as surprised as you are that this series still exists.](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/garou.png" />
 
 ## HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 2 / 3)
 
 `2025-06-29  11:20 PM` • 15 min read • **#bash #brainfuck #terminal #c**
+
+---
 
 > **NOTE:** Before you dive in, make sure you’ve read [Part 1](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3), otherwise nothing here will make sense, and you’ll blame me, and I’ll blame coffee.
 

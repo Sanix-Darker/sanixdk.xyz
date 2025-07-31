@@ -1,0 +1,115 @@
+.search-container {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.search-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.search-label::before {
+  content: 'search: ';
+  color: var(--text-muted);
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--text-secondary);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Enhanced blog list styling */
+.blog-posts {
+  display: grid;
+  gap: 2rem;
+  counter-reset: blog-counter;
+}
+
+.blog-posts article {
+  position: relative;
+}
+
+.blog-posts article::before {
+  content: '[' counter(blog-counter) ']';
+  counter-increment: blog-counter;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* Article title enhancement */
+.blog-posts article h2 a,
+.blog-posts article h1 a {
+  color: var(--text-primary) !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+
+.blog-posts article h2 a:hover,
+.blog-posts article h1 a:hover {
+  color: var(--text-secondary) !important;
+}
+
+/* Meta information styling */
+.article-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.article-meta span::before {
+  content: '// ';
+}
+
+/* Reading time and date styling */
+.reading-time::before {
+  content: '⏱ ';
+  color: var(--text-muted);
+}
+
+.publish-date::before {
+  content: '📅 ';
+  color: var(--text-muted);
+}
+
+/* Category styling */
+.category {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  border: 1px solid var(--border-color);
+}
+
+.category::before {
+  content: '#';
+  color: var(--text-muted);
+}

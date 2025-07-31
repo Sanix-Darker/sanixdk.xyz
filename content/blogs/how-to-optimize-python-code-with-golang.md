@@ -1,7 +1,9 @@
-![go-bind](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-optimize-python-code-with-golang/preview.jpg)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-optimize-python-code-with-golang/preview.jpg" />
 
 ## HOW TO OPTIMIZE YOUR PYTHON CODE WITH GOLANG: A COMPREHENSIVE GUIDE
 `2024-06-20 08:12AM` • 15 min read • **#go** **#python** **#perf** **#speed**
+
+---
 
 Python is renowned for its simplicity and ease of use, making it a favorite for many developers(yes... even for me lol).
 However, when it comes to heavy CPU or RAM processing tasks, Python's performance can sometimes fall short(if not MOST OF THE TIMES ? :wink 'for loops').

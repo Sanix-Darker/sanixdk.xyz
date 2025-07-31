@@ -1,8 +1,9 @@
-![samourai](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png" />
 
 ## HOW I MADE MY TINY BUGGY WEB BROWSER, xs
 `2025-07-15 01:37` • 21+ min read • #c #web #curl
 
+---
 
 You know... i adore the web, yeah yeah, i really do, but the modern browser feels like ordering espresso and getting a six-course prix-fixe, complete with telemetry mints and 400 MB of “just-in-case” JavaScript salad. One tab idles; my fans spin like I’ve fired up Blender on maximum ray tracing. Open DevTools and you can hear Chrome quietly ask for another gig of RAM like a Dickens orphan with better marketing.
 

@@ -1,9 +1,10 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginx/akii.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-website-analytics-using-only-nginx/akii.png" />
 
 ## HOW TO TRACK WEBSITE ANALYTICS USING ONLY NGINX AND PURE BASH
 
 `2025-01-26 10:04` • 19 min read • **#bash** **#nginx** **#terminal**
 
+---
 
 ### DISCLAIMER AS INTRO
 

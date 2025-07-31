@@ -1,8 +1,10 @@
-![Sukuna dramatically pointing at /dev/urandom like it just insulted his mother.](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/sukuna.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-make-a-password-generator-using-brainfuck/sukuna.png" />
 
 ## HOW TO MAKE A PASSWORD GENERATOR USING BRAINFUCK (PART 3 / 3)
 
 `2025-06-30  08:42 AM` • 11 min read • **#bash #brainfuck #terminal #c #security**
+
+---
 
 > **NOTE:** If you skipped [Part 1](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3) *and* [Part 2](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3), kindly return your Dev-card at the exit desk.
 

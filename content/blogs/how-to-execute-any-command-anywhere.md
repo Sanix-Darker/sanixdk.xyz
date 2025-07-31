@@ -1,7 +1,9 @@
-![cover](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg)
+<img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uu6pc0ipayoog1316pli.jpg" />
 
 ## HOW TO EXECUTE ANY COMMAND FROM ANYWHERE TO ANYWHERE IN YOUR LAPTOP !
 `2023-12-14 02:03AM` • 1 min read • **#bash** **#unix** **#terminal**
+
+---
 
 Sometimes i got in situations where i want to execute a specific command or multiple commands inside a given directory without moving there as quickly as i can !
 This may sound obvious to just jump there, do the stuff and come back but as a lazy guy, i like doing that as quickly as possible and hit enter once !

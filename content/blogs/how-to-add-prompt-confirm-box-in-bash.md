@@ -1,7 +1,9 @@
-![bash-confirm](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-prompt-confirm-box-in-bash/preview.jpg)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-add-prompt-confirm-box-in-bash/preview.jpg" />
 
 ## HOW TO ADD PROMPT BOX CONFIRMATION IN BASH
 `2024-06-15 03:30PM` • 11 min read • **#cli** **#bash** **#linux**
+
+---
 
 Yo, what's up ? It's me again, with a #uselesstech linux/bash tips for you.
 

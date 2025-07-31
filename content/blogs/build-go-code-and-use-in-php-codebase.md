@@ -1,7 +1,9 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/build-go-code-and-use-in-php-codebase/preview.jpg)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/build-go-code-and-use-in-php-codebase/preview.jpg" />
 
 ## BUILD GO CODE AND USE IT IN PHP CODEBASE
 `2024-06-10 07:03AM` • 7 min read • **#php** **#go** **#performance**
+
+---
 
 Building Go code and integrating it into a PHP codebase can help increase performance, particularly for tasks that are computationally intensive. Here are the steps to achieve this:
 

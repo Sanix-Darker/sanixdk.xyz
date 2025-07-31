@@ -1,7 +1,9 @@
-![image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-sign-your-commits/preview.jpg)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-sign-your-commits/preview.jpg" />
 
 ## HOW TO SIGN YOUR COMMITS ON GITHUB OR GITLAB
 `2024-06-11 11:12AM` • 5 min read • **#git** **#security** **#gpg**
+
+---
 
 ### WHY EVEN CARE ABOUT SIGNING ?
 

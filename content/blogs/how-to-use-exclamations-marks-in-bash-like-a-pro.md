@@ -1,7 +1,9 @@
-![Example](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gh260avy87m5rzw4yhrh.png)
+<img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gh260avy87m5rzw4yhrh.png" />
 
 ## BASH AND EXCLAMATION MARKS !!!!
 `2023-11-08 10:03AM` • 3 min read • **#bash** **#cli** **#terminal**
+
+---
 
 In case you didn't know, exclamation marks play an important role in the bash workflow, especially for your command history!
 
