@@ -1006,3 +1006,7 @@ pre {
   .gap-md { gap: 1rem; }
   .gap-lg { gap: 1.5rem; }
 }
+
+/** for code preview **/
+pre code.hljs { padding: 1em !important; }
+
