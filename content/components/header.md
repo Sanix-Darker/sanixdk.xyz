@@ -7,7 +7,7 @@
         <meta content="initial-scale=1.0,width=device-width" name="viewport" />
         <meta content="#131516" name="theme-color" />
         <meta http-equiv="content-language" content="en-us,fr"/>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/assets/style.css">
         <title>sanix blog</title>
         <style>p, li{font-size: 17px} article{margin: 0px} article img { width: 100%; max-height: 10em; object-fit: cover; }</style>
         <meta property="og:url" content="https://sanixdk.xyz/" />
