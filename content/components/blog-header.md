@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/assets/style.css">
     <link rel='stylesheet' href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
     <title>sanix | %s</title>
-    <style>img{width: 100%;}pre{background: rgb(24, 27, 28);border: 1px solid white;padding: 0px!important; border-radius: 5px;font-size: auto;box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);}</style>
+    <style>p, li{font-size: 17px}pre{background: rgb(24, 27, 28);border: 1px solid white;padding: 0px!important; border-radius: 5px;font-size: auto;box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);}</style>
     <meta property='og:url' content='https://sanixdk.xyz%s'>
     <meta property='og:type' content='website'>
     <meta property='og:title' content='%s'>
