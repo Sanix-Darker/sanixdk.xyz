@@ -20,7 +20,7 @@ As a Senior Member of Technical Staff at Odaseva, some of my roles are to mainta
 
 *`Python`*, *`PHP`*, *`Docker`*, *`Golang`*, *`AWS`*
 
-.
+<hr/>
 
 ### -> BACKEND ENGINEER
 
@@ -30,7 +30,7 @@ As a Backend engineer, am responsible to optimize all services around the data f
 
 *`Python`*, *`FastApi`*, *`Docker`*, *`NestJs`*, *`Rust`*, *`K6`*
 
-.
+<hr/>
 
 ### -> BACKEND ENGINEER & DEVSECOPS
 
@@ -46,7 +46,7 @@ As a backend engineer, my role was to optimize and maintain the main service tha
 
 *`Django`*, *`NodeJS`*
 
-.
+<hr/>
 
 ### -> LEAD BACKEND DEV
 
@@ -57,7 +57,7 @@ For the inovative bank app we were building an inteligent ecosystem around self-
 
 *`Python`*, *`Redis`*, *`RabbitMQ`*, *`Celery`*
 
-.
+<hr/>
 
 ### -> SOFTWARE DEVELOPER
 
@@ -67,7 +67,7 @@ First remote Job experience, working on a marketing digital media builder.
 
 *`Yii2`*, *`NodeJS`*, *`RoR (RubyOnRails)`*
 
-.
+<hr/>
 
 ### -> INTERN + FULL STACK DEVELOPER
 

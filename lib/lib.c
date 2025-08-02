@@ -187,8 +187,7 @@ void writeMetadatasToBlogList(const char* input_filename,
         fprintf(output_file, "    </div>\n");
         fprintf(output_file, "</div>\n");
     }
-    fprintf(output_file, "</div></br>");
-    fprintf(output_file, " ");
+    fprintf(output_file, "</div>");
     // Write the end of the HTML document
     // fprintf(output_file, "</body>\n</html>");
 

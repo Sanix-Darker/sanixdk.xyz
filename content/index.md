@@ -8,7 +8,7 @@ writing about my discoveries in general and play with everything i have in mind.
 
 
 
-### CURRENTLY WORKING AND MAINTAINING :
+## CURRENTLY WORKING AND MAINTAINING :
 
 
 - [gitMark](https://github.com/Sanix-Darker/gitmark) : Bookmark comments from any git hub (gitlab,github,bitbucket, sourcehut...).
@@ -23,9 +23,9 @@ writing about my discoveries in general and play with everything i have in mind.
 
 
 
-### MADE SOME **`PET`** PROJECTS :
+## MADE SOME **`PET`** PROJECTS :
 
-#### > GIT HOOKS :
+### > GIT HOOKS :
 
 
 - [gaga](https://github.com/Sanix-Darker/gaga) : Encrypt some of your versionned file.
@@ -33,7 +33,7 @@ writing about my discoveries in general and play with everything i have in mind.
 - [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
 
 
-#### > CLI :
+### > CLI :
 
 
 - [castthat](https://github.com/Sanix-Darker/castthat) : broadCast an area of your screen over http network with a single bash script.
@@ -44,7 +44,7 @@ writing about my discoveries in general and play with everything i have in mind.
 
 
 
-#### > OTHERS (web, libs, builder...) :
+### > OTHERS (web, libs, builder...) :
 
 
 - [docka](https://github.com/Sanix-Darker/docka) : Build, test and run any public git repository link that has Dockerfile or/and docker-compose.
@@ -57,7 +57,7 @@ writing about my discoveries in general and play with everything i have in mind.
 
 
 
-### OPENSOURCE CONTRIBUTOR ON :
+## OPENSOURCE CONTRIBUTOR ON :
 
 - [firecrawl](https://github.com/mendableai/firecrawl) : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.
 - [oss-cammeroon](https://github.com/osscameroon) :  Open source projects driven by Cameroonian developers.
