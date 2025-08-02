@@ -1,14 +1,19 @@
 
 ---
 
+
+<center>
+
 [`github`](https://github.com/sanix-darker "Where i sleep in term of projects.")
 ◦ [`telegram`](https://t.me/sanixdarker "You can Conctact me here anytime.")
 ◦ [`email`](mailto:s4nixdk@gmail.com?subject=Hello%20there "You can email me anytime.")
+
+</center>
             </div>
         <br/>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById("blog-count").innerHTML = `(${document.querySelectorAll("h3").length})`
+                document.getElementById("blog-list").style.setProperty("--total-items", `${document.querySelectorAll("h3").length}`);
                 const searchInput = document.getElementById('search-input');
                 const blogItems = document.querySelectorAll('.blog-item, article');
 

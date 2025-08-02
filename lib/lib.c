@@ -139,7 +139,7 @@ void writeMetadatasToBlogList(const char* input_filename,
     // FIXME:handle search later
     //fprintf(output_file, "<div class='search-container'> <div class='search-wrapper'> <input type='text' class='search-input' placeholder='search by title or content...' id='search-input' > </div> </div><br/>");
 
-    fprintf(output_file, "<div class=\"blog-list\">");
+    fprintf(output_file, "<div class=\"blog-list\" style=\"--total-items: 0;\">");
 
     while (fgets(line, sizeof(line), input_file)) {
         if (sscanf(line, "path: %[^\n]", metadata.path) != 1) continue;
@@ -187,7 +187,8 @@ void writeMetadatasToBlogList(const char* input_filename,
         fprintf(output_file, "    </div>\n");
         fprintf(output_file, "</div>\n");
     }
-    fprintf(output_file, "</div>");
+    fprintf(output_file, "</div></br>");
+    fprintf(output_file, " ");
     // Write the end of the HTML document
     // fprintf(output_file, "</body>\n</html>");
 

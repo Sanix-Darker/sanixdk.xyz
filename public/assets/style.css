@@ -268,13 +268,25 @@ article:hover, .blog-item:hover {
   margin-bottom: 3rem;
 }
 
+/**
+ * Dealing with maths in css is one of the craziest sh*t i ever done in my life
+ * what a f*cking PAIN (1HOUR for this)
+ */
+.blog-list {
+  counter-reset: blog-counter;
+}
+
 .blog-item {
   padding: 2rem;
   margin-bottom: 0;
+  /* Increment counter normally */
+  counter-increment: blog-counter;
 }
 
 .blog-item::before {
-  content: '[' counter(blog-counter) ']';
+  /* JESUS,
+   * reverse number: total items - current position + 1 */
+  content: '[' calc(var(--total-items) - counter(blog-counter) + 1) ']';
   counter-increment: blog-counter;
   position: absolute;
   top: 1rem;
@@ -358,7 +370,7 @@ article:hover, .blog-item:hover {
 }
 
 .tag::before, .tags span::before {
-  content: '#';
+  content: '';
   color: var(--text-muted);
 }
 

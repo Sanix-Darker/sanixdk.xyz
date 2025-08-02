@@ -6,7 +6,7 @@ Most of the time, just trying to solve interesting problems, with my small brain
 I like everything related to tech & hacking/making in general, software and hardware,
 writing about my discoveries in general and play with everything i have in mind.
 
----
+
 
 ### CURRENTLY WORKING AND MAINTAINING :
 
@@ -22,9 +22,10 @@ writing about my discoveries in general and play with everything i have in mind.
 - [s2c](https://github.com/sanix-darker/s2c) : Secret video(ASCII)/audio chat in your terminal with encryption.
 
 
+
 ### MADE SOME **`PET`** PROJECTS :
 
-#### GIT HOOKS :
+#### > GIT HOOKS :
 
 
 - [gaga](https://github.com/Sanix-Darker/gaga) : Encrypt some of your versionned file.
@@ -32,7 +33,7 @@ writing about my discoveries in general and play with everything i have in mind.
 - [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
 
 
-#### CLI :
+#### > CLI :
 
 
 - [castthat](https://github.com/Sanix-Darker/castthat) : broadCast an area of your screen over http network with a single bash script.
@@ -42,7 +43,8 @@ writing about my discoveries in general and play with everything i have in mind.
 - [falla](https://github.com/Sanix-Darker/falla) : Search Engine CLI scraper on your terminal.
 
 
-#### OTHERS (web, libs, builder...) :
+
+#### > OTHERS (web, libs, builder...) :
 
 
 - [docka](https://github.com/Sanix-Darker/docka) : Build, test and run any public git repository link that has Dockerfile or/and docker-compose.
@@ -52,6 +54,7 @@ writing about my discoveries in general and play with everything i have in mind.
 - [go-bind](https://github.com/Sanix-Darker/go_bind) : (golang -> python) bindings collection of tools for perfs.
 - [.exe](https://github.com/Sanix-Darker/.exe) & [.exe-gh](https://github.com/Sanix-Darker/d-exe-action) & [.exe-ie](https://github.com/Sanix-Darker/d-exe-action-example) : Run Code from markdown code snippets with this service.
 - [FlashIt](https://github.com/Sanix-Darker/flashit) : Watch and get notified when a product's price drop on any eCommerce webSite.
+
 
 
 ### OPENSOURCE CONTRIBUTOR ON :
