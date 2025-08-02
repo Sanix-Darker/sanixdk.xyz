@@ -24,6 +24,13 @@
 </head>
 <body>
     <div class='container'>
-        <br>
-            <a href='/'><code>home</code></a> • <a href='/blogs/'><code>blogs</code></a> • <a href='/about'> <code>about</code></a>
-        <hr/>
+    <br>
+<center>
+
+[`home`](/)  [`blogs`](/blogs/) <!-- lazy guy, will code this later, • [`projects`](/projects/) --> [`about`](/about)
+
+</center>
+
+----
+
+
