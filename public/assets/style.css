@@ -468,6 +468,6 @@ article:hover, .blog-item:hover {
   body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 }
 
-.container > center > a {
+.container > center > p > a {
   text-decoration: none;
 }
