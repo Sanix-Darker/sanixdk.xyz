@@ -467,3 +467,7 @@ article:hover, .blog-item:hover {
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 }
+
+.container > center > a {
+  text-decoration: none;
+}
