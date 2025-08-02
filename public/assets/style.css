@@ -286,7 +286,7 @@ article:hover, .blog-item:hover {
 .blog-item::before {
   /* JESUS,
    * reverse number: total items - current position + 1 */
-  content: '[' calc(var(--total-items) - counter(blog-counter) + 1) ']';
+  content: '[' calc(var(--total-items) - counter(blog-counter) + 1) ')';
   counter-increment: blog-counter;
   position: absolute;
   top: 1rem;

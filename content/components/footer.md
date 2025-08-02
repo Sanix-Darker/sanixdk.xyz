@@ -12,8 +12,14 @@
             </div>
         <br/>
         <script>
+            const blogList = document.getElementById("blog-list");
+            if (blogList) {
+                const blogCount = document.querySelectorAll("h3").length;
+                blogList.style.setProperty("--total-items", `${blogCount}`);
+                console.log("Blog count :", blogCount);
+            }
+
             document.addEventListener('DOMContentLoaded', function() {
-                document.getElementById("blog-list").style.setProperty("--total-items", `${document.querySelectorAll("h3").length}`);
                 const searchInput = document.getElementById('search-input');
                 const blogItems = document.querySelectorAll('.blog-item, article');
 
