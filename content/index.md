@@ -1,4 +1,4 @@
-<h1 class='typing'> HI, AM SANIX</h1> <br/>
+<h1 class='typing'> HI, am S4nix </h1>
 
 A Backend Engineer, electronic geek and an Otaku.
 
