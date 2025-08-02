@@ -1,6 +1,6 @@
 path: ./content/blogs/the-weird-concept-of-branchless-programming.md
 link: /blogs/the-weird-concept-of-branchless-programming
-title: THE WEIRD CONCEPT OF 'BRANCHLESS PROGRAMMING'
+title: THE WEIRD CONCEPT OF BRANCHLESS PROGRAMMING
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/the-weird-concept-of-branchless-programming/head.png
 date: 2025-07-08 01:37PM
 tags: #c #branchless

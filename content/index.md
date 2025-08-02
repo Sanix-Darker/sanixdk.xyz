@@ -2,11 +2,11 @@
 
 I am a Backend Engineer, electronic geek and an Otaku.
 
-Most of the time, just trying to solve interesting problems, explore tech stuffs.
+Most of the time, just trying to solve interesting problems and exploring tech stuffs.
 
 
 
-## CURRENTLY WORKING AND MAINTAINING :
+## CURRENTLY WORKING AND MAINTAINING
 
 
 - [gitMark](https://github.com/Sanix-Darker/gitmark) : Bookmark comments from any git hub (gitlab,github,bitbucket, sourcehut...).
@@ -21,7 +21,7 @@ Most of the time, just trying to solve interesting problems, explore tech stuffs
 
 
 
-## MADE SOME **`PET`** PROJECTS :
+## MADE SOME **PET** PROJECTS
 
 ### > GIT HOOKS :
 
@@ -31,7 +31,7 @@ Most of the time, just trying to solve interesting problems, explore tech stuffs
 - [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
 
 
-### > CLI :
+### > CLIs
 
 
 - [castthat](https://github.com/Sanix-Darker/castthat) : broadCast an area of your screen over http network with a single bash script.
@@ -42,7 +42,7 @@ Most of the time, just trying to solve interesting problems, explore tech stuffs
 
 
 
-### > OTHERS (web, libs, builder...) :
+### > OTHERS (web, libs, builder...)
 
 
 - [docka](https://github.com/Sanix-Darker/docka) : Build, test and run any public git repository link that has Dockerfile or/and docker-compose.
