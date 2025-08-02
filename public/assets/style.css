@@ -468,3 +468,145 @@ article:hover, .blog-item:hover {
   body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 }
 
+/* Prevent long words from breaking layout */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* Improve tap targets */
+a, button {
+  min-height: 44px; /* Minimum recommended touch target size */
+}
+
+html {
+  font-size: 100%; /* Allows browser zoom to work properly */
+}
+body {
+  font-size: 1rem;
+  min-width: 320px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Use relative units for font sizes */
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+/* Responsive base font scaling */
+@media (max-width: 768px) {
+  html {
+    font-size: 16px; /* Set base font size for mobile */
+  }
+
+  body {
+    font-size: 1rem; /* 1rem = 16px on mobile */
+    line-height: 1.5; /* Slightly more spacing for readability */
+    padding: 0.5rem; /* Add some breathing room on small screens */
+  }
+
+  h1 {
+    font-size: 1.8rem !important; /* Larger on mobile for readability */
+    margin-bottom: 1.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* Container should have max-width but be flexible */
+.container, main {
+  max-width: 100%; /* Allow container to shrink on mobile */
+  padding: 0 1rem; /* Smaller padding on mobile */
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .container, main {
+    max-width: 900px; /* Fixed width on larger screens */
+    padding: 0 2rem;
+  }
+}
+
+nav {
+  flex-direction: column; /* Stack vertically on mobile */
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  nav {
+    flex-direction: row; /* Horizontal on larger screens */
+  }
+}
+
+p, li, td, .blog-excerpt {
+  font-size: 1rem; /* Base font size */
+  line-height: 1.6; /* Better line spacing for readability */
+}
+
+@media (max-width: 768px) {
+  p, li, td, .blog-excerpt {
+    font-size: 1.05rem; /* Slightly larger text on mobile */
+    line-height: 1.7; /* More line spacing */
+  }
+
+  /* Increase spacing between paragraphs */
+  p {
+    margin-bottom: 1.25rem;
+  }
+}
+
+button, .button {
+  padding: 0.8rem 1.2rem; /* Smaller padding on mobile */
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  button, .button {
+    padding: 0.75rem 1.5rem; /* Original padding on larger screens */
+  }
+}
+
+table {
+  display: block;
+  overflow-x: auto; /* Allow horizontal scrolling on small screens */
+  width: 100%;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+pre {
+  font-size: 0.9rem; /* Smaller code on mobile */
+  padding: 1rem;
+  overflow-x: auto; /* Horizontal scrolling for long code lines */
+}
+
+@media (min-width: 768px) {
+  pre {
+    font-size: 0.85rem; /* Original size on larger screens */
+  }
+}
+
+input, textarea, select {
+  font-size: 1rem; /* Larger on mobile for touch */
+  padding: 0.8rem;
+}
+
+@media (min-width: 768px) {
+  input, textarea, select {
+    font-size: 0.9rem; /* Original size on desktop */
+    padding: 0.75rem;
+  }
+}

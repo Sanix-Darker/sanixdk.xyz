@@ -1,10 +1,8 @@
-<h1 class='typing'> HI, am S4nix </h1>
+<h1 class='typing'> HI, AM SANIX </h1>
 
-A Backend Engineer, electronic geek and an Otaku.
+I am a Backend Engineer, electronic geek and an Otaku.
 
-Most of the time, just trying to solve interesting problems, explore new thinkings with my tiny brain.
-I like everything related to tech & hacking/making in general, software and hardware,
-writing about my discoveries in general and play with everything i have in mind.
+Most of the time, just trying to solve interesting problems, explore tech stuffs.
 
 
 
