@@ -134,7 +134,7 @@ void writeMetadatasToBlogList(const char* input_filename,
     char line[1024];
 
     // Write the beginning of the HTML document
-    fprintf(output_file, "<h1 class='typing'> BLOG POSTS <small id='blog-count'></small></h1> <br/>");
+    fprintf(output_file, "<h1 class='typing'> BLOG POSTS</h1> <br/>");
 
     // FIXME:handle search later
     //fprintf(output_file, "<div class='search-container'> <div class='search-wrapper'> <input type='text' class='search-input' placeholder='search by title or content...' id='search-input' > </div> </div><br/>");

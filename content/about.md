@@ -1,4 +1,4 @@
-# ABOUT ME
+<h1 class='typing'> ABOUT ME</h1> <br/>
 
 ## DEV STACK
 
