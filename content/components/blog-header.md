@@ -25,7 +25,7 @@
 <body>
     <div class='container'>
     <br>
-<center>
+<center style="text-decoration: none">
 
 [`home`](/)  [`blogs`](/blogs/) <!-- lazy guy, will code this later, • [`projects`](/projects/) --> [`about`](/about)
 
