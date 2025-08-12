@@ -70,7 +70,7 @@ Simple, right? The devil, as always, is in the implementation details.
 
 ### THE NAIVE PARSER: A TRAGEDY IN LINEAR TIME
 
-My original parser was a perfectly respectable piece of C code. It was clean, it was readable, and it was O(n)—which, in computer science terms, means "it gets the job done, as long as nobody is watching the clock too closely." It was a classic state machine, traversing the byte stream one character at a time.
+My original parser was a perfectly respectable piece of C code. It was clean, it was readable, and it was O(n), which, in computer science terms, means "it gets the job done, as long as nobody is watching the clock too closely." It was a classic state machine, traversing the byte stream one character at a time.
 
 ```c
 // The "What is branch prediction, and can I eat it?" implementation
@@ -117,7 +117,7 @@ Clock cycles per byte (worst case):
 
 This approach, while logically sound, is a performance disaster on a modern superscalar CPU. It's a textbook example of how *not* to write high-performance code.
 
-- **Branch Misprediction Catastrophe** ([Wikipedia](https://en.wikipedia.org/wiki/Branch_predictor)): Modern CPUs are masters of speculation. To keep their deep instruction pipelines full, they guess which path a program will take at a branch (like an `if` statement or a `switch` case). When they guess wrong—which is frequent in unpredictable data like a CSV file—the entire pipeline must be flushed and refilled. This penalty can cost anywhere from 10 to 20 clock cycles per misprediction.
+- **Branch Misprediction Catastrophe** ([Wikipedia](https://en.wikipedia.org/wiki/Branch_predictor)): Modern CPUs are masters of speculation. To keep their deep instruction pipelines full, they guess which path a program will take at a branch (like an `if` statement or a `switch` case). When they guess wrong, which is frequent in unpredictable data like a CSV file, the entire pipeline must be flushed and refilled. This penalty can cost anywhere from 10 to 20 clock cycles per misprediction.
 
 - **The Agony of Cache Misses** ([Wikipedia](https://en.wikipedia.org/wiki/CPU_cache#Cache_miss)): The CPU has tiny, lightning-fast memory caches (L1, L2, L3) right on the chip. Accessing data from the L1 cache might take a few cycles. Accessing it from main system RAM, however, can be 100 times slower.
 
@@ -890,11 +890,11 @@ The cisv parser is now in production at several companies, churning through tera
 - **Bioinformatics**: DNA sequence alignment using vectorized string matching
 - **Database Engines**: Columnar data processing with SIMD predicates
 
-The key insight is this: **modern CPUs are not faster versions of old CPUs—they are fundamentally different beasts**. They are wide, parallel, deeply pipelined monsters that reward those who understand their architecture. The gap between naive code and optimized code is not 2x or 10x anymore—it can be 100x or more.
+The key insight is this: **modern CPUs are not faster versions of old CPUs, they are fundamentally different beasts**. They are wide, parallel, deeply pipelined monsters that reward those who understand their architecture. The gap between naive code and optimized code is not 2x or 10x anymore, it can be 100x or more.
 
 So the next time someone tells you that "premature optimization is the root of all evil," remind them that Knuth's full quote continues: "...yet we should not pass up our opportunities in that critical 3%."
 
-And when you're processing gigabytes of data, when you're in that critical 3%, when every nanosecond counts—that's when you reach for SIMD, when you think about cache lines, when you count clock cycles.
+And when you're processing gigabytes of data, when you're in that critical 3%, when every nanosecond counts, that's when you reach for SIMD, when you think about cache lines, when you count clock cycles.
 
 That's when you accidentally create the fastest CSV parser ever made.
 
