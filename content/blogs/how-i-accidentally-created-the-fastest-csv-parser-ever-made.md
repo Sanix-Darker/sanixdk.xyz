@@ -3,8 +3,9 @@
 ## HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE, cisv.
 `2025-08-08 10:04 AM` • 27 min read • **#c** **#csv** **#perfs**
 
-**Source Code**: [GitHub - sanix-darker/cisv](https://github.com/sanix-darker/cisv)
-**NPM Package**: [cisv on npm](https://www.npmjs.com/package/cisv)
+**SOURCE CODE**: [GitHub - sanix-darker/cisv](https://github.com/sanix-darker/cisv)
+
+**NPM PACKAGE**: [cisv on npm](https://www.npmjs.com/package/cisv)
 
 ---
 
@@ -44,7 +45,7 @@ Writing a CSV parser is deceptively simple at first glance. The algorithm is str
 
 Here's what this looks like in pseudocode:
 
-```ascii
+```sh
 Input: "name,age,city\nAlice,30,NYC\nBob,25,LA"
 
 Processing Flow:
@@ -98,7 +99,7 @@ while (*ptr) {
 
 This scalar approach can be visualized as a lonely pointer, dutifully inspecting every single byte, one by one:
 
-```ascii
+```sh
 Data Stream: | B | y | t | e | - | b | y | - | B | y | t | e |
                ^
              (ptr)
@@ -136,7 +137,7 @@ The challenge forced me to abandon the comfortable world of scalar code and dive
 
 SIMD (Single Instruction, Multiple Data) is like having 64 workers all performing the exact same task simultaneously, rather than one worker doing 64 tasks sequentially. As brilliantly explained by [Aarol in their Zig SIMD substring search article](https://aarol.dev/posts/zig-simd-substr/), the key insight is that modern CPUs can perform the same operation on multiple data elements in parallel using vector registers.
 
-```ascii
+```sh
 Scalar vs SIMD Execution Model:
 ================================
 
@@ -161,7 +162,7 @@ Time: 1 cycle (parallel)
 
 Think of SIMD as a multi-lane highway where each lane processes one byte:
 
-```ascii
+```sh
 Traditional Processing (Single Lane):
 ======================================
      Lane 0:  [n]→[a]→[m]→[e]→[,]→[a]→[g]→[e]→[,]→
@@ -186,7 +187,7 @@ SIMD Processing (64 Parallel Lanes):
 
 One of SIMD's most powerful patterns is broadcasting - replicating a single value across all lanes:
 
-```ascii
+```sh
 Broadcasting the Delimiter:
 ============================
 Single comma → Broadcast to all 64 lanes
@@ -204,7 +205,7 @@ This enables parallel comparison against all 64 data bytes!
 
 Instead of processing one byte at a time, SIMD loads 64 bytes into a single register and performs operations on all of them simultaneously:
 
-```ascii
+```sh
 Traditional (Scalar) Processing:
 ================================
 CSV Data: "name,age,city\nAlice,30,NYC\n..."
@@ -235,7 +236,7 @@ Total: 1 load + 1 compare for 64 bytes!
 
 The comparison operation generates a bitmask, which is the key to branchless processing:
 
-```ascii
+```sh
 SIMD Mask Generation Flow:
 ==========================
 
@@ -264,7 +265,7 @@ Bitmask: 0000100000100000 (binary) = 0x0820 (hex)
 
 Once we have the bitmask, we need to efficiently extract the positions. This is where bit manipulation instructions shine:
 
-```ascii
+```sh
 Finding Delimiter Positions with Bit Manipulation:
 ===================================================
 
@@ -326,7 +327,7 @@ while (ptr < end_of_file) {
 
 A key optimization for CSV parsing is detecting multiple delimiters simultaneously:
 
-```ascii
+```sh
 Multi-Character Detection (Commas, Newlines, Quotes):
 ======================================================
 
@@ -354,7 +355,7 @@ Process in order using _tzcnt_u64!
 
 When we need to count occurrences (like counting rows), SIMD combined with popcount is incredibly efficient:
 
-```ascii
+```sh
 Counting Newlines with SIMD + POPCOUNT:
 ========================================
 
@@ -461,7 +462,7 @@ The benchmarks test with progressively larger files (1K, 100K, 1M, and 10M rows)
 
 Testing the raw C implementation against other command-line tools reveals the massive performance gap:
 
-```ascii
+```sh
 ┌─────────────────────────────────────────────────────────────────────┐
 │              CLI ROW COUNTING PERFORMANCE (1M rows)                 │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -491,7 +492,7 @@ medium.csv (100K rows, 9.2MB file):
 
 The Node.js bindings maintain impressive performance despite the FFI overhead:
 
-```ascii
+```sh
 ┌─────────────────────────────────────────────────────────────────────┐
 │                 NODE.JS SYNCHRONOUS PARSING THROUGHPUT              │
 ├─────────────────────────────────────────────────────────────────────┤
@@ -519,7 +520,7 @@ The Node.js bindings maintain impressive performance despite the FFI overhead:
 
 The benchmarks reveal how cisv maintains its performance advantage across different file sizes:
 
-```ascii
+```sh
 Throughput Scaling (MB/s processed):
 =====================================
             Small    Medium    Large     XLarge
@@ -539,7 +540,7 @@ its exceptional numbers on larger files.
 
 One of cisv's key advantages is its memory-mapped approach, which maintains constant memory usage regardless of file size:
 
-```ascii
+```sh
 Memory Usage Patterns (Processing 1GB file):
 ==============================================
 
@@ -566,7 +567,7 @@ JavaScript parsers suffer from:
 
 The performance difference becomes critical at scale:
 
-```ascii
+```sh
 Time to Process 1TB of CSV Data:
 =================================
 cisv:        ~10 minutes
@@ -588,7 +589,7 @@ csv-parse:   5.8 TB
 
 Achieving SIMD nirvana was only half the battle. A high-performance engine is useless if its fuel line is clogged. The bottleneck had shifted from computation to memory access.
 
-```ascii
+```sh
 Memory Hierarchy & Access Times (Intel Core i9):
 ==================================================
       [ CPU Core ]
@@ -683,7 +684,7 @@ Such power does not come without its perils. Wielding AVX-512 is like handling a
 
 #### AVX-512 FREQUENCY THROTTLING
 
-```ascii
+```sh
 CPU Frequency Under Different Workloads:
 =========================================
 Idle/Light Load:          4.9 GHz  ████████████████████
@@ -707,7 +708,7 @@ _mm512_zeroupper(); // Clear upper portion of AVX-512 registers
 
 #### THE TERROR OF ALIGNMENT FAULTS
 
-```ascii
+```sh
 Memory Alignment Visualization:
 ================================
 Address:  0x1000 0x1008 0x1010 0x1018 0x1020 0x1028 0x1030 0x1038 0x1040
