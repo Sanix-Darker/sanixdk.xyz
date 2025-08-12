@@ -1,11 +1,7 @@
 ![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png)
 
 ## HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE, cisv.
-`2025-08-08 10:04 AM` • 27 min read • **#c** **#csv** **#perfs**
-
-**SOURCE CODE**: [GitHub - sanix-darker/cisv](https://github.com/sanix-darker/cisv)
-
-**NPM PACKAGE**: [cisv on npm](https://www.npmjs.com/package/cisv)
+`2025-08-30 10:04 AM` • 27 min read • **#c** **#csv** **#perfs**
 
 ---
 
@@ -904,7 +900,7 @@ That's when you accidentally create the fastest CSV parser ever made.
 
 ---
 
-**Want to dive deeper?** Check out the [source code on GitHub](https://github.com/sanix-darker/cisv), try the [npm package](https://www.npmjs.com/package/cisv), or join the discussion on [Hacker News](https://readhacker.news/s/6ztCy).
+**Want to dive deeper?** Check out the [source code on GitHub](https://github.com/sanix-darker/cisv), try the [npm package](https://www.npmjs.com/package/cisv).
 
 **Have a use case that needs extreme performance?** Feel free to open an issue or submit a PR. The parser is MIT licensed and ready for battle.
 
