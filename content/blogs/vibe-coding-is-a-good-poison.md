@@ -8,7 +8,7 @@
 
 > Look, let me be brutally honest with you. I'm a backend engineer. I live in the world of databases, APIs, and server logic. My natural habitat is the terminal, not the browser. And a few days ago, I "redesigned" my website... and it was painful as hell.
 >
-> You see, as a backend engineer, I have a love...hate toxic relationship with CSS. Actually, scratch that, it's mostly hate.
+> You see, I have a love...hate toxic relationship with CSS. Actually, scratch that, it's mostly hate.
 >
 > The first time I tried to center a `<div>`, I spent one full hour on it. This was back in late 2016, and I remember thinking, "With that amount of time, I could've finished a project… or at least fixed some of the bugs haunting me in PHP5." I'm a simple man: if something does the job, I'm good with it. That's why my original website was basically just centered text and some CSS for code snippets. No fancy animations, no sparkles... just pure, uncut functionality.
 >
@@ -64,7 +64,7 @@ Here's what happened when I asked AI to create a responsive card layout:
 }
 ```
 
-As a noob and a backend engineer who still thinks tables are a valid layout solution, this might as well be written in ancient Sumerian. Can I explain why it chose `cubic-bezier(0.4, 0, 0.2, 1)` over a simple `ease`? Fuck no. Do I understand why it's using `clamp()` instead of just hardcoding padding? Not a chance.
+As a noob and who still thinks tables are a valid layout solution, this might as well be written in ancient Sumerian. Can I explain why it chose `cubic-bezier(0.4, 0, 0.2, 1)` over a simple `ease`? Fuck no. Do I understand why it's using `clamp()` instead of just hardcoding padding? Not a chance.
 
 It's like having a Ferrari but not knowing how to pop the hood. Sure, it gets you where you need to go, but the moment something breaks, you're absolutely cooked/~fucked~.
 
@@ -81,7 +81,7 @@ During this anknowledgment, i noticed, there is 3 major steps when code is spitt
 
 ## WHY IT'S SUCH A GOOD POISON
 
-Because it fucking works... (well, most of the time) first try...For simple stuff. And for someone like me  a backend engineer who broke into a cold sweat the last time I had to debug a CSS alignment issue  the speed is intoxicating.
+Because it fucking works... (well, most of the time) first try...For simple stuff. And for someone like me who broke into a cold sweat the last time I had to debug a CSS alignment issue  the speed is intoxicating.
 
 Why spend hours fighting with CSS Grid when AI can give you a working layout in seconds? Why suffer through the pain of centering divs when you can just ask ChatGPT for help?
 
