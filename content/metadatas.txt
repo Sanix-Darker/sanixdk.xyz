@@ -1,10 +1,10 @@
-path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
-link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
-title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png
-date: 2025-08-30 10:04 AM
-tags: #c #csv #perfs #simd #avx512 #nodejs #optimization
-time: 32 min
+path: ./content/blogs/vibe-coding-is-a-good-poison.md
+link: /blogs/vibe-coding-is-a-good-poison
+title: VIBE CODING IS A GOOD POISON
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/vibe-coding-is-a-good-poison/vibe-code.png
+date: 2025-08-15 07:45 AM
+tags: #ai #dev #legacy*
+time: 11 min
 
 path: ./content/blogs/the-weird-concept-of-branchless-programming.md
 link: /blogs/the-weird-concept-of-branchless-programming

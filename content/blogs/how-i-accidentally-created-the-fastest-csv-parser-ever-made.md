@@ -907,3 +907,16 @@ That's when you accidentally create the fastest CSV parser ever made.
 *Happy parsing, and may your branch predictors always guess correctly.*
 
 ---
+
+
+<!--
+
+path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
+link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
+title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png
+date: 2025-08-30 10:04 AM
+tags: #c #csv #perfs #simd #avx512 #nodejs #optimization
+time: 32 min
+
+-->
