@@ -164,7 +164,7 @@ void writeMetadatasToBlogList(const char* input_filename,
 
         // Write the HTML structure for this blog item
         fprintf(output_file, "<div class=\"blog-item\">\n");
-        fprintf(output_file, "    <h2><a href=\"%s\" class=\"blog-title\">%s</a></h2>\n", metadata.link, metadata.title);
+        fprintf(output_file, "    <h4><a href=\"%s\" class=\"blog-title\">%s</a></h4>\n", metadata.link, metadata.title);
         fprintf(output_file, "    <div class=\"blog-meta\">\n");
         fprintf(output_file, "        <span>%s</span>\n", metadata.date);
         // Assuming you want to keep tags in meta, or move them below
