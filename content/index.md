@@ -74,7 +74,7 @@
     </div>
 </div>
 
-<h2>OPENSOURCE CONTRIBUTOR ON </h2>
+<h2>OPENSOURCE CONTRIBUTOR ON</h2>
 <ul>
 <li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.</li>
 <li><a href="https://github.com/osscameroon">oss-cammeroon</a> :  Open source projects driven by Cameroonian developers.</li>
