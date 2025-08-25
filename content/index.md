@@ -37,8 +37,8 @@
 
 <div class="terminal-section github-stats">
     <div class="command-line">
-        <span class="prompt">root@sanixdk:~$ \\</span>
-        <span class="command">curl -Lss $GITHUB_HOST/sanix-darker | jq '.repos'</span>
+        <span class="prompt">root@sanixdk:~$</span>
+        <span class="command">curl -LSs $GITHUB_HOST/sanix-darker | jq '.repos'</span>
     </div>
     <div class="output">
         Public Repositories: 232<br>
