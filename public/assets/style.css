@@ -106,9 +106,11 @@ h5 { font-size: 1.25rem }
 h6 { font-size: 1rem }
 
 h1::before { content: '> ' }
-h2::before { content: '// ' }
-h3::before { content: '/// ' }
-h1::before, h2::before, h3::before { color: var(--text-muted) }
+h2::before { content: '?> ' }
+h3::before { content: '/ ' }
+h4::before { content: '// ' }
+h5::before { content: '/// ' }
+h1::before, h2::before, h3::before h4::before h5::before{ color: var(--text-muted) }
 
 p, a, li, td {
   color: var(--text-primary);
@@ -251,8 +253,9 @@ article:hover, .blog-item:hover {
   position: absolute;
   top: 1rem;
   right: 1.5rem;
-  color: var(--text-muted);
-  font-size: .72rem
+  color: white;
+  font-size: .72rem;
+  z-index: 100;
 }
 
 .blog-title {
