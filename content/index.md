@@ -38,7 +38,7 @@
 <div class="terminal-section github-stats">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">curl -LSs $GITHUB_HOST/sanix-darker | jq '.repos'</span>
+        <span class="command">curl $GITHUB_HOST/sanixdk</span>
     </div>
     <div class="output">
         Public Repositories: 232<br>
@@ -66,11 +66,11 @@
         <span class="command">ls -lah ~/github/*</span>
     </div>
     <div class="output">
-        drwxr-xr-x 2 sanix sanix 4096 Jan 15 2025 ./arduino-projects/<br>
-        drwxr-xr-x 2 sanix sanix 4096 Jan 10 2025 ./raspberry-pi-setups/<br>
-        drwxr-xr-x 2 sanix sanix 4096 Jan 05 2025 ./iot-sensors/<br>
-        drwxr-xr-x 2 sanix sanix 4096 Dec 28 2024 ./pcb-designs/<br>
-        -rw-r--r-- 1 sanix sanix 2048 Dec 20 2024 circuit-diagrams.md
+        drwxr-xr-x 2 sanix 4096 Jan 15 2025 ./arduino-projects/<br>
+        drwxr-xr-x 2 sanix 4096 Jan 10 2025 ./raspberry-pi-setups/<br>
+        drwxr-xr-x 2 sanix 4096 Jan 05 2025 ./iot-sensors/<br>
+        drwxr-xr-x 2 sanix 4096 Dec 28 2024 ./pcb-designs/<br>
+        -rw-r--r-- 1 sanix 2048 Dec 20 2024 circuit-diagrams.md
     </div>
 </div>
 
@@ -166,7 +166,7 @@
                         day: '2-digit'
                     });
                     const language = repo.language || 'Unknown';
-                    reposList += `drwxr-xr-x 2 sanix sanix 4096 ${updatedDate} ./${repo.name}/ [${language}]<br>`;
+                    reposList += `drwxr-xr-x 2 ${language} dk 4096 ${updatedDate} ./${repo.name}/<br>`;
                 });
                 electronicsElement.innerHTML = reposList;
             }
