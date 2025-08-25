@@ -37,17 +37,16 @@
 
 <div class="terminal-section github-stats">
     <div class="command-line">
-        <span class="prompt">root@sanixdk:~$ \</span>
-        <br/>
-        <span class="command">curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'</span>
+        <span class="prompt">root@sanixdk:~$ </span>
+        <span class="command">\</span>
     </div>
     <div class="output">
+        > curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'<br>
         Public Repositories: 232<br>
         Most Used Languages: Python, JavaScript, Go, Shell<br>
         <div class="progress-bar">
             <div class="progress-fill" style="width: 92%;"></div>
         </div>
-        Activity Level: Very Active
     </div>
 </div>
 
@@ -151,12 +150,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${Math.min(userData.public_repos, 100)}%;"></div>
                     </div>
-                    Activity Level: Very Active
                 `;
             }
 
             // Fetch recent repositories for electronics section
-            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=5');
+            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=7');
             const reposData = await reposResponse.json();
 
             // Update electronics section with recent repos
