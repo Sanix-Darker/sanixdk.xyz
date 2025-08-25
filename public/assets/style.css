@@ -107,6 +107,7 @@ h6 { font-size: 1rem }
 
 h1::before { content: '# ' }
 h2::before { content: '/* ' }
+h2::after { content: ' */' }
 h3::before { content: '// ' }
 h4::before { content: '~ ' }
 h5::before { content: '--- ' }
