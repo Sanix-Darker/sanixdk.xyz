@@ -163,7 +163,7 @@ void writeMetadatasToBlogList(const char* input_filename,
         sscanf(line, "time: %[^\n]", metadata.time);
 
         // Write the HTML structure for this blog item
-        fprintf(output_file, "<a href=\"%s\"><div class=\"blog-item\">\n", metadata.link);
+        fprintf(output_file, "<div class=\"blog-item\">\n");
         fprintf(output_file, "<div class=\"triangle-bg\" style=\"--bg-image: url('%s');\"></div>\n", metadata.image); //<div class=\"category-badge\">AI</div>
         fprintf(output_file, "    <h3><a href=\"%s\" class=\"blog-title\">%s</a></h3>\n", metadata.link, metadata.title);
         fprintf(output_file, "    <div class=\"blog-meta\">\n");
@@ -186,7 +186,7 @@ void writeMetadatasToBlogList(const char* input_filename,
             token = strtok(NULL, ",");
         }
         fprintf(output_file, "    </div>\n");
-        fprintf(output_file, "</div></a>\n");
+        fprintf(output_file, "</div>\n");
     }
     fprintf(output_file, "</div>");
     // Write the end of the HTML document
