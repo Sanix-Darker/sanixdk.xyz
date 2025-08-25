@@ -15,7 +15,7 @@
 <div class="terminal-section skills-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">cat skills.txt</span>
+        <span class="command">tail -f /var/log/activity.log</span>
     </div>
     <div class="output">
         <div class="skills-grid">
@@ -37,7 +37,8 @@
 
 <div class="terminal-section github-stats">
     <div class="command-line">
-        <span class="prompt">root@sanixdk:~$</span>
+        <span class="prompt">root@sanixdk:~$ \</span>
+        <br/>
         <span class="command">curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'</span>
     </div>
     <div class="output">
@@ -54,8 +55,6 @@
 <ul>
 <li><a href="https://github.com/Sanix-Darker/gitmark">gitMark</a> : Bookmark comments from any git hub (gitlab,github,bitbucket, sourcehut...).</li>
 <li><a href="https://github.com/Sanix-Darker/stackfetch">stackfetch</a> : Fetch/Grab stack/lang/system infos (inspired by neofetch).</li>
-<li><a href="https://github.com/Sanix-Darker/snips.nvim">snips.nvim</a> : Nvim plugin to create code snippets and share links like pastebin.</li>
-<li><a href="https://github.com/Sanix-Darker/dockdb.nvim">dockdb.nvim</a> : Nvim plugin to bind the code editor with more than 7 types of SGBD containers (NoSQL/SQL/key-value).</li>
 <li><a href="https://github.com/Sanix-Darker/zzollo">zzollo</a> : Web Search Engine for open-source projects on github/gitlab & bitbucket.</li>
 <li><a href="https://github.com/Sanix-Darker/gitrowspack-api">gitrows-api</a> : Transform a github/gitlab repo into a NoSQL database as a service.</li>
 <li><a href="https://github.com/Sanix-Darker/tchaka">tchaka</a> : Telegram bot to Chat with people around your localization(&lt;5km).</li>
@@ -77,33 +76,7 @@
     </div>
 </div>
 
-<h2>MADE SOME <strong>PET</strong> PROJECTS</h2>
-<h3>GIT HOOKS :</h3>
-<ul>
-<li><a href="https://github.com/Sanix-Darker/gaga">gaga</a> : Encrypt some of your versionned file.</li>
-<li><a href="https://github.com/sanix-darker/ii">ii</a> : Check if you have to run <code>xxx install</code> after a pull or checkout.</li>
-<li><a href="https://github.com/sanix-darker/github-track">github-track</a> : Track your git activity from any other host to github.</li>
-</ul>
-<h3>CLIs</h3>
-<ul>
-<li><a href="https://github.com/Sanix-Darker/castthat">castthat</a> : broadCast an area of your screen over http network with a single bash script.</li>
-<li><a href="https://github.com/Sanix-Darker/toucanor">toucanor</a> : A 2D 'eat egg' game right into your terminal.</li>
-<li><a href="https://github.com/Sanix-Darker/testa">Testa</a> : Run tests based on comments on your codebase by defining expected input/output.</li>
-<li><a href="https://github.com/Sanix-Darker/ziim">Ziim</a> : From an error traceBack on your terminal to solutions, no browser needed.</li>
-<li><a href="https://github.com/Sanix-Darker/falla">falla</a> : Search Engine CLI scraper on your terminal.</li>
-</ul>
-<h3>OTHERS (web, libs, builder...)</h3>
-<ul>
-<li><a href="https://github.com/Sanix-Darker/docka">docka</a> : Build, test and run any public git repository link that has Dockerfile or/and docker-compose.</li>
-<li><a href="https://github.com/Sanix-Darker/dycow">dycow</a> : Config file to backdoor as web server.</li>
-<li><a href="https://github.com/Sanix-Darker/tidi">tidi</a> : The 2kb smallest Chat preReact component (with it's backend).</li>
-<li><a href="https://github.com/Sanix-Darker/solar">Solar</a> : Chrome Web Extension allowing you to run code online from more than 40 tools.</li>
-<li><a href="https://github.com/Sanix-Darker/go_bind">go-bind</a> : (golang -> python) bindings collection of tools for perfs.</li>
-<li><a href="https://github.com/Sanix-Darker/.exe">.exe</a> & <a href="https://github.com/Sanix-Darker/d-exe-action">.exe-gh</a> & <a href="https://github.com/Sanix-Darker/d-exe-action-example">.exe-ie</a> : Run Code from markdown code snippets with this service.</li>
-<li><a href="https://github.com/Sanix-Darker/flashit">FlashIt</a> : Watch and get notified when a product's price drop on any eCommerce webSite.</li>
-</ul>
-
-<h2>OPENSOURCE CONTRIBUTOR ON :</h2>
+<h2>OPENSOURCE CONTRIBUTOR ON </h2>
 <ul>
 <li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.</li>
 <li><a href="https://github.com/osscameroon">oss-cammeroon</a> :  Open source projects driven by Cameroonian developers.</li>
@@ -238,7 +211,7 @@
                     });
 
                     // Add static skills
-                    const staticSkills = ['Docker', 'Linux', 'Neovim', 'Git', 'Arduino', 'Raspberry Pi', 'IoT', 'PCB Design'];
+                    const staticSkills = [];
                     staticSkills.forEach(skill => {
                         skillsGrid += `<div class="skill-item">${skill}</div>`;
                     });
