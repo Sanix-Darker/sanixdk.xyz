@@ -37,12 +37,10 @@
 
 <div class="terminal-section github-stats">
     <div class="command-line">
-        <span class="prompt">root@sanixdk:~$ </span>
-        <span class="command">\</span>
+        <span class="prompt">root@sanixdk:~$ \\</span>
+        <span class="command">curl -Lss $GITHUB_HOST/sanix-darker | jq '.repos'</span>
     </div>
     <div class="output">
-        curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'<br>
-
         Public Repositories: 232<br>
         Most Used Languages: Python, JavaScript, Go, Shell<br>
         <div class="progress-bar">
