@@ -11,7 +11,7 @@ To know more about my dev-stack, i encourage you to check this [article](https:/
 ## DEV EXPERIENCE
 
 
-### -> SENIOR MEMBER OF TECHNICAL STAFF
+### SENIOR MEMBER OF TECHNICAL STAFF
 
 `Aug 2024 - Now` | at [Odaseva](https://www.odaseva.com/en/)
 
@@ -22,7 +22,7 @@ As a Senior Member of Technical Staff at Odaseva, some of my roles are to mainta
 
 <hr/>
 
-### -> BACKEND ENGINEER
+### BACKEND ENGINEER
 
 `Jul 2021 - Aug 2024` | at [Toucan Toco](https://www.toucantoco.com/en/)
 
@@ -32,7 +32,7 @@ As a Backend engineer, am responsible to optimize all services around the data f
 
 <hr/>
 
-### -> BACKEND ENGINEER & DEVSECOPS
+### BACKEND ENGINEER & DEVSECOPS
 
 `Dec 2020 - March 2021` | at [Meta-Nutrition](https://www.metnu.com/)
 
@@ -48,7 +48,7 @@ As a backend engineer, my role was to optimize and maintain the main service tha
 
 <hr/>
 
-### -> LEAD BACKEND DEV
+### LEAD BACKEND DEV
 
 `Nov 2018 - Mar 2020` | at [Variance Tech(now Qognitiv)](https://qognitiv.io/)
 
@@ -59,7 +59,7 @@ For the inovative bank app we were building an inteligent ecosystem around self-
 
 <hr/>
 
-### -> SOFTWARE DEVELOPER
+### SOFTWARE DEVELOPER
 
 `Oct 2017 - Sept 2018` | at **C-Point**
 
@@ -69,7 +69,7 @@ First remote Job experience, working on a marketing digital media builder.
 
 <hr/>
 
-### -> INTERN + FULL STACK DEVELOPER
+### INTERN + FULL STACK DEVELOPER
 
 `Nov 2016 - Oct 2017` | at **Worldevs / Afric's Apps**
 

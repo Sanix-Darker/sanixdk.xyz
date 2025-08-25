@@ -23,7 +23,7 @@ Most of the time, just trying to solve interesting problems and exploring tech s
 
 ## MADE SOME **PET** PROJECTS
 
-### > GIT HOOKS :
+### GIT HOOKS :
 
 
 - [gaga](https://github.com/Sanix-Darker/gaga) : Encrypt some of your versionned file.
@@ -31,7 +31,7 @@ Most of the time, just trying to solve interesting problems and exploring tech s
 - [github-track](https://github.com/sanix-darker/github-track) : Track your git activity from any other host to github.
 
 
-### > CLIs
+### CLIs
 
 
 - [castthat](https://github.com/Sanix-Darker/castthat) : broadCast an area of your screen over http network with a single bash script.
@@ -42,7 +42,7 @@ Most of the time, just trying to solve interesting problems and exploring tech s
 
 
 
-### > OTHERS (web, libs, builder...)
+### OTHERS (web, libs, builder...)
 
 
 - [docka](https://github.com/Sanix-Darker/docka) : Build, test and run any public git repository link that has Dockerfile or/and docker-compose.
