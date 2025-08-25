@@ -1,4 +1,4 @@
-<nav id="index">
+<div id="index">
 <div class="terminal-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
@@ -235,4 +235,4 @@
         });
     });
 </script>
-</nav>
+</div>
