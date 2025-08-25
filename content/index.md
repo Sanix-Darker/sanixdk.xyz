@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<h2>CURRENTLY WORKING AND MAINTAINING</h2>
+<h2>WORKING ON:</h2>
 <ul>
 <li><a href="https://github.com/Sanix-Darker/gitmark">gitMark</a> : Bookmark comments from any git hub (gitlab,github,bitbucket, sourcehut...).</li>
 <li><a href="https://github.com/Sanix-Darker/stackfetch">stackfetch</a> : Fetch/Grab stack/lang/system infos (inspired by neofetch).</li>
@@ -74,7 +74,7 @@
     </div>
 </div>
 
-<h2>OPENSOURCE CONTRIBUTOR ON</h2>
+<h2>CONTRIBUTING TO:</h2>
 <ul>
 <li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.</li>
 <li><a href="https://github.com/osscameroon">oss-cammeroon</a> :  Open source projects driven by Cameroonian developers.</li>
@@ -165,8 +165,8 @@
                         month: 'short',
                         day: '2-digit'
                     });
-                    const language = repo.language || 'Unknown';
-                    reposList += `drwxr-xr-x 2 ${language} dk 4096 ${updatedDate} ./${repo.name}/<br>`;
+                    const language = repo.language || 'N/A';
+                    reposList += `rwxr-xr-x ${language} dk 1 ${updatedDate} ./${repo.name}/<br>`;
                 });
                 electronicsElement.innerHTML = reposList;
             }
