@@ -41,7 +41,7 @@
         <span class="command">curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'</span>
     </div>
     <div class="output">
-        Public Repositories: 89<br>
+        Public Repositories: 232<br>
         Most Used Languages: Python, JavaScript, Go, Shell<br>
         <div class="progress-bar">
             <div class="progress-fill" style="width: 92%;"></div>
@@ -161,6 +161,172 @@
             }
         });
     }
+
+    // Real GitHub API calls and dynamic data
+    async function fetchGitHubData() {
+        try {
+            // Fetch user data
+            const userResponse = await fetch('https://api.github.com/users/sanix-darker');
+            const userData = await userResponse.json();
+
+            // Update public repos count
+            const reposElement = document.querySelector('.github-stats .output');
+            if (reposElement && userData.public_repos) {
+                reposElement.innerHTML = `
+                    Public Repositories: ${userData.public_repos}<br>
+                    Followers: ${userData.followers} | Following: ${userData.following}<br>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${Math.min(userData.public_repos, 100)}%;"></div>
+                    </div>
+                    Activity Level: Very Active
+                `;
+            }
+
+            // Fetch recent repositories for electronics section
+            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=5');
+            const reposData = await reposResponse.json();
+
+            // Update electronics section with recent repos
+            const electronicsElement = document.querySelector('.electronics-section .output');
+            if (electronicsElement && reposData.length > 0) {
+                let reposList = '';
+                reposData.forEach(repo => {
+                    const updatedDate = new Date(repo.updated_at).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: '2-digit'
+                    });
+                    const language = repo.language || 'Unknown';
+                    reposList += `drwxr-xr-x 2 sanix sanix 4096 ${updatedDate} ./${repo.name}/ [${language}]<br>`;
+                });
+                electronicsElement.innerHTML = reposList;
+            }
+
+        } catch (error) {
+            console.error('Error fetching GitHub data:', error);
+        }
+    }
+
+    // Fetch WakaTime stats from profile README
+    async function fetchWakaTimeStats() {
+        try {
+            const response = await fetch('https://raw.githubusercontent.com/Sanix-Darker/sanix-darker/refs/heads/master/README.md');
+            const readmeText = await response.text();
+
+            // Extract WakaTime section
+            const wakaStart = readmeText.indexOf('<!--START_SECTION:waka-->');
+            const wakaEnd = readmeText.indexOf('<!--END_SECTION:waka-->');
+
+            if (wakaStart !== -1 && wakaEnd !== -1) {
+                const wakaSection = readmeText.substring(wakaStart, wakaEnd);
+
+                // Parse coding time
+                const codingTimeMatch = wakaSection.match(/Coding time : (.+?)\./);
+                const codingTime = codingTimeMatch ? codingTimeMatch[1] : '1 hr 20 mins';
+
+                // Parse languages with percentages
+                const languageMatches = wakaSection.matchAll(/(\w+)\s+(\d+\s+\w+)\s+.*?(\d+\.\d+)\s*%/g);
+                const languages = Array.from(languageMatches).slice(0, 6); // Top 6 languages
+
+                // Update skills section
+                const skillsElement = document.querySelector('.skills-section .output');
+                if (skillsElement && languages.length > 0) {
+                    let skillsGrid = '<div class="skills-grid">';
+
+                    // Add dynamic languages from WakaTime
+                    languages.forEach(([, lang, time, percentage]) => {
+                        skillsGrid += `<div class="skill-item">${lang} (${percentage}%)</div>`;
+                    });
+
+                    // Add static skills
+                    const staticSkills = ['Docker', 'Linux', 'Neovim', 'Git', 'Arduino', 'Raspberry Pi', 'IoT', 'PCB Design'];
+                    staticSkills.forEach(skill => {
+                        skillsGrid += `<div class="skill-item">${skill}</div>`;
+                    });
+
+                    skillsGrid += '</div>';
+                    skillsGrid += `<br>Weekly Coding Time: ${codingTime}`;
+
+                    skillsElement.innerHTML = skillsGrid;
+                }
+            }
+
+        } catch (error) {
+            console.error('Error fetching WakaTime stats:', error);
+        }
+    }
+
+    // Enhanced terminal commands with real data
+    const enhancedCommands = {
+        ...commands,
+        repos: 'Fetching latest repositories...',
+        stats: 'Fetching GitHub statistics...',
+        waka: 'Fetching WakaTime coding stats...',
+        refresh: 'Refreshing all data...'
+    };
+
+    // Update terminal input handler
+    if (terminalInput) {
+        terminalInput.removeEventListener('keypress', terminalInput.keypressHandler);
+
+        terminalInput.keypressHandler = async function(e) {
+            if (e.key === 'Enter') {
+                const command = this.value.trim().toLowerCase();
+                const output = document.createElement('div');
+                output.style.marginBottom = '10px';
+                output.style.color = 'var(--text-secondary)';
+
+                if (command === 'clear') {
+                    terminalOutput.innerHTML = '';
+                } else if (command === 'repos') {
+                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Fetching latest repositories...`;
+                    terminalOutput.appendChild(output);
+                    await fetchGitHubData();
+                } else if (command === 'stats') {
+                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Fetching GitHub statistics...`;
+                    terminalOutput.appendChild(output);
+                    await fetchGitHubData();
+                } else if (command === 'waka') {
+                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Fetching WakaTime coding stats...`;
+                    terminalOutput.appendChild(output);
+                    await fetchWakaTimeStats();
+                } else if (command === 'refresh') {
+                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Refreshing all data...`;
+                    terminalOutput.appendChild(output);
+                    await Promise.all([fetchGitHubData(), fetchWakaTimeStats()]);
+                } else if (enhancedCommands[command]) {
+                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>${enhancedCommands[command]}`;
+                    terminalOutput.appendChild(output);
+                } else if (command) {
+                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
+                    terminalOutput.appendChild(output);
+                }
+
+                this.value = '';
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+        };
+
+        terminalInput.addEventListener('keypress', terminalInput.keypressHandler);
+    }
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add loading indicators
+        const githubStats = document.querySelector('.github-stats .output');
+        const skillsSection = document.querySelector('.skills-section .output');
+        const electronicsSection = document.querySelector('.electronics-section .output');
+
+        if (githubStats) githubStats.innerHTML = 'Loading GitHub data...';
+        if (skillsSection) skillsSection.innerHTML = 'Loading skills data...';
+        if (electronicsSection) electronicsSection.innerHTML = 'Loading recent repositories...';
+
+        // Fetch all data
+        Promise.all([fetchGitHubData(), fetchWakaTimeStats()]).then(() => {
+            console.log('All data loaded successfully');
+        }).catch(error => {
+            console.error('Error loading data:', error);
+        });
+    });
 
     const blogList = document.getElementById("blog-list");
     if (blogList) {
