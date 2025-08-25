@@ -12,7 +12,7 @@
 
 <h1 class='typing'> HI, AM SANIX </h1>
 
-<div class="terminal-section">
+<div class="terminal-section skills-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
         <span class="command">cat skills.txt</span>
@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="terminal-section">
+<div class="terminal-section github-stats">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
         <span class="command">curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'</span>
@@ -63,10 +63,10 @@
 <li><a href="https://github.com/sanix-darker/s2c">s2c</a> : Secret video(ASCII)/audio chat in your terminal with encryption.</li>
 </ul>
 
-<div class="terminal-section">
+<div class="terminal-section electronics-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">ls -la ~/electronics/</span>
+        <span class="command">ls -lah ~/github/*</span>
     </div>
     <div class="output">
         drwxr-xr-x 2 sanix sanix 4096 Jan 15 2025 ./arduino-projects/<br>
@@ -325,79 +325,6 @@
             console.log('All data loaded successfully');
         }).catch(error => {
             console.error('Error loading data:', error);
-        });
-    });
-
-    const blogList = document.getElementById("blog-list");
-    if (blogList) {
-        const blogCount = document.querySelectorAll("h3").length;
-        blogList.style.setProperty("--total-items", `${blogCount}`);
-        console.log("Blog count :", blogCount);
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('search-input');
-        const blogItems = document.querySelectorAll('.blog-item, article');
-
-        if (!searchInput) return;
-
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase().trim();
-
-            blogItems.forEach(function(item) {
-                const title = item.querySelector('h1, h2, h3, .blog-title');
-                const content = item.querySelector('p, .blog-excerpt, .content');
-                const tags = item.querySelectorAll('.tag, .tags span');
-
-                let searchableText = '';
-
-                // Add title text
-                if (title) {
-                    searchableText += title.textContent.toLowerCase() + ' ';
-                }
-
-                // Add content text
-                if (content) {
-                    searchableText += content.textContent.toLowerCase() + ' ';
-                }
-
-                // Add tags text
-                tags.forEach(function(tag) {
-                    searchableText += tag.textContent.toLowerCase() + ' ';
-                });
-
-                // Show/hide based on search
-                if (searchTerm === '' || searchableText.includes(searchTerm)) {
-                    item.style.display = 'block';
-                    item.style.opacity = '1';
-                } else {
-                    item.style.display = 'none';
-                    item.style.opacity = '0';
-                }
-            });
-
-            // Show "no results" message if needed
-            const visibleItems = Array.from(blogItems).filter(item =>
-                item.style.display !== 'none'
-            );
-
-            let noResultsMsg = document.getElementById('no-results');
-            if (visibleItems.length === 0 && searchTerm !== '') {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.id = 'no-results';
-                    noResultsMsg.className = 'no-results';
-                    noResultsMsg.innerHTML = '<p>// no posts found matching your search</p>';
-
-                    const blogContainer = document.querySelector('.blog-list, .blog-posts, main');
-                    if (blogContainer) {
-                        blogContainer.appendChild(noResultsMsg);
-                    }
-                }
-                noResultsMsg.style.display = 'block';
-            } else if (noResultsMsg) {
-                noResultsMsg.style.display = 'none';
-            }
         });
     });
 </script>
