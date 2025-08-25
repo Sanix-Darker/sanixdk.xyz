@@ -105,11 +105,11 @@ h4 { font-size: 1.5rem }
 h5 { font-size: 1.25rem }
 h6 { font-size: 1rem }
 
-h1::before { content: '> ' }
-h2::before { content: '?> ' }
-h3::before { content: '/ ' }
-h4::before { content: '// ' }
-h5::before { content: '/// ' }
+h1::before { content: '# ' }
+h2::before { content: '/* ' }
+h3::before { content: '// ' }
+h4::before { content: '~ ' }
+h5::before { content: '--- ' }
 h1::before, h2::before, h3::before h4::before h5::before{ color: var(--text-muted) }
 
 p, a, li, td {
@@ -338,8 +338,8 @@ article:hover, .blog-item:hover {
   position: absolute;
   top: 0;
   right: 0;
-  width: 320px;
-  height: 320px;
+  width: 370px;
+  height: 370px;
   background-image: var(--bg-image);
   background-size: cover;
   background-position: center;
@@ -422,7 +422,7 @@ img { max-width: 100%; height: auto }
   .gap-sm { gap: .5rem }
   .gap-md { gap: 1rem }
   .gap-lg { gap: 1.5rem }
-  .triangle-bg { width: 260px; height: 260px }
+  .triangle-bg { width: 300px; height: 300px }
   .blog-title { font-size: 1rem }
   .blog-meta, .blog-excerpt, .tags { padding-right: 80px }
   p, li, td, .blog-excerpt { font-size: 1.05rem; line-height: 1.7 }
