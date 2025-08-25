@@ -8,7 +8,7 @@
 
 ## DISCLAIMER: FEELINGS OVER FACTS
 
-Everything you're about to read is purely how I'm feeling about this journey. This isn't some universal truth or career advice - it's just one developer's descent into madness, documented for your entertainment. Your mileage may vary. Side effects may include: excessive googling, imposter syndrome, and the sudden urge to read CPU documentation at 3 AM.
+Everything you're about to read is purely how I'm feeling about this journey. This isn't some universal truth or career advice, it's just one developer's descent into madness, documented for your entertainment. Your mileage may vary. Side effects may include: excessive googling, imposter syndrome, and the sudden urge to read CPU documentation at 3 AM.
 
 If you're a junior dev and this scares you: don't worry, this is just my personal flavor of existential crisis. You might get a completely different one, or even better, you might stay sane. The odds are in your favor if you stick to high-level languages and avoid asking "but why?" too often.
 
@@ -37,7 +37,7 @@ Here's the thing about learning computers: it's like those Russian nesting dolls
 
 ## THE MORE YOU KNOW, THE LESS YOU KNOW YOU KNOW
 
-Every answer spawns three questions. Fix one bug, discover the entire codebase is held together by a comment that says `// DO NOT REMOVE - nobody knows why this works`.
+Every answer spawns three questions. Fix one bug, discover the entire codebase is held together by a comment that says `// DO NOT REMOVE, nobody knows why this works`.
 
 You start questioning fundamental truths. Is UDP really connectionless, or is that just what it wants us to think? Why do we trust compilers? Who compiles the compiler? It's compilers all the way down until you hit assembly, and then it's just electrons doing whatever they want while we pretend we're in control.
 
@@ -112,11 +112,11 @@ Staff:     K ↑↑↑↑ U = NULL, Confidence = NaN
 With AI:   All previous metrics ÷ Math.random()
 ```
 
-The more senior you get, the more you realize every technical decision is just choosing which flavor of future regret you prefer. And now with AI, we're not even choosing anymore - we're letting the machines choose their own regrets and hoping they align with ours.
+The more senior you get, the more you realize every technical decision is just choosing which flavor of future regret you prefer. And now with AI, we're not even choosing anymore, we're letting the machines choose their own regrets and hoping they align with ours.
 
 ## PLOT TWIST: YOU DON'T ACTUALLY NEED THIS PAIN
 
-Here's the thing though - and this is important - **most developers don't need to understand everything, and that's perfectly fine**.
+Here's the thing though, and this is important, **most developers don't need to understand everything, and that's perfectly fine**.
 
 Python doesn't ask you about cache lines. PHP doesn't care if you know what a memory fence is. JavaScript was literally created in 10 days, do you think it wants you to suffer? These languages exist specifically so you DON'T have to think about whether your struct is aligned to a 64-byte boundary for optimal cache performance.
 
@@ -139,23 +139,23 @@ My Workflow (because I hate myself):
 
 The reason I'm having an existential crisis about CPU cycles and instruction sets? Because I made the questionable life choice of doing low-level programming as a *hobby*. That's right, while normal people collect stamps or watch Netflix, I'm out here writing C and assembly, playing with embedded systems, wondering why my interrupt handler is causing cache thrashing.
 
-When you're working with languages where a single misplaced pointer can summon nasal demons, where you need to manually manage memory like you're playing Tetris with bytes, where undefined behavior lurks around every corner - yeah, you NEED to know what's actually happening under the hood. Otherwise, you're not programming, you're just gambling with segfaults.
+When you're working with languages where a single misplaced pointer can summon nasal demons, where you need to manually manage memory like you're playing Tetris with bytes, where undefined behavior lurks around every corner, yeah, you NEED to know what's actually happening under the hood. Otherwise, you're not programming, you're just gambling with segfaults.
 
 But if you're building web apps in React? Making REST APIs with Django? You don't need this knowledge. The languages were designed to protect you from it. That's not weakness, that's efficiency. That's standing on the shoulders of giants who already suffered so you don't have to.
 
 ## THE SELF-INFLICTED WOUND
 
-My problem isn't seniority making me dumber. It's that I voluntarily chose to peek behind the curtain, and now I can't unsee the wizard frantically pulling levers while the whole of Oz runs on hopes and undefined behavior. I'm basically that person who reads the ingredient list on hot dogs - some knowledge just makes life harder.
+My problem isn't seniority making me dumber. It's that I voluntarily chose to peek behind the curtain, and now I can't unsee the wizard frantically pulling levers while the whole of Oz runs on hopes and undefined behavior. I'm basically that person who reads the ingredient list on hot dogs, some knowledge just makes life harder.
 
 So if you're feeling dumb because you don't understand CPU architecture, remember: you probably don't need to. Unless, like me, you've decided that writing bootloaders is a "fun weekend project." In which case, welcome to the club. We meet at 3 AM in the debugger, crying over assembly code that should work but doesn't because the CPU has "opinions."
 
 ---
 
-*P.S. - If you understood why I used `==` instead of `===`, congratulations, you're already too far gone. Welcome to the club. We have undefined cookies and AI-generated coffee that might be sentient.*
+*P.S., If you understood why I used `==` instead of `===`, congratulations, you're already too far gone. Welcome to the club. We have undefined cookies and AI-generated coffee that might be sentient.*
 
-*P.P.S - Yes, I spent 20 minutes perfecting those ASCII diagrams instead of fixing that production bug. Priorities.*
+*P.P.S, Yes, I spent 20 minutes perfecting those ASCII diagrams instead of fixing that production bug. Priorities.*
 
-*P.P.P.S - To all the Python devs living their best life without knowing what a stack pointer is: you made the right choice. Stay pure. Don't look into the void. The void has pointers, and they're all null.*
+*P.P.P.S, To all the Python devs living their best life without knowing what a stack pointer is: you made the right choice. Stay pure. Don't look into the void. The void has pointers, and they're all null.*
 
 
 -----------
