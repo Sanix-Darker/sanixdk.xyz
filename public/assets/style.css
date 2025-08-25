@@ -231,6 +231,8 @@ article, .blog-item {
   overflow: hidden
 }
 
+article img { width: 100%; max-height: 10em; object-fit: cover }
+
 article:hover, .blog-item:hover {
   background: var(--hover-color);
   border-color: var(--text-muted);
@@ -363,6 +365,106 @@ article:hover, .blog-item:hover {
     rgba(17,17,17,1) 100%)
 }
 
+
+/* Common Elements */
+hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2rem 0
+}
+
+/* Terminal Styles (Index-specific) */
+#index .terminal-section {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-family: inherit
+}
+
+#index .command-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: .5rem;
+  color: var(--text-primary)
+}
+
+#index .prompt {
+  color: var(--text-muted);
+  margin-right: .5rem
+}
+
+#index .command { color: var(--text-secondary) }
+
+#index .output {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary)
+}
+
+#index .status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: .5rem
+}
+
+#index .status-online { background: #0f0 }
+#index .status-busy { background: #ff0 }
+
+#index .skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: .5rem;
+  margin: 1rem 0
+}
+
+#index .skill-item {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  padding: .5rem;
+  text-align: center;
+  font-size: .8rem;
+  color: var(--text-secondary)
+}
+
+#index .progress-bar {
+  background: var(--bg-tertiary);
+  height: 4px;
+  margin: .5rem 0;
+  overflow: hidden
+}
+
+#index .progress-fill {
+  height: 100%;
+  background: var(--text-muted);
+  animation: progress-load 2s ease-out
+}
+
+@keyframes progress-load {
+  from { width: 0 }
+}
+
+#index .interactive-terminal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  margin: 1.5rem 0
+}
+
+#index .terminal-input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  width: 100%
+}
+
+#index .cursor { animation: blink 1s infinite }
+
 /* Utilities */
 .text-center { text-align: center }
 .mb-2 { margin-bottom: 1rem }
@@ -431,6 +533,8 @@ img { max-width: 100%; height: auto }
   button, .button { padding: .8rem 1.2rem; font-size: 1rem }
   pre { font-size: .9rem; padding: 1rem }
   input, textarea, select { font-size: 1rem; padding: .8rem }
+  #index .skills-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) }
+  #index .terminal-section { padding: 1rem }
 }
 
 @media (min-width: 769px) {
