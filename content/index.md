@@ -41,7 +41,8 @@
         <span class="command">\</span>
     </div>
     <div class="output">
-        > curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'<br>
+        curl -s https://api.github.com/users/sanix-darker | jq '.public_repos'<br>
+
         Public Repositories: 232<br>
         Most Used Languages: Python, JavaScript, Go, Shell<br>
         <div class="progress-bar">
