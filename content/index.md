@@ -153,7 +153,7 @@
             }
 
             // Fetch recent repositories for electronics section
-            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=7');
+            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=10');
             const reposData = await reposResponse.json();
 
             // Update electronics section with recent repos
@@ -166,7 +166,7 @@
                         day: '2-digit'
                     });
                     const language = repo.language || 'N/A';
-                    reposList += `rwxr-xr-x ${language} dk 1 ${updatedDate} ./${repo.name}/<br>`;
+                    reposList += `drwxr-xr-x ${language} dk 1 ${updatedDate} ./${repo.name}/<br>`;
                 });
                 electronicsElement.innerHTML = reposList;
             }
