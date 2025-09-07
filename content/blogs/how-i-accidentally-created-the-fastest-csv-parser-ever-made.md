@@ -8,11 +8,11 @@
 
 ### DISCLAIMERS
 
+- This project started as a fun experiment 2months ago and still evolving... therefore, i don't necessaryly 100% recommend it as a must-use tool for now, as it may have its own flaws.
+
 - The code has evolved over the course of this article, so some specific details and specifications may not be fully representative of the project currently live.
 
-- I'm not an expert in CPU architectures, so I may be wrong on some points as I'm still learning. Feel free to point out any mistakes in the comments.
-
-- This project started as a fun experiment and may well become a real-world product. Therefore, I don't recommend it as a must-use tool for this first step, as it may have its own flaws.
+- I'm not an expert in CPU architectures, so I may be wrong on some points as am still learning. Feel free to point out any mistakes in the comments.
 
 ### HOW EVERYTHING STARTED
 
@@ -28,25 +28,20 @@ This wasn't a task from a manager or a critique from a colleague. This was a sel
 
 Before we descend into the madness, let's establish a baseline. Understanding these concepts is crucial, as they are the very pillars upon which we will build our monument to unnecessary speed.
 
-- **CSV Parser** ([Wikipedia](https://en.wikipedia.org/wiki/Comma-separated_values)): At its heart, a program that reads Comma-Separated Values (CSV) files. Its job is to bravely navigate a minefield of commas, newlines, and escaped quotes to split plain text into structured rows and fields. It's the unsung hero of data import, and it's traditionally, painfully slow due to its inherently branch-heavy and serial nature.
-
-- **CPU Clock Cycle**: The fundamental unit of time in a processor. One clock cycle is the time it takes for the CPU to perform its most basic operation. Modern CPUs run at frequencies like 3.5 GHz, meaning 3.5 billion clock cycles per second. When we say an operation takes "4 cycles," at 3.5 GHz that's approximately 1.14 nanoseconds. Memory access from RAM can take 100-200 cycles (28-57 nanoseconds), which is an eternity in CPU time.
-
-- **SIMD** (Single Instruction, Multiple Data) ([Wikipedia](https://en.wikipedia.org/wiki/SIMD)): The secret weapon of modern CPUs. SIMD allows a single instruction to perform the exact same operation on multiple data points simultaneously. Forget processing one character at a time. Think of it as teaching an entire platoon of 64 recruits to process data in perfect lockstep, rather than relying on one overworked, under-caffeinated employee.
-
-- **AVX-512** (Advanced Vector Extensions) ([Wikipedia](https://en.wikipedia.org/wiki/AVX-512)): Intel's most potent and, frankly, awe-inspiring SIMD instruction set. It provides registers that are 512 bits wide, meaning a single CPU instruction can operate on a whopping 64 bytes (or 64 8-bit characters) in a single CPU cycle. It is both magnificent and terrifying.
+At its heart, a [**CSV Parser**](https://en.wikipedia.org/wiki/Comma-separated_values) is the valiant program that reads Comma-Separated Values files, embarking on the perilous quest to navigate a minefield of commas, newlines, and escaped quotes to transform plain text into structured rows and fields. It's the unsung hero of data import, yet it has traditionally been painfully slow. **To understand why, we must look under the hood at the engine of modern computation: the CPU Clock Cycle.** This cycle is the fundamental unit of time for a processor; at 3.5 GHz, a single cycle is a blistering 1.14 nanoseconds. In this context, an operation like accessing RAM can take an eternity at 100-200 cycles, creating a monumental bottleneck for a serial task like parsing. [**This is where the paradigm shifts with a powerful architectural feature: SIMD (Single Instruction, Multiple Data).**](https://en.wikipedia.org/wiki/SIMD) Think of SIMD as the secret weapon that transforms the CPU from a single, overworked employee processing one character at a time into a disciplined platoon of recruits working in perfect, simultaneous lockstep. [**And the most formidable expression of this power is Intel's AVX-512 (Advanced Vector Extensions).**](https://en.wikipedia.org/wiki/AVX-512) This awe-inspiring instruction set wields 512-bit wide registers, allowing a single, magnificent instruction to operate on a staggering 64 characters in parallel, utterly revolutionizing what is possible in a single clock cycle and finally giving our unsung hero the mighty tools it deserves.
 
 ---
 
-### WRITING A CSV PARSER: THE BASICS
+### WRITING A CSV PARSER: HOW TO ?
 
 Writing a CSV parser is deceptively simple at first glance. The algorithm is straightforward:
 
-1. Iterate over each character in the file
-2. If you find a comma (`,`) → It's a new column
-3. If you find a newline (`\n`) → It's a new row
-4. If you find a quote (`"`) → Enter quoted mode (commas inside quotes don't count)
-5. Otherwise → Collect the character as part of the current field
+- First, you need to iterate over each character in the file,
+- If you find a comma (`,`) → It's a new column,
+- If you find a newline (`\n`) → It's a new row,
+- If you find a quote (`"`) → Enter quoted mode (commas inside quotes don't count),
+- Otherwise → Collect the character as part of the current field. Yup, that's it... i mean, for the most parts.
+
 
 Here's what this looks like in pseudocode:
 
@@ -112,10 +107,10 @@ Processing one... sad... byte... at... a... time.
 
 Clock cycles per byte (worst case):
 ┌────────────────────────────────────────┐
-│ Read byte:           ~4 cycles         │
-│ Compare & branch:    ~1 cycle          │
+│ Read byte:            ~4 cycles        │
+│ Compare & branch:     ~1 cycle         │
 │ Branch misprediction: +10-20 cycles    │
-│ Function call:       ~5 cycles         │
+│ Function call:        ~5 cycles        │
 │ Total:              ~20-30 cycles/byte │
 └────────────────────────────────────────┘
 ```
