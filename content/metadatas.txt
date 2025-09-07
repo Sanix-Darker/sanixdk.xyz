@@ -1,10 +1,10 @@
-path: ./content/blogs/getting-seniority-equals-getting-dumber.md
-link: /blogs/getting-seniority-equals-getting-dumber
-title: GETTING SENIORITY == GETTING DUMBER
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/getting-seniority-equals-getting-dumber/senior.png
-date: 2025-08-25 11:03PM
-tags: #thoughts #career
-time: 5 min
+path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
+link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
+title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png
+date: 2025-09-07 08:24PM
+tags: #cpu #c #csv #perfs
+time: 31 min
 
 path: ./content/blogs/vibe-coding-is-a-good-poison.md
 link: /blogs/vibe-coding-is-a-good-poison

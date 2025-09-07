@@ -1,11 +1,20 @@
 ![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png)
 
 ## HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE, cisv.
-`2025-08-30 10:04 AM` • 32 min read • **#c** **#csv** **#perfs** **#simd** **#avx512** **#nodejs** **#optimization**
+`2025-09-07 08:24 PM` • 31 min read • **#cpu** **#c** **#csv** **#perfs**
 
 ---
 
-### THE CHALLENGE THAT STARTED IT ALL
+
+### DISCLAIMERS
+
+- The code has evolved over the course of this article, so some specific details and specifications may not be fully representative of the project currently live.
+
+- I'm not an expert in CPU architectures, so I may be wrong on some points as I'm still learning. Feel free to point out any mistakes in the comments.
+
+- This project started as a fun experiment and may well become a real-world product. Therefore, I don't recommend it as a must-use tool for this first step, as it may have its own flaws.
+
+### HOW EVERYTHING STARTED
 
 A while back, I wrote a piece on "[the weird and wonderful concept of branchless programming](https://sanixdk.xyz/blogs/the-weird-concept-of-branchless-programming)". I explored the theory of how avoiding `if` statements and `switch` cases could, counter-intuitively, make code faster by eliminating CPU branch mispredictions. It was a fascinating dive into the mind of the processor, but theory is one thing. Practice is another beast entirely.
 
@@ -909,14 +918,3 @@ That's when you accidentally create the fastest CSV parser ever made.
 ---
 
 
-<!--
-
-path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
-link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
-title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png
-date: 2025-08-30 10:04 AM
-tags: #c #csv #perfs #simd #avx512 #nodejs #optimization
-time: 32 min
-
--->
