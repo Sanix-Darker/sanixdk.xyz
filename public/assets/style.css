@@ -2,7 +2,7 @@
   --bg-primary: #0a0a0a;
   --bg-secondary: #111;
   --bg-tertiary: #1a1a1a;
-  --text-primary: #f5f5f5;
+  --text-primary: #f7f5f5;
   --text-secondary: #e0e0e0;
   --text-muted: #999;
   --border-color: #333;
@@ -14,7 +14,7 @@
 *, :before, :after { box-sizing: border-box }
 html { font-size: 100% }
 body {
-  font: .9rem/1.6 'Courier New', 'SF Mono', Monaco, Inconsolata, 'Fira Code', monospace;
+  /*font: .9rem/1.6 'Courier New', 'SF Mono', Monaco, Inconsolata, 'Fira Code', monospace; */
   background: var(--bg-primary);
   color: var(--text-primary);
   letter-spacing: .5px;
