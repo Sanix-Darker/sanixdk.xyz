@@ -8,7 +8,7 @@
 
 ### DISCLAIMERS
 
-- This project started as a fun experiment 2months ago and still evolving... therefore, i don't necessaryly 100% recommend it as a must-use tool for now, as it may have its own flaws.
+- This project started as a fun experiment 2months ago and still evolving... therefore, i don't necessarily 100% recommend it as a must-use tool for now, as it may have its own flaws.
 
 - The code has evolved over the course of this article, so some specific details and specifications may not be fully representative of the project currently live.
 
