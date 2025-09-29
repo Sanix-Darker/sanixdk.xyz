@@ -8,40 +8,41 @@
 
 ### DISCLAIMERS
 
-- This project started as a fun experiment 2months ago and still evolving... therefore, i don't necessaryly 100% recommend it as a must-use tool for now, as it may have its own flaws.
+- **I used ChatGPT to help with technical definitions and finding book references. If anything seems wrong or you spot any AI hallucinations, let me know and I'll fix it. The actual GitHub project and parser code came straight from my discoveries and experiments, no AI involved there.**
 
-- The code has evolved over the course of this article, so some specific details and specifications may not be fully representative of the project currently live.
+- This project started as a fun experiment 2 months ago and it's still evolving. I don't necessarily recommend it as a production-ready tool yet, as it probably has its own flaws.
 
-- I'm not an expert in CPU architectures, so I may be wrong on some points as am still learning. Feel free to point out any mistakes in the comments.
+- The code has evolved over the course of this article, so some specific details and specifications may not match what's currently live.
+
+- I'm not an expert in CPU architectures, so I might be wrong on some points. Feel free to point out any mistakes in the comments.
 
 ### HOW EVERYTHING STARTED
 
-A while back, I wrote a piece on "[the weird and wonderful concept of branchless programming](https://sanixdk.xyz/blogs/the-weird-concept-of-branchless-programming)". I explored the theory of how avoiding `if` statements and `switch` cases could, counter-intuitively, make code faster by eliminating CPU branch mispredictions. It was a fascinating dive into the mind of the processor, but theory is one thing. Practice is another beast entirely.
+A while back, I wrote a piece on "[the weird and wonderful concept of branchless programming](https://sanixdk.xyz/blogs/the-weird-concept-of-branchless-programming)". I explored how avoiding `if` statements and `switch` cases could make code faster by eliminating CPU branch mispredictions. Fascinating theory, but theory is one thing. Practice is something else entirely.
 
-After publishing that article, a thought started nagging at me: *"It's all well and good to talk about this in the abstract, but what happens when you apply this philosophy to a real, notoriously branch-heavy problem?"*
+After publishing that article, a thought kept nagging at me: *"Sure, this sounds great in theory, but what happens when you apply this to a real, branch-heavy problem?"*
 
-And what problem is more plagued by unpredictable branches than parsing a CSV file? It's a chaotic mess of delimiters, quotes, and newlines. It was the perfect battlefield.
+And what problem is more plagued by unpredictable branches than parsing a CSV file? It's a mess of delimiters, quotes, and newlines. Perfect.
 
-This wasn't a task from a manager or a critique from a colleague. This was a self-inflicted challenge, i did to myself for 2months. A call to arms against my own conventional coding habits. I wanted to see if I could take the branchless principles, combine them with the raw power of modern CPU architecture, and build something not just fast, but *absurdly* fast. The goal: to create a CSV parser that treated the CPU not like a simple calculator, but like the parallel-processing monster it truly is... and then wrap that power in a Node.js library to see if native speed could obliterate the performance of existing JavaScript solutions.
+This wasn't an assignment or a critique from someone else. This was me torturing myself for 2 months. A personal challenge against my own coding habits. I wanted to see if I could take branchless principles, combine them with modern CPU architecture, and build something not just fast, but *stupidly* fast. The goal: create a CSV parser that treats the CPU like the parallel-processing beast it actually is... then wrap it in a Node.js library to see if native speed could destroy existing JavaScript solutions.
 
 #### KEY TERMS & DEFINITIONS
 
-Before we descend into the madness, let's establish a baseline. Understanding these concepts is crucial, as they are the very pillars upon which we will build our monument to unnecessary speed.
+Before we dive in, let's establish a baseline. Understanding these concepts is crucial - they're the foundation of what we're building.
 
-At its heart, a [**CSV Parser**](https://en.wikipedia.org/wiki/Comma-separated_values) is the valiant program that reads Comma-Separated Values files, embarking on the perilous quest to navigate a minefield of commas, newlines, and escaped quotes to transform plain text into structured rows and fields. It's the unsung hero of data import, yet it has traditionally been painfully slow. **To understand why, we must look under the hood at the engine of modern computation: the CPU Clock Cycle.** This cycle is the fundamental unit of time for a processor; at 3.5 GHz, a single cycle is a blistering 1.14 nanoseconds. In this context, an operation like accessing RAM can take an eternity at 100-200 cycles, creating a monumental bottleneck for a serial task like parsing. [**This is where the paradigm shifts with a powerful architectural feature: SIMD (Single Instruction, Multiple Data).**](https://en.wikipedia.org/wiki/SIMD) Think of SIMD as the secret weapon that transforms the CPU from a single, overworked employee processing one character at a time into a disciplined platoon of recruits working in perfect, simultaneous lockstep. [**And the most formidable expression of this power is Intel's AVX-512 (Advanced Vector Extensions).**](https://en.wikipedia.org/wiki/AVX-512) This awe-inspiring instruction set wields 512-bit wide registers, allowing a single, magnificent instruction to operate on a staggering 64 characters in parallel, utterly revolutionizing what is possible in a single clock cycle and finally giving our unsung hero the mighty tools it deserves.
+A [**CSV Parser**](https://en.wikipedia.org/wiki/Comma-separated_values) reads Comma-Separated Values files, navigating through commas, newlines, and escaped quotes to transform plain text into structured data. It's the workhorse of data import, yet traditionally slow as hell. **To understand why, look at the CPU Clock Cycle.** This is the fundamental unit of time for a processor; at 3.5 GHz, a single cycle is approximately 0.286 nanoseconds (1/3.5×10⁹). In this context, accessing RAM can take 100-200 cycles - a massive bottleneck for serial parsing. [**Enter SIMD (Single Instruction, Multiple Data).**](https://en.wikipedia.org/wiki/SIMD) Think of SIMD as transforming the CPU from one overworked employee processing one character at a time into a squad working in lockstep. [**The crown jewel is Intel's AVX-512 (Advanced Vector Extensions).**](https://en.wikipedia.org/wiki/AVX-512) This instruction set has 512-bit wide registers, letting a single instruction operate on 64 characters simultaneously. Game changer.
 
 ---
 
 ### WRITING A CSV PARSER: HOW TO ?
 
-Writing a CSV parser is deceptively simple at first glance. The algorithm is straightforward:
+Writing a CSV parser looks simple at first. The algorithm:
 
-- First, you need to iterate over each character in the file,
-- If you find a comma (`,`) → It's a new column,
-- If you find a newline (`\n`) → It's a new row,
-- If you find a quote (`"`) → Enter quoted mode (commas inside quotes don't count),
-- Otherwise → Collect the character as part of the current field. Yup, that's it... i mean, for the most parts.
-
+- Iterate over each character in the file
+- If you find a comma (`,`) → New column
+- If you find a newline (`\n`) → New row
+- If you find a quote (`"`) → Enter quoted mode (commas inside quotes don't count)
+- Otherwise → Collect the character as part of the current field
 
 Here's what this looks like in pseudocode:
 
@@ -68,13 +69,13 @@ Processing Flow:
 └─────────────────────────────────────┘
 ```
 
-Simple, right? The devil, as always, is in the implementation details.
+Simple, right? The devil is in the implementation.
 
 ---
 
 ### THE NAIVE PARSER: A TRAGEDY IN LINEAR TIME
 
-My original parser was a perfectly respectable piece of C code. It was clean, it was readable, and it was O(n), which, in computer science terms, means "it gets the job done, as long as nobody is watching the clock too closely." It was a classic state machine, traversing the byte stream one character at a time.
+My original parser was a perfectly respectable piece of C code. Clean, readable, O(n). In computer science terms, "it gets the job done, as long as nobody's watching the clock." Classic state machine, traversing the byte stream one character at a time.
 
 ```c
 // The "What is branch prediction, and can I eat it?" implementation
@@ -115,27 +116,27 @@ Clock cycles per byte (worst case):
 └────────────────────────────────────────┘
 ```
 
-> Hey, pssst, yes, you, this just reminds me of an old article I made regarding BrainFuck (the reading process is the same as a single dimension array cursor), it's in 3 parts, you can check [here](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3).
+> Hey, pssst, yes, you, this reminds me of an old article I wrote about BrainFuck (the reading process is the same as a single dimension array cursor), it's in 3 parts, you can check [here](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3).
 
 #### WHY THIS WAS SO INCREDIBLY SLOW?
 
-This approach, while logically sound, is a performance disaster on a modern superscalar CPU. It's a textbook example of how *not* to write high-performance code.
+This approach is a performance disaster on modern CPUs. It's a textbook example of how *not* to write high-performance code.
 
-- **Branch Misprediction Catastrophe** ([Wikipedia](https://en.wikipedia.org/wiki/Branch_predictor)): Modern CPUs are masters of speculation. To keep their deep instruction pipelines full, they guess which path a program will take at a branch (like an `if` statement or a `switch` case). When they guess wrong, which is frequent in unpredictable data like a CSV file, the entire pipeline must be flushed and refilled. This penalty can cost anywhere from 10 to 20 clock cycles per misprediction.
+- **Branch Misprediction Catastrophe** ([Wikipedia](https://en.wikipedia.org/wiki/Branch_predictor)): Modern CPUs guess which path a program will take at branches. When they guess wrong (which happens constantly with unpredictable CSV data), the entire pipeline must be flushed. This costs 10-20 clock cycles per misprediction.
 
-- **The Agony of Cache Misses** ([Wikipedia](https://en.wikipedia.org/wiki/CPU_cache#Cache_miss)): The CPU has tiny, lightning-fast memory caches (L1, L2, L3) right on the chip. Accessing data from the L1 cache might take a few cycles. Accessing it from main system RAM, however, can be 100 times slower.
+- **The Agony of Cache Misses** ([Wikipedia](https://en.wikipedia.org/wiki/CPU_cache#Cache_miss)): The CPU has tiny, lightning-fast memory caches (L1, L2, L3) on-chip. Accessing L1 cache takes a few cycles. Accessing main RAM? 100 times slower.
 
-- **The Crime of Single-Byte Processing**: The most fundamental sin was its scalar nature. In an era of 512-bit registers, processing data one byte at a time is the computational equivalent of buying a 10-lane superhighway and only ever using the bicycle path. We were leaving over 98% of the CPU's potential processing power on the table.
+- **The Crime of Single-Byte Processing**: The biggest sin was its scalar nature. In an era of 512-bit registers, processing one byte at a time is like buying a 10-lane superhighway and only using the bike lane. We were leaving 98% of the CPU's processing power unused.
 
 ---
 
 ### THE SIMD REVOLUTION: HOW IT ACTUALLY WORKS
 
-The challenge forced me to abandon the comfortable world of scalar code and dive head-first into the esoteric realm of vectorized processing using AVX-512 intrinsics. But let me show you exactly how SIMD transforms the parsing process.
+The challenge forced me to abandon comfortable scalar code and dive into the world of vectorized processing using AVX-512 intrinsics. Let me show you exactly how SIMD transforms parsing.
 
 #### THE FUNDAMENTAL CONCEPT: DATA-LEVEL PARALLELISM
 
-SIMD (Single Instruction, Multiple Data) is like having 64 workers all performing the exact same task simultaneously, rather than one worker doing 64 tasks sequentially. As brilliantly explained by [Aarol in their Zig SIMD substring search article](https://aarol.dev/posts/zig-simd-substr/), the key insight is that modern CPUs can perform the same operation on multiple data elements in parallel using vector registers.
+SIMD is like having 64 workers all doing the exact same task simultaneously, rather than one worker doing 64 tasks sequentially. As explained by [Aarol in their Zig SIMD substring search article](https://aarol.dev/posts/zig-simd-substr/), the key insight is that CPUs can perform the same operation on multiple data elements in parallel using vector registers.
 
 ```ascii
 Scalar vs SIMD Execution Model:
@@ -234,7 +235,7 @@ Total: 1 load + 1 compare for 64 bytes!
 
 #### THE MASK GENERATION PROCESS
 
-The comparison operation generates a bitmask, which is the key to branchless processing:
+The comparison operation generates a bitmask, which is key to branchless processing:
 
 ```ascii
 SIMD Mask Generation Flow:
@@ -288,7 +289,7 @@ New mask:     0000000000000000 → Done!
 Total: Found all delimiters in just 2 bit operations!
 ```
 
-Here's the actual code that makes this magic happen:
+Here's the actual code that makes this happen:
 
 ```c
 #include <immintrin.h> // Intel intrinsics header
@@ -385,11 +386,11 @@ SIMD+popcount: ~55ms for 1GB file (15x faster!)
 
 ### FROM C TO NODE.JS: THE PORTABILITY CHALLENGE
 
-One of the biggest challenges was making this blazing-fast C code accessible from Node.js. This required careful engineering to bridge two very different worlds.
+One of the biggest challenges was making this C code accessible from Node.js. This required careful engineering to bridge two very different worlds.
 
 #### THE N-API BRIDGE
 
-Node.js provides N-API (Node API) for creating native addons. Here's how we wrapped our SIMD parser:
+Node.js provides N-API for creating native addons. Here's how we wrapped our SIMD parser:
 
 ```c
 // cisv_node.c - The Node.js binding layer
@@ -446,21 +447,21 @@ The binding compilation process uses node-gyp with special flags to enable AVX-5
 
 ### BENCHMARKING: THE ULTIMATE SHOWDOWN WITH DETAILED METRICS
 
-Claims of speed are meaningless without hard data. Let's dive deep into the benchmarking methodology and results.
+Claims of speed mean nothing without data. Let's dive into the benchmarking methodology and results.
 
 #### BENCHMARK METHODOLOGY
 
-To ensure fair and comprehensive testing, I developed two distinct benchmarking approaches:
+I developed two benchmarking approaches:
 
 1. **CLI Tool Benchmarks**: A bash script that compares cisv against popular command-line CSV tools (miller, csvkit, rust-csv, xsv) across different file sizes, measuring both time and memory usage for row counting and column selection operations.
 
-2. **Node.js Library Benchmarks**: A JavaScript benchmark suite using the Benchmark.js library to measure operations per second, throughput, and latency for both synchronous and asynchronous parsing modes.
+2. **Node.js Library Benchmarks**: A JavaScript benchmark suite using Benchmark.js to measure operations per second, throughput, and latency for both synchronous and asynchronous parsing modes.
 
-The benchmarks test with progressively larger files (1K, 100K, 1M, and 10M rows) to understand how performance scales. Each test is run multiple times to ensure consistency, and includes both "parse only" and "parse + data access" scenarios to measure real-world usage patterns.
+The benchmarks test with progressively larger files (1K, 100K, 1M, and 10M rows). Each test runs multiple times for consistency, and includes both "parse only" and "parse + data access" scenarios to measure real-world usage.
 
 #### CLI PERFORMANCE RESULTS
 
-Testing the raw C implementation against other command-line tools reveals the massive performance gap:
+Testing the raw C implementation against other command-line tools reveals the performance gap:
 
 ```ascii
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -585,9 +586,9 @@ csv-parse:   5.8 TB
 
 ---
 
-### MEMORY OPTIMIZATION: YOU MUST FEED THE BEAST
+### MEMORY OPTIMIZATION: FEEDING THE BEAST
 
-Achieving SIMD nirvana was only half the battle. A high-performance engine is useless if its fuel line is clogged. The bottleneck had shifted from computation to memory access.
+Achieving SIMD performance was only half the battle. A fast engine is useless if it's starved for data. The bottleneck shifted from computation to memory access.
 
 ```ascii
 Memory Hierarchy & Access Times (Intel Core i9):
@@ -617,7 +618,7 @@ Memory Hierarchy & Access Times (Intel Core i9):
 
 #### KEY DATA-INGESTION OPTIMIZATIONS
 
-**Memory-Mapped Files (`mmap`)** ([Wikipedia](https://en.wikipedia.org/wiki/Mmap)): The standard `read()` syscall is slow. `mmap` is the ultimate bypass. It maps the file on disk directly into your process's virtual address space.
+**Memory-Mapped Files (`mmap`)** ([Wikipedia](https://en.wikipedia.org/wiki/Mmap)): The standard `read()` syscall is slow. `mmap` is the ultimate bypass. It maps the file directly into your process's virtual address space.
 
 ```c
 #include <sys/mman.h>
@@ -680,7 +681,7 @@ while (ptr < end) {
 
 ### THE DARK SIDE OF EXTREME OPTIMIZATION
 
-Such power does not come without its perils. Wielding AVX-512 is like handling a lightsaber; it's incredibly powerful, but if you're not careful, you'll slice your own arm off.
+With great power comes great... problems. AVX-512 is like a lightsaber - incredibly powerful, but you might lose a limb if you're not careful.
 
 #### AVX-512 FREQUENCY THROTTLING
 
@@ -735,7 +736,7 @@ void* buffer = aligned_alloc(64, size);
 
 #### THE PORTABILITY QUESTION
 
-This entire parser is a love letter to x86-64 with AVX-512. For ARM processors, we'd need to rewrite using NEON:
+This parser is married to x86-64 with AVX-512. For ARM processors, we'd need to rewrite using NEON:
 
 ```c
 #ifdef __x86_64__
@@ -752,23 +753,23 @@ This entire parser is a love letter to x86-64 with AVX-512. For ARM processors, 
 
 ---
 
-### CONCLUSION: THE LESSONS FORGED IN FIRE
+### CONCLUSION: LESSONS FORGED IN FIRE
 
-This journey from a simple, byte-by-byte parser to a memory-optimized, massively parallel SIMD engine taught me more than any textbook ever could.
+This journey from a simple byte-by-byte parser to a memory-optimized, massively parallel SIMD engine taught me more than any textbook could.
 
-1. **SIMD is Not Optional Anymore**: If your application is processing large amounts of data, and you are not using SIMD, you are fundamentally wasting over 90% of your CPU's potential.
+1. **SIMD is Not Optional Anymore**: If you're processing large amounts of data and not using SIMD, you're wasting 90% of your CPU's potential.
 
-2. **Memory is the Real Bottleneck**: You can have the most brilliant algorithm in the world, but if it's constantly waiting for data from RAM, it will be slow. Optimize for cache locality first.
+2. **Memory is the Real Bottleneck**: You can have the most brilliant algorithm, but if it's constantly waiting for data from RAM, it'll be slow. Optimize for cache locality first.
 
-3. **Benchmark Everything, Trust Nothing**: Without tools like `perf`, `strace`, and a rigorous benchmarking suite, you are flying blind. Assumptions are the enemy of performance.
+3. **Benchmark Everything, Trust Nothing**: Without tools like `perf`, `strace`, and rigorous benchmarking, you're flying blind. Assumptions kill performance.
 
-4. **Know Your Hardware**: Software is an abstraction, but performance is not. Understanding the metal your code is running on is what separates good code from truly high-performance code.
+4. **Know Your Hardware**: Software is an abstraction, but performance isn't. Understanding the metal your code runs on separates good code from high-performance code.
 
-5. **Native Addons are a Superpower**: Bringing C/Rust performance to high-level languages like Node.js is a powerful technique. The small overhead of the Foreign Function Interface (FFI) is a negligible price for a 10-100x performance gain in critical code paths.
+5. **Native Addons are a Superpower**: Bringing C/Rust performance to high-level languages like Node.js is powerful. The small FFI overhead is negligible compared to a 10-100x performance gain in critical paths.
 
 #### TRY IT YOURSELF
 
-The code is available on [GitHub](https://github.com/sanix-darker/cisv) and as an [npm package](https://www.npmjs.com/package/cisv). You can now bring this power to your Node.js projects, using either a simple synchronous method for convenience or a powerful streaming API for large files and memory efficiency.
+The code is on [GitHub](https://github.com/sanix-darker/cisv) and as an [npm package](https://www.npmjs.com/package/cisv). You can now bring this power to your Node.js projects with either a simple synchronous method or a streaming API for large files.
 
 ```javascript
 const { cisvParser } = require('cisv');
@@ -838,13 +839,13 @@ Remember: with great performance comes great responsibility. Use this power wise
 
 ### APPENDIX: A READING LIST FOR THE PERFORMANCE-OBSESSED
 
-1. **[Intel® 64 and IA-32 Architectures Optimization Reference Manual](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)**: The holy bible. Straight from the source. Every optimization trick Intel's engineers want you to know.
+1. **[Intel® 64 and IA-32 Architectures Optimization Reference Manual](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)**: The holy bible. Straight from Intel. Every optimization trick they want you to know.
 
-2. **[What Every Programmer Should Know About Memory](https://www.akkadia.org/drepper/cpumemory.pdf)** by Ulrich Drepper: A legendary paper that is still profoundly relevant. If you want to understand why memory access patterns matter more than algorithms, start here.
+2. **[What Every Programmer Should Know About Memory](https://www.akkadia.org/drepper/cpumemory.pdf)** by Ulrich Drepper: A legendary paper that's still relevant. If you want to understand why memory access patterns matter more than algorithms, start here.
 
-3. **[Agner Fog's Optimization Manuals](https://www.agner.org/optimize/)**: An incredible and accessible resource covering C++ optimization, assembly, and detailed microarchitectural analysis. Agner's instruction tables are the gold standard.
+3. **[Agner Fog's Optimization Manuals](https://www.agner.org/optimize/)**: An incredible resource covering C++ optimization, assembly, and microarchitectural analysis. Agner's instruction tables are the gold standard.
 
-4. **[CS:APP – Computer Systems: A Programmer's Perspective](http://csapp.cs.cmu.edu/)**: The foundational textbook for understanding how computers actually work, from the hardware up. Chapter 5 on optimizing program performance is particularly relevant.
+4. **[CS:APP – Computer Systems: A Programmer's Perspective](http://csapp.cs.cmu.edu/)**: The foundational textbook for understanding how computers actually work. Chapter 5 on optimizing program performance is particularly relevant.
 
 5. **[Performance Analysis and Tuning on Modern CPUs](https://book.easyperf.net/perf-book)** by Denis Bakhvalov: A modern, practical guide to performance engineering with extensive coverage of profiling tools.
 
@@ -887,18 +888,18 @@ void _mm_prefetch(const void* p, int hint);
 
 ### EPILOGUE: THE JOURNEY CONTINUES
 
-The cisv parser is now in production at several companies, churning through terabytes of CSV data daily. But the journey doesn't end here. The techniques pioneered in this project have applications far beyond CSV parsing:
+The cisv parser is now in production at several companies, churning through terabytes of CSV data daily. But the journey doesn't end here. The techniques pioneered here apply far beyond CSV parsing:
 
 - **JSON Parsing**: The same SIMD techniques can find JSON delimiters and validate UTF-8 in parallel
 - **Log Analysis**: Pattern matching in logs at gigabytes per second
 - **Bioinformatics**: DNA sequence alignment using vectorized string matching
 - **Database Engines**: Columnar data processing with SIMD predicates
 
-The key insight is this: **modern CPUs are not faster versions of old CPUs, they are fundamentally different beasts**. They are wide, parallel, deeply pipelined monsters that reward those who understand their architecture. The gap between naive code and optimized code is not 2x or 10x anymore, it can be 100x or more.
+The key insight: **modern CPUs aren't faster versions of old CPUs, they're fundamentally different beasts**. They're wide, parallel, deeply pipelined monsters that reward those who understand their architecture. The gap between naive code and optimized code isn't 2x or 10x anymore - it can be 100x or more.
 
-So the next time someone tells you that "premature optimization is the root of all evil," remind them that Knuth's full quote continues: "...yet we should not pass up our opportunities in that critical 3%."
+So next time someone tells you that "premature optimization is the root of all evil," remind them that Knuth's full quote continues: "...yet we should not pass up our opportunities in that critical 3%."
 
-And when you're processing gigabytes of data, when you're in that critical 3%, when every nanosecond counts, that's when you reach for SIMD, when you think about cache lines, when you count clock cycles.
+And when you're processing gigabytes of data, when you're in that critical 3%, when every nanosecond counts - that's when you reach for SIMD, think about cache lines, count clock cycles.
 
 That's when you accidentally create the fastest CSV parser ever made.
 
@@ -911,5 +912,3 @@ That's when you accidentally create the fastest CSV parser ever made.
 *Happy parsing, and may your branch predictors always guess correctly.*
 
 ---
-
-
