@@ -431,6 +431,12 @@ void buildComponentsIntoMarkdownsFiles(const char* directory) {
     }
 
     closedir(dir);
+
+   generateRssFeed("content/metadatas.txt",
+                   "public/feed.xml",
+                   "sanixdk.xyz",
+                   "Articles, projects and notes by Sanix",
+                   "https://sanixdk.xyz");
 }
 
 static void membuf_init(struct membuffer* buf, MD_SIZE new_asize) {
@@ -747,4 +753,202 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
     *count = entryIndex;
 
     fclose(file);
+}
+
+// rss feed generation...
+
+static void xml_print_escaped(FILE* f, const char* s) {
+    for (; *s; ++s) {
+        switch (*s) {
+            case '&':  fputs("&amp;",  f); break;
+            case '<':  fputs("&lt;",   f); break;
+            case '>':  fputs("&gt;",   f); break;
+            case '\'': fputs("&apos;", f); break;
+            case '\"': fputs("&quot;", f); break;
+            default:   fputc(*s, f);       break;
+        }
+    }
+}
+
+static int starts_with_http(const char* s) {
+    return (strncmp(s, "http://", 7) == 0) || (strncmp(s, "https://", 8) == 0);
+}
+
+static void join_url(char* out, size_t outsz, const char* base, const char* path) {
+    /* base like "https://sanixdk.xyz", path like "/blogs/..." */
+    if (starts_with_http(path)) {
+        snprintf(out, outsz, "%s", path);
+        return;
+    }
+    size_t bl = strlen(base);
+    int need_slash = (bl > 0 && base[bl-1] != '/');
+    if (path[0] == '/') path++; /* avoid '//' */
+    snprintf(out, outsz, "%s%s%s", base, need_slash ? "/" : "", path);
+}
+
+/* Parses dates formatted like: "2025-09-07 08:24PM" or "2025-08-15 07:45AM"
+   Returns 1 on success and fills *out_time with local-time mktime() value.
+   If no AM/PM suffix (e.g., "2025-07-08 13:37"), it is treated as 24h. */
+static int parse_metadata_datetime_local(const char* s, time_t* out_time) {
+    int Y=0,M=0,D=0,h=0,m=0;
+    char suff[3] = {0,0,0};
+    /* Try with AM/PM */
+    int n = sscanf(s, "%d-%d-%d %d:%d%2s", &Y, &M, &D, &h, &m, suff);
+    if (n < 5) return 0;
+
+    if (n == 6) {
+        suff[0] = (char)toupper((unsigned char)suff[0]);
+        suff[1] = (char)toupper((unsigned char)suff[1]);
+        if (strcmp(suff, "AM") == 0) {
+            if (h == 12) h = 0;
+        } else if (strcmp(suff, "PM") == 0) {
+            if (h != 12) h += 12;
+        }
+    }
+
+    struct tm tmv;
+    memset(&tmv, 0, sizeof(tmv));
+    tmv.tm_year = Y - 1900;
+    tmv.tm_mon  = M - 1;
+    tmv.tm_mday = D;
+    tmv.tm_hour = h;
+    tmv.tm_min  = m;
+    tmv.tm_sec  = 0;
+
+    time_t t = mktime(&tmv); /* local time */
+    if (t == (time_t)-1) return 0;
+    *out_time = t;
+    return 1;
+}
+
+/* Formats RFC-1123 / RSS pubDate in UTC */
+static void format_rfc1123_utc(time_t t, char* out, size_t n) {
+    struct tm g;
+#if defined(_WIN32)
+    gmtime_s(&g, &t);
+#else
+    gmtime_r(&t, &g);
+#endif
+    strftime(out, n, "%a, %d %b %Y %H:%M:%S +0000", &g);
+}
+
+/* --- main RSS routine --------------------------------------------------- */
+
+typedef struct {
+    EntryMap em;
+    time_t   pub;  /* parsed time for sorting */
+} RssEntry;
+
+static int cmp_rss_entry_desc(const void* a, const void* b) {
+    const RssEntry* ea = (const RssEntry*)a;
+    const RssEntry* eb = (const RssEntry*)b;
+    if (ea->pub == eb->pub) return 0;
+    return (ea->pub > eb->pub) ? -1 : 1; /* newest first */
+}
+
+/* Generates a simple, valid RSS 2.0 feed from content/metadatas.txt */
+void generateRssFeed(const char* metadata_txt,
+                     const char* output_xml,
+                     const char* site_title,
+                     const char* site_description,
+                     const char* site_base_url) {
+    /* Parse existing metadata.txt into EntryMap[] using your existing parser */
+    EntryMap maps[MAX_ENTRIES];
+    int count = 0;
+    parse_txt(metadata_txt, maps, &count);
+
+    if (count <= 0) {
+        fprintf(stderr, "No entries found in %s; RSS not generated.\n", metadata_txt);
+        return;
+    }
+
+    /* Convert to sortable entries */
+    RssEntry* items = (RssEntry*)malloc(sizeof(RssEntry) * (size_t)count);
+    if (!items) {
+        perror("malloc");
+        return;
+    }
+
+    int n_items = 0;
+    for (int i = 0; i < count; ++i) {
+        time_t t = 0;
+        if (!parse_metadata_datetime_local(maps[i].entry.date, &t)) {
+            /* If parsing fails, push to epoch 0 so it ends last */
+            t = 0;
+        }
+        items[n_items].em  = maps[i];
+        items[n_items].pub = t;
+        n_items++;
+    }
+
+    qsort(items, (size_t)n_items, sizeof(RssEntry), cmp_rss_entry_desc);
+
+    FILE* f = fopen(output_xml, "w");
+    if (!f) {
+        perror("fopen feed.xml");
+        free(items);
+        return;
+    }
+
+    /* Channel header */
+    time_t now = time(NULL);
+    char now_rfc[64];
+    format_rfc1123_utc(now, now_rfc, sizeof(now_rfc));
+
+    fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(f, "<rss version=\"2.0\">\n");
+    fprintf(f, "  <channel>\n");
+    fprintf(f, "    <title>"); xml_print_escaped(f, site_title); fprintf(f, "</title>\n");
+
+    /* Channel link */
+    fprintf(f, "    <link>");
+    char channel_link[1024];
+    join_url(channel_link, sizeof(channel_link), site_base_url, "/");
+    xml_print_escaped(f, channel_link);
+    fprintf(f, "</link>\n");
+
+    fprintf(f, "    <description>"); xml_print_escaped(f, site_description); fprintf(f, "</description>\n");
+    fprintf(f, "    <language>en</language>\n");
+    fprintf(f, "    <lastBuildDate>%s</lastBuildDate>\n", now_rfc);
+    fprintf(f, "    <ttl>60</ttl>\n");
+
+    /* Items */
+    for (int i = 0; i < n_items; ++i) {
+        const Entry* e = &items[i].em.entry;
+
+        /* Build absolute link */
+        char item_link[2048];
+        join_url(item_link, sizeof(item_link), site_base_url, e->link);
+
+        /* pubDate */
+        char pub_rfc[64];
+        if (items[i].pub != 0) {
+            format_rfc1123_utc(items[i].pub, pub_rfc, sizeof(pub_rfc));
+        } else {
+            strcpy(pub_rfc, now_rfc);
+        }
+
+        fprintf(f, "    <item>\n");
+        fprintf(f, "      <title>"); xml_print_escaped(f, e->title); fprintf(f, "</title>\n");
+        fprintf(f, "      <link>");  xml_print_escaped(f, item_link); fprintf(f, "</link>\n");
+        fprintf(f, "      <guid isPermaLink=\"true\">"); xml_print_escaped(f, item_link); fprintf(f, "</guid>\n");
+        fprintf(f, "      <pubDate>%s</pubDate>\n", pub_rfc);
+
+        /* Optional: description with image preview as HTML inside CDATA */
+        if (e->image[0]) {
+            fprintf(f, "      <description><![CDATA[<p><img src=\"%s\" alt=\"%s\" style=\"max-width:100%%;height:auto\"/></p>]]></description>\n",
+                    e->image, e->title);
+        } else {
+            fprintf(f, "      <description><![CDATA[]]></description>\n");
+        }
+
+        fprintf(f, "    </item>\n");
+    }
+
+    /* Close channel */
+    fprintf(f, "  </channel>\n");
+    fprintf(f, "</rss>\n");
+
+    fclose(f);
+    free(items);
 }

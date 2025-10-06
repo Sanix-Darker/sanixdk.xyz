@@ -1,6 +1,7 @@
 /* Global options. */
 #ifndef SDK_LIBS
 
+#include <ctype.h>
 #include <dirent.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -59,3 +60,9 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count);
 
 void writeMetadatasToBlogList(const char* input_filename,
                               const char* output_filename);
+
+void generateRssFeed(const char* metadata_txt,
+                     const char* output_xml,
+                     const char* site_title,
+                     const char* site_description,
+                     const char* site_base_url);
