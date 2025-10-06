@@ -933,15 +933,7 @@ void generateRssFeed(const char* metadata_txt,
         fprintf(f, "      <link>");  xml_print_escaped(f, item_link); fprintf(f, "</link>\n");
         fprintf(f, "      <guid isPermaLink=\"true\">"); xml_print_escaped(f, item_link); fprintf(f, "</guid>\n");
         fprintf(f, "      <pubDate>%s</pubDate>\n", pub_rfc);
-
-        /* Optional: description with image preview as HTML inside CDATA */
-        if (e->image[0]) {
-            fprintf(f, "      <description><![CDATA[<p><img src=\"%s\" alt=\"%s\" style=\"max-width:100%%;height:auto\"/></p>]]></description>\n",
-                    e->image, e->title);
-        } else {
-            fprintf(f, "      <description><![CDATA[]]></description>\n");
-        }
-
+        fprintf(f, "      <description><![CDATA[]]></description>\n");
         fprintf(f, "    </item>\n");
     }
 
