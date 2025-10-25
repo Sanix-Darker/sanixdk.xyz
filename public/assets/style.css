@@ -609,6 +609,5 @@ img { max-width: 100%; height: auto }
 }
 #toc-container a:hover {
     color: white;
-    text-decoration: line-through;
-    text-decoration-style: dashed;
+    text-decoration: underline dashed;
 }
