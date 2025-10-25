@@ -1,3 +1,11 @@
+path: ./content/blogs/how-to-hack-and-debug-your-body-as-a-software-engineer.md
+link: /blogs/how-to-hack-and-debug-your-body-as-a-software-engineer
+title: HOW TO HACK AND DEBUG YOUR BODY AS A SOFTWARE ENGINEER
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-hack-and-debug-your-body-as-a-software-engineer/hack-body.jpg
+date: 2025-10-25 08:24PM
+tags: #body #hack
+time: 20 min
+
 path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md
 link: /blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made
 title: HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE
