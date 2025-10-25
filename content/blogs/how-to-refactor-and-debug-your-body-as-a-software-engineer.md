@@ -64,7 +64,7 @@ while (!muscular) {
 
 ### THE RIGHT OPTIMIZATION THROUGH EDUCATION
 
-So just like a dev's technical problem, there is a better solution to search an item in a long matrix, by using techniques like Binary Search in order to split faster and find the item easily. Just to take the previous example, a better solution would be:
+So just like a dev's technical problem, there is a better solution to search an item in a long matrix, by using techniques like Linear Search in order to split faster and find the item easily. Just to take the previous example, a better solution would be:
 
 ```python
 # assuming i sorted it at the begining...
