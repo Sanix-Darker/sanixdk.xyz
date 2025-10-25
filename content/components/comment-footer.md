@@ -26,11 +26,11 @@
     if(!tocContainer) {
         return;
     }
-    const headingSelectors = ['h3', 'h4', 'h5', 'h6'];
+    const headingSelectors = ['h2', 'h3', 'h4', 'h5', 'h6'];
     const headings = Array.from(document.querySelectorAll(headingSelectors.join(', ')));
 
     let tocHtml = '<ul>';
-    let currentLevel = 3;
+    let currentLevel = 2;
 
     headings.forEach((heading, index) => {
         if (!heading.id) {
