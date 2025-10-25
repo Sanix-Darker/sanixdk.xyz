@@ -586,3 +586,29 @@ img { max-width: 100%; height: auto }
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale }
 }
+
+#toc-container ul {
+    list-style-type: none;
+    padding-left: 1.5em; /* Indent nested lists */
+    margin-top: 0.5em;
+}
+
+#toc-container ul > li::before { content: '~> ' }
+#toc-container li {
+    margin-bottom: 0.25em;
+}
+#toc-container summary {
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 0.5em;
+}
+#toc-container a {
+    text-decoration-style: none;
+    text-decoration: none;
+    color: #333;
+}
+#toc-container a:hover {
+    color: white;
+    text-decoration: line-through;
+    text-decoration-style: dashed;
+}
