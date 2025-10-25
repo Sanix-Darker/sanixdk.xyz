@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 Have you ever tried to get a folder from a git repository either on github, gitlab or bitbucket ?
 
 ![Final Demo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m93toqmbg8cgm1me7qg5.png)

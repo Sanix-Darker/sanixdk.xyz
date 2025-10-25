@@ -6,6 +6,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 > **NOTE:** If you skipped [Part 1](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-1-3) *and* [Part 2](https://sanixdk.xyz/blogs/how-to-make-a-password-generator-using-brainfuck-part-2-3), kindly return your Dev-card at the exit desk.
 
 ---

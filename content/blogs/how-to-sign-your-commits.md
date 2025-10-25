@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 ### WHY EVEN CARE ABOUT SIGNING ?
 
 Just like in the real world, signing something adds an 'indelible' mark to it. In our case, you're probably wondering, what is this 'gus' talking about? Why should I care about signing what I commit? Well, I will refer you to this Pull Request I created a long time ago:

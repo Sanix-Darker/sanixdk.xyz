@@ -4,6 +4,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 ### WHAT THE HECK IS TERMBIN ?
 
 **termbin.com** is a variation of **pastebin.com** but right on your terminal,

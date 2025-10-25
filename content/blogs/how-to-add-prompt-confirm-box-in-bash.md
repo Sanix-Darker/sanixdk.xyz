@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 Yo, what's up ? It's me again, with a #uselesstech linux/bash tips for you.
 
 Creating a prompt confirm feature in Bash(or shell scripting in general) is essential for scripts that require user confirmation before executing 'critical' actions.

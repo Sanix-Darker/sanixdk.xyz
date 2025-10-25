@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 A TODO app, the most 'basic' app we (as dev) always build, or found on Tutorials when we're trying
  to learn a new stack or a new programming language (after a 'hello world' ofc).
 

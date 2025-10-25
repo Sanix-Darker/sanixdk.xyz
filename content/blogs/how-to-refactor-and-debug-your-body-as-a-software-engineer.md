@@ -6,6 +6,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 ### WHAT'S NEW?
 
 - First of all, thank you for all the support and attention brought to the previous post I made regarding the [CSV parser](https://sanixdk.xyz/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made). I'm still working on it, I wasn't expecting it to blow up that much, we're already near 100 stars on the GitHub repository, and I wanted to say thank you again.

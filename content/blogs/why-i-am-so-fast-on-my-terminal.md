@@ -4,6 +4,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 If you've ever watched me work in a terminal, you might wonder how I navigate so quickly between tasks, manage Git repositories, and execute complex workflows in seconds. The answer isn't magic—it's **ruthless optimization through aliases and shortcuts**.
 
 After 5 years of working in terminals, I've accumulated a lot of aliases, custom functions, and Git shortcuts that make me exponentially faster. This post breaks down my most-used commands and shows you how to build your own velocity-enhancing toolkit.

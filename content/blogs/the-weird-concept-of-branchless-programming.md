@@ -6,6 +6,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 ## DISCLAIMERS
 
 - If you came for readable code, sorry, branchless programming is basically code golf with caffeine.

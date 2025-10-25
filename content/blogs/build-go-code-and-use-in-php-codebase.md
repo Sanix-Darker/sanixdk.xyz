@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 Building Go code and integrating it into a PHP codebase can help increase performance, particularly for tasks that are computationally intensive. Here are the steps to achieve this:
 
 1. **Write and Build Go Code**:

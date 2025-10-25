@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 Yeah i know, what you guys are thinking "Why ?", "Why do you do that ?", well "just for fun ?" and a way to mastering "real-time parallelism", this is also my first POST ever made!
 
 Let's jump into it !

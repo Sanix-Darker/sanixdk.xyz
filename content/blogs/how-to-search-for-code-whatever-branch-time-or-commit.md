@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 Git has a nice feature called `grep`, when you want to get a commit for an old code, and it's a kind of search, but not enough for me !
 I wrote a bash script to search for a "piece of code" inside a git project history whatever the branch and time.
 

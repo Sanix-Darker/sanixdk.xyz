@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 In case you didn't know, exclamation marks play an important role in the bash workflow, especially for your command history!
 
 ok... let me explain that weird screenshot on top now. Actually it's simple :

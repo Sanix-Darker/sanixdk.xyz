@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 Python is renowned for its simplicity and ease of use, making it a favorite for many developers(yes... even for me lol).
 However, when it comes to heavy CPU or RAM processing tasks, Python's performance can sometimes fall short(if not MOST OF THE TIMES ? :wink 'for loops').
 This is where Golang (Go) comes into play. By leveraging Go’s performance capabilities through bindings, we can significantly optimize our Python code. This small guide will explore three methods to achieve this: **using C parameters**, **Protocol Buffers (protobuf)**, and finally **Gopy**.

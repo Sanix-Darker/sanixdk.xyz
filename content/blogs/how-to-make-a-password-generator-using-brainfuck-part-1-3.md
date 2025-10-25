@@ -5,6 +5,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 ### DISCLAIMERS
 
 - This is a Serie of 3 Parts of making this project happens, keep in touch ;)

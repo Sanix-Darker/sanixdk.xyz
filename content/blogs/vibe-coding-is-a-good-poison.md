@@ -6,6 +6,10 @@
 
 ---
 
+<div id="toc-container"></div>
+
+---
+
 > Look, let me be brutally honest with you. I'm a backend engineer. I live in the world of databases, APIs, and server logic. My natural habitat is the terminal, not the browser. And a few days ago, I "redesigned" my website... and it was painful as hell.
 >
 > You see, I have a love...hate toxic relationship with CSS. Actually, scratch that, it's mostly hate.
