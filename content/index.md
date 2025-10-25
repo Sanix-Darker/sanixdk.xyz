@@ -50,15 +50,6 @@
 </div>
 
 <h2>WORKING ON:</h2>
-<ul>
-<li><a href="https://github.com/Sanix-Darker/gitmark">gitMark</a> : Bookmark comments from any git hub (gitlab,github,bitbucket, sourcehut...).</li>
-<li><a href="https://github.com/Sanix-Darker/stackfetch">stackfetch</a> : Fetch/Grab stack/lang/system infos (inspired by neofetch).</li>
-<li><a href="https://github.com/Sanix-Darker/zzollo">zzollo</a> : Web Search Engine for open-source projects on github/gitlab & bitbucket.</li>
-<li><a href="https://github.com/Sanix-Darker/gitrowspack-api">gitrows-api</a> : Transform a github/gitlab repo into a NoSQL database as a service.</li>
-<li><a href="https://github.com/Sanix-Darker/tchaka">tchaka</a> : Telegram bot to Chat with people around your localization(&lt;5km).</li>
-<li><a href="https://github.com/Sanix-Darker/ocloud">oCloud</a> & <a href="https://github.com/Sanix-Darker/obot">oBot</a> : Infinite Storage system throught a bot and Telegram Servers.</li>
-<li><a href="https://github.com/sanix-darker/s2c">s2c</a> : Secret video(ASCII)/audio chat in your terminal with encryption.</li>
-</ul>
 
 <div class="terminal-section electronics-section">
     <div class="command-line">
@@ -66,27 +57,26 @@
         <span class="command">ls -lah ~/github/*</span>
     </div>
     <div class="output">
-        drwxr-xr-x 2 sanix 4096 Jan 15 2025 ./arduino-projects/<br>
-        drwxr-xr-x 2 sanix 4096 Jan 10 2025 ./raspberry-pi-setups/<br>
-        drwxr-xr-x 2 sanix 4096 Jan 05 2025 ./iot-sensors/<br>
-        drwxr-xr-x 2 sanix 4096 Dec 28 2024 ./pcb-designs/<br>
-        -rw-r--r-- 1 sanix 2048 Dec 20 2024 circuit-diagrams.md
+        drwxr-xr-x 2 sanix 4096 Nov 15 2025 ./gitMark/<br>
+        drwxr-xr-x 2 sanix 4096 Nov 10 2025 ./stackfetch/<br>
+        drwxr-xr-x 2 sanix 4096 Nov 05 2025 ./zzollo/<br>
+        drwxr-xr-x 2 sanix 4096 Dec 28 2024 ./gitrows-api/<br>
     </div>
 </div>
 
 <h2>CONTRIBUTING TO:</h2>
 <ul>
-<li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready markdown or structured data. Scrape, crawl and extract with a single API.</li>
-<li><a href="https://github.com/osscameroon">oss-cammeroon</a> :  Open source projects driven by Cameroonian developers.</li>
-<li><a href="https://github.com/oven-sh/bun">bun</a> : fast JavaScript runtime, bundler, test runner, and package manage.</li>
-<li><a href="https://github.com/junegunn/fzf.vim">fzf-vim</a> : fzf in (N)vim.</li>
-<li><a href="https://github.com/dlvhdr/gh-dash">gh-dash</a> : A TUI dashboard for PR and issues accross github.</li>
-<li><a href="https://github.com/ln-dev7/sharuco">Sharuco</a> : OpenSource platform for sharing code & manage Forms (like google form) & links.</li>
+    <li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready content. Scrape/Crawl/Extract with API.</li>
+    <li><a href="https://github.com/osscameroon">oss-cammeroon</a> :  Open source projects driven by Cameroonian developers.</li>
+    <li><a href="https://github.com/oven-sh/bun">bun</a> : fast JavaScript runtime, bundler, test runner, and package manage.</li>
+    <li><a href="https://github.com/junegunn/fzf.vim">fzf-vim</a> : fzf in (N)vim.</li>
+    <li><a href="https://github.com/dlvhdr/gh-dash">gh-dash</a> : A TUI dashboard for PR and issues accross github.</li>
+    <li><a href="https://github.com/ln-dev7/sharuco">Sharuco</a> : OpenSource platform for sharing code/manage Forms (like google form).</li>
 </ul>
 
 <div class="interactive-terminal">
     <div class="command-line">
-        <span class="prompt">visitor@sanixdk:~$</span>
+        <span class="prompt">you@sanixdk:~$</span>
         <input type="text" class="terminal-input" id="terminalInput" placeholder="type 'help' for commands" autocomplete="off">
     </div>
     <div id="terminalOutput"></div>
@@ -120,10 +110,10 @@
                 if (command === 'clear') {
                     terminalOutput.innerHTML = '';
                 } else if (commands[command]) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>${commands[command]}`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>${commands[command]}`;
                     terminalOutput.appendChild(output);
                 } else if (command) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
                     terminalOutput.appendChild(output);
                 }
 
@@ -153,7 +143,7 @@
             }
 
             // Fetch recent repositories for electronics section
-            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=10');
+            const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=15');
             const reposData = await reposResponse.json();
 
             // Update electronics section with recent repos
@@ -248,26 +238,26 @@
                 if (command === 'clear') {
                     terminalOutput.innerHTML = '';
                 } else if (command === 'repos') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Fetching latest repositories...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Fetching latest repositories...`;
                     terminalOutput.appendChild(output);
                     await fetchGitHubData();
                 } else if (command === 'stats') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Fetching GitHub statistics...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Fetching GitHub statistics...`;
                     terminalOutput.appendChild(output);
                     await fetchGitHubData();
                 } else if (command === 'waka') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Fetching WakaTime coding stats...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Fetching WakaTime coding stats...`;
                     terminalOutput.appendChild(output);
                     await fetchWakaTimeStats();
                 } else if (command === 'refresh') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>Refreshing all data...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Refreshing all data...`;
                     terminalOutput.appendChild(output);
                     await Promise.all([fetchGitHubData(), fetchWakaTimeStats()]);
                 } else if (enhancedCommands[command]) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br>${enhancedCommands[command]}`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>${enhancedCommands[command]}`;
                     terminalOutput.appendChild(output);
                 } else if (command) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">visitor@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
                     terminalOutput.appendChild(output);
                 }
 

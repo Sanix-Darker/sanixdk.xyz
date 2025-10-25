@@ -17,8 +17,7 @@ To know more about my dev-stack, i encourage you to check this [article](https:/
 
 As a Senior Member of Technical Staff at Odaseva, some of my roles are to maintain our systems, keep our clients data secure, and make sure all security requirements are met.
 
-
-*`Python`*, *`PHP`*, *`Docker`*, *`Golang`*, *`AWS`*
+*`Python`*, *`PHP`*, *`Docker`*, *`Golang`*, *`AWS`*, *`Azure`*, *`Linux`*
 
 <hr/>
 
