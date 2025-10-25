@@ -15,7 +15,7 @@
 <div class="terminal-section skills-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">tail -f /var/log/activity.log</span>
+        <span class="command">grep "${LANG}" /var/log/activity.log | wc -l</span>
     </div>
     <div class="output">
         <div class="skills-grid">
@@ -54,7 +54,7 @@
 <div class="terminal-section electronics-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">ls -lah ~/github/*</span>
+        <span class="command">ls -lah ~/github/ | sort</span>
     </div>
     <div class="output">
         drwxr-xr-x 2 sanix 4096 Nov 15 2025 ./gitMark/<br>
@@ -156,7 +156,7 @@
                         day: '2-digit'
                     });
                     const language = repo.language || 'N/A';
-                    reposList += `drwxr-xr-x ${language} dk 1 ${updatedDate} ./${repo.name}/<br>`;
+                    reposList += `drwxr-xr-x <b>${language}</b> dk ${updatedDate} ./${repo.name}/<br>`;
                 });
                 electronicsElement.innerHTML = reposList;
             }
