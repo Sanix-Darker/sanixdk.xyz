@@ -77,7 +77,7 @@ while row < row_len and col >= 0:
     elif matrix[row][col] > item:
         col -= 1  # to move to the left cell
     else:
-        row += 1  # to move to the left cell
+        row += 1  # to move to the down cell
 ```
 which IMHO... is much much much faster.
 
