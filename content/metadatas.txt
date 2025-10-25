@@ -1,9 +1,9 @@
-path: ./content/blogs/how-to-hack-and-debug-your-body-as-a-software-engineer.md
-link: /blogs/how-to-hack-and-debug-your-body-as-a-software-engineer
-title: HOW TO HACK AND DEBUG YOUR BODY AS A SOFTWARE ENGINEER
-image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-hack-and-debug-your-body-as-a-software-engineer/hack-body.jpg
+path: ./content/blogs/how-to-refactor-and-debug-your-body-as-a-software-engineer.md
+link: /blogs/how-to-refactor-and-debug-your-body-as-a-software-engineer
+title: HOW TO REFACTOR YOUR BODY AS A SOFTWARE ENGINEER
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-refactor-and-debug-your-body-as-a-software-engineer/hack-body.jpg
 date: 2025-10-25 08:24PM
-tags: #body #hack
+tags: #body #hack #refactor #debug
 time: 20 min
 
 path: ./content/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made.md

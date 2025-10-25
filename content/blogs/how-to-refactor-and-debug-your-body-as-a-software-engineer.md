@@ -1,17 +1,17 @@
 ![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-hack-and-debug-your-body-as-a-software-engineer/hack-body.jpg)
 
-# HOW TO HACK AND DEBUG YOUR BODY AS A SOFTWARE ENGINEER
+## HOW TO REFACTOR YOUR BODY AS A SOFTWARE ENGINEER
 
-`2025-10-25 08:24 PM` • 20 min read • **#body** **#hack**
+`2025-10-25 08:24 PM` • 20 min read • **#body** **#hack** **#refactor** **#debug**
 
 ---
 
-## WHAT'S NEW?
+### WHAT'S NEW?
 
 - First of all, thank you for all the support and attention brought to the previous post I made regarding the [CSV parser](https://sanixdk.xyz/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made). I'm still working on it, I wasn't expecting it to blow up that much, we're already near 100 stars on the GitHub repository, and I wanted to say thank you again.
-- Now the website has an RSS feed, you can get the link here: https://sanixdk.xyz/feed.xml
+- Now the website has an RSS feed, you can get the link here: [feed-link](https://sanixdk.xyz/feed.xml)
 
-## DISCLAIMERS
+### DISCLAIMERS
 
 - I am not a professional coach, I know nothing as a professional
 - All elements listed here are from my own experiments, my own body, my mistakes, don't expect some advice to be always true
@@ -19,7 +19,7 @@
 
 ---
 
-## THE BRUTE FORCE TECHNIQUE: STARTING LIKE A NOOB
+### BRUTE FORCE TECHNIQUE
 
 Well, where do I start? You see, working on your body is like working on a side project, that little folder in your computer you created to have fun at the beginning, and time to time, either you're still incrementing on it or you just skip paying attention to it...
 I can easily assimilate the workout to be like learning Vim and trying to work with it, you will feel like shit in terms of productivity and everything, questioning yourself on that choice every single day, but at some point you will find out it was worth it. You need to see working from home as working out at home is like dev on local, and push deploy is the gym sale. There's something about the environment that changes everything, just like how your code behaves differently in production versus localhost.
@@ -36,7 +36,11 @@ for row in range(1, 101):
 ```
 
 This can be ok on 100... but not okay on 1 Million items...
-This is how I started my journey in the gym, trying everything at the same time, by training the full body every day... You see, I am also a fan of anime and manga (if you recognize the person in the top image of this blog post... you know what I mean, shoutout to [GAROU](https://onepunchman.fandom.com/wiki/Garou) from One Punch Man, which is a character I really like because his body evolves every time he fights an opponent).
+
+This is how I started my journey in the gym, trying everything at the same time, by training the full body every day...
+
+You see, I am also a fan of anime and manga (if you recognize the person in the top image of this blog post... you know what I mean, shoutout to [GAROU](https://onepunchman.fandom.com/wiki/Garou) from One Punch Man, which is a character I really like because his body evolves every time he fights an opponent).
+
 So this is how I was splitting my gym... just like Saitama said "100 push-ups, 100 sit-ups, 100 squats and 10km runs, do it every single day"...
 
 Oh boy, I vaguely remember the first days I decided I will start that craziness. At that time I was unable to do 10 push-ups without gasping out... so I split the 100 into 10x10 push-ups with some minutes to rest, same for the sit-ups, for squats I was at 20x5, and the run... oh boy, I was not even able to do 3km without my body starting to ask for reanimation... nights were pure nightmares for my whole body, I was lucky enough to be able to work remotely, because some mornings, I was unable to move an inch.. and just laying there... with my laptop on my stomach... coding with the small energy I got left in my hands...
@@ -54,11 +58,12 @@ while (!muscular) {
 
 ---
 
-## FINDING THE RIGHT ALGORITHM: OPTIMIZATION THROUGH EDUCATION
+### THE RIGHT OPTIMIZATION THROUGH EDUCATION
 
 So just like a dev's technical problem, there is a better solution to search an item in a long matrix, by using techniques like Binary Search in order to split faster and find the item easily. Just to take the previous example, a better solution would be:
 
 ```python
+# assuming i sorted it at the begining...
 row_len = len(matrix)
 col_len = len(matrix[0])
 
@@ -74,7 +79,7 @@ while row < row_len and col >= 0:
     else:
         row += 1  # to move to the left cell
 ```
-which is much faster.
+which IMHO... is much much much faster.
 
 So there we go, I started watching some YouTube tutorials, like everything I know/do today, skateboard, drawing, coding, they all started with a YouTube search on "How to...", exactly how you're about to learn a new programming language or any new tech stack you want to master or get certified in.
 
@@ -84,14 +89,16 @@ My first weeks were painful as hell. Some days I couldn't lift my arms to wash m
 
 ---
 
-## DEBUGGING YOUR BODY: LEARNING TO READ THE ERROR MESSAGES
+### DEBUGGING YOUR BODY: LEARNING TO READ THE ERROR MESSAGES
 
-### KNOW YOUR LIMITS
+#### KNOW YOUR LIMITS
 
-You're a human being... not a super saiyan, the most important thing to know is your body limits and when to say "no... I can't do that weight",
+You're a human being...
+
+not a super saiyan (i mean... for most of us), the most important thing to know is your body limits and when to say "no... I can't do that weight",
 because, even if you have the strongest mind of the MCU, your muscles do have limits, and knowing those boundaries helps you not get injured.
 
-### DEBUG YOUR BODY
+#### DEBUG YOUR BODY
 
 When you're coding and something goes wrong, what do you do? You either use a debugger, or you go the hard way with print statements everywhere to know what and how everything works. Your body works the same way.
 
@@ -129,19 +136,24 @@ def debug_workout_solo(exercise, weight, reps):
     compare_with_youtube_tutorials()
 ```
 
-The mirror at your bathroom is your stdOut.
-Your muscle soreness is your log file.
-That weird clicking in your shoulder is a warning that needs investigation.
+The mirror at your bathroom is your constant output...
+
+Your muscle soreness is your log file...
+
+That weird clicking in your shoulder is a warning that needs investigation...
+
 You need to learn the difference between "undefined behavior" (bad form that might work today but will cause problems later) and "expected output" (proper muscle fatigue after a good workout)... even if that comes with a lot of practice over time.
 
 ---
 
-## NUTRITION AND RECOVERY: THE stdIN/stdOut SYSTEM
+### NUTRITION AND RECOVERY
 
-When I started the journey I was skinny... like extremely skinny, around 78kg in total (I'm 107kg now). From my research, in order to gain muscle, I needed to understand that my body is just an I/O system. What you put in determines what you get out... not trash tho, but back in the day, I was doing everything to gain a lot of weight... eating 2 pizza XXL per day, burgers, etc... but only on that BULKING phase.
+When I started the journey I was skinny... i mean, like extremely skinny IMHO, around 78kg in total (I'm 107kg now). From my research, in order to gain muscle, I needed to understand that my body is just an I/O system. What you put in determines what you get out... not trash tho, but back in the day, I was doing everything to gain a lot of weight... eating 2 pizza XXL per day, burgers, etc... but only on that BULKING phase.
 
 Think of nutrition like managing memory in your programs.
+
 I tried protein shakes, it was working well but I was having a lot of issues on maintaining the intake in a long run, so I was on proteins only time to time, not every day.
+
 But you need to see protein as your heap allocation for building new muscle structures. Carbohydrates are your quick-access cache for immediate energy. Fats are your long-term storage, necessary for hormone production and overall system stability. And just like memory leaks can crash your program, nutritional deficiencies will crash your gains.
 
 ```javascript
@@ -174,7 +186,7 @@ Recovery is your garbage collection and system maintenance. Sleep is when your b
 
 ---
 
-## YOUR BODY AS A LONG-TERM PROJECT
+### YOUR BODY AS A LONG-TERM PROJECT
 
 As I said at the beginning, you need to see your body like a side project, but one that you can't abandon when it gets boring. It requires constant commits, MR/PR, regular refactoring, and occasional major version updates. Some days you'll push breaking changes (injuries), other days you'll have beautiful clean merges (perfect workouts where everything clicks).
 
@@ -196,7 +208,7 @@ Just like you wouldn't deploy to production without testing, don't attempt max w
 
 ---
 
-## THE PLATEAU: WHEN YOUR PROGRESS THROWS A NULL POINTER EXCEPTION
+### WHEN YOUR PROGRESS THROWS A NULL POINTER EXCEPTION
 
 Eventually, you'll hit plateaus, periods where despite doing everything "right", you see no progress. This is your body's equivalent of a performance bottleneck. Maybe you need to refactor your approach (change your program), maybe you need to adjust your resources (eat more/less), or maybe you just need to clear cache and restart (take a deload week).
 
@@ -204,7 +216,7 @@ These plateaus taught me patience in a way that debugging taught me persistence.
 
 ---
 
-## LESSONS LEARNED: THE RETROSPECTIVE
+### MY RETROSPECTIVE
 
 After 3 years of treating my body like a coding project, here are the design patterns that actually work for me:
 
