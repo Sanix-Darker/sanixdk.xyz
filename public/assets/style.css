@@ -1,6 +1,6 @@
 :root {
-  --bg-primary: rgba(0, 0, 0, 1);
-  --bg-secondary: rgba(4, 4, 4, 1);
+  --bg-primary: #000000FF;
+  --bg-secondary: #040404FF;
   --bg-tertiary: #1a1a1a;
   --text-primary: #f7f5f5;
   --text-secondary: #e0e0e0;
