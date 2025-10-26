@@ -156,7 +156,7 @@
                         day: '2-digit'
                     });
                     const language = repo.language || 'N/A';
-                    reposList += `drwxr-xr-x <b>${language}</b> dk ${updatedDate} ./${repo.name}/<br>`;
+                    reposList += `drwxr-xr-x <b>${language}</b> dk ${updatedDate} ./<a href="https://github.com/sanix-darker/${repo.name}" target="_blank">${repo.name}</a>/<br>`;
                 });
                 electronicsElement.innerHTML = reposList;
             }
