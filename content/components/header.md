@@ -4,6 +4,7 @@
         <meta charSet="utf-8" />
         <link href="/favicon.ico" rel="icon" />
         <link rel="canonical" href="https://sanixdk.xyz" />
+        <meta content='initial-scale=1.0,width=device-width' name='viewport' />
         <meta content="#131516" name="theme-color" />
         <meta http-equiv="content-language" content="en-us,fr"/>
         <link rel="stylesheet" href="/assets/style.css">
