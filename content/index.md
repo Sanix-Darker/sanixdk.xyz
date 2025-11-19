@@ -15,7 +15,7 @@
 <div class="terminal-section skills-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">grep "${LANG}" /var/log/activity.log | wc -l</span>
+        <span class="command">grep "${LANG}" /var/log/activity.log</span>
     </div>
     <div class="output">
         <div class="skills-grid">
@@ -54,7 +54,7 @@
 <div class="terminal-section electronics-section">
     <div class="command-line">
         <span class="prompt">root@sanixdk:~$</span>
-        <span class="command">ls -lah ~/github/ | sort</span>
+        <span class="command">ls -lah ~/github/</span>
     </div>
     <div class="output">
         drwxr-xr-x 2 sanix 4096 Nov 15 2025 ./gitMark/<br>
