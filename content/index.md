@@ -66,12 +66,12 @@
 
 <h2>CONTRIBUTING TO:</h2>
 <ul>
-    <li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready content. Scrape/Crawl/Extract with API.</li>
+    <li><a href="https://github.com/mendableai/firecrawl">firecrawl</a> : Turn entire websites into LLM-ready content</li>
     <li><a href="https://github.com/osscameroon">oss-cammeroon</a> :  Open source projects driven by Cameroonian developers.</li>
     <li><a href="https://github.com/oven-sh/bun">bun</a> : fast JavaScript runtime, bundler, test runner, and package manage.</li>
     <li><a href="https://github.com/junegunn/fzf.vim">fzf-vim</a> : fzf in (N)vim.</li>
     <li><a href="https://github.com/dlvhdr/gh-dash">gh-dash</a> : A TUI dashboard for PR and issues accross github.</li>
-    <li><a href="https://github.com/ln-dev7/sharuco">Sharuco</a> : OpenSource platform for sharing code/manage Forms (like google form).</li>
+    <li><a href="https://github.com/ln-dev7/sharuco">Sharuco</a> : OpenSource platform for sharing code/manage Forms..</li>
 </ul>
 
 <div class="interactive-terminal">
