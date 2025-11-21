@@ -1,4 +1,4 @@
-![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-hack-and-debug-your-body-as-a-software-engineer/hack-body.jpg)
+![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-refactor-and-debug-your-body-as-a-software-engineer/hack-body.jpg)
 
 ## HOW TO REFACTOR YOUR BODY AS A SOFTWARE ENGINEER
 
