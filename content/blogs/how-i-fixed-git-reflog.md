@@ -1,6 +1,6 @@
 <img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-fixed-git-reflog/rezero.png" />
 
-## HOW I ~FIXED~ GIT REFLOG
+### HOW I ~FIXED~ GIT REFLOG
 `2025-12-06 03:30PM` • 11 min read • **#git** **#golang** **#terminal**
 
 ---
@@ -14,28 +14,39 @@
 Okay okay, this is a rage bait title... sorry all, my apologies Mr Linus.
 
 What I mean by "fixed" is more like a "small add-on" I made for myself.
+
 Don't get me wrong,
+
 Git is perfect...
+
 Git is beautiful...
-BUT, Git is also... granular... like too much granular (wink reflog...), to the point of pain sometimes... and cognitive complexity.
+
+BUT, git reflog is... granular... like too much granular (wink reflog...), to the point of pain sometimes... and cognitive complexity.
 
 ### MY ACTUAL PROBLEM
 
 Let me paint you a small descriptive scenario...
 
 You're working on a feature (or a fix, you call it).
+
 You pull from origin (`git pull origin that-feature`).
+
 BOUM, conflicts everywhere, you fix some..., miss others (of course... or worse, falsy resolving some), keep going.
+
 You rebase.
+
 You amend a commit.
+
 You rebase AGAIN because you messed up the first one (yeah yeah, you're not alone...).
+
 You stash something, forget about it, pop it back...
+
 
 Two hours later, 3 cup of cofee and headaches, something is broken and you think: *"ah f*ck... i hate programming..."*, then after taking your 5 cup of cofee you ask yourself "i just want to undo everything I did this morning regarding that pull..."*
 
 If you have trust yourself enought, you open `git reflog`:
 
-BOUM !!!
+TADAN !!!
 
 ```bash
 $ git reflog
@@ -50,16 +61,22 @@ f4d2b7e HEAD@{4}: commit (amend): fix typo
 ```
 
 you start counting backwards to find where "this morning" started...
+
 Was it `HEAD@{12}`? `HEAD@{15}`?
+
 Did you count the rebase steps individually or as a group ???
+
 Do i need glasses ???
+
 Why i didn't try something else in LIFE !!!!
 
 
 **This is exactly MY problem**: `git reflog` tracks git's internal state changes, not your *intent*... and to be honnest, that is GOOD, extremly GOOD...
+
 but not practical on Mondays... (IMHO) if you know, you know !
 
 You didn't perform `15 operations`.
+
 You performed `ONE logical action`: "Work on feature branch this morning."
 
 ### LET's DEFINE, WHAT I CALL an "ACTION" ?
@@ -67,11 +84,13 @@ You performed `ONE logical action`: "Work on feature branch this morning."
 An action, for me is what you were *trying* to do, not what git recorded.
 if we can represent that more clearly, we can say :
 
+```
 | You think | Git records |
 |-----------|-------------|
 | "refactor auth module" | 12 commits, 3 rebases, 2 amends |
 | "merge main into feature" | checkout, fetch, merge, conflict resolution, commit |
 | "quick bugfix" | 1 commit (finally, git agrees) |
+```
 
 The mismatch is brutal when you need to undo things.
 
@@ -121,6 +140,7 @@ Proceed? [y/N]: y
 
 For now i just implemented these, that can change later... depending on my personnal needs,
 
+```
 | Command | What it does |
 |---------|--------------|
 | `git action mark "name"` | Create checkpoint at current HEAD |
@@ -128,8 +148,9 @@ For now i just implemented these, that can change later... depending on my perso
 | `git action revert <id>` | Hard reset to checkpoint |
 | `git action diff <id>` | See what changed since checkpoint |
 | `git action drop <id>` | Delete a checkpoint |
+```
 
-### WAIT, ISN'T THIS JUST TAGS or BISECT ?
+### WAIT, ISN'T THIS JUST 'TAGS' ?
 
 Yes and ... maybe no...
 
@@ -140,9 +161,12 @@ Yes and ... maybe no...
 - **Tags don't have metadata** — when was it created? what branch?
 - **Tags require you to remember names** — `git action ls` shows everything
 
+you can read more about git tags [here](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
 It's a small quality-of-life improvement.
 Absolutely Not revolutionary.
 Just... less friction...
+
+And to be honnest, tags are used most of the time for releases only... IMHO.
 
 ### MY TODAY WORKFLOW
 
@@ -249,7 +273,7 @@ That's the whole data model. It's stupid simple because the problem is stupid si
 
 ---
 
-**PS:** I started working on something quite in the same context, regarding CI/CD pipeline... i am really not satisfy with what is offered today to run jobs pipeline locally regarding github, gitlab, Azure DevOps, etc... so i am working on a `git ci` alias to simplify enought that, you can have a look here : https://github.com/sanix-darker/git-ci, when i will be satisfy enought regarding the first stable version i will maybe consider realising the first betta version of it !
+**PS:** I started working on something quite in the same context, regarding CI/CD pipeline... so far, i am really not satisfy with what is offered today to run jobs pipeline locally regarding github, gitlab, Azure DevOps, etc... so i am working on a `git ci` alias to simplify enought that, you can have a look here : https://github.com/sanix-darker/git-ci, when i will be satisfy enought regarding the first stable version i will maybe consider realising the first betta version of it !
 
 -----
 
