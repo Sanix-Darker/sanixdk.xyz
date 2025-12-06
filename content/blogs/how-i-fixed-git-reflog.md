@@ -262,6 +262,7 @@ type Action struct {
 ```
 
 That's the whole data model. It's stupid simple because the problem is stupid simple.
+
 ---
 
 [Source code](https://github.com/sanix-darker/git-action)
