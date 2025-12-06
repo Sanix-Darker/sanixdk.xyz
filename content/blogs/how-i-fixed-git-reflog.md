@@ -14,14 +14,10 @@
 Okay okay, this is a rage bait title... sorry all, my apologies Mr Linus.
 
 What I mean by "fixed" is more like a "small add-on" I made for myself.
-
 Don't get me wrong,
-
 Git is perfect...
-
 Git is beautiful...
-
-BUT, git reflog is... granular... like too much granular (wink reflog...), to the point of pain sometimes... and cognitive complexity.
+BUT, git reflog is... granular... like too much granular, to the point of pain sometimes... and cognitive complexity.
 
 ### MY ACTUAL PROBLEM
 
@@ -40,7 +36,6 @@ You amend a commit.
 You rebase AGAIN because you messed up the first one (yeah yeah, you're not alone...).
 
 You stash something, forget about it, pop it back...
-
 
 Two hours later, 3 cup of cofee and headaches, something is broken and you think: *"ah f*ck... i hate programming..."*, then after taking your 5 cup of cofee you ask yourself "i just want to undo everything I did this morning regarding that pull..."*
 
