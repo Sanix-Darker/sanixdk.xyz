@@ -1,3 +1,11 @@
+path: ./content/blogs/how-i-fixed-git-reflog.md
+link: /blogs/how-i-fixed-git-reflog
+title: HOW I FIXED GIT REFLOG
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-fixed-git-reflog/rezero.png
+date: 2025-12-06 03:30PM
+tags: #git #golang #terminal
+time: 11 min
+
 path: ./content/blogs/how-to-refactor-and-debug-your-body-as-a-software-engineer.md
 link: /blogs/how-to-refactor-and-debug-your-body-as-a-software-engineer
 title: HOW TO REFACTOR YOUR BODY AS A SOFTWARE ENGINEER
