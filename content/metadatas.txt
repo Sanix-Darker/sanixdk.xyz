@@ -1,3 +1,11 @@
+path: ./content/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3.md
+link: /blogs/how-i-fixed-git-reflog
+title: I ADDED A BRAIN TO MY FRIDGE... it BACKFIRED HARD! (PART 1/3)
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3/head.png
+date: 2025-12-14 03:30PM
+tags: #ai #llm #mcp #yolo #raspberrypi
+time: 7 min
+
 path: ./content/blogs/how-i-fixed-git-reflog.md
 link: /blogs/how-i-fixed-git-reflog
 title: HOW I FIXED GIT REFLOG
