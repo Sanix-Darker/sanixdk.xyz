@@ -30,7 +30,7 @@ Yes, *that* kind of lazy. The kind that makes you write 2,000 lines of code to a
 
 ---
 
-I really **hate** that feeling of driving back from the **supermarket** only to find out I missed a crucial item. Or worse, standing in front of my fridge at 10 PM, ready to cook that amazing pasta carbonara (not because it's the only think i can cook... but because i like that mean). I've been craving all day, only to realize I forgot the bacon. Again. For the third time this month.
+I really **hate** that feeling of driving (on my skateboard) back from the **supermarket** only to find out I missed a crucial item. Or worse, standing in front of my fridge at 10 PM, ready to cook that amazing pasta carbonara (not because it's the only think i can cook... but because it's simple and i like that meal). I've been craving all day, only to realize I forgot the bacon. Again. For the third time this month because i was stuck on a weird bug since 2 sprints.
 
 So, I had a **weird idea**. With all the hype around **AI**, **Agents**, and **Model Context Protocol (MCP)**, it felt like the perfect time to start working on a "useful" (read: *useful for my sheer laziness*) project and **kill two birds with one stone** (no birds were harmed in the making of this project, but my bank account might be).
 
