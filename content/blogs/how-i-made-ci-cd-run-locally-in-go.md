@@ -72,7 +72,7 @@
 
 <img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/git-ci-preview.png" />
 
-## HOW I MADE CI/CD RUN LOCALLY IN GO (AND STOPPED PUSHING TO TEST)
+## I MADE GITHUB ACTIONS RUN ON MY LAPTOP... and i'm NEVER pushing to test again
 
 `2026-06-16 01:23PM` • 8 min read • **#go** **#cicd** **#cli** **#docker**
 
@@ -82,51 +82,91 @@
 
 ---
 
-Okay okay, I know what you're thinkin... another dev writin about CI/CD. But hear me out.
+Okay okay, I know what you're thinkin...
 
-I hate waiting. Like, I **reallly** hate it.
+Another dev writin about CI/CD. How original.
 
-And I think every developer knows this one specific pain: you make a tiny change, push to GitHub, wait 5 minutes for the CI pipeline to start, another 3 minutes for it to run... and then it fails because you forgot a semicolon.
+But hear me out for a sec.
+
+**I hate waiting.** Like, I **reallly** hate it.
+
+You know that feeling?
+
+You make a tiny change. Push to GitHub. Wait 5 minutes for the pipeline to start. Another 3 minutes for it to run.
+
+And then it fails because you forgot a semicolon.
 
 **Five minutes. For a semicolon.**
 
-And then you fix it, push again, and wait another 5 minutes. And somewhere in between you've completly lost your train of thought, your IDE is still open with that half-baked refactor, and your coffee is cold.
+You fix it. Push again. Wait again. Fail again.
 
-So I asked myself: what if I could just... run CI locally? Like, right here on my laptop, without pushing anything, without waiting for GitHub's servers to wake up, without any of that nonsense?
+And somewhere in between you've completly lost your train of thought. Your IDE is still open. Your coffee is cold.
 
-And then I built it. Because of course I did.
+And you're questioning why you became a programmer in the first place.
 
-### THE PROBLEM WITH CI/CD (ITS THE FEEDBACK LOOP, STUPID)
+**I've been there too many times.**
 
-Look, CI/CD pipelines are great in theory. They automate testing, linting, building, deploying... all the boring stuff we don't wanna do manualy.
+So I asked myself: what if I could just... run CI locally?
 
-But here's the thing nobody talks about: the feedback loop is **horrible**.
+Like, right here on my laptop? No pushing. No waiting. No 3AM debugging sessions?
+
+And then I built it.
+
+**Because of course I did.** (What else was i gonna do, actualy work?)
+
+### THE PROBLEM (IT'S THE FEEDBACK LOOP, STUPID)
+
+CI/CD pipelines are great in theory.
+
+They test, lint, build, deploy... all the boring stuff we don't wanna do manualy.
+
+But here's the thing nobody tells you:
+
+**The feedback loop is horrible.**
 
 | You think | CI does |
 |-----------|---------|
-| "quick fix, push it" | queues for 3 minutes, runs lint, fails, you wait again |
-| "add one more test" | triggers full pipeline (again), 7 minutes this time |
-| "let me just check" | 15 commits later you're still waiting for the green check |
+| "quick fix, push it" | queues for 3 min, runs lint, fails, wait again |
+| "add one more test" | triggers full pipeline, 7 more minutes |
+| "lemme just check" | 15 commits later, still no green check |
 
-I did this dance for years. Push, wait, fail, fix, push, wait, fail again, curse softly, fix again, push again, wait again, finaly pass.
+I did this dance for years.
+
+Push. Wait. Fail. Fix.
+
+Push. Wait. Fail again. Curse softly.
+
+Fix again. Push again. Wait again. Finaly pass.
 
 **There had to be a better way.**
 
-And yeah, I know Docker Compose exists. I know you can run tests locally with `go test` or `npm test`. But that's not the same thing. CI pipelines have matrix builds, service containers (databases, caches), complex dependency graphs between jobs, environment variables, caching... running all of that manually is a nightmare.
+And yeah, I know Docker Compose exists. I know `go test` works.
 
-So I decided to automate the automation. Meta, I know.
+But that's not the same thing.
 
-### ENTER GIT-CI: THE THING I PROBLY SHOULDNT HAVE BUILT
+CI pipelines have matrix builds. Service containers (databases, caches). Complex dependency graphs. Environment variables. Caching.
 
-So here's what I built: **[git-ci](https://github.com/sanix-darker/git-ci)**. It's a CLI tool written in Go that runs CI/CD pipelines on your local machine.
+Running all of that manualy?
+
+**A nightmare.**
+
+So I decided to automate the automation.
+
+Meta, I know. But that's how my brain works. (I blame the cofee.)
+
+### ENTER GIT-CI (THE THING I PROBLY SHOULDN'T HAVE BUILT)
+
+Here's what I built: **[git-ci](https://github.com/sanix-darker/git-ci)**.
+
+A CLI tool. Written in Go. Runs CI/CD pipelines on your local machine.
 
 The idea is stupid simple (the best kind of simple):
 
 1. Point it at your `.github/workflows/ci.yml` or `.gitlab-ci.yml`
 2. It parses the pipeline
-3. It runs it locally using either Bash, Docker, or Podman
+3. It runs it using Bash, Docker, or Podman
 
-**No pushing. No waiting. No 3AM debugging sessions** because the CI broke something and you have no idea why.
+**No pushing. No waiting. No 3AM debugging sessions.**
 
 Here's how it looks:
 
@@ -134,7 +174,7 @@ Here's how it looks:
 # Just run whatever CI file it finds
 $ git ci run
 
-# Run with Docker (so it's close to real CI env)
+# Run with Docker (close to real CI env)
 $ git ci run --docker
 
 # Run a specific job
@@ -144,24 +184,33 @@ $ git ci run --job test
 $ git ci run --dry-run --verbose
 ```
 
-That's it. Three commands and your CI pipeline is running on your machine.
+That's it.
+
+Three commands and your CI pipeline is running on your machine.
+
+**TADAN !!!**
 
 ### THE ARCHITECTURE (BORING BUT NECESSARY)
 
-Okay so I'm gonna get a little technical here but I promisse it's cool.
+Okay i'm gonna get a little technical here.
 
-The core of git-ci is written in **Go** (because Go compiles fast, runs everywhere, and doesn't need a runtime). It's structured in 3 main layers:
+But I promisse it's cool.
+
+The core is **Go** (because Go compiles fast, runs everywhere, no runtime needed). It's structured in 3 layers:
 
 | Layer | What it does |
 |-------|-------------|
-| **Parsers** | Read CI config files (GitHub Actions, GitLab CI) and create universal Pipeline types |
-| **Handlers** | Manage commands, validate pipelines, expand matrix jobs, resolve deps |
-| **Runners** | Actualy execute the jobs. Bash, Docker, or Podman |
+| **Parsers** | Read CI config files, create universal Pipeline types |
+| **Handlers** | Manage commands, validate, expand matrix, resolve deps |
+| **Runners** | Execute jobs via Bash, Docker, or Podman |
 
-The cool part? Every CI provider parser outputs the **same** data structure. So a GitHub Actions pipeline and a GitLab CI pipeline both get converted into the same `Job`/`Step` types. The runners don't care where the pipeline came from.
+The cool part?
+
+Every CI provider parser outputs the **same** data structure.
+
+GitHub Actions, GitLab CI... all converted into the same `Job`/`Step` types.
 
 ```go
-// pkg/types/types.go - The universal types
 type Pipeline struct {
     Name        string
     Jobs        map[string]*Job
@@ -180,11 +229,17 @@ type Job struct {
 }
 ```
 
-It's not rocket science. It's just... actualy reading the YAML files and doing what they say. Like a butler for your CI pipeline.
+It's not rocket science.
 
-### THE MATRIX STUFF (MATH IS HARD LET ME TELL YOU)
+It's just... reading YAML files and doing what they say.
 
-One of the things I had to figure out was **matrix expansion**. You know when you see this in a GitHub Actions file:
+Like a butler for your CI pipeline. A butler that never sleeps and doesn't judge your commit messages.
+
+### THE MATRIX STUFF (MATH IS HARD)
+
+One thing I had to figure out: **matrix expansion**.
+
+You know when you see this:
 
 ```yaml
 strategy:
@@ -200,21 +255,31 @@ strategy:
         go: "1.21"
 ```
 
-That's a Cartesian product. 2×2 = 4 combinations, minus 1 exclude, plus 1 include = 4 actual jobs. Each one gets its own set of environment variables.
+That's a Cartesian product.
 
-Implementing this was... humbling. The include/exclude logic especialy. Because `include` can add extra fields to existing combinations or create new ones entirely. And `exclude` needs to match existing combinations precisely.
+2×2 = 4 combos, minus 1 exclude, plus 1 include = 4 actual jobs.
 
-**But I got it working eventualy.** Uses a map-based dedup strategy and injects matrix values as environment variables (both raw and `MATRIX_` prefixed, because why not both).
+**Why didn't i study harder in math class ???**
+
+Implementing this was... humbling.
+
+The include/exclude logic especialy. `include` can add fields to existing combos OR create new ones. `exclude` needs to match precisely.
+
+I stared at my screen for 3 hours. My cofee went cold twice.
+
+**But I got it working eventualy.**
+
+Map-based dedup. Matrix values as env vars (raw + `MATRIX_` prefixed). Because why not both.
 
 ```bash
-# After expansion, each job gets:
+# Each job gets:
 #   os=ubuntu-latest, go=1.22, experimental=true
 #   MATRIX_OS=UBUNTU_LATEST, MATRIX_GO_VERSION=1.22
 ```
 
 ### DEPENDENCY RESOLUTION (I FELT SMART FOR A MINUTE)
 
-The other thing I needed was topological sorting. Jobs have `needs` dependencies:
+Jobs have `needs` dependencies:
 
 ```yaml
 jobs:
@@ -228,18 +293,28 @@ jobs:
     steps: [echo building]
 ```
 
-This creates a DAG (Directed Acyclic Graph). I used **Kahn's algorithm** for topological sorting. The logic is pretty simple:
+This creates a DAG.
+
+Don't panic. It's just a fancy way to say "do things in the right order."
+
+I used **Kahn's algorithm** for topological sorting.
+
+The logic:
 
 1. Start with jobs that have no dependencies
 2. Run them
-3. Once a job finishes, unlock the jobs that depended on it
+3. Unlock the jobs that depended on them
 4. Repeat untill everything's done
 
-Circular dependencies are detected and reported. **No more infinite loops.** You're welcome.
+Circular dependencies are detected and reported.
+
+**No more infinite loops.** You're welcome.
 
 ### DOCKER SERVICES (THE DATABASE PROBLEM)
 
-Integration tests usualy need databases. Postgres, Redis, MySQL... the usual suspects.
+Integration tests need databases. Postgres, Redis, MySQL...
+
+The usual suspects.
 
 In CI, you define them as services:
 
@@ -253,68 +328,108 @@ services:
     image: redis:7
 ```
 
-git-ci creates a dedicated bridge network, starts each service container with DNS aliases, and attaches the job container to the same network. So your code can just connect to `postgres:5432` or `redis:6379` without any config changes.
+git-ci creates a dedicated bridge network. Starts each service with DNS aliases. Attaches the job container to the same network.
 
-And cleanup is automatic. Because I'm not a monster.
+Your code connects to `postgres:5432` or `redis:6379`.
+
+No config changes needed.
+
+And cleanup is automatic.
+
+**Because i'm not a monster.** (Mostly.)
 
 ```bash
 $ git ci run --docker --job integration
-# Postgres and Redis are running. Tests connect to them. Everything cleans up after.
+# Postgres and Redis run. Tests connect. Everything cleans up.
 ```
 
-### THE THINGS THAT WENT WRONG
+### THE THINGS THAT WENT WRONG (SPOILER: A LOT)
 
-Okay I'm gonna be honnest with you. Not everything worked perfectly.
+Okay i'm gonna be honnest with you.
 
-- **Image resolution**: GitHub Actions uses `runs-on: ubuntu-latest`. But locally you don't have GitHub's runners. So I had to map those to Docker images (like `catthehacker/ubuntu:act-latest`). Finding the right mappings was anoying.
-- **Step parsing**: GitHub Actions has like 5 different ways to define steps. The `uses:`, the `run:`, the `with:`, the `if:`, the `env:` at step level... it's a lot.
-- **Shell escaping**: Passing commands through Docker exec with proper escaping is a nightmare. I probly got it 90% right.
-- **Windows support**: Yeah... about that. Let's just say it works on Linux and macOS for now.
+Not everything worked perfectly.
+
+**Far from it.**
+
+- **Image resolution**: GitHub uses `runs-on: ubuntu-latest`. Locally? You don't have that. I had to map to Docker images like `catthehacker/ubuntu:act-latest`. Finding the right mappings was anoying. Like, realy anoying.
+
+- **Step parsing**: GitHub Actions has 5 different ways to define steps. `uses:`, `run:`, `with:`, `if:`, `env:` at step level... it's a LOT. **Why do they need 5 ways ???**
+
+- **Shell escaping**: Passing commands through Docker exec with proper escaping? Nightmare. I probly got it 90% right. The other 10% are in a dark corner of my codebase that i don't talk about.
+
+- **Windows support**: Yeah... about that. Let's just say it works on Linux and macOS for now. Windows users, i'm sorry. (Not that sorry.)
 
 ### THE VERDICT
 
-So after all this work... does it actualy work?
+Does it actualy work?
 
 **Yes. SURPRISINGLY yes.**
 
-I use it every day now. Before pushing anything to GitHub, I run:
+I use it every day now.
+
+Before pushing anything:
 
 ```bash
 $ git ci run --docker
 ```
 
-If it passes locally, it passes on CI. And I don't have to wait 5 minutes to find out I forgot a stupid semicolon.
+If it passes locally, it passes on CI.
 
-Is it perfect? Hell no. There are edge cases I haven't hit yet. There are providers I don't support (Azure, Bitbucket, CircleCI, Travis... the list goes on). But it works for the things I need it to work for.
+And i don't have to wait 5 minutes to find out i forgot a stupid semicolon.
 
-And honestly, even if it only saved me 20 minutes a day, that's 20 minutes I can spend building actual stuff instead of waiting for pipelines.
+**Is it perfect?**
 
-### LESSONS LEARNED
+Hell no.
 
-1. **Go is awesome for CLI tools.** Single binary, cross-compilation, fast startup. Can't beat it.
-2. **YAML is evil.** Seriously, the amount of YAML edge cases in CI config files is insane. Indentation matters, anchors are confusing, and don't even get me started on multi-line strings.
-3. **CI/CD is actualy complex.** When I started this project I thought "how hard can it be to read a YAML file and run commands?" The answer is: harder than you think (like, WAY harder).
-4. **Local CI is a game changer.** The feedback loop goes from 5-10 minutes to 5-10 seconds. That changes how you work.
+Edge cases everywhere. Providers i don't support (Azure, Bitbucket, CircleCI, Travis... the list is longer than my grocery list).
 
-### WHATS NEXT
+But it works for the things i need it to work for.
 
-I'm planning to add more providers (CircleCI is next, then maybe Drone and Travis). Also want to add a K8s runner at some point because why not.
+And even if it only saves me 20 minutes a day... that's 20 minutes i can spend building actual stuff.
 
-But for now, it does what I need it to do. And maybe it'll help you too.
+Or drinking coffee.
 
-Check it out on **[GitHub](https://github.com/sanix-darker/git-ci)** if you're curious. PRs welcome. Issues welcome. Rants about my code style? Also welcome, I guess.
+Or questioning my life choices.
+
+You know, the important things.
+
+### LESSONS LEARNED (I'M A SLOW LEARNER)
+
+1. **Go is awesome for CLI tools.** Single binary. Cross-compilation. Fast startup. Can't beat it.
+
+2. **YAML is evil.** I mean it. The amount of YAML edge cases in CI config files is insane. Indentation matters. Anchors are confusing. Multi-line strings? Don't get me started.
+
+3. **CI/CD is actualy complex.** When i started, i thought "how hard can it be to read a YAML file and run commands?" The answer: harder than you think. Like, **WAY** harder.
+
+4. **Local CI is a game changer.** The feedback loop goes from 5-10 minutes to 5-10 seconds. That changes how you work. You stop fearing the push button.
+
+### WHAT'S NEXT
+
+I'm planning to add more providers. CircleCI is next. Then maybe Drone and Travis.
+
+Also want to add a K8s runner at some point.
+
+**Because why not.** YOLO.
+
+But for now, it does what i need it to do.
+
+And maybe it'll help you too.
+
+Check it out on **[GitHub](https://github.com/sanix-darker/git-ci)**. PRs welcome. Issues welcome. Rants about my code style? Also welcome, i guess.
 
 ---
 
-**PS:** I initially mentiond this project at the end of my [HOW I FIXED GIT REFLOG](https://sanixdk.xyz/blogs/how-i-fixed-git-reflog) post, back when it was just an idea. Now it's actualy workin and i use it daily. Funny how these things evolve when you stop just thinking and start coding.
+**PS:** I initially mentiond this project at the end of my [HOW I FIXED GIT REFLOG](https://sanixdk.xyz/blogs/how-i-fixed-git-reflog) post, back when it was just an idea. Now it's actualy workin and i use it daily. Funny how things evolve when you stop thinking and just start coding.
 
 ### FURTHER READING
 
 - **[git-ci on GitHub](https://github.com/sanix-darker/git-ci)** - The actual repo
-- **[GitHub Actions Docs](https://docs.github.com/en/actions)** - What I had to reverse-engineer
-- **[Kahn's Algorithm](https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm)** - The algorithm behind dependency resolution
+- **[GitHub Actions Docs](https://docs.github.com/en/actions)** - What i had to reverse-engineer
+- **[Kahn's Algorithm](https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm)** - Behind the dependency resolution
 - **[catthehacker/ubuntu](https://github.com/catthehacker/docker_images)** - Docker images that mimic GitHub runners
 
+-----------
+[<< blogs](/blogs/)
 -----------
 [<< blogs](/blogs/)
 

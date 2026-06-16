@@ -184,7 +184,7 @@ time: 3 min
 
 path: ./content/blogs/how-i-made-ci-cd-run-locally-in-go.md
 link: /blogs/how-i-made-ci-cd-run-locally-in-go
-title: HOW I MADE CI/CD RUN LOCALLY IN GO (AND STOPPED PUSHING TO TEST)
+title: I MADE GITHUB ACTIONS RUN ON MY LAPTOP... and i'm NEVER pushing to test again
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/git-ci-preview.png
 date: 2026-06-16 01:23PM
 tags: #go #cicd #cli #docker
