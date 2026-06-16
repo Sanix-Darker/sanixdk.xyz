@@ -11,7 +11,8 @@ EntryMap getMetadataForFilePath(const EntryMap* entryMap, const char* filePath,
             return entryMap[i];
         }
     }
-    return entryMap[0];
+    EntryMap emptyEntry = {0};
+    return emptyEntry;
 }
 
 /**
