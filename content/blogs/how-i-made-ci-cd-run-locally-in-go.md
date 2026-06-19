@@ -1,6 +1,6 @@
 <img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/git-ci-preview.png" />
 
-## I MADE GITHUB ACTIONS RUN ON MY LAPTOP... and i'm NEVER pushing to test again
+## I MADE GITHUB ACTIONS, GITLAB CI, AZURE PIPELINES, AND MORE CI TOOLS RUN ON MY LAPTOP
 
 `2026-06-16 01:23PM` • 8 min read • **#go** **#cicd** **#cli** **#docker**
 
