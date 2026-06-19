@@ -9,4 +9,3 @@ blog post article.
 
 
 -----------
-[<< blogs](/blogs/)
