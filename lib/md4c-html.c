@@ -353,7 +353,14 @@ static void render_close_img_span(MD_HTML* r, const MD_SPAN_IMG_DETAIL* det) {
         render_attribute(r, &det->title, render_html_escaped);
     }
 
-    RENDER_VERBATIM(r, (r->flags & MD_HTML_FLAG_XHTML) ? "\" />" : "\">");
+    /* BG-10 / F-16: every markdown <img> ships lazy-loaded + async-decoded.
+     * Above-the-fold posts still load fast because modern browsers ignore
+     * loading=lazy for images already in viewport (Chrome 76+, FF 75+,
+     * Safari 15.4+). CSS backgrounds (.triangle-bg) and OG meta are not
+     * affected because md4c only emits plain <img> from `![alt](url)`. */
+    RENDER_VERBATIM(r, (r->flags & MD_HTML_FLAG_XHTML)
+                        ? "\" loading=\"lazy\" decoding=\"async\" />"
+                        : "\" loading=\"lazy\" decoding=\"async\">");
 
     r->image_nesting_level--;
 }

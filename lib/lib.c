@@ -105,11 +105,10 @@ void minifyDirfiles(const char* path) {
                 minifyDirfiles(filePath);
             }
         } else {
-            // Check if the file is HTML or CSS
+            // ONLY .css files are safe to flatten — JS sources and
+            // inline <script> blocks would break with newline stripping.
             char* extension = strrchr(entry->d_name, '.');
-            // only js and css files for now
-            if (extension != NULL && (strcmp(extension, ".js") == 0 ||
-                                      strcmp(extension, ".css") == 0)) {
+            if (extension != NULL && strcmp(extension, ".css") == 0) {
                 char filePath[300];
                 snprintf(filePath, sizeof(filePath), "%s/%s", path,
                          entry->d_name);
@@ -137,8 +136,16 @@ void writeMetadatasToBlogList(const char* input_filename,
     // Write the beginning of the HTML document
     fprintf(output_file, "<h1 class='typing'> BLOG POSTS</h1> <br/>");
 
-    // FIXME:handle search later
-    //fprintf(output_file, "<div class='search-container'> <div class='search-wrapper'> <input type='text' class='search-input' placeholder='search by title or content...' id='search-input' > </div> </div><br/>");
+    // Live search input — wires to footer.md's filter loop. aria-label
+    // announces it for screen readers; type=search gives native UA UX.
+    fprintf(output_file,
+            "<div class='search-container'><div class='search-wrapper'>"
+            "<input type='search' class='search-input' id='search-input' "
+            "placeholder='search by title or tag…' "
+            "aria-label='Search blog posts by title or tag' "
+            "autocomplete='off' spellcheck='false'>"
+            "<span class='search-count' id='search-count' aria-live='polite'></span>"
+            "</div></div><br/>");
 
     fprintf(output_file, "<div class=\"blog-list\" style=\"--total-items: 0;\">");
 
@@ -180,11 +187,17 @@ void writeMetadatasToBlogList(const char* input_filename,
         fprintf(output_file, "    ");
         fprintf(output_file, "    </p>\n");
         fprintf(output_file, "    <div class=\"tags\">\n");
-        // Process tags - assuming they are comma-separated
-        char *token = strtok(metadata.tags, ",");
+        // Tags in content/metadatas.txt are space-separated (e.g. "#ai #llm").
+        // We split on either comma or whitespace so legacy comma entries keep
+        // working while new space-separated ones (the actual current data)
+        // also render a pill per token.
+        char tags_copy[sizeof(((Entry*)0)->tags)];
+        strncpy(tags_copy, metadata.tags, sizeof(tags_copy) - 1);
+        tags_copy[sizeof(tags_copy) - 1] = '\0';
+        char *token = strtok(tags_copy, " \t,");
         while (token != NULL) {
             fprintf(output_file, "        <span class=\"tag\">%s</span>\n", token);
-            token = strtok(NULL, ",");
+            token = strtok(NULL, " \t,");
         }
         fprintf(output_file, "    </div>\n");
         fprintf(output_file, "</div>\n");
@@ -199,32 +212,72 @@ void writeMetadatasToBlogList(const char* input_filename,
 
 void writeMetadatasToHeader(FILE* file, Entry* eM) {
     FILE* templateFile = fopen("./content/components/blog-header.md", "r");
+    if (templateFile == NULL) {
+        perror("Error opening blog-header.md template");
+        return;
+    }
 
-    // Determine file size
+    // Determine file size, then read the entire template into memory.
     fseek(templateFile, 0, SEEK_END);
     long fileSize = ftell(templateFile);
     fseek(templateFile, 0, SEEK_SET);
 
-    // Allocate memory for file content
-    char* templateContent = malloc(fileSize + 1);
+    char* templateContent = malloc((size_t)fileSize + 1);
     if (templateContent == NULL) {
-        perror("Failed to allocate memory");
+        perror("Failed to allocate memory for template");
         fclose(templateFile);
+        return;
     }
-
-    // Read file content
-    fread(templateContent, 1, fileSize, templateFile);
-    templateContent[fileSize] = '\0';  // Null-terminate the string
+    fread(templateContent, 1, (size_t)fileSize, templateFile);
+    templateContent[fileSize] = '\0';
     fclose(templateFile);
 
-    char contentOfFile[4096];  // Adjust the buffer size as needed
+    // Count %s placeholders so the buffer can never under-size even if
+    // someone edits content/components/blog-header.md.
+    size_t placeholder_count = 0;
+    for (const char* p = templateContent; *p; ++p) {
+        if (p[0] == '%') {
+            if (p[1] == 's') {
+                placeholder_count++;
+                p++;
+            } else if (p[1] == '%') {
+                /* printf escape: %% is literal %, skip it */
+                p++;
+            }
+        }
+    }
+    if (placeholder_count != 9) {
+        fprintf(stderr,
+                "warn: blog-header.md has %zu %%s slots but 9 args passed\n",
+                placeholder_count);
+    }
 
-    // Replace placeholders in the template with actual content
-    sprintf(contentOfFile, templateContent, eM->title, eM->link, eM->title,
-            eM->title, eM->image, eM->image, eM->link, eM->title, eM->image);
+    // Worst-case output: each %s (2 chars) replaced by an arg up to the
+    // longest of title/link/image. Parser-bounded sum is the safe upper
+    // bound; add a 64-byte safety margin for null + alignment slack.
+    size_t longest_arg = strlen(eM->title);
+    size_t link_len    = strlen(eM->link);
+    size_t image_len   = strlen(eM->image);
+    if (link_len  > longest_arg) longest_arg = link_len;
+    if (image_len > longest_arg) longest_arg = image_len;
+    size_t args_total = longest_arg * placeholder_count;
+    size_t out_size = strlen(templateContent) + args_total + 64;
 
-    // Write the content to the file
+    char* contentOfFile = malloc(out_size);
+    if (contentOfFile == NULL) {
+        perror("Failed to allocate memory for output");
+        free(templateContent);
+        return;
+    }
+
+    snprintf(contentOfFile, out_size, templateContent,
+             eM->title, eM->link,  eM->title, eM->title,
+             eM->image, eM->image, eM->link,  eM->title, eM->image);
+
     fputs(contentOfFile, file);
+
+    free(contentOfFile);
+    free(templateContent);
 }
 
 /**
@@ -326,23 +379,10 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
         fputs(contentOfFile, fileInWriteMode);
     }
 
-    // we add search-script component to the blogs.md
-    if (strstr(filename, "blogs.md") != NULL) {
-        FILE* searchFileComponent =
-            fopen("./content/components/search-script.md", "r");
-        if (searchFileComponent == NULL) {
-            perror("Error opening search-script file");
-            free(contentOfFile);
-            fclose(fileInWriteMode);
-            exit(1);
-        }
-
-        while (fgets(line, sizeof(line), searchFileComponent) != NULL) {
-            fputs(line, fileInWriteMode);
-        }
-
-        fclose(searchFileComponent);
-    }
+    // (search-script.md used to be injected here for blogs.md; F-09/BG-08
+    // moved live search into the footer IIFE, so this branch is dead.
+    // Kept comment breadcrumb in case a future refactor wants to revive
+    // blog-list-page-specific JS.)
 
     // we write the footer component
     FILE* footerFileInReadMode = fopen("./content/components/footer.md", "r");
@@ -362,16 +402,17 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
 }
 
 void createStyleFileAndCopyFavicon() {
-    // FIXME: change this to be C oriented code.
-    // Yeah, i know, messy messy messy
-    // I don't care, will change the loggic when i will be happy
+    // Creates public/{,blogs,projects,components,assets} and copies the
+    // static assets (favicon, robots.txt, and the entire content/assets/
+    // subtree) so every page can resolve /assets/style.css and any
+    // bundled images. cp -R is idempotent for files; mkdir -p is no-op if
+    // the folder already exists.
     int status = system(
-        "mkdir -p public public/blogs public/projects public/components && "
-        "cp ./content/favicon.ico ./content/robots.txt "
-        "./public/");
+        "mkdir -p public public/blogs public/projects public/components public/assets && "
+        "cp -- ./content/favicon.ico ./content/robots.txt ./public/ ; "
+        "if [ -d ./content/assets ]; then cp -R -- ./content/assets/. ./public/assets/ ; fi");
     if (status != 0) {
-        perror("Error setting resources files (style, ico,...) ");
-        exit(1);
+        fprintf(stderr, "warn: static asset copy returned non-zero status\n");
     }
 }
 
@@ -701,6 +742,7 @@ void proceedFilesRecursivelly(char* basePath) {
 }
 
 void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
+    static bool overflow_warned = false;
     FILE* file = fopen(filename, "r");
     if (!file) {
         perror("Error opening file");
@@ -721,7 +763,23 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
                 currentEntry.key[keyLength] = '\0';
             }
 
-            entryMap[entryIndex++] = currentEntry;
+            if (entryIndex < MAX_ENTRIES) {
+                entryMap[entryIndex++] = currentEntry;
+            } else {
+                if (!overflow_warned) {
+                    fprintf(stderr,
+                            "warn: %s has more than %d entries; remaining truncated\n",
+                            filename, MAX_ENTRIES);
+                    overflow_warned = true;
+                }
+                /* Drain the rest of this entry so we land cleanly on the
+                 * next blank-line boundary without bleeding fields into
+                 * a future slot. */
+                while (fgets(line, sizeof(line), file) != NULL &&
+                       line[0] != '\n') {
+                    /* discard */
+                }
+            }
             // Reset currentEntry for the next iteration
             memset(&currentEntry, 0, sizeof(currentEntry));
         } else {
@@ -732,7 +790,7 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
             if (strcmp(key, "path:") == 0)
                 strncpy(currentEntry.entry.path, value,
                         sizeof(currentEntry.entry.path));
-            if (strcmp(key, "link:") == 0)
+            else if (strcmp(key, "link:") == 0)
                 strncpy(currentEntry.entry.link, value,
                         sizeof(currentEntry.entry.link));
             else if (strcmp(key, "title:") == 0)
@@ -744,6 +802,12 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
             else if (strcmp(key, "date:") == 0)
                 strncpy(currentEntry.entry.date, value,
                         sizeof(currentEntry.entry.date));
+            else if (strcmp(key, "tags:") == 0)
+                strncpy(currentEntry.entry.tags, value,
+                        sizeof(currentEntry.entry.tags));
+            else if (strcmp(key, "time:") == 0)
+                strncpy(currentEntry.entry.time, value,
+                        sizeof(currentEntry.entry.time));
 
             // Save the key as well (filename)
             if (strcmp(key, "filename:") == 0)
