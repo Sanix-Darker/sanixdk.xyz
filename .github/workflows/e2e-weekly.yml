@@ -1,0 +1,123 @@
+name: E2E weekly long-rotation baseline
+
+# Promotes the most recent successful e2e-nightly artifact into a
+# 365-day-retention bucket so a release-cycle "diff-vs-baseline" workflow
+# has a stable, long-lived anchor that survives past GitHub's 90-day
+# artifact cap.
+#
+# Mechanism in two sentences:
+#   1. Find the most recent successful nightly run via the GitHub REST API
+#      (no GH-Actions in-workflow artifact access — different workflow).
+#   2. Download its single TEST_LOG.md artifact, then re-upload as a
+#      fresh artifact with `retention-days: 365`.
+#
+# Why a separate workflow (vs. embedding in e2e-nightly.yml):
+#   - Cross-workflow artifact access requires `gh run` CLI + actions:read
+#     permission, which we want scoped to ONE weekly job — not the
+#     every-night runner.
+#   - 365d retention exceeds the GitHub max, so we sidestep by
+#     re-publishing rather than editing the original.
+
+on:
+  schedule:
+    # Sunday 04:07 UTC. Sunday skipped nightly, so the freshest nightly
+    # available to promote is the Friday-night fire. 7-minutes-past-the-
+    # hour offsets the on-the-hour quota race.
+    - cron: '7 4 * * 0'
+  workflow_dispatch:
+
+# Stop stacking weekly rotations if the Sunday job gets stuck — there's
+# no value in N concurrent weekly runs once the latest has all the info.
+concurrency:
+  group: e2e-weekly-rotation
+  cancel-in-progress: true
+
+# Least-privilege. We need:
+#   - actions: write — required by `actions/upload-artifact@v4` for the
+#     third step to actually publish the new artifact. `write` supersedes
+#     read so `gh run list`/`gh run download` are also covered.
+#   - contents: read — for any incidental git operations in the runner.
+# Declaring `permissions:` REPLACES GitHub's default scope set, so
+# forgetting `actions: write` here surfaces as "Resource not accessible
+# by integration" at the upload step — silent on yaml.safe_load.
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    # Generous enough for REST call + download + re-upload; tighter than
+    # the nightly because the heavy lifting was already done upstream.
+    timeout-minutes: 10
+
+    steps:
+      - name: Find latest successful e2e-nightly run
+        id: locate
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          latest="$(gh run list \
+            --workflow='e2e-nightly.yml' \
+            --status=success \
+            --limit=1 \
+            --json databaseId \
+            --jq '.[0].databaseId // empty' 2>/dev/null || true)"
+          if [[ -z "${latest}" ]]; then
+            echo "::warning::No successful e2e-nightly run found in history."
+            echo "::warning::Weekly promotion is a no-op this cycle (operator to investigate nightly)."
+            # `null` output → downstream step sees empty env, gates the upload.
+            echo "latest_nightly_run=" >> "$GITHUB_OUTPUT"
+          else
+            echo "latest_nightly_run=${latest}"
+            echo "latest_nightly_run=${latest}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download the latest nightly's TEST_LOG.md
+        id: download
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          run_id="${{ steps.locate.outputs.latest_nightly_run }}"
+          if [[ -z "${run_id}" ]]; then
+            echo "::warning::Skipping download: no nightly run id."
+            exit 0
+          fi
+          rm -rf extracted && mkdir -p extracted
+          gh run download "${run_id}" --dir extracted
+          # actions/upload-artifact@v4 zips with the directory layout
+          # (`path: docs/TEST_LOG.md` → `docs/TEST_LOG.md` inside the
+          # archive). gh run download flattens the archive under the
+          # given --dir. Cope with both layouts just in case a future
+          # upload-artifact version drops the directory component.
+          if [[ -f extracted/docs/TEST_LOG.md ]]; then
+            mkdir -p docs && cp extracted/docs/TEST_LOG.md docs/TEST_LOG.md
+          elif [[ -f extracted/TEST_LOG.md ]]; then
+            mkdir -p docs && cp extracted/TEST_LOG.md docs/TEST_LOG.md
+          else
+            echo "::warning::TEST_LOG.md missing from nightly artifact run ${run_id}."
+            echo "::warning::Layout under extracted/:"
+            ( find extracted -maxdepth 3 -type f || true ) | sed 's/^/  /'
+            exit 0
+          fi
+          # No explicit "$GITHUB_OUTPUT" write needed: the upload step
+          # gates on hashFiles('docs/TEST_LOG.md') != '' which is true here.
+
+      - name: Upload promoted log (365-day retention)
+        # `hashFiles()` returns '' when the file is missing → step skips.
+        # This is the cleanest way to gate the upload without an explicit
+        # env-marker step.
+        if: hashFiles('docs/TEST_LOG.md') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          # Embed both the commit SHA and the run id in the artifact
+          # name so multiple weekly promotions don't collide visually
+          # and a single global name actually keys per-run uniquely.
+          name: e2e-weekly-test-log-sha-${{ github.sha }}-run-${{ github.run_id }}
+          path: docs/TEST_LOG.md
+          # GitHub's max retention for an artifact is 400 days for
+          # private/org repos and ~90d for free public; 365 is the
+          # sweet spot for a yearly release-cycle baseline anchor.
+          retention-days: 365

@@ -1,0 +1,128 @@
+name: E2E nightly baseline
+
+# Nightly regression-diff baseline. Runs `make e2e` against the current
+# `main` and uploads `docs/TEST_LOG.md` so a permanent-enough audit trail
+# accumulates for diffing any regression introduced between scheduled
+# fires.
+#
+# Differences vs `.github/workflows/ci.yml`:
+#   - triggered on a cron, not on every push, so this can't gate land.
+#   - retention extended to 90d (GitHub max) instead of 14d.
+#   - `concurrency.cancel-in-progress` because a stale nightly is wasted
+#     compute: jump in front of it if a new schedule fires.
+
+on:
+  schedule:
+    # 00:07 UTC nightly — 7 minutes past the hour to dodge the on-the-hour
+    # quota thundering-herd GitHub sees from the bulk of scheduled jobs.
+    - cron: '7 0 * * *'
+  # Manual replay — lets you re-run a baseline from the GitHub Actions UI
+  # without waiting for the cron (e.g. after fixing a flakiness in the
+  # harness).
+  workflow_dispatch:
+
+# Two effective groups based on which trigger fired:
+#   - schedule events      → `e2e-nightly-cron`
+#   - workflow_dispatch   → `e2e-nightly-manual`
+# Keeping the two buckets separate means a manual replay from the
+# Actions UI does NOT accidentally cancel an in-flight cron, and a
+# new cron tick does NOT cancel a manual you deliberately kicked off.
+# Cancel-in-progress stays true so each bucket still self-cleans when
+# multiple fires stack up inside the bucket (e.g. two crons queued
+# because the runner was busy).
+concurrency:
+  group: e2e-nightly-${{ github.event_name == 'schedule' && 'cron' || 'manual' }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    # Generous timeout — `make e2e` walks all 38 stories; in the worst
+    # case (live GitHub/WakaTime fetches hanging) it can take ~4 min.
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3
+        with:
+          # Scheduled jobs auto-target the repo default branch, but pin
+          # `main` explicitly so the audit trail (job logs + artifacts)
+          # doesn't accidentally point at a feature branch if the default
+          # changes.
+          ref: main
+
+      - name: Install gcc + make
+        run: sudo apt-get install -y gcc make
+
+      - name: Run nightly E2E (canonical pipeline)
+        id: e2e
+        # `make e2e` depends on `build`, so this single step also
+        # recompiles via gcc and runs `./builder build` before iterating
+        # the harness against `./public/`.
+        run: make e2e
+        # Allow the next step (artifact upload) to run; we still want a
+        # non-zero JOB exit code on FAIL so the regression is visible in
+        # the workflow runs tab.
+        continue-on-error: true
+
+      - name: Upload TEST_LOG.md artifact (90-day retention)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          # Embed the commit SHA in the artifact name so each nightly
+          # fire is uniquely labeled in the artifact browser — pasting a
+          # label into "diff vs baseline" becomes trivial.
+          name: e2e-nightly-test-log-sha-${{ github.sha }}
+          path: docs/TEST_LOG.md
+          # `warn` instead of `error` so a hard-to-explain missing log
+          # (e.g. workflow aborted before harness ran) doesn't hard-fail
+          # the upload step on its own.
+          if-no-files-found: warn
+          # GitHub's max retention. Window is wide enough to diff across
+          # quarterly release cycles without manually archiving older
+          # baselines.
+          retention-days: 90
+
+      # Surface nightly regressions in chat so they don't get buried in
+      # the Actions runs tab. Posts to whichever webhook(s) are configured
+      # in repo / org secrets; logs a workflow warning (not a hard fail) if
+      # neither is set, so the step itself never breaks the build.
+      - name: Notify chat on regression (Slack + Discord)
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL:   ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GITHUB_RUN_URL:      ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set +e
+          summary="$(grep '^_Summary' docs/TEST_LOG.md 2>/dev/null | head -1 | tr -d '\n' || true)"
+          if [[ -z "${summary}" ]]; then
+            summary="_Summary:_ (log missing — harness exited before write)"
+          fi
+          msg="🚨 Nightly E2E regression 🟥 — ${summary} — ${GITHUB_RUN_URL}"
+
+          # Slack incoming webhook: payload is {"text": "..."}.
+          if [[ -n "${SLACK_WEBHOOK_URL}" ]]; then
+            printf '%s' "{\"text\":\"${msg}\"}" \
+              | curl -fsS -X POST \
+                  -H 'Content-Type: application/json' \
+                  --data-binary @- \
+                  --max-time 10 \
+                  "${SLACK_WEBHOOK_URL}" \
+              || echo "::warning::Slack post failed."
+          fi
+
+          # Discord webhook: payload is {"content": "..."}.
+          if [[ -n "${DISCORD_WEBHOOK_URL}" ]]; then
+            printf '%s' "{\"content\":\"${msg}\"}" \
+              | curl -fsS -X POST \
+                  -H 'Content-Type: application/json' \
+                  --data-binary @- \
+                  --max-time 10 \
+                  "${DISCORD_WEBHOOK_URL}" \
+              || echo "::warning::Discord post failed."
+          fi
+
+          if [[ -z "${SLACK_WEBHOOK_URL}" && -z "${DISCORD_WEBHOOK_URL}" ]]; then
+            echo "::warning::Neither SLACK_WEBHOOK_URL nor DISCORD_WEBHOOK_URL is configured; skipping chat notification."
+          fi
