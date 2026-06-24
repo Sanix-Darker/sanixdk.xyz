@@ -13,6 +13,17 @@ build: compile
 	./builder build
 	git restore ./content/
 
+## e2e: Run the browser-use E2E harness against ./public/ (writes docs/TEST_LOG.md, exits non-zero on any FAIL)
+e2e: build
+	./scripts/e2e/run.sh
+
+## e2e-story ID=<story>: Run a single user story (overwrites docs/TEST_LOG.md with one row). Useful for CI triage.
+e2e-story: build
+ifndef ID
+	$(error ID=<story> is required (e.g. `make e2e-story ID=F-09` or `make e2e-story ID=BROWSER`))
+endif
+	./scripts/e2e/run.sh "$(ID)"
+
 ## serve: Serve the app (Not implemented/nor ready yet)
 serve:
 	./sdk serve
@@ -42,4 +53,4 @@ help: Makefile
 prod:
 	git restore ./content && git update && make compile && make build
 
-.PHONY: compile build serve help docker-build docker-run
+.PHONY: compile build serve e2e e2e-story help docker-build docker-run

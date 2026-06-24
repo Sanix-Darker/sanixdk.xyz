@@ -22,11 +22,14 @@ FROM nginx:stable-alpine3.17-slim as prod-serve
 
 # We copy the nginx conf
 COPY ./nginx.conf /etc/nginx/nginx.conf
-# we just copy the built web pages
-COPY --from=builder /app/public/* /usr/share/nginx/html/
-COPY --from=builder /app/public/blogs/* /usr/share/nginx/html/blogs/
-# Fix related to css style
-COPY --from=builder /app/public/assets/style.css  /usr/share/nginx/html/assets/style.css
+
+# Recursive copy of the full built site into the nginx root.
+# Closes BG-14: collapses the three brittle per-file / per-dir COPYs
+# previously listed here (`public/*`, `public/blogs/*`, and a hard-coded
+# `public/assets/style.css`) into a single recursive copy. Future renames
+# inside public/ (style.css → app.css; new files under assets/, blogs/,
+# projects/, components/, etc.) now ship with zero Dockerfile edits.
+COPY --from=builder /app/public/ /usr/share/nginx/html/
 
 # we expose the port 80
 EXPOSE 80
