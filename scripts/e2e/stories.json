@@ -1,0 +1,443 @@
+[
+  {
+    "id": "B-01",
+    "section": "A",
+    "type": "build",
+    "prompt": "make compile",
+    "pass_criteria": "./builder exists and is executable; build command exits 0",
+    "notes": "gcc -pipe -Wall clean"
+  },
+  {
+    "id": "B-02",
+    "section": "A",
+    "type": "build",
+    "prompt": "./builder 2>&1 ; echo EXIT=$? ; ./builder bogus 2>&1 ; echo EXIT=$?",
+    "pass_criteria": "./builder with no arg prints '? Usage' and exits non-zero; ./builder bogus prints '? Usage' and exits non-zero",
+    "notes": "Unknown-arg path returns EXIT_FAILURE"
+  },
+  {
+    "id": "B-03",
+    "section": "A",
+    "type": "browser",
+    "prompt": "Navigate to /blogs/ and report (a) the count of .blog-item elements; (b) whether the page renders any card titles by extracting the textContent of any h3.blog-title; (c) whether the search input is present.",
+    "pass_criteria": "26 blog-item cards rendered; at least one title visible; search input is present and visible.",
+    "notes": "Minted from content/metadatas.txt",
+    "fallback": {
+      "checks": [
+        {"name": "blog_card_count", "url": "/blogs/", "regex": "class=\"blog-item\"", "min": 20},
+        {"name": "blog_title_anchors", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=\"/blogs/", "min": 20},
+        {"name": "search_input_present", "url": "/blogs/", "regex": "id=\"search-input\"", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "B-04",
+    "section": "A",
+    "type": "browser",
+    "prompt": "Visit /about/ and /blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3 and confirm both embed the shared nav links ([home] [blogs] [about]) and the skip-to-content link.",
+    "pass_criteria": "Both pages contain nav links and skip link; blog post has giscus script src.",
+    "notes": "Header/footer injection",
+    "fallback": {
+      "checks": [
+        {"name": "about_has_skip_link", "url": "/about", "regex": "<a [^>]*class=\"skip\"", "min": 1},
+        {"name": "about_has_home_link", "url": "/about", "regex": "href=\"/\"", "min": 1},
+        {"name": "about_has_blogs_link", "url": "/about", "regex": "href=\"/blogs\"", "min": 1},
+        {"name": "about_has_about_link", "url": "/about", "regex": "href=\"/about\"", "min": 1},
+        {"name": "post_has_giscus_ref", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "giscus\\.app", "min": 1},
+        {"name": "post_has_main_id", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "id=\"main\"", "min": 1},
+        {"name": "post_has_skip_link", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "<a [^>]*class=\"skip\"", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "B-05",
+    "section": "A",
+    "type": "build",
+    "prompt": "rm -rf public/ && ./builder build >/dev/null && find public -name '*.html' | wc -l",
+    "pass_criteria": "find returns >20 HTML files (one per .md source)",
+    "notes": "Markdown-to-HTML conversion"
+  },
+  {
+    "id": "B-06",
+    "section": "A",
+    "type": "build",
+    "prompt": "test -s public/assets/style.css && echo CSS_SHIPPED ; wc -c public/assets/style.css",
+    "pass_criteria": "public/assets/style.css exists and is non-empty (>10 KB); /assets/style.css route returns 200",
+    "notes": "mkdir -p public/assets + cp -R"
+  },
+  {
+    "id": "B-07",
+    "section": "A",
+    "type": "build",
+    "prompt": "grep -rln 'innerHTML\\|addEventListener\\|matchMedia\\|classList' public/ --include='*.js' 2>/dev/null | head -5 ; head -c 200 public/assets/style.css | head -1",
+    "pass_criteria": "Inline <script> blocks in HTML still contain literal 'function' and 'addEventListener' substrings (no newline flattening); style.css is single-line but invalidates preserved by the prior line.",
+    "notes": "CSS-only minifier"
+  },
+  {
+    "id": "B-08",
+    "section": "A",
+    "type": "browser",
+    "prompt": "curl /feed.xml and report the number of <item> elements and whether <channel> contains <title>, <link>, <description>, <language>, <lastBuildDate>, <ttl>.",
+    "pass_criteria": "Exactly 26 <item> elements; all 6 channel meta fields present; newest first.",
+    "notes": "RSS 2.0 feed",
+    "fallback": {
+      "checks": [
+        {"name": "feed_root_is_rss", "url": "/feed.xml", "regex": "<rss", "min": 1},
+        {"name": "feed_has_channel", "url": "/feed.xml", "regex": "<channel>", "min": 1},
+        {"name": "feed_has_at_least_25_items", "url": "/feed.xml", "regex": "<item>", "min": 25},
+        {"name": "feed_channel_title_present", "url": "/feed.xml", "regex": "<title>[^<]+</title>", "min": 1},
+        {"name": "feed_channel_link_present", "url": "/feed.xml", "regex": "<link>[^<]+</link>", "min": 1},
+        {"name": "feed_channel_description_present", "url": "/feed.xml", "regex": "<description>[^<]+</description>", "min": 1},
+        {"name": "feed_channel_language_present", "url": "/feed.xml", "regex": "<language>[^<]+</language>", "min": 1},
+        {"name": "feed_last_build_date_present", "url": "/feed.xml", "regex": "<lastBuildDate>[^<]+</lastBuildDate>", "min": 1},
+        {"name": "feed_ttl_present", "url": "/feed.xml", "regex": "<ttl>[^<]+</ttl>", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "B-09",
+    "section": "A",
+    "type": "build",
+    "prompt": "grep -c '<title>sanix |' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'twitter:card' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'og:image' public/blogs/asymetric-encryption-of-your-clipboard.html",
+    "pass_criteria": "<title> per blog post; og:image + twitter:card meta tags present.",
+    "notes": "9 placeholders rendered"
+  },
+  {
+    "id": "B-10",
+    "section": "A",
+    "type": "build",
+    "prompt": "grep -E '#\\w+' public/blogs.html | head -3 ; echo --- ; grep -c '<span class=\"tag\">' public/blogs.html ; grep -c '</span>' public/blogs.html",
+    "pass_criteria": "Multiple tag pills (<span class=\"tag\">#xxx</span>) emitted; tags now stored in entry.tags.",
+    "notes": "Tags/time persisted"
+  },
+  {
+    "id": "B-11",
+    "section": "A",
+    "type": "build",
+    "prompt": "ls public/ ; ls public/blogs/ | head -5",
+    "pass_criteria": "public/ has subdirs (blogs, projects, components, assets).",
+    "notes": "replaceString proves safe"
+  },
+  {
+    "id": "B-12",
+    "section": "A",
+    "type": "skip",
+    "prompt": "Manual: delete ./content/components/header.md then ./builder build → should exit non-zero.",
+    "pass_criteria": "exit 1 on missing template (current strict behavior).",
+    "notes": "Builder exits strict (1)"
+  },
+  {
+    "id": "B-13",
+    "section": "A",
+    "type": "build",
+    "prompt": "make build 2>&1 | tail -3 ; git status ./content/ | head -3",
+    "pass_criteria": "Build exits 0; git status shows content/ unchanged (Makefile's git restore restores it).",
+    "notes": "Build reproducibility"
+  },
+  {
+    "id": "F-01",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit / and report whether the H1 says HI and contains a typing class; also confirm the dark terminal-style color scheme.",
+    "pass_criteria": "H1 with class 'typing' containing 'HI' or similar exists; body background is dark.",
+    "notes": "Home heading animation",
+    "fallback": {
+      "checks": [
+        {"name": "home_h1_typing_class", "url": "/", "regex": "<h1[^>]*class=\"[^\"]*typing[^\"]*\"", "min": 1},
+        {"name": "home_h1_hi_text", "url": "/", "regex": ">\\s*HI", "min": 1},
+        {"name": "home_css_uses_monospace", "url": "/assets/style.css", "regex": "Courier|monospace", "min": 1},
+        {"name": "home_css_has_dark_terminal_vars", "url": "/assets/style.css", "regex": "--bg|background[^;]*0,0,0|#[0-3][0-3][0-3][0-3][0-3][0-3]", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-02",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit / and locate the #terminalInput. Type 'bogus-cmd' then press Enter once. Report what the output div contains.",
+    "pass_criteria": "Output shows exactly one 'command not found: bogus-cmd' line (no duplication).",
+    "notes": "Single keydown listener",
+    "fallback": {
+      "checks": [
+        {"name": "home_has_terminal_input_id", "url": "/", "regex": "id=\"terminalInput\"", "min": 1},
+        {"name": "home_has_terminal_output_id", "url": "/", "regex": "id=\"terminalOutput\"", "min": 1},
+        {"name": "home_js_keydown_listener", "url": "/", "regex": "addEventListener\\(['\"](keydown|keypress)['\"]", "min": 1},
+        {"name": "home_js_command_not_found_copy", "url": "/", "regex": "command not found", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-03",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit / and type 'help' then Enter, then 'clear' then Enter. Report the visibility of items in #terminalOutput after clear.",
+    "pass_criteria": "After clear, the output contains only fresh prompt echo (or empty).",
+    "notes": "clear empties the output",
+    "fallback": {
+      "checks": [
+        {"name": "home_js_clear_branch", "url": "/", "regex": "['\"]clear['\"]", "min": 1},
+        {"name": "home_js_innerHTML_reset", "url": "/", "regex": "terminalOutput\\.innerHTML\\s*=|innerHTML\\s*=\\s*['\"]['\"]|innerHTML\\s*=\\s*\\\"\\\"", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-04",
+    "section": "B",
+    "type": "skip",
+    "prompt": "Flaky: live GitHub API rate-limit from CI",
+    "pass_criteria": "TC markers present + graceful failure text on error",
+    "notes": "Live GitHub data (best-effort)"
+  },
+  {
+    "id": "F-05",
+    "section": "B",
+    "type": "skip",
+    "prompt": "Flaky: WakaTime README parse",
+    "pass_criteria": "TC markers present + graceful failure text on error",
+    "notes": "WakaTime parse (best-effort)"
+  },
+  {
+    "id": "F-06",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /, in #terminalInput type 'HELP' (uppercase) then Enter. Report what the user echoed line contains.",
+    "pass_criteria": "Echoed text reads 'help' (lowercase), not 'HELP'. Then 'command not found' line follows.",
+    "notes": "Case-mismatch echo",
+    "fallback": {
+      "checks": [
+        {"name": "home_js_toLowerCase_on_echo", "url": "/", "regex": "toLowerCase\\(\\)", "min": 1},
+        {"name": "home_terminal_input_value_read", "url": "/", "regex": "terminalInput\\.value", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-07",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit / and confirm the nav contains [home] [blogs] [about] in that order, prefixed by code-block backets.",
+    "pass_criteria": "Three nav links keyed to /, /blogs/, /about visible.",
+    "notes": "Header navigation",
+    "fallback": {
+      "checks": [
+        {"name": "home_has_three_nav_anchors", "url": "/", "regex": "href=\"/\"|href=\"/blogs\"|href=\"/about\"", "min": 3}
+      ]
+    }
+  },
+  {
+    "id": "F-08",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/ and report (a) how many .blog-item cards render; (b) the post titles' first 3.",
+    "pass_criteria": "26 cards render. First title visible.",
+    "notes": "Blogs list rendering",
+    "fallback": {
+      "checks": [
+        {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=\"blog-item\"", "min": 20},
+        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=\"/blogs/[a-z0-9-]+\\b", "min": 20}
+      ]
+    }
+  },
+  {
+    "id": "F-09",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/. Locate the #search-input. Type 'go' into it (use page.keyboard.type). After 1s, report the textContent of #search-count and the number of .blog-item.is-hidden cards. Then clear by pressing Escape and confirm the count returns to 26 posts.",
+    "pass_criteria": "After typing 'go', search-count includes 'match' and is-hidden count > 0. After ESC, search-count reads '26 posts' and is-hidden count = 0.",
+    "notes": "Live search filter + ESC",
+    "fallback": {
+      "checks": [
+        {"name": "blogs_has_search_input", "url": "/blogs/", "regex": "id=\"search-input\"", "min": 1},
+        {"name": "blogs_has_search_count", "url": "/blogs/", "regex": "id=\"search-count\"", "min": 1},
+        {"name": "blogs_uses_is_hidden_class", "url": "/blogs/", "regex": "is-hidden", "min": 1},
+        {"name": "blogs_escape_key_handler", "url": "/blogs/", "regex": "key\\s*===?\\s*['\"]Escape['\"]|Escape", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-10",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /about and confirm a static page with the title pointer and any links back to /.",
+    "pass_criteria": "/about returns 200 and contains forward links to the home and to the article pointer.",
+    "notes": "About page",
+    "fallback": {
+      "checks": [
+        {"name": "about_returns_main_section", "url": "/about", "regex": "id=\"main\"|<main", "min": 1},
+        {"name": "about_has_h1_or_substack", "url": "/about", "regex": "<h1|substack|substack\\.com", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-11",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /projects and report whether the page exists and what its primary content section reads.",
+    "pass_criteria": "/projects returns 200; the page lists projects (raw markdown acceptable today per F-11 spec).",
+    "notes": "Projects list",
+    "fallback": {
+      "checks": [
+        {"name": "projects_returns_main_section", "url": "/projects", "regex": "id=\"main\"|<main", "min": 1},
+        {"name": "projects_has_h1_or_listing", "url": "/projects", "regex": "<h1|project", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-12",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/how-i-made-ci-cd-run-locally-in-go and locate #toc-container. Then wait 500ms (hljs runs first). Report whether the #toc-container contains an <ul> with at least one <li>.",
+    "pass_criteria": "TOC populated with a nested <ul> pointing at heading anchors.",
+    "notes": "TOC on blog post",
+    "fallback": {
+      "checks": [
+        {"name": "toc_div_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"", "min": 1},
+        {"name": "toc_includes_nested_ul", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"[^>]*>[^<]*<ul|toc-container[^>]*>[\\s\\S]*?<ul", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-13",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/how-to-add-prompt-confirm-box-in-bash and confirm at least one <pre><code> block has class attribute starting with 'hljs' or contains token classes like 'hljs-keyword'.",
+    "pass_criteria": "Code blocks highlighted with hljs- token class on spans.",
+    "notes": "Syntax highlighting via hljs",
+    "fallback": {
+      "checks": [
+        {"name": "post_includes_hljs_script_tag", "url": "/blogs/how-to-add-prompt-confirm-box-in-bash", "regex": "highlight\\.min\\.js|cdnjs.*highlight|jsdelivr.*highlight", "min": 1},
+        {"name": "post_has_pre_code_blocks", "url": "/blogs/how-to-add-prompt-confirm-box-in-bash", "regex": "<pre><code", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-14",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3 and report whether a giscus iframe is loaded with src containing 'giscus.app'.",
+    "pass_criteria": "giscus.app iframe present after network idle.",
+    "notes": "Giscus comments",
+    "fallback": {
+      "checks": [
+        {"name": "post_includes_giscus_app_ref", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "giscus\\.app", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-15",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/how-i-fixed-git-reflog and report whether <meta property=\"og:image\"> and <meta name=\"twitter:card\"> exist with non-empty content.",
+    "pass_criteria": "og:image + twitter:card meta present with absolute URLs.",
+    "notes": "Per-post meta tags",
+    "fallback": {
+      "checks": [
+        {"name": "post_has_og_image_meta", "url": "/blogs/how-i-fixed-git-reflog", "regex": "property=\"og:image\"", "min": 1},
+        {"name": "post_has_twitter_card_meta", "url": "/blogs/how-i-fixed-git-reflog", "regex": "name=\"twitter:card\"", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-16",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/how-i-fixed-git-reflog and grep the served HTML for <img ... loading=\"lazy\" decoding=\"async\"> in the main content. Report count.",
+    "pass_criteria": "At least 1 <img> tag includes loading=\"lazy\" decoding=\"async\" attributes.",
+    "notes": "Lazy + async on every markdown <img>",
+    "fallback": {
+      "checks": [
+        {"name": "post_imgs_lazy_async_pair", "url": "/blogs/how-i-fixed-git-reflog", "regex": "loading=\"lazy\"[^>]*decoding=\"async\"|decoding=\"async\"[^>]*loading=\"lazy\"", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-17",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit /blogs/ and verify the inline <style> or linked CSS file contains a rule with '@media (prefers-reduced-motion: reduce)'.",
+    "pass_criteria": "prefers-reduced-motion: reduce media block present in /assets/style.css response.",
+    "notes": "Reduced-motion guard",
+    "fallback": {
+      "checks": [
+        {"name": "css_has_prefers_reduced_motion", "url": "/assets/style.css", "regex": "prefers-reduced-motion:\\s*reduce", "min": 1},
+        {"name": "css_disables_animation_under_rm", "url": "/assets/style.css", "regex": "animation:\\s*none|transition:\\s*none", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-18",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit / and confirm /assets/style.css contains 'a:focus-visible' and 'input:focus-visible' selectors with 'outline' declarations.",
+    "pass_criteria": "Both :focus-visible rules ship, outline set, same specificity structure as :focus but listed later.",
+    "notes": "Visible keyboard focus rings",
+    "fallback": {
+      "checks": [
+        {"name": "css_uses_focus_visible_pseudo", "url": "/assets/style.css", "regex": ":focus-visible", "min": 1},
+        {"name": "css_focus_visible_has_outline", "url": "/assets/style.css", "regex": "a[^{}]*:focus-visible|button[^{}]*:focus-visible", "min": 1},
+        {"name": "css_focus_visible_input_outline", "url": "/assets/style.css", "regex": "(input|textarea|select)[^{)]*:focus-visible|[^{}]*\\.terminal-input[^{}]*:focus-visible", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "F-19",
+    "section": "B",
+    "type": "browser",
+    "prompt": "Visit / and confirm the page contains an element with class='skip' and href='#main'. Then, via JS, focus it and report its computed style: is it visible (clip-path: none)?",
+    "pass_criteria": "Skip link exists once on the page; when focused, computed clip-path is none and position is fixed.",
+    "notes": "Skip-to-content link",
+    "fallback": {
+      "checks": [
+        {"name": "home_has_skip_anchor", "url": "/", "regex": "<a [^>]*class=\"skip\"[^>]*href=\"#main\"", "min": 1},
+        {"name": "home_has_main_target", "url": "/", "regex": "id=\"main\"", "min": 1}
+      ]
+    }
+  },
+  {
+    "id": "O-01",
+    "section": "C",
+    "type": "skip",
+    "prompt": "Manual Docker check required",
+    "pass_criteria": "(skipped — Docker unavailable in sandbox)",
+    "notes": "Docker build ×copy fixed in BG-01; O-01 follow-up still HIGH (BG-14)"
+  },
+  {
+    "id": "O-02",
+    "section": "C",
+    "type": "build",
+    "prompt": "grep -E 'gzip' nginx.conf",
+    "pass_criteria": "nginx.conf contains 'gzip' (gzip_static or gzip on directives).",
+    "notes": "nginx config"
+  },
+  {
+    "id": "O-04",
+    "section": "C",
+    "type": "build",
+    "prompt": "grep -E '^serve:|^prod:' Makefile",
+    "pass_criteria": "Makefile serve and prod targets are syntactically valid; './builder serve' path used.",
+    "notes": "Makefile targets"
+  },
+  {
+    "id": "O-05",
+    "section": "C",
+    "type": "build",
+    "prompt": "head -20 .github/workflows/ci.yml",
+    "pass_criteria": "CI yaml references gcc/make; ends with no deploy step.",
+    "notes": "CI workflow"
+  },
+  {
+    "id": "O-06",
+    "section": "C",
+    "type": "build",
+    "prompt": "cat content/robots.txt ; echo --- ; python3 -m http.server ${E2E_PORT:-8123} --bind 127.0.0.1 >/dev/null 2>&1 </dev/null & disown",
+    "pass_criteria": "robots.txt contains valid Disallow: directives and no inline '#' inside directives.",
+    "notes": "robots.txt valid directives"
+  },
+  {
+    "id": "O-08",
+    "section": "C",
+    "type": "build",
+    "prompt": "grep -E 'make (up|compose|down|build)' README.md | head -5",
+    "pass_criteria": "README documents `make up` (not `make compose`).",
+    "notes": "README consistency"
+  }
+]
