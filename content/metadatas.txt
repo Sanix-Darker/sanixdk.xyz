@@ -1,10 +1,10 @@
 path: ./content/blogs/how-i-hacked-my-token-cost-burnt.md
 link: /blogs/how-i-hacked-my-token-cost-burnt
 title: HOW I HACKED MY TOKEN/COST BURNT
-image: no
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/rdr-icon.png
 date: 2026-07-12 03:51PM
 tags: #ai #agents #rust #performance #opensource #cost
-time: 6 min
+time: 7 min
 
 path: ./content/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3.md
 link: /blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3

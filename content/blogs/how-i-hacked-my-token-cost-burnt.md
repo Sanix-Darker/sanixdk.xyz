@@ -1,3 +1,5 @@
+![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/rdr-icon.png)
+
 ## HOW I HACKED MY TOKEN/COST BURNT
 
 `2026-07-12 03:51PM` • 6 min read • **#ai** **#agents** **#rust** **#performance** **#opensource**
@@ -171,5 +173,17 @@ Radar does not edit code, send code elsewhere or require a daemon. It is alpha; 
 The goal is smaller: make expensive agents spend tokens on the change, review and tests, not on discovering `src/auth/jwt/handler.rs` four times. Yvan had the right first-five-minutes idea. I just broke the map into nodes, added hashes and routes, then got slightly too interested in the invoice.
 
 The code is in [**radar**](https://github.com/sanix-darker/radar). `radar map` is the pitch. Everything after that is me refusing to pay for the same `grep` again.
+
+### BONUS
+
+radar offers a browse mode on TUI and on web-server with interactive graph to navigate, using either `radar browse` or `radar serve`
+
+#### ON TERMINAL TUI
+
+![TUI](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/radar-tui.png)
+
+#### ON BROWSER
+
+![BROWSER](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/radar-web.png)
 
 ---
