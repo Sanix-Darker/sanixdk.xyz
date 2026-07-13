@@ -17,7 +17,7 @@ Long time no see... i got busy with work, then with a lot of big side projects w
 There are currently two ways to reduce an AI bill:
 
 1. Make the agent read less useless stuff.
-2. Buy a "100% LEGIT Claude/Cortex UNLIMITED TOKEN ACCOUNT" from `token_wizard_94`, whose profile picture is a Lamborghini containing an NFT ape.
+2. Buy a "100% LEGIT Claude/Codex UNLIMITED TOKEN ACCOUNT" from `token_wizard_94`, whose profile picture is a Lamborghini containing an NFT ape.
 
 [Grey-market Claude proxies are real](https://www.tomshardware.com/tech-industry/artificial-intelligence/chinese-grey-market-sells-claude-api-access-at-90-percent-off-through-proxy-networks-that-harvest-user-data): pooled promos, stolen credentials, model swapping and operators keeping your prompts. My less-proven theory, after [ThePrimeagen covered Mini Shai-Hulud](https://www.youtube.com/watch?v=Ws-Nc9S8i_Y), is that supply-chain worms feed part of this market: poison package, scrape keys, hide access behind proxy. [The worm is documented](https://www.akamai.com/blog/security-research/mini-shai-hulud-worm-returns-goes-public); the resale hop is me connecting dots. Please don't cite me in court.
 
