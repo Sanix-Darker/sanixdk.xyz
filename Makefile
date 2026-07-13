@@ -10,15 +10,16 @@ compile:
 # To concatenate header/footer components to all the pages
 ## build: Build the webpage that is going to be serve
 build: compile
+	rm -rf ./public/
 	./builder build
 	git restore ./content/
 
 ## e2e: Run the browser-use E2E harness against ./public/ (writes docs/TEST_LOG.md, exits non-zero on any FAIL)
-e2e: build
+e2e:
 	./scripts/e2e/run.sh
 
 ## e2e-story ID=<story>: Run a single user story (overwrites docs/TEST_LOG.md with one row). Useful for CI triage.
-e2e-story: build
+e2e-story:
 ifndef ID
 	$(error ID=<story> is required (e.g. `make e2e-story ID=F-09` or `make e2e-story ID=BROWSER`))
 endif

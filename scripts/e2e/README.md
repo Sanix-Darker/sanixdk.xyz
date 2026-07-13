@@ -31,10 +31,11 @@ by the browser-use agent (see `stories.json`).
 
 ## CI integration
 
-`make e2e` is the canonical pipeline (it depends on `build`, so it
-re-compiles + rebuilds before iterating the harness). CI uploads
+`make e2e` is the canonical pipeline. The harness performs one clean build
+before iterating the stories; `make build` clears generated `public/` output
+first, so repeated runs cannot duplicate page headers. CI uploads
 `docs/TEST_LOG.md` as the `e2e-test-log` artifact via
-`actions/upload-artifact@v4`; the upload step runs even when the
+`actions/upload-artifact@v7`; the upload step runs even when the
 harness exits non-zero, so a partial log is still preserved for audit.
 
 ## Browser-use handoff

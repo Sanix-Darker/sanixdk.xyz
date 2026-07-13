@@ -25,10 +25,11 @@ TARGET="${1:-ALL}"
 FILTER="${TARGET^^}"  # uppercase filter
 
 # 1. ---------- Build site ----------------------------------------------------
-echo "==> compile + build + git restore"
-( cd "${REPO_ROOT}" && make compile >/dev/null )
-( cd "${REPO_ROOT}" && ./builder build >"${CAPTURE_DIR}/build.log" 2>&1 )
-git -C "${REPO_ROOT}" restore ./content/ >/dev/null 2>&1 || true
+echo "==> clean build + git restore"
+if ! ( cd "${REPO_ROOT}" && make build >"${CAPTURE_DIR}/build.log" 2>&1 ); then
+    cat "${CAPTURE_DIR}/build.log" >&2
+    exit 2
+fi
 
 # 2. ---------- Reset stale browser captures (BEFORE server starts) ---------
 # Stale /tmp/e2e/*.json from a previous run could leak into today's verdict.

@@ -53,7 +53,7 @@
     "id": "B-05",
     "section": "A",
     "type": "build",
-    "prompt": "rm -rf public/ && ./builder build >/dev/null && find public -name '*.html' | wc -l",
+    "prompt": "make build >/dev/null && find public -name '*.html' | wc -l",
     "pass_criteria": "find returns >20 HTML files (one per .md source)",
     "notes": "Markdown-to-HTML conversion"
   },
