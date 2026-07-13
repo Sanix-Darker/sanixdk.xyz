@@ -12,6 +12,8 @@
 
 ### THE TOKEN DISCOUNT UNDERGROUND
 
+Long time no see... i got busy with work, then with a lot of big side projects which were apparently also work. During all that, one annoying line kept showing up in my AI bills: repository orientation, paid again and again.
+
 There are currently two ways to reduce an AI bill:
 
 1. Make the agent read less useless stuff.
@@ -154,7 +156,7 @@ The boring privacy bit: `scan`, `map`, `tree`, `status`, `refresh` and `check` r
 
 ### NUMBERS, BEFORE THE LINKEDIN CAROUSEL
 
-The benchmark ledger runs identical agent tasks with billed tokens, turns, cost and correctness. It keeps ugly rounds too: before the placement fix, Radar lost by roughly `2x` (`0.51x`) on an N=5 run. Painful ? yes. Cheaper than lying to myself ? also yes.
+The benchmark ledger runs identical agent tasks with billed tokens, turns, cost and correctness. It keeps ugly rounds too: before the placement fix, Radar lost the first N=5 run. Painful ? yes. Cheaper than lying to myself ? also yes.
 
 The first four rows are headless Haiku agent comparisons, marked **unisolated**, over fixture or generated repositories. The last row is a separate synthetic engine benchmark. Measurements, not a blood oath:
 
@@ -170,6 +172,23 @@ The first four rows are headless Haiku agent comparisons, marked **unisolated**,
     <tr><td>10,000-file full parse</td><td>229 ms</td><td>1,299 ms</td><td>5.7x; engine time, not agent wall time</td></tr>
   </tbody>
 </table>
+
+At the measured 300-file hub, one navigation prompt triggered a multi-turn agent run averaging `$0.0278` with Radar: basically `$0.03`. That looks like spare change on a small project, because it is. But an intensive user does not send one prompt: across 100 comparable navigation prompts, the straight extrapolation is `$2.78` with Radar versus `$8.03` bare, or `$5.25` saved. That is arithmetic over the measured averages, not 100 extra benchmark runs.
+
+What about something the size of Linux ? I have not benchmarked it, so here is **conjecture only**: sensitivity math for 100 navigation-heavy prompts using an arbitrary near-half reduction of `48%`. The first column is scenario input, not my estimate of a Linux query. Model, cache, query and tool choice can move every number.
+
+<table>
+  <thead>
+    <tr><th>Bare scenario input / prompt</th><th>Bare, 100 prompts</th><th>Hypothetical at assumed -48%</th><th>Saved</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>$0.30</td><td>$30</td><td>$15.60</td><td>$14.40</td></tr>
+    <tr><td>$1.00</td><td>$100</td><td>$52</td><td>$48</td></tr>
+    <tr><td>$3.00</td><td>$300</td><td>$156</td><td>$144</td></tr>
+  </tbody>
+</table>
+
+The formulas are just `saved = 100 x bare cost x 0.48` and `remaining = 100 x bare cost x 0.52`. Not a Linux benchmark. It only shows why a hypothetical gain near half stops looking negligeable after the hundredth prompt.
 
 Raw token totals hide the different prices of fresh input, cache reads, cache creation and extra turns, so the ledger keeps dollars and correctness beside tokens. On a grep-friendly exact needle, Radar can lose turns. On a semantic hub query, bare navigation becomes a casino and the map does its job.
 
