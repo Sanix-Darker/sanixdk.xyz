@@ -27,7 +27,7 @@ Why should an agent spend 15 minutes doing `grep -> read -> wrong file -> grep a
 
 As a software engineer working on huge codebases, i had this idea stuck in my head for weeks: after compaction, agents read the same 14 files again. This is not optimal... you are actualy paying for amnesia.
 
-So, on a Friday night and two Heinekens later, i started building [**radar**](https://github.com/sanix-darker/radar). The repo is private for now; i share access on request because i am not ready to donate it to every AI web scraper yet.
+So, on a Friday night and two Heinekens later, i started building [**radar**](https://github.com/sanix-darker/radar). The repository is intentionally private for now: ask me for access and i will invite you into the project. The door is closed to public AI bots scraping the internet, not to actual humans. This is access control, not fake scarcity.
 
 ### NOT MY ORIGINAL IDEA, SORRY YVAN
 
@@ -200,6 +200,6 @@ Radar needs no daemon, but it is alpha. Tiny repos gain almost nothing, unsuppor
 
 The goal is smaller: make expensive agents spend tokens on the change, review and tests, not on discovering `src/auth/jwt/handler.rs` four times. Yvan had the right first-five-minutes idea. I just broke the map into nodes, added hashes and routes, then got slightly too interested in the invoice.
 
-The code is in [**radar**](https://github.com/sanix-darker/radar). `radar map` is the pitch. Everything after that is me refusing to pay for the same `grep` again.
+The code lives in [**radar**](https://github.com/sanix-darker/radar). It is private on purpose; request access and i will add you to the project instead of giving every public AI scraper a free clone. `radar map` is the pitch. Everything after that is me refusing to pay for the same `grep` again.
 
 ---
