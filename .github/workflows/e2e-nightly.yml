@@ -1,7 +1,7 @@
 name: E2E nightly baseline
 
 # Nightly regression-diff baseline. Runs `make e2e` against the current
-# `main` and uploads `docs/TEST_LOG.md` so a permanent-enough audit trail
+# `master` and uploads `docs/TEST_LOG.md` so a permanent-enough audit trail
 # accumulates for diffing any regression introduced between scheduled
 # fires.
 #
@@ -35,7 +35,6 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  actions: write
   contents: read
 
 jobs:
@@ -46,14 +45,15 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
+      - name: Checkout master
+        id: checkout
+        uses: actions/checkout@v7
         with:
           # Scheduled jobs auto-target the repo default branch, but pin
-          # `main` explicitly so the audit trail (job logs + artifacts)
+          # `master` explicitly so the audit trail (job logs + artifacts)
           # doesn't accidentally point at a feature branch if the default
           # changes.
-          ref: main
+          ref: master
 
       - name: Install gcc + make
         run: |
@@ -70,12 +70,12 @@ jobs:
 
       - name: Upload TEST_LOG.md artifact (90-day retention)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           # Embed the commit SHA in the artifact name so each nightly
           # fire is uniquely labeled in the artifact browser — pasting a
           # label into "diff vs baseline" becomes trivial.
-          name: e2e-nightly-test-log-sha-${{ github.sha }}
+          name: e2e-nightly-test-log-sha-${{ steps.checkout.outputs.commit }}
           path: docs/TEST_LOG.md
           # `warn` instead of `error` so a hard-to-explain missing log
           # (e.g. workflow aborted before harness ran) doesn't hard-fail
@@ -106,7 +106,7 @@ jobs:
 
           # Slack incoming webhook: payload is {"text": "..."}.
           if [[ -n "${SLACK_WEBHOOK_URL}" ]]; then
-            printf '%s' "{\"text\":\"${msg}\"}" \
+            jq -n --arg text "${msg}" '{text: $text}' \
               | curl -fsS -X POST \
                   -H 'Content-Type: application/json' \
                   --data-binary @- \
@@ -117,7 +117,7 @@ jobs:
 
           # Discord webhook: payload is {"content": "..."}.
           if [[ -n "${DISCORD_WEBHOOK_URL}" ]]; then
-            printf '%s' "{\"content\":\"${msg}\"}" \
+            jq -n --arg text "${msg}" '{content: $text}' \
               | curl -fsS -X POST \
                   -H 'Content-Type: application/json' \
                   --data-binary @- \
