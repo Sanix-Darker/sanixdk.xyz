@@ -99,7 +99,7 @@ This is real output from the current alpha mapping its own fresh checkout. No `s
 
 ```text
 $ radar map
-radar map — 10 written, 1 unchanged, 7 purpose slot(s) pending
+radar map: 10 written, 1 unchanged, 7 purpose slot(s) pending
 fill slots with your agent (Phase 3: radar slots --exec)
 
 $ radar ls --ascii --depth 1
