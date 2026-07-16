@@ -49,6 +49,38 @@
     </div>
 </div>
 
+<h2>PUBLIC NODES:</h2>
+
+<div class="terminal-section project-showcase">
+    <div class="command-line">
+        <span class="prompt">root@sanixdk:~$</span>
+        <span class="command">cat ~/.projects/featured.nodes</span>
+    </div>
+    <div class="output project-reel" aria-label="Featured public projects">
+        <a class="project-node" href="https://shhx.dev">
+            <span class="project-node-head"><span>01</span><strong>shhx.dev</strong><span>online</span></span>
+            <span class="project-node-body">Live secret handoff with passphrases and short expiry windows.</span>
+            <span class="project-node-target">https://shhx.dev</span>
+        </a>
+        <a class="project-node" href="https://github.com/Sanix-Darker/radar">
+            <span class="project-node-head"><span>02</span><strong>radar.dev</strong><span>source</span></span>
+            <span class="project-node-body">LLM-free repository routing to exact source anchors in milliseconds.</span>
+            <span class="project-node-target">github.com/Sanix-Darker/radar</span>
+        </a>
+        <a class="project-node" href="https://ector.sanixdk.xyz">
+            <span class="project-node-head"><span>03</span><strong>ector</strong><span>online</span></span>
+            <span class="project-node-body">Deterministic natural-language to e-commerce query parsing. No LLM.</span>
+            <span class="project-node-target">https://ector.sanixdk.xyz</span>
+        </a>
+        <a class="project-node" href="https://s2c.sanixdk.xyz">
+            <span class="project-node-head"><span>04</span><strong>s2c</strong><span>online</span></span>
+            <span class="project-node-body">Terminal-first audio and video chat with a tiny client/server flow.</span>
+            <span class="project-node-target">https://s2c.sanixdk.xyz</span>
+        </a>
+    </div>
+    <div class="project-reel-hint">scroll - inspect - launch</div>
+</div>
+
 <h2>WORKING ON:</h2>
 
 <div class="terminal-section electronics-section">
@@ -91,7 +123,7 @@
         help: 'Available commands: help, about, skills, projects, electronics, contact, clear, whoami, uptime',
         about: 'Backend Engineer passionate about solving interesting problems, building tools, and exploring electronics.',
         skills: 'Python, JavaScript, Go, Rust, Docker, Linux, Neovim, Git, Electronics, Arduino, Raspberry Pi, IoT',
-        projects: 'gitMark, stackfetch, snips.nvim, dockdb.nvim, zzollo, gitrows-api, tchaka, oCloud/oBot, s2c',
+        projects: 'shhx.dev, radar, ector, s2c',
         electronics: 'Arduino projects, Raspberry Pi setups, IoT sensors, PCB designs, circuit prototyping',
         contact: 'GitHub: github.com/sanix-darker | Telegram: @sanixdarker | Email: s4nixdk@gmail.com',
         clear: '',

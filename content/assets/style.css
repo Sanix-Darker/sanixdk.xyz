@@ -543,6 +543,83 @@ hr {
 
 #index .cursor { animation: blink 1s infinite }
 
+/* Lightweight public-project reel: CSS-only, no images or runtime fetch. */
+.project-reel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, calc((100% - .75rem) / 2));
+  gap: .75rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: .25rem .25rem .75rem;
+  scroll-snap-type: inline mandatory;
+  scrollbar-color: var(--text-muted) var(--bg-secondary)
+}
+
+#index .project-reel {
+  margin: .75rem 0 0;
+  margin-left: 0
+}
+
+.project-node {
+  display: flex;
+  min-height: 172px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  text-decoration: none;
+  scroll-snap-align: start
+}
+
+.project-node:hover,
+.project-node:focus-visible {
+  border-color: var(--text-secondary);
+  background: var(--hover-color)
+}
+
+.project-node-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: .65rem;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: .72rem;
+  text-transform: uppercase
+}
+
+.project-node-head strong {
+  color: var(--text-primary);
+  font-size: 1rem;
+  text-transform: none
+}
+
+.project-node-body {
+  color: var(--text-secondary);
+  line-height: 1.55
+}
+
+.project-node-target {
+  color: var(--text-muted);
+  font-size: .72rem;
+  overflow-wrap: anywhere
+}
+
+.project-node-target::before { content: '> ' }
+
+.project-reel-hint {
+  color: var(--text-muted);
+  font-size: .72rem;
+  margin: .25rem 0 0
+}
+
+.project-reel-hint::before { content: '// ' }
+
+.project-page-reel { margin: 2rem 0 }
+
 /* Utilities */
 .text-center { text-align: center }
 .mb-2 { margin-bottom: 1rem }
@@ -613,6 +690,7 @@ img { max-width: 100%; height: auto }
   input, textarea, select { font-size: 1rem; padding: .8rem }
   #index .skills-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) }
   #index .terminal-section { padding: 1rem }
+  .project-reel { grid-auto-columns: minmax(250px, 86%) }
 }
 
 @media (min-width: 769px) {

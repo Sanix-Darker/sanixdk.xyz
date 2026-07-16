@@ -27,10 +27,9 @@
     <br>
 <center style="text-decoration: none">
 
-[`home`](/)  [`blogs`](/blogs/) <!-- lazy guy, will code this later, • [`projects`](/projects/) --> [`about`](/about)
+[`home`](/)  [`blogs`](/blogs/)  [`projects`](/projects/)  [`about`](/about)
 
 </center>
 
 ----
-
 
