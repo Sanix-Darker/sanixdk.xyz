@@ -211,7 +211,7 @@ The latest consumer gate runs the same seven tasks five times with and without R
   </tbody>
 </table>
 
-![Radar token reduction benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/radar-token-reduction.png)
+![Radar token reduction benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@5a30a721f951255c34e8ed4de4bbdeb13eab1aca/content/assets/how-i-hacked-my-token-cost-burnt/radar-token-reduction.png)
 
 All `35/35` final runs were correct and all `35/35` used exactly one command. The sum of the seven medians fell from `25,456` to `4,507` uncached input tokens: **82.3% less**. Radar's Rust process uses zero model calls and zero model tokens. The remaining `585` to `713` tokens belong to the navigator choosing that one command and formatting the result. Call `radar query` directly and that wrapper cost does not exist.
 
@@ -237,7 +237,7 @@ The rate is `$1.75/M` uncached input, `$0.175/M` cached input and `$14/M` output
   </tbody>
 </table>
 
-![Radar reference token cost benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/radar-token-cost.png)
+![Radar reference token cost benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@5a30a721f951255c34e8ed4de4bbdeb13eab1aca/content/assets/how-i-hacked-my-token-cost-burnt/radar-token-cost.png)
 
 That is `2.95x` lower across the benchmark suite under the declared rate. The tiny caller trace is `11.5%` more expensive once cache and output are counted, even though its uncached input fell. It stays in the table and gets hatched in the chart. A reference scenario that hides its awkward row is just marketing with extra decimals.
 
@@ -259,7 +259,7 @@ The local engine has a separate gate because model wall time is not Radar proces
   </tbody>
 </table>
 
-![Radar local query latency benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/radar-query-latency.png)
+![Radar local query latency benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@5a30a721f951255c34e8ed4de4bbdeb13eab1aca/content/assets/how-i-hacked-my-token-cost-burnt/radar-query-latency.png)
 
 Verified routes and every resident query stay below the `50 ms` p95 target at 10,201 files. A brand-new process doing an uncached lexical lookup is the explicit exception: it loads the full index and reaches `137.308 ms` p95. Still zero tokens, but not sub-50 ms, so it gets hatched in the chart.
 
