@@ -135,16 +135,16 @@ This is real output from the current alpha mapping its own fresh checkout. No `s
 
 ```text
 $ radar map
-radar map: 10 written, 1 unchanged, 7 purpose slot(s) pending
+radar map - 0 written, 11 unchanged, 7 purpose slot(s) pending
 fill slots with your agent (Phase 3: radar slots --exec)
 
 $ radar ls --ascii --depth 1
-.                           syntax      ~312  ok
-|-- example                 syntax      ~331  ok
-|-- examples                syntax      ~335  ok
-|-- scripts                 syntax      ~328  ok
-|-- src                     syntax      ~332  ok
-`-- tests/corpus/valid      syntax      ~456  ok
+.                           syntax      ~304  ok
+|-- bench                   syntax      ~331  ok
+|-- example                 syntax      ~330  ok
+|-- examples                syntax      ~333  ok
+|-- src                     syntax      ~330  ok
+`-- tests/corpus/valid      syntax      ~455  ok
 
 $ radar check
 radar check: 11 map(s) OK
