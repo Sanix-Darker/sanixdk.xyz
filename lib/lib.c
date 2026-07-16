@@ -81,8 +81,7 @@ void minifyFile(const char* filePath) {
  * The function opens the directory specified by 'path' and iterates through
  * each entry in the directory. If a subdirectory is found, it ignores the "."
  * and ".." directories and recursively calls the function with the path to the
- * subdirectory. If a file is found, it checks if the file has a ".js" or ".css"
- * extension and calls the 'minifyFile' function to minify the file.
+ * subdirectory. CSS files are flattened; other file types are left unchanged.
  */
 void minifyDirfiles(const char* path) {
     DIR* directory;
@@ -280,6 +279,10 @@ void writeMetadatasToHeader(FILE* file, Entry* eM) {
     free(templateContent);
 }
 
+static bool has_path_prefix(const char* path, const char* prefix) {
+    return strncmp(path, prefix, strlen(prefix)) == 0;
+}
+
 /**
  * This function processes a file by performing the following steps:
  * 1. Opens the file specified by the 'filename' parameter for reading.
@@ -339,10 +342,13 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
 
     char line[1000];
 
-    // We add comments-footer-component only if its from a blog-post file
+    // Blog posts and nested project pages use per-page metadata.
+    bool is_blog_post = has_path_prefix(filename, "./content/blogs/") ||
+                        has_path_prefix(filename, "content/blogs/");
+    bool is_project_page = has_path_prefix(filename, "./content/projects/") ||
+                           has_path_prefix(filename, "content/projects/");
     if (strstr(filename, ".md") != NULL &&
-        (strstr(filename, "blogs/") != NULL ||
-         strstr(filename, "projects/") != NULL)) {
+        (is_blog_post || is_project_page)) {
         // get metadatas for the file
         EntryMap eM = getMetadataForFilePath(entryMap, filename, count);
 
@@ -378,11 +384,6 @@ void addHeaderFooterToFile(EntryMap* entryMap, const char* filename,
         fclose(headerFileInReadMode);
         fputs(contentOfFile, fileInWriteMode);
     }
-
-    // (search-script.md used to be injected here for blogs.md; F-09/BG-08
-    // moved live search into the footer IIFE, so this branch is dead.
-    // Kept comment breadcrumb in case a future refactor wants to revive
-    // blog-list-page-specific JS.)
 
     // we write the footer component
     FILE* footerFileInReadMode = fopen("./content/components/footer.md", "r");
@@ -512,44 +513,6 @@ static void membuf_append(struct membuffer* buf, const char* data,
     buf->size += size;
 }
 
-/**
- * This function replaces all occurrences of a substring in a string with
- * another substring.
- *
- * @param original - the original string to be modified
- * @param toReplace - the substring to be replaced
- * @param replacement - the substring to replace all occurrences of "toReplace"
- *
- * The function modifies the "original" string by replacing all occurrences of
- * "toReplace" with "replacement". It uses a temporary buffer to hold the
- * modified string, and then copies the modified string back to the "original"
- * string.
- */
-void replaceString(char* original, char* toReplace, char* replacement) {
-    char buffer[1000] = {0};
-    char* insertPoint = &buffer[0];
-    const char* tmp = original;
-    size_t toReplaceLen = strlen(toReplace);
-    size_t replacementLen = strlen(replacement);
-
-    while (1) {
-        const char* p = strstr(tmp, toReplace);
-
-        if (p == NULL) {
-            strcpy(insertPoint, tmp);
-            break;
-        }
-
-        memcpy(insertPoint, tmp, p - tmp);
-        insertPoint += p - tmp;
-        memcpy(insertPoint, replacement, replacementLen);
-        insertPoint += replacementLen;
-        tmp = p + toReplaceLen;
-    }
-
-    strcpy(original, buffer);
-}
-
 static void process_output(const MD_CHAR* text, MD_SIZE size, void* userdata) {
     membuf_append((struct membuffer*)userdata, text, size);
 }
@@ -561,8 +524,6 @@ static void process_output(const MD_CHAR* text, MD_SIZE size, void* userdata) {
  * Input:
  * - in: A FILE pointer representing the input file.
  * - out: A FILE pointer representing the output file.
- * - page_title: A pointer to a char array representing the title of the page.
- *
  * Output:
  * - Returns an integer indicating the success of the function. Returns 0 if
  * successful, and a negative value otherwise.
@@ -582,7 +543,7 @@ static void process_output(const MD_CHAR* text, MD_SIZE size, void* userdata) {
  * 9. Clean up and free the memory buffers.
  * 10. Return the result of the function.
  */
-static int process_file(FILE* in, FILE* out, char* page_title) {
+static int process_file(FILE* in, FILE* out) {
     size_t n;
     struct membuffer buf_in = {0};
     struct membuffer buf_out = {0};
@@ -640,45 +601,50 @@ out:
     return ret;
 }
 
+static bool has_suffix(const char* value, const char* suffix) {
+    size_t value_len = strlen(value);
+    size_t suffix_len = strlen(suffix);
+    return value_len >= suffix_len &&
+           strcmp(value + value_len - suffix_len, suffix) == 0;
+}
+
+static bool output_path_for_markdown(const char* input_path,
+                                     char* output_path,
+                                     size_t output_size) {
+    static const char with_dot_prefix[] = "./content/";
+    static const char plain_prefix[] = "content/";
+    const char* relative_path = NULL;
+
+    if (has_path_prefix(input_path, with_dot_prefix)) {
+        relative_path = input_path + strlen(with_dot_prefix);
+    } else if (has_path_prefix(input_path, plain_prefix)) {
+        relative_path = input_path + strlen(plain_prefix);
+    } else {
+        return false;
+    }
+
+    int written = snprintf(output_path, output_size, "./public/%s",
+                           relative_path);
+    if (written < 0 || (size_t)written >= output_size ||
+        !has_suffix(output_path, ".md")) {
+        return false;
+    }
+
+    size_t output_len = strlen(output_path);
+    if (output_len + 3 > output_size) {
+        return false;
+    }
+    strcpy(output_path + output_len - 3, ".html");
+    return true;
+}
+
 /**
- * Recursively proceeds through files in a directory and its subdirectories.
- *
- * @param basePath - the base path of the directory to start from
- *
- * Input:
- * - basePath: the base path of the directory to start from
- *
- * Output: None
- *
- * Steps:
- * 1. Set up variables for path, input_path, and output_path.
- * 2. Open the directory specified by basePath.
- * 3. Set up input and output file pointers as stdin and stdout.
- * 4. Create an array of string replacements for title formatting.
- * 5. If the directory cannot be opened, print an error message and return.
- * 6. While there are more files in the directory,
- *    a. If the file is not the current directory or the parent directory,
- *       - Build the complete path by concatenating basePath and the current
- * file name.
- *       - Check if the path corresponds to a directory.
- *       - If it is a directory, call the function recursively with the new
- * path.
- *       - If it is a file with a ".md" extension,
- *         - Copy the input path and output path to their respective variables.
- *         - Replace "content" with "public" and replace ".md" with ".html" in
- * the output path.
- *         - Open the input and output files.
- *         - For each string in the string_title_target_replacements array,
- * replace it with an empty string in the output path.
- *         - Process the file by calling the process_file function with the
- * input, output, and output path arguments.
- *         - Close the input and output files if they are not stdin and stdout.
- * 7. Close the directory.
+ * Recursively renders Markdown files from content/ into matching HTML paths
+ * under public/. Path construction is checked before any file is opened.
  */
-void proceedFilesRecursivelly(char* basePath) {
-    char path[1000];
-    char input_path[1000];
-    char output_path[1000];
+void proceedFilesRecursively(char* basePath) {
+    char path[FILENAME_MAX];
+    char output_path[FILENAME_MAX];
 
     struct dirent* dp;
     struct stat filestat;
@@ -687,10 +653,6 @@ void proceedFilesRecursivelly(char* basePath) {
     FILE* in = stdin;
     FILE* out = stdout;
 
-    char* string_title_target_replacements[5] = {
-        "public/", ".html", "/blogs/", "/projects/", ".",
-    };
-
     if (!dir) {
         printf("Unable to open directory: %s\n", basePath);
         return;
@@ -698,25 +660,30 @@ void proceedFilesRecursivelly(char* basePath) {
 
     while ((dp = readdir(dir)) != NULL) {
         if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0) {
-            sprintf(path, "%s/%s", basePath, dp->d_name);
+            int path_len = snprintf(path, sizeof(path), "%s/%s", basePath,
+                                    dp->d_name);
+            if (path_len < 0 || (size_t)path_len >= sizeof(path)) {
+                fprintf(stderr, "Path is too long: %s/%s\n", basePath,
+                        dp->d_name);
+                continue;
+            }
             if (stat(path, &filestat) == -1) {
                 continue;
             }
             if (S_ISDIR(filestat.st_mode)) {
-                proceedFilesRecursivelly(path);
-            } else if (strstr(dp->d_name, ".md") != NULL) {
-                strcpy(input_path, path);
-                strcpy(output_path, path);
+                proceedFilesRecursively(path);
+            } else if (has_suffix(dp->d_name, ".md")) {
+                if (!output_path_for_markdown(path, output_path,
+                                              sizeof(output_path))) {
+                    fprintf(stderr, "Cannot derive output path for %s\n", path);
+                    continue;
+                }
 
-                printf(">>> building %s\n", input_path);
+                printf(">>> building %s\n", path);
 
-                // we replace content by public since we're builing the website
-                replaceString(output_path, "content", "public");
-                replaceString(output_path, ".md", ".html");
-
-                in = fopen(input_path, "rb");
+                in = fopen(path, "rb");
                 if (in == NULL) {
-                    fprintf(stderr, "<< Cannot open %s\n", input_path);
+                    fprintf(stderr, "<< Cannot open %s\n", path);
                     exit(1);
                 }
 
@@ -726,12 +693,12 @@ void proceedFilesRecursivelly(char* basePath) {
                     exit(1);
                 }
 
-                for (int i = 0; i < 5; i++) {
-                    replaceString(output_path,
-                                  string_title_target_replacements[i], "");
+                if (process_file(in, out) != 0) {
+                    fprintf(stderr, "Failed to render %s\n", path);
+                    fclose(in);
+                    fclose(out);
+                    exit(1);
                 }
-                // the title will be the file name without some stuffs in it
-                process_file(in, out, output_path);
                 if (in != stdin) fclose(in);
                 if (out != stdout) fclose(out);
             }
@@ -741,80 +708,98 @@ void proceedFilesRecursivelly(char* basePath) {
     closedir(dir);
 }
 
+static void append_metadata_entry(const char* filename,
+                                  EntryMap entryMap[],
+                                  EntryMap* current_entry,
+                                  int* entry_index,
+                                  bool* overflow_warned) {
+    if (current_entry->entry.path[0] == '\0') {
+        memset(current_entry, 0, sizeof(*current_entry));
+        return;
+    }
+
+    char* dot = strrchr(current_entry->key, '.');
+    if (dot != NULL) {
+        *dot = '\0';
+    }
+
+    if (*entry_index < MAX_ENTRIES) {
+        entryMap[(*entry_index)++] = *current_entry;
+    } else if (!*overflow_warned) {
+        fprintf(stderr,
+                "warn: %s has more than %d entries; remaining truncated\n",
+                filename, MAX_ENTRIES);
+        *overflow_warned = true;
+    }
+
+    memset(current_entry, 0, sizeof(*current_entry));
+}
+
+static void copy_metadata_field(char* destination, size_t destination_size,
+                                const char* value) {
+    if (destination_size > 0) {
+        snprintf(destination, destination_size, "%s", value);
+    }
+}
+
 void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
-    static bool overflow_warned = false;
+    bool overflow_warned = false;
     FILE* file = fopen(filename, "r");
     if (!file) {
         perror("Error opening file");
+        *count = 0;
         return;
     }
 
     char line[256];
     EntryMap currentEntry;
+    memset(&currentEntry, 0, sizeof(currentEntry));
     int entryIndex = 0;
 
     while (fgets(line, sizeof(line), file) != NULL) {
         // Check for the end of an entry
-        if (line[0] == '\n') {
-            /* Extract key from filename */
-            char* dot = strrchr(currentEntry.key, '.');
-            if (dot != NULL) {
-                size_t keyLength = dot - currentEntry.key;
-                currentEntry.key[keyLength] = '\0';
-            }
-
-            if (entryIndex < MAX_ENTRIES) {
-                entryMap[entryIndex++] = currentEntry;
-            } else {
-                if (!overflow_warned) {
-                    fprintf(stderr,
-                            "warn: %s has more than %d entries; remaining truncated\n",
-                            filename, MAX_ENTRIES);
-                    overflow_warned = true;
-                }
-                /* Drain the rest of this entry so we land cleanly on the
-                 * next blank-line boundary without bleeding fields into
-                 * a future slot. */
-                while (fgets(line, sizeof(line), file) != NULL &&
-                       line[0] != '\n') {
-                    /* discard */
-                }
-            }
-            // Reset currentEntry for the next iteration
-            memset(&currentEntry, 0, sizeof(currentEntry));
+        if (line[0] == '\n' || line[0] == '\r') {
+            append_metadata_entry(filename, entryMap, &currentEntry,
+                                  &entryIndex, &overflow_warned);
         } else {
             // Parse each line of the entry
-            char key[256], value[256];
-            sscanf(line, "%s %255[^\n]", key, value);
+            char key[256] = {0};
+            char value[256] = {0};
+            if (sscanf(line, "%255s %255[^\n]", key, value) != 2) {
+                continue;
+            }
 
             if (strcmp(key, "path:") == 0)
-                strncpy(currentEntry.entry.path, value,
-                        sizeof(currentEntry.entry.path));
+                copy_metadata_field(currentEntry.entry.path,
+                                    sizeof(currentEntry.entry.path), value);
             else if (strcmp(key, "link:") == 0)
-                strncpy(currentEntry.entry.link, value,
-                        sizeof(currentEntry.entry.link));
+                copy_metadata_field(currentEntry.entry.link,
+                                    sizeof(currentEntry.entry.link), value);
             else if (strcmp(key, "title:") == 0)
-                strncpy(currentEntry.entry.title, value,
-                        sizeof(currentEntry.entry.title));
+                copy_metadata_field(currentEntry.entry.title,
+                                    sizeof(currentEntry.entry.title), value);
             else if (strcmp(key, "image:") == 0)
-                strncpy(currentEntry.entry.image, value,
-                        sizeof(currentEntry.entry.image));
+                copy_metadata_field(currentEntry.entry.image,
+                                    sizeof(currentEntry.entry.image), value);
             else if (strcmp(key, "date:") == 0)
-                strncpy(currentEntry.entry.date, value,
-                        sizeof(currentEntry.entry.date));
+                copy_metadata_field(currentEntry.entry.date,
+                                    sizeof(currentEntry.entry.date), value);
             else if (strcmp(key, "tags:") == 0)
-                strncpy(currentEntry.entry.tags, value,
-                        sizeof(currentEntry.entry.tags));
+                copy_metadata_field(currentEntry.entry.tags,
+                                    sizeof(currentEntry.entry.tags), value);
             else if (strcmp(key, "time:") == 0)
-                strncpy(currentEntry.entry.time, value,
-                        sizeof(currentEntry.entry.time));
+                copy_metadata_field(currentEntry.entry.time,
+                                    sizeof(currentEntry.entry.time), value);
 
             // Save the key as well (filename)
             if (strcmp(key, "filename:") == 0)
-                strncpy(currentEntry.key, value, sizeof(currentEntry.key));
+                copy_metadata_field(currentEntry.key,
+                                    sizeof(currentEntry.key), value);
         }
     }
 
+    append_metadata_entry(filename, entryMap, &currentEntry,
+                          &entryIndex, &overflow_warned);
     *count = entryIndex;
 
     fclose(file);

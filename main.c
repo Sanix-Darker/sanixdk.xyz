@@ -16,10 +16,8 @@ int main(int argc, char** argv) {
         // build headers/footers for all contents
         buildComponentsIntoMarkdownsFiles("./content");
         buildComponentsIntoMarkdownsFiles("./content/blogs");
-        // TODO: buildComponentsIntoMarkdownsFiles("./content/projects");
-
         // transform .md -> .html (files)
-        proceedFilesRecursivelly(CONTENT_DIR);
+        proceedFilesRecursively(CONTENT_DIR);
 
         // minify/bundle htmls/css files
         // FIXME: doesn't sweet well with <pre> tags, will need to update
@@ -28,10 +26,9 @@ int main(int argc, char** argv) {
 
         return EXIT_SUCCESS;
     } else if (strcmp(argv[1], SERVE_ARG) == 0) {
-        // no plan to implement it so far because it's docker-compose based
-        // serve.
-        printf("NOT IMPLEMENTED YET !");
-        return EXIT_SUCCESS;
+        fprintf(stderr,
+                "serve is not implemented; use `make up` for local serving\n");
+        return EXIT_FAILURE;
     }
 
     printf("? Usage: ./builder build|serve");
