@@ -69,9 +69,9 @@ A simplified view of how my **xs** operates:
 - **network.c**: uses [libcurl](https://curl.se/libcurl/) to perform an HTTP GET request and retrieve HTML content.
 - **parser.c**: uses [Gumbo parser](https://github.com/google/gumbo-parser) to parse HTML into a parse tree (DOM).
 - **javascript.c**: uses [Duktape](https://duktape.org/) to run extremely simple JavaScript code found in `<script>` tags.
-- **layout.c**: demonstrates a trivial approach to layout—only rendering block-level elements in a vertical flow.
+- **layout.c**: demonstrates a trivial approach to layout - only rendering block-level elements in a vertical flow.
 - **render.c**: draws the layout boxes (wireframes) in a simple SDL2-based window.
-- **main.c**: orchestrates everything—fetch, parse, layout, render.
+- **main.c**: orchestrates everything - fetch, parse, layout, render.
 
 ---
 
@@ -728,7 +728,7 @@ void render_layout(Layout* layout);
   - A real browser does many optimizations. This code does a naive layout. You can optimize by caching resources, using more efficient data structures, etc.
   - For extremely efficient rendering, consider GPU acceleration or more advanced frameworks.
 - **HTML Parsing**: Gumbo is fairly complete for HTML5, but you must handle advanced constructs and invalid markup.
-- **CSS**: We only demonstrated a simplistic wireframe approach. A real CSS engine is complex—handling selectors, inheritance, cascade, box model, floats, flexbox, etc.
+- **CSS**: We only demonstrated a simplistic wireframe approach. A real CSS engine is complex - handling selectors, inheritance, cascade, box model, floats, flexbox, etc.
 - **JavaScript**: We only run a raw script. Real browsers have a BOM (Browser Object Model), a DOM interface, event loops, etc. Implementing these is a large task.
 - **Security**: Sandboxing, same-origin policy, cookie handling, etc. are not addressed.
 - **Memory Management**: This sample code is missing some robust error handling and memory cleanup.
@@ -753,4 +753,4 @@ void render_layout(Layout* layout);
 
 ### Final Thoughts
 
-This toy browser, **xs**, is merely a starting template. To turn it into a more fully featured browser would require significant additional work—especially around JavaScript bindings to the DOM and implementing the complexities of real CSS layout. However, this minimal codebase should help you understand the high-level architecture: **fetch → parse → layout → render** (with optional script execution). Feel free to adapt, extend, and optimize it for your educational or experimental goals. Good luck building **xs**!
+This toy browser, **xs**, is merely a starting template. To turn it into a more fully featured browser would require significant additional work - especially around JavaScript bindings to the DOM and implementing the complexities of real CSS layout. However, this minimal codebase should help you understand the high-level architecture: **fetch → parse → layout → render** (with optional script execution). Feel free to adapt, extend, and optimize it for your educational or experimental goals. Good luck building **xs**!

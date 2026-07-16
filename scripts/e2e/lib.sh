@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# lib.sh — shared helpers for the browser-use E2E harness.
+# lib.sh - shared helpers for the browser-use E2E harness.
 # Source from run.sh / run-story.sh. Never executed directly.
 
-# Helpers only — do NOT bring `set -e`. Callers decide whether to
+# Helpers only - do NOT bring `set -e`. Callers decide whether to
 # fail-fast or carry on. We DO enable -u and -o pipefail so callers
 # inherit strictness on undefined vars + pipeline failures.
 set -u
@@ -59,7 +59,7 @@ wait_for_server() {
 # start_server <port> <directory>: idempotent; only starts if not already up.
 # After binding, does a real curl health probe to make sure it's serving.
 # When a fresh server is spawned, we truncate the log via the `>` redirect
-# inside the subshell — leave any existing httpd.log alone so we never
+# inside the subshell - leave any existing httpd.log alone so we never
 # delete a file the previous (already-killed) server was writing to.
 start_server() {
     local port="$1" dir="$2"
@@ -100,7 +100,7 @@ now_iso() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 header() {
     local note="${*:-fresh run}"
     {
-        echo "# TEST LOG — E2E browser-use run @ $(now_iso)"
+        echo "# TEST LOG - E2E browser-use run @ $(now_iso)"
         echo
         echo "Run note: ${note}"
         echo

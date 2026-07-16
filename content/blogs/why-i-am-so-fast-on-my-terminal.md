@@ -8,7 +8,7 @@
 
 ---
 
-If you've ever watched me work in a terminal, you might wonder how I navigate so quickly between tasks, manage Git repositories, and execute complex workflows in seconds. The answer isn't magic—it's **ruthless optimization through aliases and shortcuts**.
+If you've ever watched me work in a terminal, you might wonder how I navigate so quickly between tasks, manage Git repositories, and execute complex workflows in seconds. The answer isn't magic - it's **ruthless optimization through aliases and shortcuts**.
 
 After 5 years of working in terminals, I've accumulated a lot of aliases, custom functions, and Git shortcuts that make me exponentially faster. This post breaks down my most-used commands and shows you how to build your own velocity-enhancing toolkit.
 
@@ -817,7 +817,7 @@ sp  # Runs speedtest
 
 ### THE REAL SECRET
 
-The secret to my terminal speed isn't memorizing commands—it's building systems that:
+The secret to my terminal speed isn't memorizing commands - it's building systems that:
 
 1. **Reduce keystrokes**: Every common task has a 2-3 character alias
 2. **Add context**: Functions show relevant info (git status, file previews)

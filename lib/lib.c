@@ -105,7 +105,7 @@ void minifyDirfiles(const char* path) {
                 minifyDirfiles(filePath);
             }
         } else {
-            // ONLY .css files are safe to flatten — JS sources and
+            // ONLY .css files are safe to flatten - JS sources and
             // inline <script> blocks would break with newline stripping.
             char* extension = strrchr(entry->d_name, '.');
             if (extension != NULL && strcmp(extension, ".css") == 0) {
@@ -136,7 +136,7 @@ void writeMetadatasToBlogList(const char* input_filename,
     // Write the beginning of the HTML document
     fprintf(output_file, "<h1 class='typing'> BLOG POSTS</h1> <br/>");
 
-    // Live search input — wires to footer.md's filter loop. aria-label
+    // Live search input - wires to footer.md's filter loop. aria-label
     // announces it for screen readers; type=search gives native UA UX.
     fprintf(output_file,
             "<div class='search-container'><div class='search-wrapper'>"

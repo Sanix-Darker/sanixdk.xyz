@@ -86,7 +86,7 @@ We'll compare these in **C** (our performance-hungry workhorse), we'll show you 
 
 Absolute value is your first ticket to understanding how to cut down branches without cutting performance.
 
-We want to calculate the absolute value of a signed integer without using a conditional branch. This is foundational — a single-bit operation can turn a branch into math.
+We want to calculate the absolute value of a signed integer without using a conditional branch. This is foundational - a single-bit operation can turn a branch into math.
 
 ```c
 int abs_branch(int x) {
@@ -405,7 +405,7 @@ int main() {
 Branchless programming is a scalpel, not a sledgehammer. Used wisely, it can make your code faster, safer, and cooler. Misused, it turns your logic into incomprehensible bit spaghetti.
 
 
-> *"Premature optimization is the root of all evil — except when it's branchless, then it's performance art."*
+> *"Premature optimization is the root of all evil - except when it's branchless, then it's performance art."*
 
 
 

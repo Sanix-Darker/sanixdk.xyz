@@ -151,10 +151,10 @@ Yes and ... maybe no...
 
 `git tag before-refactor` does create a reference point. But:
 
-- **Tags don't show you ops count** — you don't know how much you're undoing
-- **Tags pollute your tag namespace** — mixing releases with checkpoints
-- **Tags don't have metadata** — when was it created? what branch?
-- **Tags require you to remember names** — `git action ls` shows everything
+- **Tags don't show you ops count** - you don't know how much you're undoing
+- **Tags pollute your tag namespace** - mixing releases with checkpoints
+- **Tags don't have metadata** - when was it created? what branch?
+- **Tags require you to remember names** - `git action ls` shows everything
 
 you can read more about git tags [here](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
 It's a small quality-of-life improvement.

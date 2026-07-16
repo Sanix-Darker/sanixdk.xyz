@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run.sh — orchestrator for the browser-use E2E harness.
+# run.sh - orchestrator for the browser-use E2E harness.
 #
 # Usage:
 #   ./scripts/e2e/run.sh           # run ALL stories (builds + browser + skips)
@@ -8,12 +8,12 @@
 #   ./scripts/e2e/run.sh build     # run only build-testable stories
 #
 # Exit codes:
-#   0  — all run stories PASS or SKIP
-#   1  — at least one story FAILED
+#   0 - all run stories PASS or SKIP
+#   1 - at least one story FAILED
 
 set -u
 set -o pipefail
-# We deliberately do NOT set -e — a single broken story shouldn't abort
+# We deliberately do NOT set -e - a single broken story shouldn't abort
 # the loop. Counter bookkeeping reads `rc=$?` after each story runner;
 # the tally itself comes from the tail-of-log grep (no need for `set -e`
 # toggle dance inside the loop).
@@ -33,7 +33,7 @@ fi
 
 # 2. ---------- Reset stale browser captures (BEFORE server starts) ---------
 # Stale /tmp/e2e/*.json from a previous run could leak into today's verdict.
-# Wipe here — server's httpd.log is freshly created via `>` redirect,
+# Wipe here - server's httpd.log is freshly created via `>` redirect,
 # so we don't touch it (avoids the race vs the shortly-spawned server).
 # Opt-out: E2E_NO_WIPE=1 keeps existing *.json in place. Use case: the
 # parent (a browser-use-agent-driven run) has already staged captures
@@ -83,7 +83,7 @@ for id in ${ids}; do
     total=$((total+1))
     echo "==> ${id} (${type})"
     before_lines=$(wc -l < "${LOG_FILE}" 2>/dev/null || echo 0)
-    # set -e is intentionally off at script top — no per-iter toggle.
+    # set -e is intentionally off at script top - no per-iter toggle.
     "${SCRIPT_DIR}/run-story.sh" "${id}"
     rc=$?
     after_lines=$(wc -l < "${LOG_FILE}" 2>/dev/null || echo 0)

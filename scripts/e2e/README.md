@@ -6,12 +6,12 @@ Drives every user story in `docs/USER_STORIES.md` through Chrome via the
 
 ## Files
 
-- `run.sh` — orchestrator. `./run.sh` runs every story; `./run.sh F-09`
+- `run.sh` - orchestrator. `./run.sh` runs every story; `./run.sh F-09`
   runs one.
-- `run-story.sh` — single-story runner; reads `stories.json` by id and
+- `run-story.sh` - single-story runner; reads `stories.json` by id and
   evaluates the test.
-- `stories.json` — machine-readable manifest (one entry per user story).
-- `lib.sh` — shared helpers (server lifecycle, time, JSON helpers).
+- `stories.json` - machine-readable manifest (one entry per user story).
+- `lib.sh` - shared helpers (server lifecycle, time, JSON helpers).
 
 ## Lifecycle
 
@@ -26,8 +26,8 @@ by the browser-use agent (see `stories.json`).
 
 ## Exit codes
 
-- `0` — all run stories PASS or SKIP.
-- `1` — at least one story FAILED.
+- `0` - all run stories PASS or SKIP.
+- `1` - at least one story FAILED.
 
 ## CI integration
 

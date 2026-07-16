@@ -397,7 +397,7 @@
     "section": "C",
     "type": "skip",
     "prompt": "Manual Docker check required",
-    "pass_criteria": "(skipped — Docker unavailable in sandbox)",
+    "pass_criteria": "(skipped - Docker unavailable in sandbox)",
     "notes": "Docker build ×copy fixed in BG-01; O-01 follow-up still HIGH (BG-14)"
   },
   {
