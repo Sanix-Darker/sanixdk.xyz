@@ -1,4 +1,4 @@
-<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-fixed-git-reflog/rezero.png" />
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-fixed-git-reflog/rezero.png" loading="lazy" decoding="async" />
 
 ### HOW I ~FIXED~ GIT REFLOG
 `2025-12-06 03:30PM` • 11 min read • **#git** **#golang** **#terminal**
@@ -272,5 +272,4 @@ That's the whole data model. It's stupid simple because the problem is stupid si
 **PS:** I started working on something quite in the same context, regarding CI/CD pipeline... so far, i am really not satisfy with what is offered today to run jobs pipeline locally regarding github, gitlab, Azure DevOps, etc... so i am working on a `git ci` alias to simplify enought that, you can have a look here : https://github.com/sanix-darker/git-ci, when i will be satisfy enought regarding the first stable version i will maybe consider realising the first betta version of it !
 
 -----
-
 

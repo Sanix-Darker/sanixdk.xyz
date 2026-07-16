@@ -17,9 +17,10 @@
         <meta property="twitter:url" content="https://sanixdk.xyz/">
         <meta property="twitter:domain" content="sanixdk.xyz">
         <meta name="twitter:title" content="sanixdk blog.">
-    </head>
+</head>
 <body>
 
+<a class="skip" href="#main">Skip to content</a>
 <div class="container">
     <br>
 <center style="text-decoration: none">
@@ -30,3 +31,4 @@
 
 ----
 
+<main id="main">

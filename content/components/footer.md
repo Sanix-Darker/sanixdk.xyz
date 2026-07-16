@@ -1,4 +1,4 @@
-
+</main>
 
 <hr/>
 
@@ -7,81 +7,67 @@
 [`feed`](https://sanixdk.xyz/feed.xml)  [`github`](https://github.com/sanix-darker "Where i sleep in term of projects.")  [`telegram`](https://t.me/sanixdarker "You can Conctact me here anytime.")  [`email`](mailto:s4nixdk@gmail.com?subject=Hello%20there "You can email me anytime.")
 
 </center>
-            </div>
-        <br/>
-        <script>
-            const blogList = document.getElementById("blog-list");
-            if (blogList) {
-                const blogCount = document.querySelectorAll("h3").length;
-                blogList.style.setProperty("--total-items", `${blogCount}`);
-                console.log("Blog count :", blogCount);
-            }
+</div>
+<br/>
+<script>
+(() => {
+    const searchInput = document.getElementById('search-input');
+    if (!searchInput) return;
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const searchInput = document.getElementById('search-input');
-                const blogItems = document.querySelectorAll('.blog-item, article');
+    const searchCount = document.getElementById('search-count');
+    const blogItems = Array.from(document.querySelectorAll('.blog-item'));
+    const blogList = document.querySelector('.blog-list');
+    const haystacks = blogItems.map(item => {
+        const title = item.querySelector('.blog-title');
+        const tags = Array.from(item.querySelectorAll('.tag'))
+            .map(tag => tag.textContent);
+        return [title ? title.textContent : '', ...tags]
+            .join(' ')
+            .toLowerCase();
+    });
 
-                if (!searchInput) return;
+    let noResults = document.getElementById('no-results');
+    if (!noResults && blogList) {
+        noResults = document.createElement('div');
+        noResults.id = 'no-results';
+        noResults.className = 'no-results is-hidden';
+        noResults.innerHTML = '<p>// no posts found matching your search</p>';
+        blogList.appendChild(noResults);
+    }
 
-                searchInput.addEventListener('input', function() {
-                    const searchTerm = this.value.toLowerCase().trim();
+    const render = () => {
+        const term = searchInput.value.trim().toLowerCase();
+        let visible = 0;
 
-                    blogItems.forEach(function(item) {
-                        const title = item.querySelector('h1, h2, h3, .blog-title');
-                        const content = item.querySelector('p, .blog-excerpt, .content');
-                        const tags = item.querySelectorAll('.tag, .tags span');
+        blogItems.forEach((item, index) => {
+            const matches = term === '' || haystacks[index].includes(term);
+            item.classList.toggle('is-hidden', !matches);
+            if (matches) visible++;
+        });
 
-                        let searchableText = '';
+        if (searchCount) {
+            searchCount.textContent = term === ''
+                ? `${blogItems.length} posts`
+                : `${visible} / ${blogItems.length} match`;
+        }
+        if (noResults) {
+            noResults.classList.toggle('is-hidden', visible !== 0 || term === '');
+        }
+    };
 
-                        // Add title text
-                        if (title) {
-                            searchableText += title.textContent.toLowerCase() + ' ';
-                        }
+    searchInput.addEventListener('input', render);
+    searchInput.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            searchInput.value = '';
+            render();
+        }
+    });
 
-                        // Add content text
-                        if (content) {
-                            searchableText += content.textContent.toLowerCase() + ' ';
-                        }
-
-                        // Add tags text
-                        tags.forEach(function(tag) {
-                            searchableText += tag.textContent.toLowerCase() + ' ';
-                        });
-
-                        // Show/hide based on search
-                        if (searchTerm === '' || searchableText.includes(searchTerm)) {
-                            item.style.display = 'block';
-                            item.style.opacity = '1';
-                        } else {
-                            item.style.display = 'none';
-                            item.style.opacity = '0';
-                        }
-                    });
-
-                    // Show "no results" message if needed
-                    const visibleItems = Array.from(blogItems).filter(item =>
-                        item.style.display !== 'none'
-                    );
-
-                    let noResultsMsg = document.getElementById('no-results');
-                    if (visibleItems.length === 0 && searchTerm !== '') {
-                        if (!noResultsMsg) {
-                            noResultsMsg = document.createElement('div');
-                            noResultsMsg.id = 'no-results';
-                            noResultsMsg.className = 'no-results';
-                            noResultsMsg.innerHTML = '<p>// no posts found matching your search</p>';
-
-                            const blogContainer = document.querySelector('.blog-list, .blog-posts, main');
-                            if (blogContainer) {
-                                blogContainer.appendChild(noResultsMsg);
-                            }
-                        }
-                        noResultsMsg.style.display = 'block';
-                    } else if (noResultsMsg) {
-                        noResultsMsg.style.display = 'none';
-                    }
-                });
-            });
-        </script>
-    </body>
+    if (window.matchMedia('(min-width: 769px)').matches) {
+        searchInput.focus();
+    }
+    render();
+})();
+</script>
+</body>
 </html>

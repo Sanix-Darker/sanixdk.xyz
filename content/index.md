@@ -118,9 +118,16 @@
     // Interactive Terminal
     const terminalInput = document.getElementById('terminalInput');
     const terminalOutput = document.getElementById('terminalOutput');
+    const escapeHtml = value => value.replace(/[&<>"']/g, character => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    })[character]);
 
     const commands = {
-        help: 'Available commands: help, about, skills, projects, electronics, contact, clear, whoami, uptime',
+        help: 'Available commands: help, about, skills, projects, electronics, contact, repos, stats, waka, refresh, clear, whoami, uptime',
         about: 'Backend Engineer passionate about solving interesting problems, building tools, and exploring electronics.',
         skills: 'Python, JavaScript, Go, Rust, Docker, Linux, Neovim, Git, Electronics, Arduino, Raspberry Pi, IoT',
         projects: 'shhx.dev, radar, ector, s2c',
@@ -131,40 +138,24 @@
         uptime: 'System uptime: Always learning, always building'
     };
 
-    if (terminalInput) {
-        terminalInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const command = this.value.trim().toLowerCase();
-                const output = document.createElement('div');
-                output.style.marginBottom = '10px';
-                output.style.color = 'var(--text-secondary)';
-
-                if (command === 'clear') {
-                    terminalOutput.innerHTML = '';
-                } else if (commands[command]) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>${commands[command]}`;
-                    terminalOutput.appendChild(output);
-                } else if (command) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
-                    terminalOutput.appendChild(output);
-                }
-
-                this.value = '';
-                terminalOutput.scrollTop = terminalOutput.scrollHeight;
-            }
-        });
-    }
+    const renderLoadFailure = selector => {
+        const target = document.querySelector(selector);
+        if (target) {
+            target.innerHTML = '<i>// failed to load - check connection, then try: refresh</i>';
+        }
+    };
 
     // Real GitHub API calls and dynamic data
     async function fetchGitHubData() {
         try {
             // Fetch user data
             const userResponse = await fetch('https://api.github.com/users/sanix-darker');
+            if (!userResponse.ok) throw new Error(`GitHub profile HTTP ${userResponse.status}`);
             const userData = await userResponse.json();
 
             // Update public repos count
             const reposElement = document.querySelector('.github-stats .output');
-            if (reposElement && userData.public_repos) {
+            if (reposElement && Number.isFinite(userData.public_repos)) {
                 reposElement.innerHTML = `
                     Public Repositories: ${userData.public_repos}<br>
                     Followers: ${userData.followers} | Following: ${userData.following}<br>
@@ -176,7 +167,9 @@
 
             // Fetch recent repositories for electronics section
             const reposResponse = await fetch('https://api.github.com/users/sanix-darker/repos?sort=updated&per_page=15');
+            if (!reposResponse.ok) throw new Error(`GitHub repositories HTTP ${reposResponse.status}`);
             const reposData = await reposResponse.json();
+            if (!Array.isArray(reposData)) throw new Error('GitHub repositories payload is not a list');
 
             // Update electronics section with recent repos
             const electronicsElement = document.querySelector('.electronics-section .output');
@@ -187,14 +180,20 @@
                         month: 'short',
                         day: '2-digit'
                     });
-                    const language = repo.language || 'N/A';
-                    reposList += `drwxr-xr-x <b>${language}</b> dk ${updatedDate} ./<a href="https://github.com/sanix-darker/${repo.name}" target="_blank">${repo.name}</a>/<br>`;
+                    const language = escapeHtml(repo.language || 'N/A');
+                    const repoName = escapeHtml(repo.name);
+                    const repoPath = encodeURIComponent(repo.name);
+                    reposList += `drwxr-xr-x <b>${language}</b> dk ${updatedDate} ./<a href="https://github.com/sanix-darker/${repoPath}" target="_blank">${repoName}</a>/<br>`;
                 });
                 electronicsElement.innerHTML = reposList;
             }
 
+            return true;
         } catch (error) {
             console.error('Error fetching GitHub data:', error);
+            renderLoadFailure('.github-stats .output');
+            renderLoadFailure('.electronics-section .output');
+            return false;
         }
     }
 
@@ -202,67 +201,57 @@
     async function fetchWakaTimeStats() {
         try {
             const response = await fetch('https://raw.githubusercontent.com/Sanix-Darker/sanix-darker/refs/heads/master/README.md');
+            if (!response.ok) throw new Error(`WakaTime README HTTP ${response.status}`);
             const readmeText = await response.text();
 
             // Extract WakaTime section
             const wakaStart = readmeText.indexOf('<!--START_SECTION:waka-->');
             const wakaEnd = readmeText.indexOf('<!--END_SECTION:waka-->');
 
-            if (wakaStart !== -1 && wakaEnd !== -1) {
-                const wakaSection = readmeText.substring(wakaStart, wakaEnd);
-
-                // Parse coding time
-                const codingTimeMatch = wakaSection.match(/Coding time : (.+?)\./);
-                const codingTime = codingTimeMatch ? codingTimeMatch[1] : '1 hr 20 mins';
-
-                // Parse languages with percentages
-                const languageMatches = wakaSection.matchAll(/(\w+)\s+(\d+\s+\w+)\s+.*?(\d+\.\d+)\s*%/g);
-                const languages = Array.from(languageMatches).slice(0, 6); // Top 6 languages
-
-                // Update skills section
-                const skillsElement = document.querySelector('.skills-section .output');
-                if (skillsElement && languages.length > 0) {
-                    let skillsGrid = '<div class="skills-grid">';
-
-                    // Add dynamic languages from WakaTime
-                    languages.forEach(([, lang, time, percentage]) => {
-                        skillsGrid += `<div class="skill-item">${lang} (${percentage}%)</div>`;
-                    });
-
-                    // Add static skills
-                    const staticSkills = [];
-                    staticSkills.forEach(skill => {
-                        skillsGrid += `<div class="skill-item">${skill}</div>`;
-                    });
-
-                    skillsGrid += '</div>';
-                    skillsGrid += `<br>Weekly Coding Time: ${codingTime}`;
-
-                    skillsElement.innerHTML = skillsGrid;
-                }
+            if (wakaStart === -1 || wakaEnd <= wakaStart) {
+                throw new Error('WakaTime section markers are missing');
             }
 
+            const wakaSection = readmeText.substring(wakaStart, wakaEnd);
+
+            // Parse coding time
+            const codingTimeMatch = wakaSection.match(/Coding time : (.+?)\./);
+            const codingTime = codingTimeMatch ? codingTimeMatch[1] : 'unavailable';
+
+            // Parse languages with percentages
+            const languageMatches = wakaSection.matchAll(/(\w+)\s+(\d+\s+\w+)\s+.*?(\d+\.\d+)\s*%/g);
+            const languages = Array.from(languageMatches).slice(0, 6); // Top 6 languages
+            if (languages.length === 0) throw new Error('WakaTime language rows are missing');
+
+            // Update skills section
+            const skillsElement = document.querySelector('.skills-section .output');
+            if (skillsElement) {
+                let skillsGrid = '<div class="skills-grid">';
+
+                languages.forEach(([, lang, time, percentage]) => {
+                    skillsGrid += `<div class="skill-item">${lang} (${percentage}%)</div>`;
+                });
+
+                skillsGrid += '</div>';
+                skillsGrid += `<br>Weekly Coding Time: ${codingTime}`;
+
+                skillsElement.innerHTML = skillsGrid;
+            }
+
+            return true;
         } catch (error) {
             console.error('Error fetching WakaTime stats:', error);
+            renderLoadFailure('.skills-section .output');
+            return false;
         }
     }
 
-    // Enhanced terminal commands with real data
-    const enhancedCommands = {
-        ...commands,
-        repos: 'Fetching latest repositories...',
-        stats: 'Fetching GitHub statistics...',
-        waka: 'Fetching WakaTime coding stats...',
-        refresh: 'Refreshing all data...'
-    };
-
-    // Update terminal input handler
+    // One terminal input handler for local and live commands.
     if (terminalInput) {
-        terminalInput.removeEventListener('keypress', terminalInput.keypressHandler);
-
-        terminalInput.keypressHandler = async function(e) {
+        terminalInput.keydownHandler = async function(e) {
             if (e.key === 'Enter') {
                 const command = this.value.trim().toLowerCase();
+                const echoedCommand = escapeHtml(command);
                 const output = document.createElement('div');
                 output.style.marginBottom = '10px';
                 output.style.color = 'var(--text-secondary)';
@@ -270,26 +259,26 @@
                 if (command === 'clear') {
                     terminalOutput.innerHTML = '';
                 } else if (command === 'repos') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Fetching latest repositories...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${echoedCommand}<br>Fetching latest repositories...`;
                     terminalOutput.appendChild(output);
                     await fetchGitHubData();
                 } else if (command === 'stats') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Fetching GitHub statistics...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${echoedCommand}<br>Fetching GitHub statistics...`;
                     terminalOutput.appendChild(output);
                     await fetchGitHubData();
                 } else if (command === 'waka') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Fetching WakaTime coding stats...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${echoedCommand}<br>Fetching WakaTime coding stats...`;
                     terminalOutput.appendChild(output);
                     await fetchWakaTimeStats();
                 } else if (command === 'refresh') {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>Refreshing all data...`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${echoedCommand}<br>Refreshing all data...`;
                     terminalOutput.appendChild(output);
                     await Promise.all([fetchGitHubData(), fetchWakaTimeStats()]);
-                } else if (enhancedCommands[command]) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br>${enhancedCommands[command]}`;
+                } else if (commands[command]) {
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${echoedCommand}<br>${commands[command]}`;
                     terminalOutput.appendChild(output);
                 } else if (command) {
-                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${this.value}<br><span style="color: var(--text-muted);">command not found: ${command}</span>`;
+                    output.innerHTML = `<span style="color: var(--text-muted);">you@sanixdk:~$</span> ${echoedCommand}<br><span style="color: var(--text-muted);">command not found: ${echoedCommand}</span>`;
                     terminalOutput.appendChild(output);
                 }
 
@@ -298,7 +287,7 @@
             }
         };
 
-        terminalInput.addEventListener('keypress', terminalInput.keypressHandler);
+        terminalInput.addEventListener('keydown', terminalInput.keydownHandler);
     }
 
     // Load data on page load
@@ -313,10 +302,12 @@
         if (electronicsSection) electronicsSection.innerHTML = 'Loading recent repositories...';
 
         // Fetch all data
-        Promise.all([fetchGitHubData(), fetchWakaTimeStats()]).then(() => {
-            console.log('All data loaded successfully');
-        }).catch(error => {
-            console.error('Error loading data:', error);
+        Promise.all([fetchGitHubData(), fetchWakaTimeStats()]).then(results => {
+            if (results.every(Boolean)) {
+                console.log('All data loaded successfully');
+            } else {
+                console.warn('Some live data could not be loaded');
+            }
         });
     });
 </script>

@@ -111,7 +111,7 @@ h2::after { content: '*/' }
 h3::before { content: '// ' }
 h4::before { content: '~ ' }
 h5::before { content: '--- ' }
-h1::before, h2::before, h3::before h4::before h5::before{ color: var(--text-muted) }
+h1::before, h2::before, h3::before, h4::before, h5::before { color: var(--text-muted) }
 
 p, a, li, td {
   color: var(--text-primary);
@@ -698,6 +698,10 @@ img { max-width: 100%; height: auto }
   button, .button { padding: .75rem 1.5rem }
   pre { font-size: .85rem }
   input, textarea, select { font-size: .9rem; padding: .75rem }
+}
+
+@media (min-width: 1000px) {
+  .blog-list { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 }
 
 @media (max-width: 575px) {

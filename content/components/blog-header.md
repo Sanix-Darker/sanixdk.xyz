@@ -25,6 +25,7 @@
     <meta name='twitter:description' content='Read %s on sanixdk.xyz'>
 </head>
 <body>
+    <a class='skip' href='#main'>Skip to content</a>
     <div class='container'>
     <br>
 <center style="text-decoration: none">
@@ -34,3 +35,5 @@
 </center>
 
 ----
+
+<main id='main'>
