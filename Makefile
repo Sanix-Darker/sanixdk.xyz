@@ -25,9 +25,9 @@ ifndef ID
 endif
 	./scripts/e2e/run.sh "$(ID)"
 
-## serve: Serve the app (Not implemented/nor ready yet)
-serve:
-	./sdk serve
+## serve: Explain how to run the site locally
+serve: compile
+	./builder serve
 
 ## docker-build: Docker build for the website
 docker-build:
@@ -35,8 +35,7 @@ docker-build:
 
 ## docker-run: Docker run for the website
 docker-run: docker-build
-	# --volume ./public/:/usr/share/nginx/html/
-	docker run -it sanixdk.xyz:latest -p 3003:8080
+	docker run --rm -it -p 3003:8080 sanixdk.xyz:latest
 
 ## up: To build and deploy the website
 up:
@@ -52,6 +51,7 @@ help: Makefile
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 
 prod:
-	git restore ./content && git update && make compile && make build
+	git pull --rebase --autostash
+	$(MAKE) build
 
-.PHONY: compile build serve e2e e2e-story help docker-build docker-run
+.PHONY: compile build serve e2e e2e-story help docker-build docker-run up down prod
