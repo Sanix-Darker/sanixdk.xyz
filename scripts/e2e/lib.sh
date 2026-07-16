@@ -127,10 +127,31 @@ has_fallback() {
 #     "min": <int(default 1)> }
 # Success ⇒ we observe ≥ `min` matches of `regex` in `curl url`
 # Failure ⇒ `<min` matches, curl rc != 0, or response body empty.
+fallback_fetch() {
+    local base_url="$1" url="$2"
+    local candidate
+    local candidates=("${url}")
+
+    if [[ "${url}" != "/" ]]; then
+        if [[ "${url}" == */ ]]; then
+            candidates+=("${url%/}.html")
+        elif [[ "${url##*/}" != *.* ]]; then
+            candidates+=("${url}.html")
+        fi
+    fi
+
+    for candidate in "${candidates[@]}"; do
+        if curl -fsS --max-time 5 "${base_url}${candidate}" 2>/dev/null; then
+            return 0
+        fi
+    done
+    return 1
+}
+
 fallback_eval() {
     local id="$1"
     local base_url="http://127.0.0.1:${PORT}"
-    local checks_json n i check name url regex min body rc count
+    local checks_json n i check name url regex min body count
     local joined_parts=() fails=0
 
     checks_json="$(lookup_story "${id}" | jq -c '.fallback.checks // []' 2>/dev/null)"
@@ -149,9 +170,8 @@ fallback_eval() {
         # Bail out of arithmetic if min isn't a valid integer.
         if ! [[ "${min}" =~ ^[0-9]+$ ]]; then min=1; fi
 
-        body="$(curl -fsS --max-time 5 "${base_url}${url}" 2>/dev/null)"; rc=$?
-        if (( rc != 0 )); then
-            joined_parts+=("[FAIL] ${name}:curl ${url} rc=${rc}")
+        if ! body="$(fallback_fetch "${base_url}" "${url}")"; then
+            joined_parts+=("[FAIL] ${name}:curl ${url}")
             fails=$((fails + 1))
             continue
         fi

@@ -58,12 +58,11 @@ if [[ "${TYPE}" == "browser" ]]; then
         status="❌ FAIL"
         result_notes="${NOTES} - failure: $(jq -r '.failure // \"unknown\"' "${capture_browser_path}" 2>/dev/null | head -c 160)"
     elif has_fallback "${ID}"; then
-        fb_result="$(fallback_eval "${ID}")"
-        fb_rc=$?
-        if [[ ${fb_rc} -eq 0 ]]; then
+        if fb_result="$(fallback_eval "${ID}")"; then
             status="✅ PASS"
             result_notes="${NOTES} - fallback:$(printf '%s' "${fb_result}" | head -c 220)"
         else
+            fb_rc=$?
             status="❌ FAIL"
             result_notes="${NOTES} - fallback_failed(rc=${fb_rc}):$(printf '%s' "${fb_result}" | head -c 220)"
         fi
