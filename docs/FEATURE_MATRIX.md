@@ -1,95 +1,72 @@
 # FEATURE MATRIX - sanixdk.xyz
 
-This is the **canonical spreadsheet** of every feature in the C-based static
-site generator. Status values are enforced on every change:
+This is the canonical feature inventory for the C static-site generator.
 
-| Code | Meaning                                                                                |
-| ---- | -------------------------------------------------------------------------------------- |
-| ✅   | Complete & verified by automated E2E test on the most recent build                      |
-| 🟡   | Partial / ships but with caveat (caveat in *Notes*)                                    |
-| ❌   | Broken: spec'd but failing in observed behaviour                                       |
-| ⚪   | Spec'd but never wired up (stubbed)                                                    |
-| 🚫   | Removed intentionally (evidence in git history)                                        |
+| Status | Meaning |
+| --- | --- |
+| ✅ | Implemented and covered by the E2E harness |
+| 🟡 | Implemented with an external or intentional caveat |
+| ⚪ | Not implemented |
+| ❌ | Broken |
 
-Severity tags used in *Notes*:
-`CRIT` = site is unusable · `HIGH` = feature visibly broken · `MED` = polish
-gap · `LOW` = minor a11y/perf · `NIT` = cosmetic only.
+## A. Build pipeline
 
----
+| ID | Scope | Contract | Status | Evidence or caveat |
+| --- | --- | --- | --- | --- |
+| B-01 | Compile | `make compile` builds `builder` with `gcc -Wall`. | ✅ | CI and `make e2e`. |
+| B-02 | CLI | Missing, unknown, and unimplemented commands fail clearly. | ✅ | E2E checks all three failure paths. |
+| B-03 | Blog list | Metadata produces exactly 25 complete blog cards. | ✅ | Exact-count HTTP fallback. |
+| B-04 | Component injection | Top-level pages and nested post pages receive the correct templates. | ✅ | Path checks use exact content prefixes. |
+| B-05 | Markdown rendering | Every content Markdown file produces HTML under `public/`. | ✅ | md4c build check. |
+| B-06 | Static assets | Styles, favicon, robots file, and article assets are copied. | ✅ | Clean-build file checks. |
+| B-07 | Minification | Only CSS is flattened; scripts remain untouched. | ✅ | Extension-gated minifier. |
+| B-08 | RSS | RSS contains exactly 25 newest-first items and complete channel metadata. | ✅ | Final entry is flushed at EOF. |
+| B-09 | Blog metadata head | Nine dynamic values populate each post head safely. | ✅ | Placeholder-count warning and bounded heap output. |
+| B-10 | Metadata parser | All fields are bounded, terminated, and retained. | ✅ | Parser coverage in generated cards/feed. |
+| B-11 | Output paths | Markdown paths are converted with checked buffers. | ✅ | Unbounded `replaceString` removed. |
+| B-12 | Required templates | Missing templates stop the build. | ✅ | Intentional fail-fast build policy. |
+| B-13 | Reproducibility | A build leaves tracked Markdown sources unchanged. | ✅ | `make build` restores `content/`. |
 
-## A · Build Pipeline (C)
+## B. Front-end
 
-| ID    | Scope                           | Spec / Behaviour                                                                                                                                                                                                                                                                                                                       | Status | Notes |
-| ----- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
-| B-01  | Compile the builder binary      | `make compile` runs `gcc -pipe -Wall -s main.c lib/*.c -o builder`. Must produce a runnable ELF/exe.                                                                                                                                                                                                                                  | ✅     | Verified: 232 KB binary, gcc -Wall clean. |
-| B-02  | CLI dispatch                    | `./builder build` builds, `./builder serve` is a placeholder, any other arg falls back to `? Usage` stderr.                                                                                                                                                                                                                            | 🟡     | `serve` is intentionally not implemented (README acknowledges). |
-| B-03  | Metadata → blog-list HTML       | `writeMetadatasToBlogList` parses `content/metadatas.txt` into card HTML inside `content/blogs.md`. Each card has bg image, title, date, time, comma-split tags.                                                                                                                                                                     | ✅     | 26 cards emitted, IDs stable across builds. |
-| B-04  | Component injection             | `buildComponentsIntoMarkdownsFiles(CONTENT_DIR)` wraps every markdown file in `./content/components/header.md` + `.md` content + `/footer.md`. For `blogs/*` it uses `blog-header.md` + the markdown + `comment-footer.md`.                                                                                                          | ✅     | Works, but `/* → blog-list`, folder detection is `strstr(filename,"blogs/")` - fragile (see **F-08**). |
-| B-05  | Markdown → HTML                 | `proceedFilesRecursivelly` walks content, swaps `content→public` and `.md→.html`, then routes through md4c (`lib/md4c.c` + `lib/md4c-html.c`).                                                                                                                                                                                       | ✅     | Average parse ≈ 0.4 ms per post. |
-| B-06  | Static asset copy               | `createStyleFileAndCopyFavicon` runs `mkdir -p public{,blogs,projects,components,assets}` then `cp -- favicon.ico robots.txt ./public/` AND `cp -R -- ./content/assets/. ./public/assets/`.                                                                                                                                          | ✅     | `public/assets/style.css` ships at 12,912 B on a fresh `rm -rf public && ./builder build`; verified `curl /assets/style.css` ⇒ HTTP 200. Closes BG-01. |
-| B-07  | Minification                    | `minifyDirfiles` recursively scans `public/` and strips trailing `\n\r` from any `.css` only. JS sources and inline `<script>` blocks are intentionally untouched.                                                                                                                                                              | ✅     | `.js` branch removed from extension switch. Closes BG-02. |
-| B-08  | RSS 2.0 feed                    | `generateRssFeed` reads metadata, sorts newest-first by parsed `date` (RFC-1123 UTC), writes `public/feed.xml`. XML-escapes `<>&'"`. Joins absolute URLs.                                                                                                                                                                                | ✅     | Valid against feed validator expectations. |
-| B-09  | Per-blog meta header            | `writeMetadatasToHeader` reads `content/components/blog-header.md`, scans `%s` placeholder count (with `%%` escape tolerance), mallocs `out_size = strlen(template) + longest_arg * placeholders + 64`, `snprintf`s 9 args, frees both buffers.                                                                                  | ✅     | Memory leak eliminated, stack-overflow eliminated, warn log fires if placeholder count deviates from 9. Closes BG-03. |
-| B-10  | Metadata CSV-style parser       | `parse_txt` walks `./metadatas.txt` line by line, blank line = entry boundary; extracts `path/link/title/image/date/tags/time/filename` into `currentEntry.entry.*`. Downstream splitter in `writeMetadatasToBlogList` accepts whitespace OR comma.                                                                              | ✅     | Full field coverage, MAX_ENTRIES overflow emits a one-shot `warn:` and drains the in-flight entry cleanly. Closes BG-04. |
-| B-11  | Path swap                       | `replaceString` rewrites `output_path` from `content/X.md` → `public/X.html`.                                                                                                                                                                                                                                                          | 🟡     | Fixed 1000-byte buffer; substring ordering matters; benign today but breaks if any folder name embeds `content`/`public`/`.`/`/blogs/`. LOW. |
-| B-12  | Builder exit on file error      | `addHeaderFooterToFile` calls `exit(1)` if any required template opens fail.                                                                                                                                                                                                                                                            | 🟡     | Strict failure is acceptable for a build tool, but should print file path, not just `perror`. LOW. || B-13  | Build reproducibility           | `public/` is fully regenerated every time. `git restore ./content/` after build cleans injected footer headers from markdown. | ✅     | Working as intended. **Canonical verification pipeline is `make e2e`** (depends on `build`, iterates the `scripts/e2e/run.sh` harness against `./public/`, writes `docs/TEST_LOG.md` - see `scripts/e2e/README.md`). For CI triage of a single row, `make e2e-story ID=<story>` runs just that row (e.g. `make e2e-story ID=F-09`). Explicit warning that build mutates content inside `addHeaderFooterToFile`. |
+| ID | Scope | Contract | Status | Evidence or caveat |
+| --- | --- | --- | --- | --- |
+| F-01 | Home style | Terminal presentation and typing heading render from CSS. | ✅ | Generated home checks. |
+| F-02 | Terminal input | One escaped, normalized command runs per Enter press. | ✅ | One `keydown` listener. |
+| F-03 | Clear command | `clear` empties terminal output. | ✅ | Browser/fallback check. |
+| F-04 | GitHub data | Profile and repository data load with a visible failure state. | 🟡 | GitHub API availability is external. |
+| F-05 | WakaTime data | Profile README stats load with a visible failure state. | 🟡 | GitHub raw content and WakaTime markup are external. |
+| F-06 | Command case | Echo and lookup use the same lowercase value. | ✅ | Uppercase-input check. |
+| F-07 | Navigation | Home, blogs, projects, and about are linked globally. | ✅ | Four distinct link checks. |
+| F-08 | Blog listing | All 25 cards render, with two columns on wide screens. | ✅ | Exact card count and CSS breakpoint. |
+| F-09 | Search | Title/tag search, count, empty state, and Escape reset work. | ✅ | Footer search controller. |
+| F-10 | About | Static about page renders. | ✅ | Generated-page check. |
+| F-11 | Projects | Four lightweight project nodes render without runtime work. | ✅ | Exact node and destination checks. |
+| F-12 | Table of contents | Post headings populate a nested TOC. | ✅ | Static controller plus browser story. |
+| F-13 | Syntax highlighting | Code blocks use highlight.js and the GitHub-dark theme. | 🟡 | Rendering enhancement depends on a CDN. |
+| F-14 | Comments | Giscus loads discussions by pathname. | 🟡 | Runtime service is external. |
+| F-15 | Social metadata | Post title, URL, descriptions, and images populate share tags. | ✅ | Generated-head checks. |
+| F-16 | Image loading | Article images use lazy loading and async decoding. | ✅ | Renderer and raw-image checks. |
+| F-17 | Reduced motion | Decorative motion stops for reduced-motion users. | ✅ | CSS media-query check. |
+| F-18 | Focus | Keyboard focus has a visible outline. | ✅ | CSS selector check. |
+| F-19 | Skip link | Shared headers link to `<main id="main">`. | ✅ | Home and post checks. |
 
-## B · Front-end UX (HTML rendered into `public/`)
+## C. Operations
 
-| ID    | Scope                                       | Spec / Behaviour                                                                                                                                                                                                                  | Status | Notes |
-| ----- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
-| F-01  | Home (`/`) - heading                      | `.typing` H1 effects, sweeping H1 with `# ` prefix.                                                                                                                                                                               | ✅     | Visible after CSS load. |
-| F-02  | Home - terminal interactive input         | User types into `#terminalInput`, Enter fires the **single** `keydown` handler. Lookup in `commands` map; runs async fetch for `repos|stats|waka|refresh`; else `command not found`.                                       | ✅     | Single listener, `keydown`, `escapeHtml` on echo, fetch helpers swap `Loading…` for a `<i>// failed</i>` notice on network failure. |
-| F-04  | Home - `repos`, `stats`, `refresh`        | Fetches `https://api.github.com/users/sanix-darker` plus the last 15 repos sorted by `updated_at`.                                                                                                                               | ✅     | Marker writes `<i>// failed to load - check connection, then try: refresh</i>` on error. URL `master` → `main` on the WakaTime README call. |
-| F-03  | Home - `clear` command                    | `clear` empties `#terminalOutput`.                                                                                                                                                                                                | ✅     | Works once listener leak fixed. |
-| F-04  | Home - `repos`, `stats`, `refresh`        | Fetches `https://api.github.com/users/sanix-darker` plus the last 15 repos sorted by `updated_at`.                                                                                                                               | ✅     | WakaTime URL changed `master` → `main`; on failure each loader replaces its `Loading…` block with `<i>// failed to load - check connection, then try: refresh</i>`. |
-| F-05  | Home - `waka`                             | Strips `<!--START_SECTION:waka-->...<!--END_SECTION:waka-->` out of WakaTime-generated README, then parses `Coding time : ...` and language percentages.                                                                          | ✅     | README path now `/refs/heads/main/`. Same failure UX as F-04. |
-| F-06  | Home - case-mismatch display              | Echo shows the lowercased command (consistent with the dispatch lookup).                                                                                                                                                          | ✅     | `HELP` typed → echoed as `help`; matches lookup. |
-| F-07  | Navigation                                 | Header navigation `[home] [blogs] [about]` rendered as code-block links.                                                                                                                                                       | ✅     | `[projects]` is intentionally commented out. |
-| F-08  | `/blogs/` listing                         | `blogs.html` shows all 26 entries as cards with `triangle-bg`, `h3.title`, date + time, tags.                                                                                                                                    | ✅     | Requires CSS (see F-04 build). |
-| F-09  | `/blogs/` search                          | Search input filters cards live on input.                                                                                                                                                                                       | ✅     | Search HTML emitted in `lib.c:writeMetadatasToBlogList` (`type=search`, `aria-label`, `aria-live` counter). IIFE in `content/components/footer.md` precomputes title+tag haystacks (no `.blog-meta`, so years like `2025` don't false-positive every post). Filter toggles via `classList.toggle('is-hidden')`. Counter shows `> X / 26 match` or `26 posts`. ESC clears. Desktop auto-focus only (mobile matchMedia guard avoids iOS auto-zoom). CSS reduced-motion-safe + non-blinking. Search-script.md no longer referenced (footer.md owns it). Closes BG-08. |
-| F-17  | `prefers-reduced-motion`                   | `@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } .search-container { opacity: 1 !important } }` in `content/assets/style.css`. Wipes animations + transitions universally.                                                | ✅     | Universal override + explicit `.search-container { opacity: 1 !important }` safety so fade-in terminates at fully visible. Per-card fade-in replaced by one-shot container fade-in (cards no longer re-fade on every filter keystroke). Closes BG-11. |
-| F-10  | `/about/`                                  | Static markdown → HTML.                                                                                                                                                                                                          | ✅     | Single page, no interactive elements. |
-| F-11  | `/projects/`                              | Inline list of projects, raw markdown.                                                                                                                                                                                          | 🟡     | No proper card UI yet (blog-card.md & project-card.md components are empty). LOW. |
-| F-12  | Blog post - TOC                            | IIFE in `comment-footer.md` walks `h2..h6`, builds nested UL into `#toc-container`.                                                                                                                                              | ✅     | Works once CSS styles ids/anchors. |
-| F-13  | Blog post - syntax highlighting           | Loads `highlight.js@11.9.0` + `github-dark` theme CSS. Calls `hljs.highlightAll()`.                                                                                                                                              | ✅     | "ASAP" first <pre> rendering requires network; offline fallback missing. LOW. |
-| F-14  | Blog post - Giscus comments               | Loads giscus script with `data-mapping="pathname"`.                                                                                                                                                                              | 🟡     | Hard-codes repo id. Future-comment moderation not possible from this repo. LOW. |
-| F-15  | Blog post - meta tags                      | Per blog `<title>`, `og:url`, descriptions, `og:image`, `twitter:image`, and a `summary_large_image` card.                                                                                                                        | ✅     | Verified `snprintf(templateContent, 9 args)` populates 9 `%s` slots without build warnings. |
-| F-16  | Image lazy-loading                         | `lib/md4c-html.c:render_close_img_span` now writes ` loading="lazy" decoding="async"` before the closing `>` (or `/>`), covering both the XHTML and non-XHTML branches, so every plain `<img>` from `![alt](url)` ships lazy+async. OG meta + CSS `.triangle-bg` backgrounds are unaffected (they are not plain `<img>`). Modern browsers (Chrome 76+, Firefox 75+, Safari 15.4+) fetch above-the-fold images despite lazy=hint, so LCP is preserved.                                                                                                                                                                                  | ✅     | Closes BG-10. |
+| ID | Scope | Contract | Status | Evidence or caveat |
+| --- | --- | --- | --- | --- |
+| O-01 | Docker image | The complete generated tree is copied into nginx. | ✅ | Multi-stage image uses one recursive copy. |
+| O-02 | Nginx | Dynamic gzip works without precompressed files. | ✅ | Config assertion rejects `gzip_static`. |
+| O-03 | Compose | `make up` and `make down` manage port 3003. | ✅ | Compose configuration. |
+| O-04 | Makefile | All documented targets use valid commands. | ✅ | E2E command assertions. |
+| O-05 | CI | Pushes and pull requests run `make e2e`. | ✅ | Workflow trigger and command checks. |
+| O-06 | Robots | Crawler directives contain no inline directive comments. | ✅ | Build assertion. |
+| O-07 | Git tracking | Generated HTML, `public/`, and the builder are ignored. | ✅ | `.gitignore` and tracked-file checks. |
+| O-08 | README | Local build, E2E, and container commands are current. | ✅ | README command assertions. |
 
-| F-18  | Focus rings / keyboard nav                 | `:focus-visible` rule for `a/button/.button` (outline 2px solid + 4px offset) and `input/textarea/select/.terminal-input/.search-input` (outline 2px solid + -1px inset + bg-tertiary highlight). Same specificity as existing `:focus` rules but placed later, so keyboard nav wins; mouse-click stays clean.                                                                                                                                                                                  | ✅     | Closes BG-12. |
-| F-19  | Skip-to-content link                       | `<a class="skip" href="#main">Skip to content</a>` immediately after `<body>` in both templates. Modern `clip-path: inset(50%); white-space: nowrap` hide. Reveal selector `.skip:focus-visible` (position:fixed; top:1rem; left:1rem; chip-style box) - keyboard-only reveal (mouse-click stays hidden). Paired with `<main id="main">` wrapper (open in header.md / blog-header.md, close at top of footer.md). CSS `.skip` rule sits in `content/assets/style.css`.                                                                                  | ✅     | Closes BG-13. |
+## Remaining caveats
 
-## C · Operational / Deployment
-
-| ID    | Scope                                  | Spec / Behaviour                                                                                                            | Status | Notes |
-| ----- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
-| O-01  | Dockerfile multi-stage                 | `ubuntu:20.04 builder` → `nginx:stable-alpine3.17-slim prod-serve`. Compiles, runs builder, then a **single recursive** `COPY --from=builder /app/public/ /usr/share/nginx/html/` ships the entire built tree as nginx's document root. No asset-specific paths are hard-coded. | ✅     | Verified `make docker-build` (Docker 28.1.1) exit 0 → `sanixdk.xyz:latest` image built at ~22.7 MB. Container inspection (`docker create + docker export`) confirms every built file ships: 28 blogs + 27 assets + 7 components + 7 top-level pages = **69 / 69** built files present at `/usr/share/nginx/html/`. Recursive copy collapses the 3 brittle COPYs (top-level glob misses directories, `blogs/*` glob misses new blog posts if glob expansion fails, `assets/style.css` hard-coded path) noted in the prior ❌ row. Future renames inside `public/` (e.g. style.css → app.css, new files under `assets/`, `blogs/`) now require zero Dockerfile edits. Closes **BG-14**. |
-| O-02  | nginx config                           | Listens on 8080, gzip_static on, immutable cache for `/assets/*`, try_files with `/blogs/*.html` rewrites.                  | 🟡     | `gzip_static on` requires precompressed `.gz` siblings - not produced by build. Search needs fallback when no rewrite matches. MED. |
-| O-03  | docker-compose                         | `make up` → `make down` for local prod-like deploy on 3003:8080.                                                             | ✅     | Compose file is small and self-contained. |
-| O-04  | Makefile targets                       | `compile`, `build`, `serve`, `docker-build`, `docker-run`, `up`, `down`, `prod`.                                            | 🟡     | `serve` runs `./sdk serve` (typo), `prod` uses `git update` (no such git command). HIGH. |
-| O-05  | CI workflow (`.github/workflows/ci.yml`) | Builds on every push: install deps, compile, build.                                                                         | ✅     | No deploy step (intentional). |
-| O-06  | robots.txt                             | Mixed valid + invalid directives; references `/admin/` with `#` comments in Disallow.                                       | ❌     | `Disallow:` followed by `# /admin/` is **invalid robots.txt** (hash inside directive). Many `Disallow:` blank lines confuse parsers. MED. |
-| O-07  | `.gitignore`                           | `!public/assets` whitelist, excludes `/builder`, `public`.                                                                  | 🟡     | `!public/assets` re-introduces the deleted style.css - fragile, must be paired with **B-06** fix. |
-| O-08  | README                                 | Shows available `make` commands; final paragraph mentions nonexistent `make compose` target.                                | ❌     | `make compose` does not exist; nearest is `make up`. MED. |
-
-## Execution Plan (order matters)
-
-1. **B-06 / O-01**: fix build to copy `content/assets/*` → `public/assets/` recursively. Move style.css source under `content/assets/style.css` so a clean rebuild self-restores CSS.
-2. **B-09**: fix `writeMetadatasToHeader` - replace `sprintf`+stack buffer with two-pass: compute size then `malloc`+`snprintf`, free `templateContent`.
-3. **B-10**: finish `parse_txt` to also persist `tags:` and `time:` strings into `currentEntry.entry`.
-4. **F-02 / F-06**: home page terminal - remove duplicate listener registration, use the lowercased value in echo as well.
-5. **B-07**: make minifier safe - operate **only** on `.css` (or skip entirely) and preserve code-required whitespace inside JS.
-6. **F-09 / B-03**: decide search - either revive with the canonical full-fidelity version, or fully delete dead code paths (input JS in `footer.md`, comment line in lib.c). Tracking entry: **DECISION req.**    7. **F-11**: build a `<project-card>` component, render `/projects/` as cards.
-    8. **F-16 / F-17 / F-18 / F-19**: a11y/perf batch (lazy images, reduced-motion, focus rings, skip link) - ✅ shipped.
-    9. **O-06**: regenerate `robots.txt` with valid directives only.
-    10. **O-04 / O-08**: fix Makefile, README, build target typos.
-    11. **E2E pass**: refresh build, serve, and run browser-use against every feature row above.
-
----
-
-## Tracking Conventions
-
-- "Done" requires the row shows ✅ **and** the most recent build's E2E run touched that feature.
-- Each 🟡/❌ row must have an owners issue in **docs/BUGS.md**.
-- When status flips, the diff line of this file is the audit trail.
+- Live GitHub and WakaTime data are best effort and expose a visible failure
+  state when unavailable.
+- Highlighting and comments rely on third-party browser services.
+- `serve` remains intentionally unimplemented; local serving uses `make up`.
