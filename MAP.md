@@ -4,10 +4,10 @@ scope: .
 children: [lib/MAP.md]
 uses: [lib]
 fidelity: syntax
-api_hash: 6f372476a883aa58
-kids_hash: a4623f0b04247728
-tokens: ~228
-stamped: 2026-07-16T19:51:52Z
+api_hash: 6d9a418204d06755
+kids_hash: 03ba36ebabc792ea
+tokens: ~234
+stamped: 2026-07-16T20:18:04Z
 ---
 # .
 
@@ -30,6 +30,7 @@ Builds sanixdk.xyz from Markdown with a small C static-site generator, project p
 - `now_iso()`
 - `header()`
 - `has_fallback()`
+- `fallback_fetch()`
 - `fallback_eval()`
 - `lookup_story()`
 - `type_for()`
