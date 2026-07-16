@@ -272,7 +272,7 @@ void writeMetadatasToHeader(FILE* file, Entry* eM) {
 
     snprintf(contentOfFile, out_size, templateContent,
              eM->title, eM->link,  eM->title, eM->title,
-             eM->image, eM->image, eM->link,  eM->title, eM->image);
+             eM->title, eM->image, eM->image, eM->link, eM->title);
 
     fputs(contentOfFile, file);
 

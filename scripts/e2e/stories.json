@@ -98,8 +98,8 @@
     "id": "B-09",
     "section": "A",
     "type": "build",
-    "prompt": "grep -c '<title>sanix |' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'twitter:card' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'og:image' public/blogs/asymetric-encryption-of-your-clipboard.html",
-    "pass_criteria": "<title> per blog post; og:image + twitter:card meta tags present.",
+    "prompt": "grep -c '<title>sanix |' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c \"twitter:card' content='summary_large_image\" public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'twitter:image' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'og:image' public/blogs/asymetric-encryption-of-your-clipboard.html",
+    "pass_criteria": "<title> per blog post; og:image, twitter:image and summary_large_image card tags present.",
     "notes": "9 placeholders rendered"
   },
   {
