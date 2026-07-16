@@ -253,7 +253,8 @@
         {"name": "blogs_has_search_input", "url": "/blogs/", "regex": "id=['\"]search-input['\"]", "min": 1},
         {"name": "blogs_has_search_count", "url": "/blogs/", "regex": "id=['\"]search-count['\"]", "min": 1},
         {"name": "blogs_uses_is_hidden_class", "url": "/blogs/", "regex": "is-hidden", "min": 1},
-        {"name": "blogs_escape_key_handler", "url": "/blogs/", "regex": "key\\s*===?\\s*['\"]Escape['\"]|Escape", "min": 1}
+        {"name": "blogs_escape_key_handler", "url": "/blogs/", "regex": "key\\s*===?\\s*['\"]Escape['\"]|Escape", "min": 1},
+        {"name": "blogs_script_not_markdown_code", "url": "/blogs/", "regex": "<pre><code>const searchCount", "min": 0, "max": 0}
       ]
     }
   },

@@ -42,6 +42,7 @@ behavior is defined in [`FEATURE_MATRIX.md`](./FEATURE_MATRIX.md).
 | BG-26 | Terminal | An empty `staticSkills` loop did nothing. | 🟢 | Remove the dead loop. |
 | BG-27 | Metadata head | Template placeholder drift was silent. | 🟢 | Warn unless exactly nine dynamic slots are present. |
 | BG-28 | CLI | The unimplemented `serve` command returned success. | 🟢 | Return failure with `make up` guidance. |
+| BG-29 | Search | The footer script followed `<br/>` without a Markdown block boundary and was partially rendered as a code block. | 🟢 | Separate the raw script block and reject escaped script bodies in E2E. |
 
 ## Current status
 

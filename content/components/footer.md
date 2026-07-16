@@ -9,6 +9,7 @@
 </center>
 </div>
 <br/>
+
 <script>
 (() => {
     const searchInput = document.getElementById('search-input');
