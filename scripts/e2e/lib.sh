@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# lib.sh — shared helpers for the browser-use E2E harness.
+# lib.sh - shared helpers for the browser-use E2E harness.
 # Source from run.sh / run-story.sh. Never executed directly.
 
-# Helpers only — do NOT bring `set -e`. Callers decide whether to
+# Helpers only - do NOT bring `set -e`. Callers decide whether to
 # fail-fast or carry on. We DO enable -u and -o pipefail so callers
 # inherit strictness on undefined vars + pipeline failures.
 set -u
@@ -59,7 +59,7 @@ wait_for_server() {
 # start_server <port> <directory>: idempotent; only starts if not already up.
 # After binding, does a real curl health probe to make sure it's serving.
 # When a fresh server is spawned, we truncate the log via the `>` redirect
-# inside the subshell — leave any existing httpd.log alone so we never
+# inside the subshell - leave any existing httpd.log alone so we never
 # delete a file the previous (already-killed) server was writing to.
 start_server() {
     local port="$1" dir="$2"
@@ -100,7 +100,7 @@ now_iso() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 header() {
     local note="${*:-fresh run}"
     {
-        echo "# TEST LOG — E2E browser-use run @ $(now_iso)"
+        echo "# TEST LOG - E2E browser-use run @ $(now_iso)"
         echo
         echo "Run note: ${note}"
         echo
@@ -124,13 +124,37 @@ has_fallback() {
 #
 # Each check object in stories.json has the schema:
 #   { "name": "<label>", "url": "<relative path>", "regex": "<ERE pattern>",
-#     "min": <int(default 1)> }
-# Success ⇒ we observe ≥ `min` matches of `regex` in `curl url`
+#     "min": <int(default 1)>, "max": <optional int> }
+# Success means the match count is at least `min` and no greater than `max`
+# when a maximum is provided.
 # Failure ⇒ `<min` matches, curl rc != 0, or response body empty.
+fallback_fetch() {
+    local base_url="$1" url="$2"
+    local candidate
+    local candidates=()
+
+    if [[ "${url}" == "/" ]]; then
+        candidates=("${url}")
+    elif [[ "${url}" == */ ]]; then
+        candidates=("${url%/}.html" "${url}")
+    elif [[ "${url##*/}" != *.* ]]; then
+        candidates=("${url}.html" "${url}")
+    else
+        candidates=("${url}")
+    fi
+
+    for candidate in "${candidates[@]}"; do
+        if curl -fsS --max-time 5 "${base_url}${candidate}" 2>/dev/null; then
+            return 0
+        fi
+    done
+    return 1
+}
+
 fallback_eval() {
     local id="$1"
     local base_url="http://127.0.0.1:${PORT}"
-    local checks_json n i check name url regex min body rc count
+    local checks_json n i check name url regex min max body count
     local joined_parts=() fails=0
 
     checks_json="$(lookup_story "${id}" | jq -c '.fallback.checks // []' 2>/dev/null)"
@@ -146,21 +170,30 @@ fallback_eval() {
         url="$(printf '%s' "${check}"   | jq -r '.url   // "/"')"
         regex="$(printf '%s' "${check}" | jq -r '.regex // "^$"')"
         min="$(printf '%s' "${check}"   | jq -r '.min   // 1')"
+        max="$(printf '%s' "${check}"   | jq -r '.max   // empty')"
         # Bail out of arithmetic if min isn't a valid integer.
         if ! [[ "${min}" =~ ^[0-9]+$ ]]; then min=1; fi
+        if [[ -n "${max}" ]] && ! [[ "${max}" =~ ^[0-9]+$ ]]; then max=""; fi
 
-        body="$(curl -fsS --max-time 5 "${base_url}${url}" 2>/dev/null)"; rc=$?
-        if (( rc != 0 )); then
-            joined_parts+=("[FAIL] ${name}:curl ${url} rc=${rc}")
+        if ! body="$(fallback_fetch "${base_url}" "${url}")"; then
+            joined_parts+=("[FAIL] ${name}:curl ${url}")
             fails=$((fails + 1))
             continue
         fi
 
         count="$(printf '%s' "${body}" | grep -oE -- "${regex}" 2>/dev/null | wc -l)"
-        if (( count >= min )); then
-            joined_parts+=("[PASS] ${name}=${count}≥${min}")
+        if (( count >= min )) && { [[ -z "${max}" ]] || (( count <= max )); }; then
+            if [[ -n "${max}" ]]; then
+                joined_parts+=("[PASS] ${name}=${count} in ${min}..${max}")
+            else
+                joined_parts+=("[PASS] ${name}=${count}≥${min}")
+            fi
         else
-            joined_parts+=("[FAIL] ${name}=${count}<${min} regex=${regex}")
+            if [[ -n "${max}" ]]; then
+                joined_parts+=("[FAIL] ${name}=${count} outside ${min}..${max} regex=${regex}")
+            else
+                joined_parts+=("[FAIL] ${name}=${count}<${min} regex=${regex}")
+            fi
             fails=$((fails + 1))
         fi
     done

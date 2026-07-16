@@ -7,7 +7,7 @@ name: E2E weekly long-rotation baseline
 #
 # Mechanism in two sentences:
 #   1. Find the most recent successful nightly run via the GitHub REST API
-#      (no GH-Actions in-workflow artifact access — different workflow).
+#      (no GH-Actions in-workflow artifact access - different workflow).
 #   2. Download its single TEST_LOG.md artifact, then re-upload it as a
 #      weekly checkpoint with the repository's maximum retention.
 #
@@ -24,7 +24,7 @@ on:
     - cron: '7 4 * * 0'
   workflow_dispatch:
 
-# Stop stacking weekly rotations if the Sunday job gets stuck — there's
+# Stop stacking weekly rotations if the Sunday job gets stuck - there's
 # no value in N concurrent weekly runs once the latest has all the info.
 concurrency:
   group: e2e-weekly-rotation

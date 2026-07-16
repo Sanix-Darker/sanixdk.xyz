@@ -1,27 +1,32 @@
-## sanixdk.xyz
+# sanixdk.xyz
 
-Hi, since this is my custom builder for my personnal website
-i don't know why there should be a readme for it but whatever...
+A small C static-site generator for my Markdown-based personal site.
 
-There are multiple steps/stage, but you can run the website under docker and the Makefile itself has a lot of instructions from it.
-You just need to be use to bash tweaks :).
+## Local development
+
+Requirements: GCC, Make, Bash, `jq`, `bc`, `curl`, and Python 3 for the
+test HTTP server.
 
 ```console
-$ make
- Choose a command...
-  compile        Compile the app builder itself
-  build          Build the webpage that is going to be serve
-  serve          Serve the app (Not implemented/nor ready yet)
-  docker-build   Docker build for the website
-  docker-run     Docker run for the website
-  up             To build and deploy the website
-  down           To get down the service
+make build
+make e2e
 ```
 
-This has my website builder, some Dockerfile/nginx.
-And the content is markdown based.
+`make build` compiles the generator and recreates `public/`. Generated HTML
+is intentionally ignored by Git. `make e2e` rebuilds the site and checks the
+generated pages with browser captures when available, or deterministic HTTP
+fallback assertions.
 
-to start everything up, you just need to run :
+## Container
+
 ```console
-make compose
+make up
 ```
+
+The site is then available on <http://localhost:3003>. Stop it with:
+
+```console
+make down
+```
+
+Run `make` to list every supported target.

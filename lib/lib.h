@@ -30,8 +30,8 @@ struct membuffer {
     size_t size;
 };
 
-// to proceed files recursivelly
-void proceedFilesRecursivelly(char* basePath);
+// Recursively render Markdown files under the content root.
+void proceedFilesRecursively(char* basePath);
 
 // for the build
 void buildComponentsIntoMarkdownsFiles(const char* directory);
@@ -53,7 +53,7 @@ typedef struct {
 } Entry;
 
 typedef struct {
-    char key[256];  // <- not needed i guess for now.
+    char key[256];
     Entry entry;
 } EntryMap;
 void parse_txt(const char* filename, EntryMap entryMap[], int* count);

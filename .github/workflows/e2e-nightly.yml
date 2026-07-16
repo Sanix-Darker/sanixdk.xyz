@@ -13,10 +13,10 @@ name: E2E nightly baseline
 
 on:
   schedule:
-    # 00:07 UTC nightly — 7 minutes past the hour to dodge the on-the-hour
+    # 00:07 UTC nightly - 7 minutes past the hour to dodge the on-the-hour
     # quota thundering-herd GitHub sees from the bulk of scheduled jobs.
     - cron: '7 0 * * *'
-  # Manual replay — lets you re-run a baseline from the GitHub Actions UI
+  # Manual replay - lets you re-run a baseline from the GitHub Actions UI
   # without waiting for the cron (e.g. after fixing a flakiness in the
   # harness).
   workflow_dispatch:
@@ -40,7 +40,7 @@ permissions:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    # Generous timeout — `make e2e` walks all 38 stories; in the worst
+    # Generous timeout - `make e2e` walks all 38 stories; in the worst
     # case (live GitHub/WakaTime fetches hanging) it can take ~4 min.
     timeout-minutes: 20
 
@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           # Embed the commit SHA in the artifact name so each nightly
-          # fire is uniquely labeled in the artifact browser — pasting a
+          # fire is uniquely labeled in the artifact browser - pasting a
           # label into "diff vs baseline" becomes trivial.
           name: e2e-nightly-test-log-sha-${{ steps.checkout.outputs.commit }}
           path: docs/TEST_LOG.md
@@ -100,9 +100,9 @@ jobs:
           set +e
           summary="$(grep '^_Summary' docs/TEST_LOG.md 2>/dev/null | head -1 | tr -d '\n' || true)"
           if [[ -z "${summary}" ]]; then
-            summary="_Summary:_ (log missing — harness exited before write)"
+            summary="_Summary:_ (log missing - harness exited before write)"
           fi
-          msg="🚨 Nightly E2E regression 🟥 — ${summary} — ${GITHUB_RUN_URL}"
+          msg="🚨 Nightly E2E regression 🟥 - ${summary} - ${GITHUB_RUN_URL}"
 
           # Slack incoming webhook: payload is {"text": "..."}.
           if [[ -n "${SLACK_WEBHOOK_URL}" ]]; then

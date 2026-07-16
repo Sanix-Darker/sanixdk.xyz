@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run-story.sh <id> — run a single user-story test and append a TEST_LOG.md row.
+# run-story.sh <id> - run a single user-story test and append a TEST_LOG.md row.
 # Exit code: 0 on PASS / SKIP, 1 on FAIL.
 
 set -euo pipefail
@@ -39,37 +39,36 @@ capture_path="${CAPTURE_DIR}/${ID}.log"
 if [[ "${TYPE}" == "build" ]]; then
     if ( cd "${REPO_ROOT}" && eval "${PROMPT}" ) >"${capture_path}" 2>&1; then
         status="✅ PASS"
-        result_notes="exit 0 — ${NOTES}"
+        result_notes="exit 0 - ${NOTES}"
     else
         status="❌ FAIL"
-        result_notes="exit non-zero — ${NOTES}"
+        result_notes="exit non-zero - ${NOTES}"
     fi
 fi
 
 # --- browser: prefer shell capture, otherwise fall back to a JS-free
 #     curl+grep predicate (JSON `.fallback.checks`). SKIP only when
-#     neither yield is available — i.e. the story has no `fallback` block.
+#     neither yield is available - i.e. the story has no `fallback` block.
 if [[ "${TYPE}" == "browser" ]]; then
     capture_browser_path="${CAPTURE_DIR}/${ID}.json"
     if [[ -s "${capture_browser_path}" ]] && [[ "$(jq -r '.pass // false' "${capture_browser_path}" 2>/dev/null)" == "true" ]]; then
         status="✅ PASS"
-        result_notes="${NOTES} — observed: $(jq -r '.observed // \"\"' "${capture_browser_path}" 2>/dev/null | head -c 160)"
+        result_notes="${NOTES} - observed: $(jq -r '.observed // \"\"' "${capture_browser_path}" 2>/dev/null | head -c 160)"
     elif [[ -s "${capture_browser_path}" ]]; then
         status="❌ FAIL"
-        result_notes="${NOTES} — failure: $(jq -r '.failure // \"unknown\"' "${capture_browser_path}" 2>/dev/null | head -c 160)"
+        result_notes="${NOTES} - failure: $(jq -r '.failure // \"unknown\"' "${capture_browser_path}" 2>/dev/null | head -c 160)"
     elif has_fallback "${ID}"; then
-        fb_result="$(fallback_eval "${ID}")"
-        fb_rc=$?
-        if [[ ${fb_rc} -eq 0 ]]; then
+        if fb_result="$(fallback_eval "${ID}")"; then
             status="✅ PASS"
-            result_notes="${NOTES} — fallback:$(printf '%s' "${fb_result}" | head -c 220)"
+            result_notes="${NOTES} - fallback:$(printf '%s' "${fb_result}" | head -c 220)"
         else
+            fb_rc=$?
             status="❌ FAIL"
-            result_notes="${NOTES} — fallback_failed(rc=${fb_rc}):$(printf '%s' "${fb_result}" | head -c 220)"
+            result_notes="${NOTES} - fallback_failed(rc=${fb_rc}):$(printf '%s' "${fb_result}" | head -c 220)"
         fi
     else
         status="⏭️ SKIP"
-        result_notes="${NOTES} — no browser capture, no fallback"
+        result_notes="${NOTES} - no browser capture, no fallback"
     fi
 fi
 

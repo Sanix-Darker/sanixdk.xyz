@@ -1,4 +1,4 @@
-# TEST LOG — E2E browser-use run @ 2026-06-23T13:49:25Z
+# TEST LOG - E2E browser-use run @ 2026-06-23T13:49:25Z
 
 Run note: target=F-09
 

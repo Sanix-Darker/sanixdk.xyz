@@ -16,21 +16,24 @@
     <meta property='og:type' content='website'>
     <meta property='og:title' content='%s'>
     <meta name='twitter:title' content='%s'>
-    <!-- <meta property='og:description' content=''> -->
+    <meta property='og:description' content='Read %s on sanixdk.xyz'>
     <meta property='og:image' content='%s'>
-    <meta name='twitter:card' content='%s'>
+    <meta name='twitter:card' content='summary_large_image'>
+    <meta name='twitter:image' content='%s'>
     <meta property='twitter:url' content='https://sanixdk.xyz%s'>
     <meta property='twitter:domain' content='sanixdk.xyz'>
+    <meta name='twitter:description' content='Read %s on sanixdk.xyz'>
 </head>
 <body>
+    <a class='skip' href='#main'>Skip to content</a>
     <div class='container'>
     <br>
 <center style="text-decoration: none">
 
-[`home`](/)  [`blogs`](/blogs/) <!-- lazy guy, will code this later, • [`projects`](/projects/) --> [`about`](/about)
+[`home`](/)  [`blogs`](/blogs/)  [`projects`](/projects/)  [`about`](/about)
 
 </center>
 
 ----
 
-
+<main id='main'>

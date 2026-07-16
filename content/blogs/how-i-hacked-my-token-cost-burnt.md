@@ -1,8 +1,8 @@
 ![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/rdr-icon.png)
 
-## HOW I HACKED MY TOKEN/COST BURNT
+## HOW I HACKED MY TOKEN/COST BURNT WITH MATHS
 
-`2026-07-12 03:51PM` • 11 min read • **#ai** **#agents** **#rust** **#performance** **#opensource** **#cost**
+`2026-07-12 03:51PM` • 13 min read • **#ai** **#agents** **#rust** **#performance** **#opensource** **#cost**
 
 ---
 
@@ -21,34 +21,39 @@ There are currently two ways to reduce an AI bill:
 
 [Grey-market Claude proxies are real](https://www.tomshardware.com/tech-industry/artificial-intelligence/chinese-grey-market-sells-claude-api-access-at-90-percent-off-through-proxy-networks-that-harvest-user-data): pooled promos, stolen credentials, model swapping and operators keeping your prompts. My less-proven theory, after [ThePrimeagen covered Mini Shai-Hulud](https://www.youtube.com/watch?v=Ws-Nc9S8i_Y), is that supply-chain worms feed part of this market: poison package, scrape keys, hide access behind proxy. [The worm is documented](https://www.akamai.com/blog/security-research/mini-shai-hulud-worm-returns-goes-public); the resale hop is me connecting dots. Please don't cite me in court.
 
-What if, instead of buying questionable tokens, we stopped sending the same useless context in the first place ?
+What if, instead of buying questionable tokens, we stopped sending the same useless context in the first place?
 
 Why should an agent spend 15 minutes doing `grep -> read -> wrong file -> grep again` when the repository already contains enough structure to route the query?
 
 As a software engineer working on huge codebases, i had this idea stuck in my head for weeks: after compaction, agents read the same 14 files again. This is not optimal... you are actualy paying for amnesia.
 
-So, on a Friday night and two Heinekens later, i started building [**radar**](https://github.com/sanix-darker/radar). The repository is intentionally private for now: ask me for access and i will invite you into the project. The door is closed to public AI bots scraping the internet, not to actual humans. This is access control, not fake scarcity.
+So, on a Friday night and two Heinekens later, i started building [**radar**](https://github.com/Sanix-Darker/radar). It is now released as a small Rust binary and deliberately LLM-free by default. The repository remains private, so source and release downloads require access.
 
 ### NOT MY ORIGINAL IDEA, SORRY YVAN
 
 The first spark came from my friend [**Yvan**](https://gtindo.dev/posts/gt-workflow-presentation/). His workflow starts an agent with a `MAP.md` instead of letting it rediscover the whole house. He was right about the first five minutes.
 
-But what if one giant mapping file is still too heavy/FAT ? It gets loaded, cached, forgotten, loaded again... congratulations, we compressed the repo into a second bill.
+But what if one giant mapping file is still too heavy/FAT? It gets loaded, cached, forgotten, loaded again... congratulations, we compressed the repo into a second bill.
 
 My missing piece was a set of small knowledge units: dots connected by routes, each cheap to read and each pointing back to real source. Maps route; source answers. The map must never cosplay as the code.
 
 ```ascii
 query
-  -> radar query "<task>"     one local resolver, zero model tokens
-     -> .radar/ROUTES.md      verified learned or auto-seeded routes
-     -> .radar/SYMBOLS.md     exact public symbol -> file#line
-     -> MAP.md metadata head  bounded fallback, never the whole map
-  -> source#anchor            verify the answer
+  -> radar query "<task>"       one local resolver, zero model tokens
+     -> .radar/ROUTES.md        verified learned or auto-seeded route
+     -> .radar/query.bin        compact public + private source index
+     -> repository overview     bounded orientation answer
+     -> MAP.md metadata head    bounded fallback, never the full map
+  -> source#anchor              verify the answer
 ```
 
-The `MAP.md` nodes are committed; `SYMBOLS.md` and `ROUTES.md` are local, gitignored fast paths. `radar query` checks a current verified route before loading the full index, then exact public symbols, caller/call context and finally bounded `MAP.md` frontmatter. The fallback reads metadata heads, not whole map files. Symbols stop at `5000` rows, routes at `500`, and `radar init` embeds the root router inside the agent contract to avoid one more file read. Plain `radar map` and `radar refresh` keep it synced.
+The `MAP.md` nodes are committed. `ROUTES.md`, `SYMBOLS.md` and `query.bin` are local, disposable fast paths. The compact snapshot is rebuilt from canonical scan state when it is missing, corrupt or incompatible.
 
-Radar places maps at the root, package manifests, public-API-heavy directories and children promoted by budget overflow. Nodes carry bounded signatures, routes, `uses`, `Jump` hubs, tests, hashes and one optional purpose sentence, never function bodies. Learned routes must point to a real file and any named symbol anchor. An owner `api_hash` makes old routes stale hints; cold repos get deterministic routes from up to three ranked public symbols per scope. No vector database was harmed.
+`radar query` checks a verified route first, then an exact and lexical source index containing public and internal definitions. It scores symbol names, signatures, bounded function-body fingerprints, calls, callers, package terms and path intent. Posting-list rarity keeps common words from winning. Caller, path, package-entry and exact-symbol questions have separate intent gates. Only after those paths fail does Radar return an overview or read bounded `MAP.md` frontmatter.
+
+That last detail mattered. Reading only metadata heads was cheaper, but it failed an exact location task when used alone. The production order keeps the cheap metadata fallback without pretending it can replace source indexing.
+
+Radar places maps at the root, package manifests, public-API-heavy directories and children promoted by budget overflow. Nodes carry bounded signatures, routes, `uses`, `Jump` hubs, tests, hashes and one optional purpose sentence, never function bodies. Learned routes must point to a real file and any named symbol anchor. An owner `api_hash` makes old routes stale hints. No vector database was harmed.
 
 The difference from existing tools is mostly **where the cost lives**:
 
@@ -57,124 +62,133 @@ The difference from existing tools is mostly **where the cost lives**:
     <tr><th>Existing shape</th><th>Good at</th><th>Radar does differently</th></tr>
   </thead>
   <tbody>
-    <tr><td><a href="https://github.com/yamadashy/repomix">Repomix</a> / whole-repo packs</td><td>One portable context blob</td><td>Keeps small routers; reads only the route chain</td></tr>
-    <tr><td><a href="https://aider.chat/docs/repomap.html">Aider repo maps</a></td><td>Runtime ranked context for Aider</td><td>Commits tool-agnostic maps; regenerates local indices</td></tr>
+    <tr><td><a href="https://github.com/yamadashy/repomix">Repomix</a> / whole-repo packs</td><td>One portable context blob</td><td>Keeps small routers and reads only the route chain</td></tr>
+    <tr><td><a href="https://aider.chat/docs/repomap.html">Aider repo maps</a></td><td>Runtime ranked context for Aider</td><td>Commits tool-agnostic maps and regenerates local indexes</td></tr>
     <tr><td><a href="https://github.com/oraios/serena">Serena</a> / live semantic tools</td><td>Rich query-time navigation</td><td>Precomputes an offline read path; MCP stays optional</td></tr>
+    <tr><td><a href="https://github.com/aovestdipaperino/tokensave">TokenSave</a></td><td>Broad local repository intelligence, context and editing workflows</td><td>Uses one static binary, committed routers and exact source anchors with no database, embedding or model runtime</td></tr>
   </tbody>
 </table>
 
-I did not benchmark those tools head-to-head. The difference is simpler: Radar leaves its map in Git, so it survives a clone, a compaction and a dead process.
+TokenSave inspired useful questions about local persistence, ranked context, language coverage and repository state. I tested the strongest candidates instead of copying the architecture. On the same 40-query source-anchor corpus, TokenSave retrieved the expected anchor in `5/40` cases and returned an estimated `8,421` tokens. Radar retrieved `40/40` in `835` estimated tokens. That comparison is intentionally narrow: TokenSave is a broader product, while Radar is optimized for repository routing.
 
 > **Disclaimer:** Radar is not a magical solution. It is graph mathematics, ranking, hashes, thresholds and probabilistic evaluation wrapped in deterministic code. It works best on big projects where orientation is expensive and repeated. On a tiny repository, a direct search can still be cheaper.
 
 ### THE BORING ALGORITHMS SAVING THE MONEY
 
-The pipeline is small enough to keep in my head:
+The indexing pipeline is small enough to keep in my head:
 
 ```ascii
 parallel walk -> parse -> graph -> place -> budget-pack -> hash -> emit
 ```
 
-**Scan and parse.** Radar walks `.gitignore`-aware paths in parallel (defaulting to at most 64 workers), hashes changed contents with [BLAKE3](https://c2sp.org/BLAKE3), then runs [tree-sitter queries](https://tree-sitter.github.io/tree-sitter/using-parsers/queries/) for Rust, Python, JavaScript, TypeScript/TSX, Go, Java, C, C++, C#, PHP, Ruby and Bash. The parse cache key is `(language, content_hash)`, so moving unchanged bytes is a cache hit. Unsupported files are tracked, not magically understood.
+**Scan and parse.** Radar walks `.gitignore`-aware paths in parallel, hashes changed contents with [BLAKE3](https://c2sp.org/BLAKE3), then runs [tree-sitter queries](https://tree-sitter.github.io/tree-sitter/using-parsers/queries/) for Rust, Python, JavaScript, TypeScript/TSX, Go, Java, C, C++, C#, PHP, Ruby and Bash. The parse cache key is `(language, content_hash)`, so identical bytes share one extraction even when scanner workers discover them at the same time.
 
-**Graph and rank.** A file points to files defining the public names it references; ambiguous definitions split the edge mass. Radar computes [PageRank](https://snap.stanford.edu/class/cs224w-readings/Brin98Anatomy.pdf) with `d = 0.85` over 30 iterations, although rendered order currently uses a simpler visible score: calls `3`, imports `1`, then stable path/line ties. The probability is there, it just does not run the government yet.
+**Graph and rank.** A file points to files defining the names it references; ambiguous definitions split the edge mass. Stable integer IDs and contiguous adjacency vectors keep the graph compact. Radar computes [PageRank](https://snap.stanford.edu/class/cs224w-readings/Brin98Anatomy.pdf) with `d = 0.85` over 30 iterations, then reuses that ranking for maps, symbols and automatic routes.
 
-**Placement and packing.** Package manifests force nodes. Otherwise a directory splits above `30` public symbols; an owner above `35` promotes children carrying at least `8`. Root, inner and leaf bodies get `2400`, `1600` and `1200` byte budgets, with a `7200` byte maximum route chain. Symbols are ranked inside each node, then a [binary search](https://en.wikipedia.org/wiki/Binary_search_algorithm) keeps the largest prefix which renders inside the budget. Basically admission control, but for Markdown.
+**Placement and packing.** Package manifests force nodes. Otherwise a directory splits above `30` public symbols; an owner above `35` promotes children carrying at least `8`. Root, inner and leaf bodies get `2400`, `1600` and `1200` byte budgets, with a `7200` byte maximum route chain. Symbols are ranked inside each node, then a binary search keeps the largest prefix which renders inside the budget.
 
-**Freshness.** On a clean checkout, Radar compares the stored root [`HEAD^{tree}`](https://git-scm.com/docs/gitrevisions) and can return without walking anything. Dirty or non-Git trees fall back to `mtime + size + inode`, then per-file BLAKE3. Each node gets an `api_hash` over canonical public signatures and a `kids_hash` over direct child API hashes. That borrows the [Merkle-tree idea](https://www.rfc-editor.org/rfc/rfc9162.html#name-merkle-trees) for one level; it is not a home-made recursive Merkle index.
+**Query retrieval.** Each extracted definition stores at most 64 compact 32-bit fingerprints from bounded body and comment text. The query index combines those fingerprints with exact names, signatures, call edges, paths and term rarity. The result is one final source anchor when confidence is high, otherwise at most three bounded candidates.
+
+**Freshness and caching.** On a clean checkout, Radar compares the stored root `HEAD^{tree}` and can return without walking anything. Dirty or non-Git trees fall back to file stamps and BLAKE3. The resident server keeps at most 256 normalized exact answers and clears them when source state or verified routes change. There is no wall-clock TTL that can return a stale answer just because the timer has not expired yet.
 
 ### THE IDEAS THAT LOST THE BENCHMARK
 
-I also tried the clever-looking pile before deciding boring was faster. The rule was simple: benchmark one proposal, keep it only if latency and answer quality improve, otherwise roll it back.
+The rule was simple: test one proposal, keep it only if latency and answer quality improve, otherwise roll it back.
 
 <table>
   <thead>
     <tr><th>Proposal</th><th>Measured result</th><th>Decision</th></tr>
   </thead>
   <tbody>
-    <tr><td>Int8 MiniLM + HNSW</td><td>36.534 ms p95 and +385,256 KiB RSS; verified route was 0.339 ms p95</td><td>Rejected</td></tr>
-    <tr><td>Integer-ID graph vectors</td><td>PageRank fell from 209.785 ms to 31.927 ms with byte-identical maps</td><td><strong>Kept</strong></td></tr>
-    <tr><td>SimHash dedup</td><td>Merged opposite allow/deny code and ran 11.7x slower than exact hashing</td><td>Rejected</td></tr>
-    <tr><td>Exact same-scan parse coordination</td><td>10,000 identical files fell from 84.353 ms to 41.252 ms</td><td><strong>Kept</strong></td></tr>
-    <tr><td>Serialized 2.05 MB query view</td><td>Added 4.54 s to map generation and raised startup from 71.392 ms to 105.506 ms</td><td>Rejected</td></tr>
-    <tr><td>Local 1.8B to 2.6B models</td><td>1.67 to 1.98 s warm, with the worst quality on multi-fact questions</td><td>Rejected</td></tr>
+    <tr><td>Int8 MiniLM + HNSW</td><td>47.62 ms end-to-end p95, 59.13 ms embedding p95, 91.7% semantic recall and +444,716 KiB RSS</td><td>Rejected</td></tr>
+    <tr><td>Bloom + MinHash candidate filters</td><td>Bloom lost 7/12 semantic cases or pruned nothing; MinHash semantic recall was 16.7%</td><td>Rejected</td></tr>
+    <tr><td>Memory-mapped adjacency</td><td>0.0536 ms versus 0.0498 ms for an ordinary read on the same tiny graph</td><td>Rejected</td></tr>
+    <tr><td>SimHash deduplication</td><td>32.99 ms versus 2.88 ms for BLAKE3 and it merged opposite allow/deny behavior</td><td>Rejected</td></tr>
+    <tr><td>Compact query snapshot</td><td>Startup 139.57 to 21.72 ms, RSS 28,220 to 14,296 KiB, route p95 311.19 to 34.48 ms</td><td><strong>Kept</strong></td></tr>
+    <tr><td>Bounded exact-answer cache</td><td>Repeated lexical p95 4.442 to 0.038 ms; exact route 3.025 to 0.044 ms</td><td><strong>Kept</strong></td></tr>
+    <tr><td>Local 1.8B to 2.6B models</td><td>1.67 to 1.98 s warm and worst quality on multi-fact questions</td><td>Rejected</td></tr>
   </tbody>
 </table>
 
-Bloom and MinHash filters dropped valid semantic candidates. Memory mapping was slower than reading the tiny integer graph. spaCy extracted prose triples but scored `0/6` on source-code calls. The tiny decision tree memorized repeated queries and generalized to `1/12` paraphrases. None entered production. The full receipts, including raw reports and rollback reasons, live in [`OPTIMIZATIONS.md`](https://github.com/sanix-darker/radar/blob/main/OPTIMIZATIONS.md).
+spaCy loaded in `515.94 ms`, added `134,144 KiB` RSS and scored `0/6` on source-code call extraction. The tiny decision tree generalized to `1/12` paraphrases. Semantic caching inherited the rejected embedding stack. Async added a dependency around a resident path already near `0.04 ms` p95. Time-based invalidation weakened correctness. Merkle triple patches duplicated Git's tree identity without discovering changed files.
+
+The full receipts, raw JSON/JSONL reports and rollback reasons live in [`OPTIMIZATIONS.md`](https://github.com/Sanix-Darker/radar/blob/main/OPTIMIZATIONS.md) for readers with repository access.
 
 ### OKAY, SHOW ME THE COMMANDS
 
-With repository access granted, the `v0.2.1` release has exactly four archives: Linux and macOS, each for x86_64 and arm64. Linux uses static musl binaries, so the artifact does not inherit the build runner's glibc version. The [release README](https://github.com/sanix-darker/radar#install-from-a-release) has target detection, checksum verification, extraction and the macOS quarantine step.
+With repository access, the `v0.3.0` release has exactly four archives:
 
-For example, an authenticated GitHub CLI can fetch the Linux x86_64 bundle and checksum:
+- Linux x86_64
+- Linux arm64
+- macOS x86_64
+- macOS arm64
+
+Linux uses static musl binaries, so the artifact does not inherit the build runner's glibc version. There is no Windows target. The [release README](https://github.com/Sanix-Darker/radar#install-from-a-release) includes target detection, checksum verification, extraction, user-local installation and the macOS quarantine step.
+
+For example, an authenticated GitHub CLI can fetch Linux x86_64:
 
 ```bash
-gh release download v0.2.1 --repo sanix-darker/radar \
-  --pattern 'radar-v0.2.1-linux-x86_64.tar.gz*'
-sha256sum -c radar-v0.2.1-linux-x86_64.tar.gz.sha256
-tar -xzf radar-v0.2.1-linux-x86_64.tar.gz
+gh release download v0.3.0 --repo Sanix-Darker/radar \
+  --pattern 'radar-v0.3.0-linux-x86_64.tar.gz*'
+sha256sum -c radar-v0.3.0-linux-x86_64.tar.gz.sha256
+tar -xzf radar-v0.3.0-linux-x86_64.tar.gz
 ./radar --version
 ```
 
-Or install the alpha from checkout:
+Or install from source:
 
 ```bash
-git clone git@github.com:sanix-darker/radar.git
-cd radar && cargo install --path .
+gh repo clone Sanix-Darker/radar
+cd radar
+cargo install --locked --path .
 cd /path/to/your/huge-repo
 
-radar scan              # optional stats; map also scans
-radar map               # MAP.md tree + SYMBOLS.md + auto routes
-radar init              # AGENTS/CLAUDE contract + repo-scoped skill
-radar status            # freshness, slots, violations and route counts
+radar map
+radar init
+radar status
 radar query "where does order persistence happen?"
 ```
 
-This is real output from the current alpha mapping its own fresh checkout. No `src/auth/definitely_real.rs`, i promise:
+This is real output from Radar mapping its own fresh checkout:
 
 ```text
 $ radar map
 radar map - 0 written, 11 unchanged, 7 purpose slot(s) pending
-fill slots with your agent (Phase 3: radar slots --exec)
+fill slots with `radar slots --exec`
 
-$ radar ls --ascii --depth 1
+$ radar tree --ascii --depth 1
 .                           syntax      ~304  ok
-|-- bench                   syntax      ~331  ok
+|-- bench                   syntax      ~330  ok
 |-- example                 syntax      ~330  ok
 |-- examples                syntax      ~333  ok
 |-- src                     syntax      ~330  ok
-`-- tests/corpus/valid      syntax      ~455  ok
+`-- tests/corpus/valid      syntax      ~454  ok
 
 $ radar check
 radar check: 11 map(s) OK
 ```
 
-`tree` produces the same topology; `ls` is its alias because i also enjoy typing two letters.
-
 For navigation and freshness:
 
 ```bash
-rg '^rotate_token ' .radar/SYMBOLS.md
 radar route find "where is token rotation handled?"
 radar route add "token rotation" "src/auth/tokens.rs#rotate_token"
-
-radar refresh               # maps + local indices + embedded root
-radar refresh --since HEAD~1 # targeted map re-emission for changed files
-radar refresh --deep        # optional offline LSP verification
-radar watch --interval 2    # refresh loop
-radar check                 # CI gate; exits 0/1/2/3
+radar refresh
+radar refresh --since HEAD~1
+radar refresh --deep
+radar watch --interval 2
+radar check
 ```
 
-And for humans or agents who want more furniture:
+And for humans or hosts who want more furniture:
 
 ```bash
 radar slots --prompt
-radar slots --exec "claude -p"  # optional 160-char purpose sentences
-radar browse                    # read-only TUI
+radar slots --exec "<your command>"
+radar browse
 radar export --html radar-map.html
 radar serve --web 127.0.0.1:8080
-radar serve --mcp /path/to/repo # one read-only stdio tool
+radar serve --mcp /path/to/repo
 radar agent --prompt "fix token rotation"
 ```
 
@@ -186,93 +200,114 @@ radar agent --prompt "fix token rotation"
 
 ![BROWSER](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/radar-web.png)
 
-The MCP surface is now one read-only `navigate` tool. Its schema is `387` bytes, down from `2,261` bytes for the previous seven-tool version. It checks verified routes and the source index before a metadata-head fallback. Useful when a host wants a resident tool; entirely avoidable when one `radar query` command or plain files are cheaper.
+The MCP surface is one read-only `navigate` tool with a `387` byte schema. Locally it is extremely fast, but the live consumer used much more context around MCP responses than around one direct command. So `radar query` is the default integration and MCP remains optional.
 
-The boring privacy bit: `scan`, `map`, `query`, `tree`, `status`, `refresh` and `check` run locally and do not upload source or call a model. `serve` binds to localhost by default. `slots --exec` and `agent` deliberately launch the external tool you choose, so its privacy rules apply. Radar edits maps and contracts, not application source. No tiny-font magic here.
+The boring privacy bit: `scan`, `map`, `query`, `tree`, `status`, `refresh` and `check` run locally and do not upload source or call a model. `serve` binds to localhost by default. `slots --exec` and `agent` deliberately launch the external tool you choose, so its privacy rules apply.
 
 ### NUMBERS, BEFORE THE LINKEDIN CAROUSEL
 
-The benchmark ledger keeps the ugly rounds too. A failed prompt, a wrong anchor or a slower prototype stays visible instead of becoming a motivational LinkedIn number. Painful ? yes. Cheaper than lying to myself ? also yes.
+The benchmark ledger keeps the ugly rounds too. A failed prompt, a wrong anchor or a slower prototype stays visible instead of becoming a motivational LinkedIn number.
 
-The latest consumer gate runs the same seven tasks five times with and without Radar. Each run gets a fresh isolated repository copy, a read-only sandbox, ignored user configuration, low reasoning and the locked `gpt-5.3-codex-spark` navigator. `Before` lets it search source. `After` gives it one complete shell-quoted `radar query` command. The table reports median **uncached** input tokens, not totals inflated by cache reads.
+The latest consumer gate runs the same seven tasks three times in fresh isolated repository copies. It uses a read-only sandbox, ignored user configuration, low reasoning and the locked `gpt-5.3-codex-spark` navigator. `Before` lets it search source. `After` gives it one complete shell-quoted `radar query` command. Input below means median uncached input tokens.
 
 <table>
   <thead>
-    <tr><th>Project and task</th><th>Before</th><th>With <code>radar query</code></th><th>Reduction</th><th>Before wall</th><th>After wall</th></tr>
+    <tr><th>Project scale and task</th><th>Before</th><th>With <code>radar query</code></th><th>Change</th><th>Before wall</th><th>After wall</th></tr>
   </thead>
   <tbody>
-    <tr><td>12 files, exact location</td><td>2,162</td><td>666</td><td>3.25x</td><td>8.033 s</td><td>15.662 s</td></tr>
-    <tr><td>12 files, caller trace</td><td>934</td><td>713</td><td>1.31x</td><td>6.213 s</td><td>11.184 s</td></tr>
-    <tr><td>12 files, orientation</td><td>4,525</td><td>659</td><td>6.87x</td><td>16.430 s</td><td>11.278 s</td></tr>
-    <tr><td>300 files, literal lookup</td><td>2,047</td><td>585</td><td>3.50x</td><td>5.607 s</td><td>9.976 s</td></tr>
-    <tr><td>300 files, semantic hub</td><td>5,073</td><td>638</td><td>7.95x</td><td>19.185 s</td><td>7.830 s</td></tr>
-    <tr><td>300 files, deep semantic hub</td><td>8,442</td><td>646</td><td>13.07x</td><td>23.701 s</td><td>8.830 s</td></tr>
-    <tr><td>800 files, literal lookup</td><td>2,273</td><td>600</td><td>3.79x</td><td>11.678 s</td><td>7.531 s</td></tr>
+    <tr><td>12 files, exact storage location</td><td>994</td><td>592</td><td>1.68x fewer</td><td>7.13 s</td><td>16.99 s</td></tr>
+    <tr><td>12 files, caller trace</td><td>900</td><td>657</td><td>1.37x fewer</td><td>7.14 s</td><td>15.69 s</td></tr>
+    <tr><td>12 files, subsystem orientation</td><td>3,935</td><td>634</td><td>6.21x fewer</td><td>17.61 s</td><td>9.31 s</td></tr>
+    <tr><td>300 files, cold literal lookup</td><td>766</td><td>611</td><td>1.25x fewer</td><td>7.55 s</td><td>7.16 s</td></tr>
+    <tr><td>300 files, semantic package hub</td><td>3,733</td><td>574</td><td>6.50x fewer</td><td>19.00 s</td><td>9.30 s</td></tr>
+    <tr><td>300 files, deep semantic package hub</td><td>4,517</td><td>596</td><td>7.58x fewer</td><td>17.78 s</td><td>9.40 s</td></tr>
+    <tr><td>800 files, cold literal lookup</td><td>562</td><td>585</td><td>4.1% higher</td><td>7.61 s</td><td>6.49 s</td></tr>
+    <tr><td><strong>Sum of task medians</strong></td><td><strong>15,407</strong></td><td><strong>4,249</strong></td><td><strong>72.4% lower</strong></td><td></td><td></td></tr>
   </tbody>
 </table>
 
-![Radar token reduction benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@5a30a721f951255c34e8ed4de4bbdeb13eab1aca/content/assets/how-i-hacked-my-token-cost-burnt/radar-token-reduction.png)
+![Radar token reduction benchmark](/assets/how-i-hacked-my-token-cost-burnt/radar-token-reduction.png)
 
-All `35/35` final runs were correct and all `35/35` used exactly one command. The sum of the seven medians fell from `25,456` to `4,507` uncached input tokens: **82.3% less**. Radar's Rust process uses zero model calls and zero model tokens. The remaining `585` to `713` tokens belong to the navigator choosing that one command and formatting the result. Call `radar query` directly and that wrapper cost does not exist.
+The direct-query arm was correct in `21/21` runs. Direct source search was correct in `20/21`. The one 800-file literal task is `4.1%` higher and stays visible because direct search is already cheap when the prompt contains the exact rare word.
+
+The MCP arm was also correct in `21/21`, but its sum of uncached-input medians was `34,677`. The direct command used `87.7%` less. A microsecond local tool does not guarantee a cheap consumer if the host wraps it in a large protocol context.
 
 #### WHAT THOSE TOKENS COST UNDER ONE DECLARED RATE
 
-Tokens are not dollars, especially here. Spark is still a research preview and its public credit rate is explicitly not final in the [Codex rate card](https://help.openai.com/en/articles/20001106-codex-rate-card-2). So i am not going to invent an invoice. This is a reproducible reference scenario: price every recorded run with the published [GPT-5.3-Codex API rates](https://developers.openai.com/api/docs/models/gpt-5.3-codex), then take the median for each task.
+Tokens are not dollars, especially here. Spark is still a research preview and its public credit rate is not final in the [Codex rate card](https://help.openai.com/en/articles/20001106-codex-rate-card). So this is a reproducible reference scenario, not a Spark invoice: price every recorded run with the published [GPT-5.3-Codex API rates](https://developers.openai.com/api/docs/models/gpt-5.3-codex), then take the median for each task.
 
-The rate is `$1.75/M` uncached input, `$0.175/M` cached input and `$14/M` output. The arithmetic includes the cache and output that the uncached-token table intentionally leaves aside. Reasoning tokens already sit inside the output count, so charging them again would be fake precision with a real multiplication bug.
-
-<table>
-  <thead>
-    <tr><th>Project and task</th><th>Before reference cost</th><th>With <code>radar query</code></th><th>Change</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>12 files, exact location</td><td>$0.012885</td><td>$0.008756</td><td>32.0% lower</td></tr>
-    <tr><td>12 files, caller trace</td><td>$0.010324</td><td>$0.011513</td><td>11.5% higher</td></tr>
-    <tr><td>12 files, orientation</td><td>$0.034809</td><td>$0.011100</td><td>68.1% lower</td></tr>
-    <tr><td>300 files, literal lookup</td><td>$0.010973</td><td>$0.007890</td><td>28.1% lower</td></tr>
-    <tr><td>300 files, semantic hub</td><td>$0.040920</td><td>$0.008261</td><td>79.8% lower</td></tr>
-    <tr><td>300 files, deep semantic hub</td><td>$0.068757</td><td>$0.008931</td><td>87.0% lower</td></tr>
-    <tr><td>800 files, literal lookup</td><td>$0.010814</td><td>$0.007843</td><td>27.5% lower</td></tr>
-    <tr><td><strong>Sum of task medians</strong></td><td><strong>$0.189482</strong></td><td><strong>$0.064294</strong></td><td><strong>66.1% lower</strong></td></tr>
-  </tbody>
-</table>
-
-![Radar reference token cost benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@5a30a721f951255c34e8ed4de4bbdeb13eab1aca/content/assets/how-i-hacked-my-token-cost-burnt/radar-token-cost.png)
-
-That is `2.95x` lower across the benchmark suite under the declared rate. The tiny caller trace is `11.5%` more expensive once cache and output are counted, even though its uncached input fell. It stays in the table and gets hatched in the chart. A reference scenario that hides its awkward row is just marketing with extra decimals.
-
-The wall-time column is the honesty tax. Orientation, semantic hubs and the 800-file task got faster. Tiny exact and trace tasks, plus the 300-file literal lookup, used fewer tokens but took longer because model startup dominates cheap searches. This is why i keep latency beside tokens instead of declaring one universal victory.
-
-The local engine has a separate gate because model wall time is not Radar processing time:
+The rate is `$1.75/M` uncached input, `$0.175/M` cached input and `$14/M` output. Reasoning tokens already sit inside output tokens and are not charged twice.
 
 <table>
   <thead>
-    <tr><th>Scale and path</th><th>p95 local latency</th><th>Model tokens</th></tr>
+    <tr><th>Project scale and task</th><th>Before reference cost</th><th>With <code>radar query</code></th><th>Change</th></tr>
   </thead>
   <tbody>
-    <tr><td>841 files, fresh lexical query</td><td>11.617 ms</td><td>0</td></tr>
-    <tr><td>841 files, resident lexical query</td><td>1.800 ms</td><td>0</td></tr>
-    <tr><td>10,201 files, fresh verified route</td><td>2.795 ms</td><td>0</td></tr>
-    <tr><td>10,201 files, resident exact route</td><td>10.898 ms</td><td>0</td></tr>
-    <tr><td>10,201 files, resident lexical query</td><td>12.847 ms</td><td>0</td></tr>
-    <tr><td>10,201 files, fresh uncached lexical query</td><td>137.308 ms</td><td>0</td></tr>
+    <tr><td>12 files, exact storage location</td><td>$0.008820</td><td>$0.008184</td><td>7.2% lower</td></tr>
+    <tr><td>12 files, caller trace</td><td>$0.010137</td><td>$0.009500</td><td>6.3% lower</td></tr>
+    <tr><td>12 files, subsystem orientation</td><td>$0.038593</td><td>$0.008286</td><td>78.5% lower</td></tr>
+    <tr><td>300 files, cold literal lookup</td><td>$0.007730</td><td>$0.008120</td><td>5.0% higher</td></tr>
+    <tr><td>300 files, semantic package hub</td><td>$0.038024</td><td>$0.007131</td><td>81.2% lower</td></tr>
+    <tr><td>300 files, deep semantic package hub</td><td>$0.044884</td><td>$0.007729</td><td>82.8% lower</td></tr>
+    <tr><td>800 files, cold literal lookup</td><td>$0.007353</td><td>$0.007458</td><td>1.4% higher</td></tr>
+    <tr><td><strong>Sum of task medians</strong></td><td><strong>$0.155542</strong></td><td><strong>$0.056409</strong></td><td><strong>63.7% lower</strong></td></tr>
   </tbody>
 </table>
 
-![Radar local query latency benchmark](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@5a30a721f951255c34e8ed4de4bbdeb13eab1aca/content/assets/how-i-hacked-my-token-cost-burnt/radar-query-latency.png)
+![Radar reference token cost benchmark](/assets/how-i-hacked-my-token-cost-burnt/radar-token-cost.png)
 
-Verified routes and every resident query stay below the `50 ms` p95 target at 10,201 files. A brand-new process doing an uncached lexical lookup is the explicit exception: it loads the full index and reaches `137.308 ms` p95. Still zero tokens, but not sub-50 ms, so it gets hatched in the chart.
+The two higher-cost literal rows stay in the chart. The result is not "Radar wins every prompt." The result is that repository orientation and semantic routing dominate the savings, while already-trivial literals define the no-win boundary.
 
-The charts are generated by Python from committed JSON/JSONL reports, not typed from a spreadsheet. Their black, white and gray palette follows this site's CSS, and DejaVu Sans Mono is the deterministic local match for the blog's monospace stack. [`BENCHMARKS.md`](https://github.com/sanix-darker/radar/blob/main/BENCHMARKS.md) documents the prompts, repetitions, expected anchors, hardware-facing local runs, exact cost formula and raw report paths. It is the place to inspect the measurement instead of trusting a clean white bar because i made it pretty.
+#### ROUTING QUALITY BEFORE SPEED
 
-### SO... ANOTHER AGENT FRAMEWORK ?
+The deterministic quality corpus contains 40 exact, semantic, caller, body-vocabulary, package and ambiguity queries over 10,000 source files:
+
+<table>
+  <thead>
+    <tr><th>Router</th><th>Top-1</th><th>Expected anchor retrieved</th><th>Estimated response tokens</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Previous Radar public-symbol baseline</td><td>2/40</td><td>2/40</td><td>4,042</td></tr>
+    <tr><td>TokenSave context command</td><td>2/40</td><td>5/40</td><td>8,421</td></tr>
+    <tr><td>Current Radar lexical router</td><td>37/40</td><td>40/40</td><td>835</td></tr>
+  </tbody>
+</table>
+
+Compared with the old Radar baseline, response volume fell `79.3%` while expected-anchor retrieval rose from `5%` to `100%`. The fresh-process quality run is `39.56 ms` p95.
+
+#### THE LOCAL ENGINE
+
+Model wall time is not Radar processing time, so the local binary has a separate 10,000-file gate:
+
+<table>
+  <thead>
+    <tr><th>Path</th><th>p95 local latency</th><th>Model tokens</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Fresh process, 40-query quality corpus</td><td>39.56 ms</td><td>0</td></tr>
+    <tr><td>Fresh process, verified route</td><td>35.75 ms</td><td>0</td></tr>
+    <tr><td>Fresh process, isolated lexical stress probe</td><td>53.97 ms</td><td>0</td></tr>
+    <tr><td>First resident lexical query</td><td>3.76 ms</td><td>0</td></tr>
+    <tr><td>Repeated resident lexical query</td><td>0.038 ms</td><td>0</td></tr>
+    <tr><td>Repeated resident exact route</td><td>0.044 ms</td><td>0</td></tr>
+    <tr><td>Resident metadata fallback</td><td>0.105 ms</td><td>0</td></tr>
+  </tbody>
+</table>
+
+![Radar local query latency benchmark](/assets/how-i-hacked-my-token-cost-burnt/radar-query-latency.png)
+
+The isolated fresh lexical stress probe is the only latest p95 above `50 ms`. The full 40-query quality corpus, verified routes, first resident requests and repeated resident requests are below the target. Server startup is `24.39 ms`, resident RSS is `14,156 KiB`, and the complete tool schema is `387` bytes.
+
+The charts are generated by Python from committed JSON/JSONL reports, not typed from a spreadsheet. [`BENCHMARKS.md`](https://github.com/Sanix-Darker/radar/blob/main/BENCHMARKS.md) documents the prompts, repetitions, expected anchors, hardware-facing local runs, exact cost formula, reproduction commands and raw report paths for readers with repository access.
+
+### SO... ANOTHER AGENT FRAMEWORK?
 
 Nope. Please no. The world has enough frameworks asking for seven folders, three philosophies, a council of agents, then a meeting about the council.
 
-Radar needs no daemon, but it is alpha. Tiny repos can save input while still losing wall time to model startup, unsupported languages get no semantic extraction, and purpose prose still needs a human or host agent. Better saying it here before someone opens an issue in ALL CAPS.
+Radar needs no daemon, no API key and no model, but it is still alpha. Tiny repos can save input while losing wall time to model startup. Unsupported languages get no semantic extraction. A rare cold lexical stress case still crosses `50 ms`. Purpose prose still needs a human or the external command you explicitly choose.
 
-The goal is smaller: make expensive agents spend tokens on the change, review and tests, not on discovering `src/auth/jwt/handler.rs` four times. Yvan had the right first-five-minutes idea. I just broke the map into nodes, added hashes and routes, then got slightly too interested in the invoice.
+The goal is smaller: make expensive agents spend tokens on the change, review and tests, not on discovering the same source file four times. The code and benchmark receipts live in [**radar**](https://github.com/Sanix-Darker/radar); ask me for repository access if you want to inspect or test it.
 
-The code lives in [**radar**](https://github.com/sanix-darker/radar). It is private on purpose; request access and i will add you to the project instead of giving every public AI scraper a free clone. `radar map` is the pitch. Everything after that is me refusing to pay for the same `grep` again.
+`radar map` builds the dots. `radar query` finds the route. Source still answers.
 
 ---

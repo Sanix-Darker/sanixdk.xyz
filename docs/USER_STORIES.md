@@ -1,219 +1,163 @@
-# USER STORIES — sanixdk.xyz
+# USER STORIES - sanixdk.xyz
 
-Each user story is paired with an ID matching the row in
-[`FEATURE_MATRIX.md`](./FEATURE_MATRIX.md). "Expected" describes the
-post-fix behaviour the audit considers correct, not necessarily what the
-code does today. Section headings are identical to the matrix.
+Each story maps to the matching ID in
+[`FEATURE_MATRIX.md`](./FEATURE_MATRIX.md). The contracts below describe the
+current intended behavior and are exercised by `make e2e`.
 
----
+## Personas
 
-## Persona recap
-- **Visitor (V)** — anonymous reader browsing the site.
-- **Author (A)** — site owner pushing a new blog post or fix.
-- **Maintainer (M)** — someone running `make build` / `make up`.
+- **Visitor (V)** reads and navigates the generated site.
+- **Author (A)** adds or edits Markdown content.
+- **Maintainer (M)** builds, tests, or deploys the site.
 
----
+## A. Build pipeline
 
-## A · Build Pipeline
+**B-01 / B-02 - Builder CLI**
 
-**B-01 / B-02 — Compile & CLI dispatch**
-- *As an M, when I run `make compile`, the `builder` binary should compile
-  silently (`gcc -pipe -Wall -s`) with zero warnings and be executable.*
-- *As an M, `./builder build` should produce a complete `./public/` tree;
-  `./builder serve` should print `NOT IMPLEMENTED YET !` (no plan to
-  implement); any other argument should print `? Usage: ./builder
-  build|serve` to stdout and exit non-zero.*
+- As an M, `make compile` should build `./builder` with no compiler warnings.
+- As an M, missing arguments, unknown commands, and the unimplemented `serve`
+  command should fail with useful guidance.
 
-**B-03 — Metadata → blog-list HTML**
-- *As a V, when I visit `/blogs/`, the page should show every entry in
-  `content/metadatas.txt` as a card with:*
-  - *a triangle-shaped background using the per-blog `image` URL as the
-    `--bg-image` custom property,*
-  - *the blog title linking to its permalink,*
-  - *the publication date and the read-time string,*
-  - *every tag rendered as its own pill (comma-separated in metadata).*
-- Expected: 26 cards render today.
+**B-03 - Blog index**
 
-**B-04 — Component injection**
-- *As an M, when I run a clean build, every `.md` under content should
-  end up wrapped by the right header + footer for its directory:*
-  - *Top-level (e.g. `index.md`, `about.md`) → `header.md` + content + `footer.md`.*
-  - *Blog posts → `blog-header.md` (with template `%s` placeholders filled
-    by per-blog metadata) + content + `comment-footer.md` + `footer.md`.*
-  - *Any `.md` under `projects/` → header + content + footer (TODO: explicit
-    projects support).*
+- As a V, `/blogs/` should show one card for each of the 25 entries in
+  `content/metadatas.txt`.
+- Each card should include its image, permalink, publication date, read time,
+  and individual tag pills.
 
-**B-05 — Markdown → HTML**
-- *As an M, after a build, every `.md` should have a corresponding
-  `.html` in `public/` with the same path layout (`content/blogs/foo.md` →
-  `public/blogs/foo.html`).*
-- *As a V, the rendered HTML should match standard CommonMark (md4c
-  parses), with no time spent on wrapping JS bundles.*
+**B-04 / B-05 - Components and rendering**
 
-**B-06 — Static asset copy**
-- *As an M, when I run `make build`, public should contain a full
-  `assets/` directory mirror of `content/assets/` (recursive cp).*
-- *As a V, every page's `<link rel="stylesheet" href="/assets/style.css">`
-  should resolve with HTTP 200 (after **B-06** is fixed).*
+- As an A, top-level Markdown should receive the shared header and footer.
+- Blog posts and nested project pages should receive the metadata-aware blog
+  header, comment footer, and shared footer.
+- As an M, each content Markdown file should produce a matching HTML file
+  under `public/`.
 
-**B-07 — Minification**
-- Expected: only CSS is minified (newline/whitespace collapse outside
-  rule blocks). JS is **left untouched** — script blocks in
-  `comment-footer.md` rely on multi-line syntax to ship correctly.
-- Today: minifier rewrites both `.js` and `.css` by removing every
-  trailing `\n\r` → JavaScript sources shipped in `<script>` blocks are
-  flattened and any parser/POSIX-edge becomes a SyntaxError.
+**B-06 / B-07 - Assets and minification**
 
-**B-08 — RSS 2.0 feed**
-- *As a V, hitting `/feed.xml` should return valid RSS 2.0 with the
-  channel meta (`title`, `link`, `description`, `language`,
-  `lastBuildDate`, `ttl=60`) and one `<item>` per blog post, newest
-  first by `date`. Entities `<>&'\"` must be escaped. Each `<link>` and
-  `<guid>` must resolve to the canonical absolute URL.*
+- As a V, `/assets/style.css`, the favicon, and content assets should be
+  present after a clean build.
+- CSS may be flattened. JavaScript and inline scripts must keep their
+  line structure.
 
-**B-09 — Per-blog meta header**
-- *As an M, after a build, every blog HTML head should show the
-  per-blog metadata interpolated into 9 placeholders of
-  `blog-header.md`:*
-  - *title,*
-  - *2× permalink usages (og:url, twitter:url),*
-  - *2× title-tag usages (og:title, twitter:title),*
-  - *2× image usages (og:image, twitter:card),*
-  - *1× title used in <title> element.*
-- Expected: zero memory leak, zero stack buffer overflow potential.
+**B-08 - RSS**
 
-**B-10 — Metadata parser**
-- *As an M, every blank-line-bounded entry in `metadata.txt` should
-  populate ONE `EntryMap` slot with `path`, `link`, `title`, `image`,
-  `date`, **`tags`**, **`time`**, plus the `filename` key.*
-- Today: `tags` and `time` are written into `currentEntry` but never
-  copied into `entryMap[*].entry`, so `entry.tags` and `entry.time`
-  fields are always empty in lookups.
+- As a V, `/feed.xml` should be valid RSS 2.0 with exactly 25 items, newest
+  first.
+- Channel metadata and item URLs should be complete, absolute, and XML
+  escaped.
+- The final metadata entry must be emitted even when the input file has no
+  trailing blank line.
 
-**B-11 / B-12 / B-13** — robustness.
+**B-09 / B-10 - Metadata**
 
----
+- As an M, each blog head should populate exactly nine dynamic values:
+  the HTML title, two canonical post URLs, four title or description values,
+  and two image values. `twitter:card` remains the static
+  `summary_large_image` value.
+- As an A, each metadata entry should preserve path, link, title, image, date,
+  tags, time, and filename using bounded, null-terminated fields.
 
-## B · Front-end UX
+**B-11 / B-12 / B-13 - Reliability**
 
-**F-01 — Home animation**
-- *As a V, on first paint I should see the dark terminal-themed home
-  with the H1 "HI, AM SANIX" rendered with a `#` prefix and a typing
-  animation. Headings should pick up the funny `/*...*/`, `// `, `~ `,
-  `--- ` decorative prefixes from CSS.*
+- As an M, content-to-public path conversion should reject truncation instead
+  of writing past a fixed buffer.
+- Missing required templates should stop the build with a non-zero exit.
+- A completed build should leave tracked files under `content/` unchanged.
 
-**F-02 / F-06 — Terminal input**
-- *As a V, focusing the input and pressing Enter once should:*
-  - *echo the typed command prefixed by `you@sanixdk:~$`,*
-  - *print `command not found: X` if X is not registered,*
-  - *clear the input field.*
-- *As a V, hitting Enter on a real command should call the async
-  handler **exactly once** — no duplicate output.*
-- Today: handlers pile up because there are two
-  `addEventListener('keypress', …)` blocks running without
-  `removeEventListener` succeeding on the first one, so the second
-  `addEventListener` is added in addition to the first.
+## B. Front-end
 
-**F-03 — `clear`**
-- *As a V, after typing `clear` and Enter, `#terminalOutput` should be
-  empty.*
+**F-01 - Home presentation**
 
-**F-04 / F-05 — Live data**
-- *As a V, on DOMContentLoaded the GitHub and WakaTime fetchers start
-  with "Loading …" placeholders, then swap in real numbers once the
-  JSON / WakaTime-section parse succeeds.*
-- Failure mode today: any API hiccup leaves the persistent "Loading
-  GitHub data…" copy because there's no error replacement.
+- As a V, the home page should keep its lightweight terminal style and typing
+  heading without loading a client framework.
 
-**F-08 — Blogs list**
-- *As a V, all 26 cards visible at `/blogs/`, newest first, clickable
-  with smooth hover transitions.*
+**F-02 / F-03 / F-06 - Terminal**
 
-**F-09 — Search**
-- *Decision required:*
-  - **Revive**: enable a search input on `/blogs/`, filter cards live
-    on `input`, support both title and tag search, show "no posts
-    found matching your search" empty state.
-  - **Remove**: delete the dead JS in `footer.md`, delete the dead
-    comment in `lib.c`, delete the empty `search-script.md`.
+- As a V, Enter should execute one command through one `keydown` listener.
+- Command echoes should be HTML escaped and normalized to the same lowercase
+  value used for lookup.
+- `clear` should empty the output.
+- `help` should list local and live-data commands.
 
-**F-10 — About**
-- *As a V, hitting `/about` returns a small page with the developer's
-  dev-stack image and pointer back to a Substack article.*
+**F-04 / F-05 - Live data**
 
-**F-11 — Projects**
-- *As a V, hitting `/projects` returns a card grid (post-fix) of all
-  the projects with name, description, language tag.*
+- As a V, GitHub and WakaTime data should load when their external endpoints
+  are available.
+- If either endpoint fails or returns an invalid payload, its section should
+  replace the loading copy with a visible retry hint.
 
-**F-12 — TOC on blog posts**
-- *As a V, on any blog post page that contains a
-  `<div id="toc-container">`, the JS should populate it with a nested
-  UL pointing at the headings via anchor links.*
+**F-07 - Navigation**
 
-**F-13 — Syntax highlighting**
-- *As a V, every `<pre><code class="language-*">` block should be
-  highlighted using the github-dark theme after the network loads
-  `highlight.min.js@11.9.0`.*
+- As a V, every shared header should expose home, blogs, projects, and about
+  links.
 
-**F-14 — Giscus comments**
-- *As a V, the `[<< blogs]` backlink appears, then the giscus iframe
-  loads at the bottom of the post. Discussions should map to pathname
-  so each post has a unique thread.*
+**F-08 / F-09 - Blog discovery**
 
-**F-15 — Per-post meta tags**
-- *As a V (or a search engine), embed cards and twitter:card share
-  previews should embed the post's title and cover image.*
+- As a V, `/blogs/` should show all 25 cards, with a two-column layout on wide
+  screens.
+- Typing in search should filter by title and tags, update an accessible
+  counter, show an empty state when needed, and reset on Escape.
 
-**F-16 — Lazy-loaded images**
-- *As a V on a slow connection, hero images should not block first
-  paint; everything except the LCP candidate should be `loading="lazy"`
-  with `decoding="async"`. Apply throughout blog bodies and code blocks
-  that include screenshots.*
+**F-10 / F-11 - Static pages**
 
-**F-17 — Reduced-motion support**
-- *As a V with `prefers-reduced-motion: reduce`, decorative animations
-  and transitions should collapse to ≤ 0 ms. Critical-UI motion
-  (typing) should continue, or be replaced by an instant-render
-  fallback.*
+- As a V, `/about` should render the author profile and links.
+- As a V, `/projects` should show four lightweight project nodes for shhx.dev,
+  Radar, ector, and s2c without screenshots, JavaScript, or runtime fetches.
 
-**F-18 — Focus rings**
-- *As a keyboard V, focus indicators on links / form inputs should
-  remain visible — never `outline: 0` without an alternative.*
+**F-12 / F-13 / F-14 - Blog enhancements**
 
-**F-19 — Skip-to-content link**
-- *As a screen-reader V on the home page, the first focusable element
-  should jump me past the navigation block to the main content.*
+- As a V, posts with `#toc-container` should receive a generated nested table
+  of contents.
+- Code blocks should use the GitHub-dark highlight.js theme when its CDN is
+  reachable.
+- Giscus comments should map discussions by pathname.
 
----
+**F-15 / F-16 - Sharing and images**
 
-## C · Operational
+- As a crawler, each post should expose populated Open Graph and Twitter
+  metadata.
+- As a V, Markdown images and raw article images should use lazy loading and
+  asynchronous decoding where appropriate.
 
-**O-01 — Dockerfile**
-- *As an M, `make docker-build` should yield an image that runs nginx
-  on 80 and serves a fully-styled site even on a clean clone.*
+**F-17 / F-18 / F-19 - Accessibility**
 
-**O-02 — nginx**
-- *As a V, blog pages should be served gzip-precompressed where the
-  build emits `.gz` siblings. If we ship without precompression, drop
-  `gzip_static on`.*
+- Reduced-motion preferences should disable decorative animation and
+  transitions.
+- Keyboard focus should remain visible.
+- The first focusable link should skip directly to `<main id="main">`.
 
-**O-04 / O-08** — Makefile + README consistency.
+## C. Operations
 
-**O-05 — CI**
-- *On each push, the workflow installs gcc + make, compiles, and
-  builds. Build artefacts are not deployed (intentional).*
+**O-01 / O-02 / O-03 - Container serving**
 
-**O-06 — robots.txt**
-- *`robots.txt` should be valid: each `Disallow:` directive takes a
-  path or nothing; comments must be on their own lines.*
+- As an M, the multi-stage image should copy the complete generated `public/`
+  tree into nginx.
+- Nginx should use dynamic gzip and should not depend on absent `.gz` files.
+- `make up` should expose the site at `localhost:3003`; `make down` should stop
+  it.
 
----
+**O-04 / O-08 - Local commands**
 
-## Standards for "PASS"
+- As an M, the Makefile and README should document only commands that exist.
+- `prod` should update with a rebase and then run a clean build.
 
-A user story is **PASS** when:
-1. The behaviour matches the *Expected* line.
-2. The relevant row in `FEATURE_MATRIX.md` shows ✅.
-3. An E2E browser run recorded the behaviour in `docs/TEST_LOG.md`.
+**O-05 - CI**
 
-Failure to satisfy any of the above means **PASS = false**.
+- As a contributor, pushes and pull requests should run the complete E2E
+  harness and upload `docs/TEST_LOG.md` as an artifact.
+
+**O-06 / O-07 - Generated content**
+
+- As a crawler, `robots.txt` should contain valid directives with no inline
+  comments inside `Allow` or `Disallow` values.
+- As a contributor, generated HTML and `public/` should remain unversioned.
+
+## Passing a story
+
+A story passes when:
+
+1. Its generated behavior matches this document.
+2. Its matrix row is green or has an explicit external-service caveat.
+3. `make e2e` records PASS, or SKIP only for a documented external/manual
+   dependency.

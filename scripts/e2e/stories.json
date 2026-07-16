@@ -11,22 +11,22 @@
     "id": "B-02",
     "section": "A",
     "type": "build",
-    "prompt": "./builder 2>&1 ; echo EXIT=$? ; ./builder bogus 2>&1 ; echo EXIT=$?",
-    "pass_criteria": "./builder with no arg prints '? Usage' and exits non-zero; ./builder bogus prints '? Usage' and exits non-zero",
-    "notes": "Unknown-arg path returns EXIT_FAILURE"
+    "prompt": "if ./builder >/tmp/builder-no-arg.log 2>&1; then exit 1; fi; grep -q '? Usage' /tmp/builder-no-arg.log; if ./builder bogus >/tmp/builder-bogus.log 2>&1; then exit 1; fi; grep -q '? Usage' /tmp/builder-bogus.log; if ./builder serve >/tmp/builder-serve.log 2>&1; then exit 1; fi; grep -q 'not implemented' /tmp/builder-serve.log",
+    "pass_criteria": "Missing, unknown, and unimplemented serve commands all exit non-zero with useful guidance.",
+    "notes": "CLI failure paths"
   },
   {
     "id": "B-03",
     "section": "A",
     "type": "browser",
     "prompt": "Navigate to /blogs/ and report (a) the count of .blog-item elements; (b) whether the page renders any card titles by extracting the textContent of any h3.blog-title; (c) whether the search input is present.",
-    "pass_criteria": "26 blog-item cards rendered; at least one title visible; search input is present and visible.",
+    "pass_criteria": "25 blog-item cards rendered; at least one title visible; search input is present and visible.",
     "notes": "Minted from content/metadatas.txt",
     "fallback": {
       "checks": [
-        {"name": "blog_card_count", "url": "/blogs/", "regex": "class=\"blog-item\"", "min": 20},
-        {"name": "blog_title_anchors", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=\"/blogs/", "min": 20},
-        {"name": "search_input_present", "url": "/blogs/", "regex": "id=\"search-input\"", "min": 1}
+        {"name": "blog_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 25, "max": 25},
+        {"name": "blog_title_anchors", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/", "min": 25, "max": 25},
+        {"name": "search_input_present", "url": "/blogs/", "regex": "id=['\"]search-input['\"]", "min": 1}
       ]
     }
   },
@@ -34,18 +34,19 @@
     "id": "B-04",
     "section": "A",
     "type": "browser",
-    "prompt": "Visit /about/ and /blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3 and confirm both embed the shared nav links ([home] [blogs] [about]) and the skip-to-content link.",
-    "pass_criteria": "Both pages contain nav links and skip link; blog post has giscus script src.",
+    "prompt": "Visit /about/ and /blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3 and confirm both embed the shared home, blogs, projects, and about links plus the skip-to-content link.",
+    "pass_criteria": "Both pages contain the shared navigation and skip link; the blog post also has its main target and giscus script.",
     "notes": "Header/footer injection",
     "fallback": {
       "checks": [
-        {"name": "about_has_skip_link", "url": "/about", "regex": "<a [^>]*class=\"skip\"", "min": 1},
-        {"name": "about_has_home_link", "url": "/about", "regex": "href=\"/\"", "min": 1},
-        {"name": "about_has_blogs_link", "url": "/about", "regex": "href=\"/blogs\"", "min": 1},
-        {"name": "about_has_about_link", "url": "/about", "regex": "href=\"/about\"", "min": 1},
+        {"name": "about_has_skip_link", "url": "/about", "regex": "<a [^>]*class=['\"]skip['\"]", "min": 1},
+        {"name": "about_has_home_link", "url": "/about", "regex": "href=['\"]/['\"]", "min": 1},
+        {"name": "about_has_blogs_link", "url": "/about", "regex": "href=['\"]/blogs/['\"]", "min": 1},
+        {"name": "about_has_projects_link", "url": "/about", "regex": "href=['\"]/projects/['\"]", "min": 1},
+        {"name": "about_has_about_link", "url": "/about", "regex": "href=['\"]/about['\"]", "min": 1},
         {"name": "post_has_giscus_ref", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "giscus\\.app", "min": 1},
-        {"name": "post_has_main_id", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "id=\"main\"", "min": 1},
-        {"name": "post_has_skip_link", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "<a [^>]*class=\"skip\"", "min": 1}
+        {"name": "post_has_main_id", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "id=['\"]main['\"]", "min": 1},
+        {"name": "post_has_skip_link", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "<a [^>]*class=['\"]skip['\"]", "min": 1}
       ]
     }
   },
@@ -78,13 +79,13 @@
     "section": "A",
     "type": "browser",
     "prompt": "curl /feed.xml and report the number of <item> elements and whether <channel> contains <title>, <link>, <description>, <language>, <lastBuildDate>, <ttl>.",
-    "pass_criteria": "Exactly 26 <item> elements; all 6 channel meta fields present; newest first.",
+    "pass_criteria": "Exactly 25 <item> elements; all 6 channel meta fields present; newest first.",
     "notes": "RSS 2.0 feed",
     "fallback": {
       "checks": [
         {"name": "feed_root_is_rss", "url": "/feed.xml", "regex": "<rss", "min": 1},
         {"name": "feed_has_channel", "url": "/feed.xml", "regex": "<channel>", "min": 1},
-        {"name": "feed_has_at_least_25_items", "url": "/feed.xml", "regex": "<item>", "min": 25},
+        {"name": "feed_has_exactly_25_items", "url": "/feed.xml", "regex": "<item>", "min": 25, "max": 25},
         {"name": "feed_channel_title_present", "url": "/feed.xml", "regex": "<title>[^<]+</title>", "min": 1},
         {"name": "feed_channel_link_present", "url": "/feed.xml", "regex": "<link>[^<]+</link>", "min": 1},
         {"name": "feed_channel_description_present", "url": "/feed.xml", "regex": "<description>[^<]+</description>", "min": 1},
@@ -98,8 +99,8 @@
     "id": "B-09",
     "section": "A",
     "type": "build",
-    "prompt": "grep -c '<title>sanix |' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'twitter:card' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'og:image' public/blogs/asymetric-encryption-of-your-clipboard.html",
-    "pass_criteria": "<title> per blog post; og:image + twitter:card meta tags present.",
+    "prompt": "grep -c '<title>sanix |' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c \"twitter:card' content='summary_large_image\" public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'twitter:image' public/blogs/asymetric-encryption-of-your-clipboard.html ; grep -c 'og:image' public/blogs/asymetric-encryption-of-your-clipboard.html",
+    "pass_criteria": "<title> per blog post; og:image, twitter:image and summary_large_image card tags present.",
     "notes": "9 placeholders rendered"
   },
   {
@@ -114,9 +115,9 @@
     "id": "B-11",
     "section": "A",
     "type": "build",
-    "prompt": "ls public/ ; ls public/blogs/ | head -5",
-    "pass_criteria": "public/ has subdirs (blogs, projects, components, assets).",
-    "notes": "replaceString proves safe"
+    "prompt": "test -d public/blogs && test -d public/projects && test -d public/components && test -d public/assets && ! grep -q 'void replaceString' lib/lib.c && grep -q 'output_path_for_markdown' lib/lib.c",
+    "pass_criteria": "Expected output directories exist and checked path derivation replaced the unbounded string rewriter.",
+    "notes": "Bounded output-path derivation"
   },
   {
     "id": "B-12",
@@ -130,8 +131,8 @@
     "id": "B-13",
     "section": "A",
     "type": "build",
-    "prompt": "make build 2>&1 | tail -3 ; git status ./content/ | head -3",
-    "pass_criteria": "Build exits 0; git status shows content/ unchanged (Makefile's git restore restores it).",
+    "prompt": "before=$(git status --porcelain -- content); make build >/tmp/sanixdk-e2e-build.log 2>&1; after=$(git status --porcelain -- content); test \"$before\" = \"$after\"",
+    "pass_criteria": "Build exits 0 and leaves the tracked content working-tree state unchanged.",
     "notes": "Build reproducibility"
   },
   {
@@ -143,7 +144,7 @@
     "notes": "Home heading animation",
     "fallback": {
       "checks": [
-        {"name": "home_h1_typing_class", "url": "/", "regex": "<h1[^>]*class=\"[^\"]*typing[^\"]*\"", "min": 1},
+        {"name": "home_h1_typing_class", "url": "/", "regex": "<h1[^>]*class=['\"][^'\"]*typing[^'\"]*['\"]", "min": 1},
         {"name": "home_h1_hi_text", "url": "/", "regex": ">\\s*HI", "min": 1},
         {"name": "home_css_uses_monospace", "url": "/assets/style.css", "regex": "Courier|monospace", "min": 1},
         {"name": "home_css_has_dark_terminal_vars", "url": "/assets/style.css", "regex": "--bg|background[^;]*0,0,0|#[0-3][0-3][0-3][0-3][0-3][0-3]", "min": 1}
@@ -205,8 +206,8 @@
     "notes": "Case-mismatch echo",
     "fallback": {
       "checks": [
-        {"name": "home_js_toLowerCase_on_echo", "url": "/", "regex": "toLowerCase\\(\\)", "min": 1},
-        {"name": "home_terminal_input_value_read", "url": "/", "regex": "terminalInput\\.value", "min": 1}
+        {"name": "home_js_toLowerCase_on_echo", "url": "/", "regex": "this\\.value\\.trim\\(\\)\\.toLowerCase\\(\\)", "min": 1},
+        {"name": "home_echoes_normalized_command", "url": "/", "regex": "\\$\\{echoedCommand\\}", "min": 1}
       ]
     }
   },
@@ -214,12 +215,15 @@
     "id": "F-07",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit / and confirm the nav contains [home] [blogs] [about] in that order, prefixed by code-block backets.",
-    "pass_criteria": "Three nav links keyed to /, /blogs/, /about visible.",
+    "prompt": "Visit / and confirm the nav contains [home] [blogs] [projects] [about] in that order.",
+    "pass_criteria": "Four nav links keyed to /, /blogs/, /projects/, /about are visible.",
     "notes": "Header navigation",
     "fallback": {
       "checks": [
-        {"name": "home_has_three_nav_anchors", "url": "/", "regex": "href=\"/\"|href=\"/blogs\"|href=\"/about\"", "min": 3}
+        {"name": "home_has_home_anchor", "url": "/", "regex": "href=['\"]/['\"]", "min": 1},
+        {"name": "home_has_blogs_anchor", "url": "/", "regex": "href=['\"]/blogs/['\"]", "min": 1},
+        {"name": "home_has_projects_anchor", "url": "/", "regex": "href=['\"]/projects/['\"]", "min": 1},
+        {"name": "home_has_about_anchor", "url": "/", "regex": "href=['\"]/about['\"]", "min": 1}
       ]
     }
   },
@@ -228,12 +232,12 @@
     "section": "B",
     "type": "browser",
     "prompt": "Visit /blogs/ and report (a) how many .blog-item cards render; (b) the post titles' first 3.",
-    "pass_criteria": "26 cards render. First title visible.",
+    "pass_criteria": "25 cards render. First title visible.",
     "notes": "Blogs list rendering",
     "fallback": {
       "checks": [
-        {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=\"blog-item\"", "min": 20},
-        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=\"/blogs/[a-z0-9-]+\\b", "min": 20}
+        {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 25, "max": 25},
+        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 25, "max": 25}
       ]
     }
   },
@@ -241,15 +245,16 @@
     "id": "F-09",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /blogs/. Locate the #search-input. Type 'go' into it (use page.keyboard.type). After 1s, report the textContent of #search-count and the number of .blog-item.is-hidden cards. Then clear by pressing Escape and confirm the count returns to 26 posts.",
-    "pass_criteria": "After typing 'go', search-count includes 'match' and is-hidden count > 0. After ESC, search-count reads '26 posts' and is-hidden count = 0.",
+    "prompt": "Visit /blogs/. Locate the #search-input. Type 'go' into it (use page.keyboard.type). After 1s, report the textContent of #search-count and the number of .blog-item.is-hidden cards. Then clear by pressing Escape and confirm the count returns to 25 posts.",
+    "pass_criteria": "After typing 'go', search-count includes 'match' and is-hidden count > 0. After ESC, search-count reads '25 posts' and is-hidden count = 0.",
     "notes": "Live search filter + ESC",
     "fallback": {
       "checks": [
-        {"name": "blogs_has_search_input", "url": "/blogs/", "regex": "id=\"search-input\"", "min": 1},
-        {"name": "blogs_has_search_count", "url": "/blogs/", "regex": "id=\"search-count\"", "min": 1},
+        {"name": "blogs_has_search_input", "url": "/blogs/", "regex": "id=['\"]search-input['\"]", "min": 1},
+        {"name": "blogs_has_search_count", "url": "/blogs/", "regex": "id=['\"]search-count['\"]", "min": 1},
         {"name": "blogs_uses_is_hidden_class", "url": "/blogs/", "regex": "is-hidden", "min": 1},
-        {"name": "blogs_escape_key_handler", "url": "/blogs/", "regex": "key\\s*===?\\s*['\"]Escape['\"]|Escape", "min": 1}
+        {"name": "blogs_escape_key_handler", "url": "/blogs/", "regex": "key\\s*===?\\s*['\"]Escape['\"]|Escape", "min": 1},
+        {"name": "blogs_script_not_markdown_code", "url": "/blogs/", "regex": "<pre><code>const searchCount", "min": 0, "max": 0}
       ]
     }
   },
@@ -262,7 +267,7 @@
     "notes": "About page",
     "fallback": {
       "checks": [
-        {"name": "about_returns_main_section", "url": "/about", "regex": "id=\"main\"|<main", "min": 1},
+        {"name": "about_returns_main_section", "url": "/about", "regex": "id=['\"]main['\"]|<main", "min": 1},
         {"name": "about_has_h1_or_substack", "url": "/about", "regex": "<h1|substack|substack\\.com", "min": 1}
       ]
     }
@@ -271,13 +276,17 @@
     "id": "F-11",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /projects and report whether the page exists and what its primary content section reads.",
-    "pass_criteria": "/projects returns 200; the page lists projects (raw markdown acceptable today per F-11 spec).",
-    "notes": "Projects list",
+    "prompt": "Visit /projects and report the four lightweight project cards and their destinations.",
+    "pass_criteria": "/projects returns 200 and shows exactly four project nodes for shhx.dev, Radar, ector, and s2c.",
+    "notes": "Project showcase",
     "fallback": {
       "checks": [
-        {"name": "projects_returns_main_section", "url": "/projects", "regex": "id=\"main\"|<main", "min": 1},
-        {"name": "projects_has_h1_or_listing", "url": "/projects", "regex": "<h1|project", "min": 1}
+        {"name": "projects_returns_main_section", "url": "/projects", "regex": "id=['\"]main['\"]|<main", "min": 1},
+        {"name": "projects_has_four_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 4, "max": 4},
+        {"name": "projects_has_shhx", "url": "/projects", "regex": "https://shhx\\.dev", "min": 1},
+        {"name": "projects_has_radar", "url": "/projects", "regex": "how-i-hacked-my-token-cost-burnt", "min": 1},
+        {"name": "projects_has_ector", "url": "/projects", "regex": "https://ector\\.sanixdk\\.xyz", "min": 1},
+        {"name": "projects_has_s2c", "url": "/projects", "regex": "https://s2c\\.sanixdk\\.xyz", "min": 1}
       ]
     }
   },
@@ -291,7 +300,7 @@
     "fallback": {
       "checks": [
         {"name": "toc_div_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"", "min": 1},
-        {"name": "toc_includes_nested_ul", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"[^>]*>[^<]*<ul|toc-container[^>]*>[\\s\\S]*?<ul", "min": 1}
+        {"name": "toc_builder_is_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "headingSelectors|tocContainer\\.innerHTML", "min": 2}
       ]
     }
   },
@@ -331,8 +340,8 @@
     "notes": "Per-post meta tags",
     "fallback": {
       "checks": [
-        {"name": "post_has_og_image_meta", "url": "/blogs/how-i-fixed-git-reflog", "regex": "property=\"og:image\"", "min": 1},
-        {"name": "post_has_twitter_card_meta", "url": "/blogs/how-i-fixed-git-reflog", "regex": "name=\"twitter:card\"", "min": 1}
+        {"name": "post_has_og_image_meta", "url": "/blogs/how-i-fixed-git-reflog", "regex": "property=['\"]og:image['\"]", "min": 1},
+        {"name": "post_has_twitter_card_meta", "url": "/blogs/how-i-fixed-git-reflog", "regex": "name=['\"]twitter:card['\"]", "min": 1}
       ]
     }
   },
@@ -387,8 +396,8 @@
     "notes": "Skip-to-content link",
     "fallback": {
       "checks": [
-        {"name": "home_has_skip_anchor", "url": "/", "regex": "<a [^>]*class=\"skip\"[^>]*href=\"#main\"", "min": 1},
-        {"name": "home_has_main_target", "url": "/", "regex": "id=\"main\"", "min": 1}
+        {"name": "home_has_skip_anchor", "url": "/", "regex": "<a [^>]*class=['\"]skip['\"][^>]*href=['\"]#main['\"]", "min": 1},
+        {"name": "home_has_main_target", "url": "/", "regex": "id=['\"]main['\"]", "min": 1}
       ]
     }
   },
@@ -397,38 +406,38 @@
     "section": "C",
     "type": "skip",
     "prompt": "Manual Docker check required",
-    "pass_criteria": "(skipped — Docker unavailable in sandbox)",
+    "pass_criteria": "(skipped - Docker unavailable in sandbox)",
     "notes": "Docker build ×copy fixed in BG-01; O-01 follow-up still HIGH (BG-14)"
   },
   {
     "id": "O-02",
     "section": "C",
     "type": "build",
-    "prompt": "grep -E 'gzip' nginx.conf",
-    "pass_criteria": "nginx.conf contains 'gzip' (gzip_static or gzip on directives).",
-    "notes": "nginx config"
+    "prompt": "grep -qE '^[[:space:]]*gzip[[:space:]]+on;' nginx.conf && ! grep -q 'gzip_static' nginx.conf",
+    "pass_criteria": "nginx uses dynamic gzip and does not require missing precompressed siblings.",
+    "notes": "nginx compression"
   },
   {
     "id": "O-04",
     "section": "C",
     "type": "build",
-    "prompt": "grep -E '^serve:|^prod:' Makefile",
-    "pass_criteria": "Makefile serve and prod targets are syntactically valid; './builder serve' path used.",
+    "prompt": "grep -q './builder serve' Makefile && grep -q 'git pull --rebase --autostash' Makefile && ! grep -q './sdk serve\\|git update' Makefile",
+    "pass_criteria": "Makefile uses the real builder path and a valid rebase-based update command.",
     "notes": "Makefile targets"
   },
   {
     "id": "O-05",
     "section": "C",
     "type": "build",
-    "prompt": "head -20 .github/workflows/ci.yml",
-    "pass_criteria": "CI yaml references gcc/make; ends with no deploy step.",
-    "notes": "CI workflow"
+    "prompt": "grep -q 'pull_request:' .github/workflows/ci.yml && grep -q 'make e2e' .github/workflows/ci.yml",
+    "pass_criteria": "CI runs the complete E2E suite for pushes and pull requests.",
+    "notes": "CI workflow triggers and tests"
   },
   {
     "id": "O-06",
     "section": "C",
     "type": "build",
-    "prompt": "cat content/robots.txt ; echo --- ; python3 -m http.server ${E2E_PORT:-8123} --bind 127.0.0.1 >/dev/null 2>&1 </dev/null & disown",
+    "prompt": "grep -q '^User-agent: \\*$' content/robots.txt && grep -q '^Allow: /$' content/robots.txt && ! grep -Eq '^[[:space:]]*(Allow|Disallow):[^#]*#' content/robots.txt",
     "pass_criteria": "robots.txt contains valid Disallow: directives and no inline '#' inside directives.",
     "notes": "robots.txt valid directives"
   },
@@ -436,7 +445,7 @@
     "id": "O-08",
     "section": "C",
     "type": "build",
-    "prompt": "grep -E 'make (up|compose|down|build)' README.md | head -5",
+    "prompt": "grep -q 'make build' README.md && grep -q 'make e2e' README.md && grep -q 'make up' README.md && ! grep -q 'make compose' README.md",
     "pass_criteria": "README documents `make up` (not `make compose`).",
     "notes": "README consistency"
   }
