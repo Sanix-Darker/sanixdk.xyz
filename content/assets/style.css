@@ -657,7 +657,8 @@ img { max-width: 100%; height: auto }
 @media (max-width: 991px) {
   .container, main, nav { padding: 0 1.5rem }
   h1 { font-size: 2.5rem }
-  .project-grid, .blog-grid { grid-template-columns: repeat(2, 1fr) }
+  /*.blog-grid */
+  .project-grid { grid-template-columns: repeat(2, 1fr) }
   .about-section, .hero { grid-template-columns: 1fr; padding: 3rem 0 }
   .gap-md { gap: 1.5rem }
   .gap-lg { gap: 2rem }
