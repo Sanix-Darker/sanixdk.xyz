@@ -102,8 +102,9 @@ current intended behavior and are exercised by `make e2e`.
 **F-10 / F-11 - Static pages**
 
 - As a V, `/about` should render the author profile and links.
-- As a V, `/projects` should show four lightweight project nodes for shhx.dev,
-  Radar, ector, and s2c without screenshots, JavaScript, or runtime fetches.
+- As a V, `/projects` should show ten lightweight nodes: four deployed projects
+  and six public repositories, without screenshots, JavaScript, or runtime
+  fetches.
 
 **F-12 / F-13 / F-14 - Blog enhancements**
 

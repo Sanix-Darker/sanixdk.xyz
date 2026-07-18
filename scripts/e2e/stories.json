@@ -277,17 +277,23 @@
     "id": "F-11",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /projects and report the four lightweight project cards and their destinations.",
-    "pass_criteria": "/projects returns 200 and shows exactly four project nodes for shhx.dev, Radar, ector, and s2c.",
+    "prompt": "Visit /projects and report the ten lightweight project cards and their destinations.",
+    "pass_criteria": "/projects returns 200 and shows four deployed projects plus six public repositories.",
     "notes": "Project showcase",
     "fallback": {
       "checks": [
         {"name": "projects_returns_main_section", "url": "/projects", "regex": "id=['\"]main['\"]|<main", "min": 1},
-        {"name": "projects_has_four_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 4, "max": 4},
+        {"name": "projects_has_ten_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 10, "max": 10},
         {"name": "projects_has_shhx", "url": "/projects", "regex": "https://shhx\\.dev", "min": 1},
-        {"name": "projects_has_radar", "url": "/projects", "regex": "how-i-hacked-my-token-cost-burnt", "min": 1},
+        {"name": "projects_has_zollo", "url": "/projects", "regex": "https://zollo\\.sanixdk\\.xyz", "min": 1},
         {"name": "projects_has_ector", "url": "/projects", "regex": "https://ector\\.sanixdk\\.xyz", "min": 1},
-        {"name": "projects_has_s2c", "url": "/projects", "regex": "https://s2c\\.sanixdk\\.xyz", "min": 1}
+        {"name": "projects_has_s2c", "url": "/projects", "regex": "https://s2c\\.sanixdk\\.xyz", "min": 1},
+        {"name": "projects_has_gitmark", "url": "/projects", "regex": "sanix-darker/gitmark", "min": 1},
+        {"name": "projects_has_tchaka", "url": "/projects", "regex": "sanix-darker/tchaka", "min": 1},
+        {"name": "projects_has_git_ci", "url": "/projects", "regex": "sanix-darker/git-ci", "min": 1},
+        {"name": "projects_has_cisv", "url": "/projects", "regex": "sanix-darker/cisv-core", "min": 1},
+        {"name": "projects_has_prev", "url": "/projects", "regex": "sanix-darker/prev", "min": 1},
+        {"name": "projects_has_git_action", "url": "/projects", "regex": "sanix-darker/git-action", "min": 1}
       ]
     }
   },
