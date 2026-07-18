@@ -32,6 +32,11 @@ body {
   width: 100%
 }
 
+body.blog-post > .container,
+body.blog-post main {
+  max-width: 1040px
+}
+
 header, footer {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);

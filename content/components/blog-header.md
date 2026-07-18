@@ -24,7 +24,7 @@
     <meta property='twitter:domain' content='sanixdk.xyz'>
     <meta name='twitter:description' content='Read %s on sanixdk.xyz'>
 </head>
-<body>
+<body class='blog-post'>
     <a class='skip' href='#main'>Skip to content</a>
     <div class='container'>
     <br>

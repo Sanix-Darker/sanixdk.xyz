@@ -107,6 +107,9 @@ current intended behavior and are exercised by `make e2e`.
 
 **F-12 / F-13 / F-14 - Blog enhancements**
 
+- Blog posts should use a slightly wider reading column than index pages so
+  data tables have room on desktop while retaining horizontal overflow on
+  small screens.
 - As a V, posts with `#toc-container` should receive a generated nested table
   of contents.
 - Code blocks should use the GitHub-dark highlight.js theme when its CDN is
