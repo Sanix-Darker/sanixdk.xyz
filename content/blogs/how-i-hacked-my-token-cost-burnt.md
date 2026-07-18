@@ -87,32 +87,9 @@ route score = exact name + rare terms + path/caller clues + graph importance
 
 That is ranking, not understanding. A confident result returns one source anchor. An uncertain result returns at most three bounded candidates. If the source index still has no useful answer, Radar reads only the metadata head of a relevant map instead of loading the whole file.
 
-The important part is not that any one algorithm is exotic. The important part is that each stage removes work before expensive context is created.
+The important part is not that any one algorithm is exotic. The important part is that each stage removes work before expensive context is created. Every proposed optimization had to improve both routing quality and latency; anything that lost that test was rolled back. Technical readers can inspect the raw reports and decisions in [`OPTIMIZATIONS.md`](https://github.com/Sanix-Darker/radar/blob/main/OPTIMIZATIONS.md).
 
-### THE IDEAS THAT LOST THE BENCHMARK
-
-The rule was simple: test one proposal, keep it only if latency and answer quality improve, otherwise roll it back.
-
-<table>
-  <thead>
-    <tr><th>Proposal</th><th>Measured result</th><th>Decision</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Int8 MiniLM + HNSW</td><td>47.62 ms end-to-end p95, 59.13 ms embedding p95, 91.7% semantic recall and +444,716 KiB RSS</td><td>Rejected</td></tr>
-    <tr><td>Bloom + MinHash candidate filters</td><td>Bloom lost 7/12 semantic cases or pruned nothing; MinHash semantic recall was 16.7%</td><td>Rejected</td></tr>
-    <tr><td>Memory-mapped adjacency</td><td>0.0536 ms versus 0.0498 ms for an ordinary read on the same tiny graph</td><td>Rejected</td></tr>
-    <tr><td>SimHash deduplication</td><td>32.99 ms versus 2.88 ms for BLAKE3 and it merged opposite allow/deny behavior</td><td>Rejected</td></tr>
-    <tr><td>Compact query snapshot</td><td>Startup 139.57 to 21.72 ms, RSS 28,220 to 14,296 KiB, route p95 311.19 to 34.48 ms</td><td><strong>Kept</strong></td></tr>
-    <tr><td>Bounded exact-answer cache</td><td>Repeated lexical p95 4.442 to 0.038 ms; exact route 3.025 to 0.044 ms</td><td><strong>Kept</strong></td></tr>
-    <tr><td>Local 1.8B to 2.6B models</td><td>1.67 to 1.98 s warm and worst quality on multi-fact questions</td><td>Rejected</td></tr>
-  </tbody>
-</table>
-
-spaCy loaded in `515.94 ms`, added `134,144 KiB` RSS and scored `0/6` on source-code call extraction. The tiny decision tree generalized to `1/12` paraphrases. Semantic caching inherited the rejected embedding stack. Async added a dependency around a resident path already near `0.04 ms` p95. Time-based invalidation weakened correctness. Merkle triple patches duplicated Git's tree identity without discovering changed files.
-
-The full receipts, raw JSON/JSONL reports and rollback reasons live in [`OPTIMIZATIONS.md`](https://github.com/Sanix-Darker/radar/blob/main/OPTIMIZATIONS.md) for readers with repository access.
-
-Once the small deterministic path survived those tests, using it became simple.
+The path that survived is small enough to use in a minute.
 
 ### TRY IT IN ONE MINUTE
 
@@ -217,7 +194,7 @@ Those limits are why Radar stays a navigation layer instead of trying to become 
 
 Nope. The world has enough frameworks asking for seven folders, three philosophies, a council of agents, then a meeting about the council.
 
-Radar has no daemon, API key or model on its default path, but it is still alpha. Tiny repositories may not save enough orientation to matter. Unsupported languages receive less semantic detail. Purpose prose still needs a human or an external command chosen by the user.
+Radar has no daemon, API key or model on its default path, but it is still alpha. Its job is deliberately limited to navigation. Purpose prose still needs a human or an external command chosen by the user.
 
 The goal is smaller: let expensive agents spend tokens on the change, review and tests, not on discovering the same source file four times.
 
