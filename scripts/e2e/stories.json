@@ -231,13 +231,14 @@
     "id": "F-08",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /blogs/ and report (a) how many .blog-item cards render; (b) the post titles' first 3.",
-    "pass_criteria": "25 cards render. First title visible.",
-    "notes": "Blogs list rendering",
+    "prompt": "Visit /blogs/ and report (a) how many .blog-item cards render; (b) the first 3 post titles; (c) whether the first two cards have different vertical positions and therefore occupy separate rows.",
+    "pass_criteria": "25 cards render, the first title is visible, and every card occupies its own row at the current viewport.",
+    "notes": "Single-column blogs list rendering",
     "fallback": {
       "checks": [
         {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 25, "max": 25},
-        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 25, "max": 25}
+        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 25, "max": 25},
+        {"name": "blogs_single_column_css", "url": "/assets/style.css", "regex": "grid-template-columns:\\s*minmax\\(0,\\s*1fr\\)", "min": 1}
       ]
     }
   },
@@ -276,17 +277,23 @@
     "id": "F-11",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /projects and report the four lightweight project cards and their destinations.",
-    "pass_criteria": "/projects returns 200 and shows exactly four project nodes for shhx.dev, Radar, ector, and s2c.",
+    "prompt": "Visit /projects and report the ten lightweight project cards and their destinations.",
+    "pass_criteria": "/projects returns 200 and shows four deployed projects plus six public repositories.",
     "notes": "Project showcase",
     "fallback": {
       "checks": [
         {"name": "projects_returns_main_section", "url": "/projects", "regex": "id=['\"]main['\"]|<main", "min": 1},
-        {"name": "projects_has_four_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 4, "max": 4},
+        {"name": "projects_has_ten_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 10, "max": 10},
         {"name": "projects_has_shhx", "url": "/projects", "regex": "https://shhx\\.dev", "min": 1},
-        {"name": "projects_has_radar", "url": "/projects", "regex": "how-i-hacked-my-token-cost-burnt", "min": 1},
+        {"name": "projects_has_zollo", "url": "/projects", "regex": "https://zollo\\.sanixdk\\.xyz", "min": 1},
         {"name": "projects_has_ector", "url": "/projects", "regex": "https://ector\\.sanixdk\\.xyz", "min": 1},
-        {"name": "projects_has_s2c", "url": "/projects", "regex": "https://s2c\\.sanixdk\\.xyz", "min": 1}
+        {"name": "projects_has_s2c", "url": "/projects", "regex": "https://s2c\\.sanixdk\\.xyz", "min": 1},
+        {"name": "projects_has_gitmark", "url": "/projects", "regex": "sanix-darker/gitmark", "min": 1},
+        {"name": "projects_has_tchaka", "url": "/projects", "regex": "sanix-darker/tchaka", "min": 1},
+        {"name": "projects_has_git_ci", "url": "/projects", "regex": "sanix-darker/git-ci", "min": 1},
+        {"name": "projects_has_cisv", "url": "/projects", "regex": "sanix-darker/cisv-core", "min": 1},
+        {"name": "projects_has_prev", "url": "/projects", "regex": "sanix-darker/prev", "min": 1},
+        {"name": "projects_has_git_action", "url": "/projects", "regex": "sanix-darker/git-action", "min": 1}
       ]
     }
   },
@@ -294,11 +301,15 @@
     "id": "F-12",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /blogs/how-i-made-ci-cd-run-locally-in-go and locate #toc-container. Then wait 500ms (hljs runs first). Report whether the #toc-container contains an <ul> with at least one <li>.",
-    "pass_criteria": "TOC populated with a nested <ul> pointing at heading anchors.",
-    "notes": "TOC on blog post",
+    "prompt": "Visit /blogs/how-i-made-ci-cd-run-locally-in-go and locate #toc-container. Then wait 500ms (hljs runs first). Report whether the post uses the blog-post body class, whether #toc-container contains an <ul> with at least one <li>, and the computed TOC link color before and during hover.",
+    "pass_criteria": "The post uses the wider blog-post layout, its TOC is populated with nested links, and those links remain white before and during hover.",
+    "notes": "Wide blog post with generated TOC",
     "fallback": {
       "checks": [
+        {"name": "post_uses_wide_layout", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "<body class=['\"]blog-post['\"]", "min": 1},
+        {"name": "post_width_is_scoped", "url": "/assets/style.css", "regex": "body\\.blog-post[^}]*max-width:\\s*1040px", "min": 1},
+        {"name": "desktop_tables_fill_post", "url": "/assets/style.css", "regex": "body\\.blog-post table\\s*\\{\\s*display:\\s*table", "min": 1},
+        {"name": "toc_links_stay_white", "url": "/assets/style.css", "regex": "#toc-container a\\s*\\{[^}]*color:\\s*var\\(--accent-color\\)", "min": 1},
         {"name": "toc_div_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"", "min": 1},
         {"name": "toc_builder_is_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "headingSelectors|tocContainer\\.innerHTML", "min": 2}
       ]

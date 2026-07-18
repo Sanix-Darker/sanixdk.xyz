@@ -94,21 +94,25 @@ current intended behavior and are exercised by `make e2e`.
 
 **F-08 / F-09 - Blog discovery**
 
-- As a V, `/blogs/` should show all 25 cards, with a two-column layout on wide
-  screens.
+- As a V, `/blogs/` should show all 25 cards, with one card per row at every
+  viewport width.
 - Typing in search should filter by title and tags, update an accessible
   counter, show an empty state when needed, and reset on Escape.
 
 **F-10 / F-11 - Static pages**
 
 - As a V, `/about` should render the author profile and links.
-- As a V, `/projects` should show four lightweight project nodes for shhx.dev,
-  Radar, ector, and s2c without screenshots, JavaScript, or runtime fetches.
+- As a V, `/projects` should show ten lightweight nodes: four deployed projects
+  and six public repositories, without screenshots, JavaScript, or runtime
+  fetches.
 
 **F-12 / F-13 / F-14 - Blog enhancements**
 
+- Blog posts should use a slightly wider reading column than index pages so
+  data tables have room on desktop while retaining horizontal overflow on
+  small screens.
 - As a V, posts with `#toc-container` should receive a generated nested table
-  of contents.
+  of contents whose links remain white in idle and hover states.
 - Code blocks should use the GitHub-dark highlight.js theme when its CDN is
   reachable.
 - Giscus comments should map discussions by pathname.

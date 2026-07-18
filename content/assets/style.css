@@ -32,6 +32,11 @@ body {
   width: 100%
 }
 
+body.blog-post > .container,
+body.blog-post main {
+  max-width: 1040px
+}
+
 header, footer {
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
@@ -242,6 +247,7 @@ article:hover, .blog-item:hover {
 /* Blog */
 .blog-list, .blog-posts {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   width: 100%;
   counter-reset: blog-counter;
@@ -695,6 +701,7 @@ img { max-width: 100%; height: auto }
 
 @media (min-width: 769px) {
   nav { flex-direction: row }
+  body.blog-post table { display: table }
   button, .button { padding: .75rem 1.5rem }
   pre { font-size: .85rem }
   input, textarea, select { font-size: .9rem; padding: .75rem }
@@ -761,9 +768,9 @@ img { max-width: 100%; height: auto }
 #toc-container a {
     text-decoration-style: none;
     text-decoration: none;
-    color: #333;
+    color: var(--accent-color);
 }
 #toc-container a:hover {
-    color: white;
+    color: var(--accent-color);
     text-decoration: underline dashed;
 }
