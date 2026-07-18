@@ -94,8 +94,8 @@ current intended behavior and are exercised by `make e2e`.
 
 **F-08 / F-09 - Blog discovery**
 
-- As a V, `/blogs/` should show all 25 cards, with a two-column layout on wide
-  screens.
+- As a V, `/blogs/` should show all 25 cards, with one card per row at every
+  viewport width.
 - Typing in search should filter by title and tags, update an accessible
   counter, show an empty state when needed, and reset on Escape.
 

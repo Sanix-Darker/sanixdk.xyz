@@ -231,13 +231,14 @@
     "id": "F-08",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /blogs/ and report (a) how many .blog-item cards render; (b) the post titles' first 3.",
-    "pass_criteria": "25 cards render. First title visible.",
-    "notes": "Blogs list rendering",
+    "prompt": "Visit /blogs/ and report (a) how many .blog-item cards render; (b) the first 3 post titles; (c) whether the first two cards have different vertical positions and therefore occupy separate rows.",
+    "pass_criteria": "25 cards render, the first title is visible, and every card occupies its own row at the current viewport.",
+    "notes": "Single-column blogs list rendering",
     "fallback": {
       "checks": [
         {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 25, "max": 25},
-        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 25, "max": 25}
+        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 25, "max": 25},
+        {"name": "blogs_single_column_css", "url": "/assets/style.css", "regex": "grid-template-columns:\\s*minmax\\(0,\\s*1fr\\)", "min": 1}
       ]
     }
   },

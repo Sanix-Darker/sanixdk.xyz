@@ -242,6 +242,7 @@ article:hover, .blog-item:hover {
 /* Blog */
 .blog-list, .blog-posts {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   width: 100%;
   counter-reset: blog-counter;
