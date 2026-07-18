@@ -30,6 +30,8 @@ current intended behavior and are exercised by `make e2e`.
 - As an A, top-level Markdown should receive the shared header and footer.
 - Blog posts and nested project pages should receive the metadata-aware blog
   header, comment footer, and shared footer.
+- Shared headers should reference a content-versioned stylesheet so immutable
+  edge caches cannot keep serving an older layout.
 - As an M, each content Markdown file should produce a matching HTML file
   under `public/`.
 

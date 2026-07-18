@@ -40,12 +40,14 @@
     "fallback": {
       "checks": [
         {"name": "about_has_skip_link", "url": "/about", "regex": "<a [^>]*class=['\"]skip['\"]", "min": 1},
+        {"name": "about_has_versioned_stylesheet", "url": "/about", "regex": "/assets/style\\.css\\?v=0551df31f10a", "min": 1},
         {"name": "about_has_home_link", "url": "/about", "regex": "href=['\"]/['\"]", "min": 1},
         {"name": "about_has_blogs_link", "url": "/about", "regex": "href=['\"]/blogs/['\"]", "min": 1},
         {"name": "about_has_projects_link", "url": "/about", "regex": "href=['\"]/projects/['\"]", "min": 1},
         {"name": "about_has_about_link", "url": "/about", "regex": "href=['\"]/about['\"]", "min": 1},
         {"name": "post_has_giscus_ref", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "giscus\\.app", "min": 1},
         {"name": "post_has_main_id", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "id=['\"]main['\"]", "min": 1},
+        {"name": "post_has_versioned_stylesheet", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "/assets/style\\.css\\?v=0551df31f10a", "min": 1},
         {"name": "post_has_skip_link", "url": "/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3", "regex": "<a [^>]*class=['\"]skip['\"]", "min": 1}
       ]
     }
