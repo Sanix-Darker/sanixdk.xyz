@@ -302,6 +302,7 @@
       "checks": [
         {"name": "post_uses_wide_layout", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "<body class=['\"]blog-post['\"]", "min": 1},
         {"name": "post_width_is_scoped", "url": "/assets/style.css", "regex": "body\\.blog-post[^}]*max-width:\\s*1040px", "min": 1},
+        {"name": "desktop_tables_fill_post", "url": "/assets/style.css", "regex": "body\\.blog-post table\\s*\\{\\s*display:\\s*table", "min": 1},
         {"name": "toc_links_stay_white", "url": "/assets/style.css", "regex": "#toc-container a\\s*\\{[^}]*color:\\s*var\\(--accent-color\\)", "min": 1},
         {"name": "toc_div_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"", "min": 1},
         {"name": "toc_builder_is_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "headingSelectors|tocContainer\\.innerHTML", "min": 2}
