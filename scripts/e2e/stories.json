@@ -295,13 +295,14 @@
     "id": "F-12",
     "section": "B",
     "type": "browser",
-    "prompt": "Visit /blogs/how-i-made-ci-cd-run-locally-in-go and locate #toc-container. Then wait 500ms (hljs runs first). Report whether the post uses the blog-post body class and whether #toc-container contains an <ul> with at least one <li>.",
-    "pass_criteria": "The post uses the wider blog-post layout and its TOC is populated with a nested <ul> pointing at heading anchors.",
+    "prompt": "Visit /blogs/how-i-made-ci-cd-run-locally-in-go and locate #toc-container. Then wait 500ms (hljs runs first). Report whether the post uses the blog-post body class, whether #toc-container contains an <ul> with at least one <li>, and the computed TOC link color before and during hover.",
+    "pass_criteria": "The post uses the wider blog-post layout, its TOC is populated with nested links, and those links remain white before and during hover.",
     "notes": "Wide blog post with generated TOC",
     "fallback": {
       "checks": [
         {"name": "post_uses_wide_layout", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "<body class=['\"]blog-post['\"]", "min": 1},
         {"name": "post_width_is_scoped", "url": "/assets/style.css", "regex": "body\\.blog-post[^}]*max-width:\\s*1040px", "min": 1},
+        {"name": "toc_links_stay_white", "url": "/assets/style.css", "regex": "#toc-container a\\s*\\{[^}]*color:\\s*var\\(--accent-color\\)", "min": 1},
         {"name": "toc_div_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "id=\"toc-container\"", "min": 1},
         {"name": "toc_builder_is_present", "url": "/blogs/how-i-made-ci-cd-run-locally-in-go", "regex": "headingSelectors|tocContainer\\.innerHTML", "min": 2}
       ]

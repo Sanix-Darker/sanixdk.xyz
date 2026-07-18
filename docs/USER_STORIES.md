@@ -111,7 +111,7 @@ current intended behavior and are exercised by `make e2e`.
   data tables have room on desktop while retaining horizontal overflow on
   small screens.
 - As a V, posts with `#toc-container` should receive a generated nested table
-  of contents.
+  of contents whose links remain white in idle and hover states.
 - Code blocks should use the GitHub-dark highlight.js theme when its CDN is
   reachable.
 - Giscus comments should map discussions by pathname.

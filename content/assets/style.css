@@ -767,9 +767,9 @@ img { max-width: 100%; height: auto }
 #toc-container a {
     text-decoration-style: none;
     text-decoration: none;
-    color: #333;
+    color: var(--accent-color);
 }
 #toc-container a:hover {
-    color: white;
+    color: var(--accent-color);
     text-decoration: underline dashed;
 }
