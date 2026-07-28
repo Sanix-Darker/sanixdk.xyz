@@ -152,11 +152,11 @@ Then I removed the model entirely and asked a stricter question: did the router 
   <tbody>
     <tr><td>Previous Radar baseline</td><td>2/40</td><td>2/40</td><td>4,042</td></tr>
     <tr><td>TokenSave context command</td><td>2/40</td><td>5/40</td><td>8,421</td></tr>
-    <tr><td>Current Radar router</td><td>37/40</td><td>40/40</td><td>835</td></tr>
+    <tr><td>Current Radar router</td><td>37/40</td><td>40/40</td><td>847</td></tr>
   </tbody>
 </table>
 
-To be clear, this is a narrow source-routing comparison. Radar does not replace TokenSave's broader editing and repository-intelligence features. On this 10,000-file corpus, it returned the expected anchor for all 40 queries with about one fifth of its old response volume.
+To be clear, this is a narrow source-routing comparison. Radar does not replace TokenSave's broader editing and repository-intelligence features. On Radar's own 123-source quality corpus, it returned the expected anchor for all 40 questions with about one fifth of its old response volume.
 
 I also timed the binary itself, because saving tokens with a slow lookup would be a pretty bad joke:
 
@@ -165,16 +165,17 @@ I also timed the binary itself, because saving tokens with a slow lookup would b
     <tr><th>Local path</th><th>p95 latency</th><th>Model tokens</th></tr>
   </thead>
   <tbody>
-    <tr><td>Fresh 40-query quality corpus</td><td>39.56 ms</td><td>0</td></tr>
-    <tr><td>Fresh verified route</td><td>35.75 ms</td><td>0</td></tr>
-    <tr><td>First resident lexical query</td><td>3.76 ms</td><td>0</td></tr>
-    <tr><td>Repeated resident query or route</td><td>0.038 to 0.044 ms</td><td>0</td></tr>
+    <tr><td>Fresh quality query, 123 sources</td><td>9.67 ms</td><td>0</td></tr>
+    <tr><td>Fresh lexical query, 10,000 sources</td><td>28.74 ms</td><td>0</td></tr>
+    <tr><td>Fresh verified route, 10,000 sources</td><td>35.97 ms</td><td>0</td></tr>
+    <tr><td>First resident lexical query</td><td>3.03 ms</td><td>0</td></tr>
+    <tr><td>Repeated resident query or route</td><td>0.035 to 0.040 ms</td><td>0</td></tr>
   </tbody>
 </table>
 
-![Radar local query latency benchmark](/assets/how-i-hacked-my-token-cost-burnt/radar-query-latency.png?v=8e19e409)
+![Radar local query latency benchmark](/assets/how-i-hacked-my-token-cost-burnt/radar-query-latency.png?v=c1063944)
 
-One isolated cold lexical stress probe still reaches `53.97 ms`. That one is not hidden, even if it makes the chart less pretty. The full quality corpus and verified routes stay below `50 ms`, while resident requests are way below it.
+All six measured paths are now below `50 ms`. The silly edge case was an unknown query against a root map with 500 child packages: returning every child made a `9,102` byte hint. Radar now shows six useful names and the omitted count. Same result, `244` bytes, and the 40-query quality gate still passes.
 
 No spreadsheet magic here. Python generates these charts from committed reports. [`BENCHMARKS.md`](https://github.com/Sanix-Darker/radar/blob/main/BENCHMARKS.md) has the prompts, repetitions, expected anchors, commands, cost math and raw paths.
 
