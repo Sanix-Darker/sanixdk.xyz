@@ -1,4 +1,4 @@
-![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-refactor-and-debug-your-body-as-a-software-engineer/hack-body.jpg)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-to-refactor-and-debug-your-body-as-a-software-engineer/hack-body.jpg" />
 
 ## HOW TO REFACTOR YOUR BODY AS A SOFTWARE ENGINEER
 
@@ -262,4 +262,3 @@ if __name__ == "__main__":
 *What's your experience with fitness as a developer? Have you found any interesting parallels between coding and training? Drop a comment or reach out, I'd love to hear your debugging stories from the gym!*
 
 ---
-

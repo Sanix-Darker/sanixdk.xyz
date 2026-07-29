@@ -1,3 +1,5 @@
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/vibe-coding-is-a-good-poison/vibe-code.png" />
+
 Below is a *conceptual* guide and **minimal** sample in C showing how you might create a very basic web browser called **xs**, capable of:
 
 - Fetching a URL (HTTP GET)

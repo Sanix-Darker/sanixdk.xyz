@@ -1,4 +1,4 @@
-![Header Image](https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png)
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-accidentally-created-the-fastest-csv-parser-ever-made/see-you.png" />
 
 ## HOW I ACCIDENTALLY CREATED THE FASTEST CSV PARSER EVER MADE, cisv.
 `2025-09-07 08:24 PM` • 31 min read • **#cpu** **#c** **#csv** **#perfs**

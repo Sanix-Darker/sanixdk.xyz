@@ -1,3 +1,5 @@
+<img src="https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/git-ci-preview.png" />
+
 ## WHY I'M SO FAST ON MY TERMINAL
 
 `2025-01-22` • 15 min read • **#bash** **#productivity** **#terminal** **#git**

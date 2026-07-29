@@ -1,3 +1,11 @@
+path: ./content/blogs/why-i-am-so-bad-at-coding-but-good-at-solving-problems.md
+link: /blogs/why-i-am-so-bad-at-coding-but-good-at-solving-problems
+title: WHY I AM SO BAD AT CODING BUT GOOD AT SOLVING PROBLEMS
+image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/why-i-am-so-bad-at-coding-but-good-at-solving-problems/good-at-programming.png
+date: 2026-07-29 08:01AM
+tags: #dev #career #debug #ai #engineering
+time: 7 min
+
 path: ./content/blogs/how-i-hacked-my-token-cost-burnt.md
 link: /blogs/how-i-hacked-my-token-cost-burnt
 title: HOW I HACKED MY TOKEN/COST BURNT WITH MATHS
@@ -89,7 +97,7 @@ time: 10 min
 path: ./content/blogs/how-to-hack-and-secure-your-termbin-content.md
 link: /blogs/how-to-hack-and-secure-your-termbin-public
 title: HOW TO HACK AND SECURE YOUR TERMBIN CONTENT
-image: no
+image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ic32yegr54gnjvok9ezy.png
 date: 2025-01-01 01:12PM
 tags: #bash #unix #terminal
 time: 12 min
