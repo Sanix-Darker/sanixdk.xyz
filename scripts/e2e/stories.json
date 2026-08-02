@@ -24,8 +24,8 @@
     "notes": "Minted from content/metadatas.txt",
     "fallback": {
       "checks": [
-        {"name": "blog_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 25, "max": 25},
-        {"name": "blog_title_anchors", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/", "min": 25, "max": 25},
+        {"name": "blog_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 26, "max": 26},
+        {"name": "blog_title_anchors", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/", "min": 26, "max": 26},
         {"name": "search_input_present", "url": "/blogs/", "regex": "id=['\"]search-input['\"]", "min": 1}
       ]
     }
@@ -87,7 +87,7 @@
       "checks": [
         {"name": "feed_root_is_rss", "url": "/feed.xml", "regex": "<rss", "min": 1},
         {"name": "feed_has_channel", "url": "/feed.xml", "regex": "<channel>", "min": 1},
-        {"name": "feed_has_exactly_25_items", "url": "/feed.xml", "regex": "<item>", "min": 25, "max": 25},
+        {"name": "feed_has_exactly_25_items", "url": "/feed.xml", "regex": "<item>", "min": 26, "max": 26},
         {"name": "feed_channel_title_present", "url": "/feed.xml", "regex": "<title>[^<]+</title>", "min": 1},
         {"name": "feed_channel_link_present", "url": "/feed.xml", "regex": "<link>[^<]+</link>", "min": 1},
         {"name": "feed_channel_description_present", "url": "/feed.xml", "regex": "<description>[^<]+</description>", "min": 1},
@@ -238,8 +238,8 @@
     "notes": "Single-column blogs list rendering",
     "fallback": {
       "checks": [
-        {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 25, "max": 25},
-        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 25, "max": 25},
+        {"name": "blogs_card_count", "url": "/blogs/", "regex": "class=['\"]blog-item['\"]", "min": 26, "max": 26},
+        {"name": "blogs_title_anchor_links", "url": "/blogs/", "regex": "<h3[^>]*>[^<]*<a [^>]*href=['\"]/blogs/[a-z0-9-]+\\b", "min": 26, "max": 26},
         {"name": "blogs_single_column_css", "url": "/assets/style.css", "regex": "grid-template-columns:\\s*minmax\\(0,\\s*1fr\\)", "min": 1}
       ]
     }
@@ -285,7 +285,7 @@
     "fallback": {
       "checks": [
         {"name": "projects_returns_main_section", "url": "/projects", "regex": "id=['\"]main['\"]|<main", "min": 1},
-        {"name": "projects_has_ten_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 10, "max": 10},
+        {"name": "projects_has_ten_nodes", "url": "/projects", "regex": "class=['\"]project-node['\"]", "min": 11, "max": 11},
         {"name": "projects_has_shhx", "url": "/projects", "regex": "https://shhx\\.dev", "min": 1},
         {"name": "projects_has_zollo", "url": "/projects", "regex": "https://zollo\\.sanixdk\\.xyz", "min": 1},
         {"name": "projects_has_ector", "url": "/projects", "regex": "https://ector\\.sanixdk\\.xyz", "min": 1},
