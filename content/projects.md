@@ -23,6 +23,11 @@ Small tools or sources, am actively maintaining :
         <span class="project-node-body">Terminal-first audio and video chat with a tiny client/server flow.</span>
         <span class="project-node-target">s2c.sanixdk.xyz</span>
     </a>
+    <a class="project-node" href="https://git-ci.sanixdk.xyz/">
+        <span class="project-node-head"><span>05</span><strong>git-ci</strong><span>online</span></span>
+        <span class="project-node-body">Run CI pipelines from GitHub, GitLab, CircleCI, Drone, and Travis locally.</span>
+        <span class="project-node-target">git-ci.sanixdk.xyz</span>
+    </a>
 </div>
 
 <hr/>
