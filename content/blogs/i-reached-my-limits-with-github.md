@@ -2,7 +2,7 @@
 
 ## I REACHED MY LIMITS WITH GITHUB
 
-`2026-08-20 05:21PM` • 6 min read • **#github** **#actions** **#cicd** **#go** **#devops**
+`2026-08-20 05:21PM` • 9 min read • **#github** **#actions** **#cicd** **#go** **#devops**
 
 ---
 
@@ -10,10 +10,11 @@
 
 ---
 
-I still use GitHub. I still like pull requests. I still like the social part of open source there.
-The real problem is mostly GitHub Actions.
-Actions became the slowest part of my feedback loop.
-One small fix becomes one push, one remote queue, and one hosted runner doing whatever it wants before it starts my job. If the job fails, I get the same loop again.
+I still use GitHub. I still like pull requests and the social part of open source there.
+
+The title is deliberate rage bait, but the problem in this post is mostly GitHub Actions.
+
+Actions became the slowest part of my feedback loop. One small fix becomes one push, one remote queue, and one hosted runner doing whatever it wants before it starts my job. If the job fails, I get the same loop again.
 
 The cost reaches past minutes. It breaks the thread in my head.
 
@@ -22,13 +23,24 @@ The cost reaches past minutes. It breaks the thread in my head.
 AI changed my run rate.
 
 Before, I batched more work before a push. Now I can ask an agent for a small change, review the diff, and push again. That is useful. It also multiplies CI runs.
-One prompt can become four commits. A small refactor can become one run for tests, one run for lint, one run after a rename, then another run after a fix.
 
-The code moved faster than my CI budget.
-With AI, I multiplied my run count, so the GitHub Actions monthly usage limit started to show up too early. The quota was no longer an abstract line in billing. It became a hard stop in the middle of normal work.
+One prompt can become four commits. A small refactor can cause a test run, a lint run, and more runs after each fix. AI can produce commits faster than a monthly quota can forgive them.
+
+The code moved faster than my CI budget. With AI, I multiplied my run count, so the GitHub Actions monthly usage limit started to show up too early. The quota was no longer an abstract line in billing. It became a hard stop in the middle of normal work.
+
 Waiting on hosted runners was already bad. Burning the monthly quota because AI made me iterate more often was worse.
 
 That is when I stopped treating local CI as a comfort tool. I needed a first pass that I could run near the code, before GitHub Actions entered the path.
+
+### THIS CAN HAPPEN WITH ANY HOSTED RUNNER
+
+GitHub Actions is where I hit the limit. The same failure mode exists with any hosted runner.
+
+It can be a shared GitLab runner, CircleCI, Bitbucket Pipelines, or another managed CI fleet. If the first useful test result depends on a vendor queue, my work depends on that vendor's capacity, control plane, account rules, and billing meter.
+
+Changing the provider leaves the same dependency in place. My code is ready, but someone else's computer has not started it.
+
+Hosted runners are still useful. They give me a clean environment and a final check outside my machine. I do not want them to control the full feedback loop.
 
 ### THE LAST SIX MONTHS DID NOT HELP
 
@@ -58,15 +70,29 @@ My daily path is push, webhook, queue, runner, logs, green check.
 
 If any part stalls, my local work is ready but my feedback is blocked somewhere else.
 
+### THE PRICING DRAMA NEEDS ONE CORRECTION
+
+Standard GitHub-hosted runner rates fell by up to `39%` on `2026-01-01`, according to GitHub's [pricing announcement](https://github.com/resources/insights/2026-pricing-changes-for-github-actions).
+
+The loud part was a proposed `$0.002` per-minute platform fee for private-repository jobs. The fee would also apply when users supplied their own self-hosted machines. People would pay for the server, power, and maintenance, then pay GitHub for each minute on that server. That was an ambitious invoice.
+
+The pushback was immediate. GitHub [postponed the self-hosted fee](https://github.com/orgs/community/discussions/182186) and said it had missed the mark.
+
+The billing story still moved closer to AI. Since `2026-06-01`, [Copilot code reviews on private repositories consume GitHub Actions minutes](https://github.blog/changelog/2026-04-27-github-copilot-code-review-will-start-consuming-github-actions-minutes-on-june-1-2026/). They also consume AI credits. Usage above the included Actions quota is billed at the standard rate.
+
+The unit price can fall while the monthly quota disappears sooner. AI creates more commits and more CI work. I can see that in my own workflow.
+
+I am also not a big Microsoft fan. GitHub is useful enough that I keep using it, but each new meter gives that opinion regular maintenance.
+
 ### WHY I CAME BACK TO GIT-CI
 
 Last year I started a small Go project called [git-ci](https://github.com/sanix-darker/git-ci). The first version was simple: read a CI file and run its jobs locally.
 
-At the time, it felt like a weekend tool. Useful, but not urgent.
-Now it feels more like the default first pass.
-I am keeping GitHub where it helps: code hosting, pull requests, review, and distribution.
+At the time, it felt like a useful weekend tool with no urgency.
 
-The dumb wait belongs somewhere else. The laptop already has the code. The VPS already has Docker. A workflow file is just YAML plus commands. I should not need a hosted queue to know if `go test ./...` is broken.
+Now it feels like the default first pass. I am keeping hosted CI where it helps: clean final runs, pull requests, review, and distribution.
+
+The dumb wait belongs somewhere else. The laptop already has the code. The VPS already has Docker. A workflow file is YAML plus commands. I should not need a hosted queue to know if `go test ./...` is broken.
 
 The CLI path is still the core:
 
@@ -76,7 +102,7 @@ gci run --job test
 gci run --docker --only "test-*"
 ```
 
-It parses GitHub Actions and GitLab CI today. It has matrix expansion, `needs` ordering, Bash/Docker/Podman runners, filters, dry-runs, env files, resource limits, and a strict validator.
+It parses GitHub Actions and GitLab CI today. It has matrix expansion, `needs` ordering, Bash/Docker/Podman runners, filters, dry-runs, env files, resource limits, and a strict validator. The goal is broader than one provider because the waiting problem is broader than one provider.
 
 That already fixes the most painful local loop:
 
@@ -91,6 +117,7 @@ No remote queue in that path.
 The thing I am working on now is `gci serve`.
 
 The CLI is good when I am in one terminal. A small service is better when CI runs on a workstation or VPS that already owns the checkout.
+
 The current service code has:
 
 - loopback-only HTTP by default
@@ -121,22 +148,44 @@ gci serve \
 
 Caddy or nginx can sit in front. The service stays on loopback. Project paths come from approved roots. The state is local. The worker runs near the code.
 
-SQLite also keeps the service easy to move. Stop it, copy the state directory, start it on another box, and point it at the same project root shape.
+SQLite keeps the service portable. There is no external database server to rebuild or reconnect. I can stop `gci`, copy its state directory to another machine, start it again, and point it at the same project root shape.
 
 That gives me a small control plane without turning my CI into another hosted platform.
 
+### GIT ALREADY GIVES ME A BACKUP REMOTE
+
+CI is only one part of the dependency. I also want a place to push commits while a hosted Git provider is down.
+
+Git already includes the parts needed for a small server. The official [Git server guide](https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server.html) uses a bare repository and SSH. On my VPS, the basic setup can be this small:
+
+```bash
+ssh git@my-vps \
+  'mkdir -p /srv/git/my-app.git && git init --bare /srv/git/my-app.git'
+
+git remote add vps git@my-vps:/srv/git/my-app.git
+git push vps main
+```
+
+`origin` is only the conventional name for the main remote. I can keep GitHub as `origin` and add `vps` as a second remote. When GitHub is unavailable, or when a hosted runner is stuck, I can push the same commit to the VPS and start checks there.
+
+Git also ships `git daemon`, but its write service has no authentication and is disabled by default. SSH is the sensible choice for a private writable remote. A `post-receive` hook on the bare repository can later notify `gci` and start checks near the code.
+
+This gives me a path that does not depend on a hosted Git control plane:
+
+```text
+edit -> validate -> test -> commit -> push to VPS -> run on VPS
+```
+
+A blocked pull request should not stop work on my app.
+
 ### WHAT I WANT FROM THIS
 
-I want the first CI answer in seconds, not after a queue clears.
-I want to run the same workflow shape before I push.
-I want a VPS to run the boring checks for my own projects without waiting on hosted capacity.
-I want GitHub outages to hurt less. If GitHub is down, I may still be unable to merge a PR. Fine. But I should still be able to run the pipeline, read logs, fix the code, and prepare the next push.
+I want the first CI answer in seconds, before a queue clears. I want to validate the workflow and run its test jobs before I push to a hosted provider.
 
-The target is plain: a shorter loop.
-GitHub can keep the remote checkmark.
+If GitHub is down, I may be unable to merge a pull request. I should still keep iterating on the app, validate my tests, inspect the logs, commit the fixes, and push them to my VPS.
 
-My machine can do the first run.
+Local and VPS runs do not prove that every hosted image behaves the same way. The final hosted run still has value. It should confirm a tested change instead of discovering the first basic failure.
 
+The next time a hosted status page turns red, I want to keep testing the app and recording commits. The provider can recover at its own pace.
 
-
------------
+---
