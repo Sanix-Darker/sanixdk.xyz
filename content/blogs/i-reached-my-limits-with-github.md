@@ -11,14 +11,24 @@
 ---
 
 I still use GitHub. I still like pull requests. I still like the social part of open source there.
-
 The real problem is mostly GitHub Actions.
-
 Actions became the slowest part of my feedback loop.
-
 One small fix becomes one push, one remote queue, and one hosted runner doing whatever it wants before it starts my job. If the job fails, I get the same loop again.
 
 The cost reaches past minutes. It breaks the thread in my head.
+
+### AI MADE THE LIMIT SHOW UP EARLY
+
+AI changed my run rate.
+
+Before, I batched more work before a push. Now I can ask an agent for a small change, review the diff, and push again. That is useful. It also multiplies CI runs.
+One prompt can become four commits. A small refactor can become one run for tests, one run for lint, one run after a rename, then another run after a fix.
+
+The code moved faster than my CI budget.
+With AI, I multiplied my run count, so the GitHub Actions monthly usage limit started to show up too early. The quota was no longer an abstract line in billing. It became a hard stop in the middle of normal work.
+Waiting on hosted runners was already bad. Burning the monthly quota because AI made me iterate more often was worse.
+
+That is when I stopped treating local CI as a comfort tool. I needed a first pass that I could run near the code, before GitHub Actions entered the path.
 
 ### THE LAST SIX MONTHS DID NOT HELP
 
@@ -53,9 +63,7 @@ If any part stalls, my local work is ready but my feedback is blocked somewhere 
 Last year I started a small Go project called [git-ci](https://github.com/sanix-darker/git-ci). The first version was simple: read a CI file and run its jobs locally.
 
 At the time, it felt like a weekend tool. Useful, but not urgent.
-
 Now it feels more like the default first pass.
-
 I am keeping GitHub where it helps: code hosting, pull requests, review, and distribution.
 
 The dumb wait belongs somewhere else. The laptop already has the code. The VPS already has Docker. A workflow file is just YAML plus commands. I should not need a hosted queue to know if `go test ./...` is broken.
@@ -83,7 +91,6 @@ No remote queue in that path.
 The thing I am working on now is `gci serve`.
 
 The CLI is good when I am in one terminal. A small service is better when CI runs on a workstation or VPS that already owns the checkout.
-
 The current service code has:
 
 - loopback-only HTTP by default
@@ -114,20 +121,22 @@ gci serve \
 
 Caddy or nginx can sit in front. The service stays on loopback. Project paths come from approved roots. The state is local. The worker runs near the code.
 
+SQLite also keeps the service easy to move. Stop it, copy the state directory, start it on another box, and point it at the same project root shape.
+
 That gives me a small control plane without turning my CI into another hosted platform.
 
 ### WHAT I WANT FROM THIS
 
 I want the first CI answer in seconds, not after a queue clears.
-
 I want to run the same workflow shape before I push.
-
 I want a VPS to run the boring checks for my own projects without waiting on hosted capacity.
-
 I want GitHub outages to hurt less. If GitHub is down, I may still be unable to merge a PR. Fine. But I should still be able to run the pipeline, read logs, fix the code, and prepare the next push.
 
 The target is plain: a shorter loop.
-
 GitHub can keep the remote checkmark.
 
 My machine can do the first run.
+
+
+
+-----------
