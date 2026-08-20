@@ -1,4 +1,5 @@
 path: ./content/blogs/why-i-am-so-bad-at-coding-but-good-at-solving-problems.md
+hidden: true
 link: /blogs/why-i-am-so-bad-at-coding-but-good-at-solving-problems
 title: WHY I AM SO BAD AT CODING BUT GOOD AT SOLVING PROBLEMS
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/why-i-am-so-bad-at-coding-but-good-at-solving-problems/good-at-programming.png

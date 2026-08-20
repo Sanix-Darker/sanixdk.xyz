@@ -47,6 +47,7 @@ typedef struct {
     char link[256];
     char title[256];
     char image[256];
+    bool hidden;
     char date[20];
     char tags[150];
     char time[25];

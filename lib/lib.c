@@ -121,16 +121,26 @@ void minifyDirfiles(const char* path) {
 
 void writeMetadatasToBlogList(const char* input_filename,
                               const char* output_filename) {
-    FILE* input_file = fopen(input_filename, "r");
     FILE* output_file = fopen(output_filename, "w");
+    EntryMap entries[MAX_ENTRIES];
+    int count = 0;
+    int visible_count = 0;
 
-    if (!input_file || !output_file) {
+    if (!output_file) {
         perror("File opening failed");
         return;
     }
 
-    Entry metadata;
-    char line[1024];
+    parse_txt(input_filename, entries, &count);
+    for (int i = 0; i < count; i++) {
+        if (!entries[i].entry.hidden) {
+            visible_count++;
+        }
+    }
+
+    if (count <= 0) {
+        fprintf(stderr, "No entries found in %s\n", input_filename);
+    }
 
     // Write the beginning of the HTML document
     fprintf(output_file, "<h1 class='typing'> BLOG POSTS</h1> <br/>");
@@ -146,30 +156,13 @@ void writeMetadatasToBlogList(const char* input_filename,
             "<span class='search-count' id='search-count' aria-live='polite'></span>"
             "</div></div><br/>");
 
-    fprintf(output_file, "<div class=\"blog-list\" style=\"--total-items: 0;\">");
+    fprintf(output_file, "<div class=\"blog-list\" style=\"--total-items: %d;\">",
+            visible_count);
 
-    while (fgets(line, sizeof(line), input_file)) {
-        if (sscanf(line, "path: %[^\n]", metadata.path) != 1) continue;
-        fgets(line, sizeof(line), input_file);
+    for (int i = 0; i < count; i++) {
+        if (entries[i].entry.hidden) continue;
+        Entry metadata = entries[i].entry;
 
-        sscanf(line, "link: %[^\n]", metadata.link);
-        fgets(line, sizeof(line), input_file);
-
-        sscanf(line, "title: %[^\n]", metadata.title);
-        fgets(line, sizeof(line), input_file);
-
-        sscanf(line, "image: %[^\n]", metadata.image);
-        fgets(line, sizeof(line), input_file);
-
-        sscanf(line, "date: %[^\n]", metadata.date);
-        fgets(line, sizeof(line), input_file);
-
-        sscanf(line, "tags: %[^\n]", metadata.tags);
-        fgets(line, sizeof(line), input_file);
-
-        sscanf(line, "time: %[^\n]", metadata.time);
-
-        // Write the HTML structure for this blog item
         fprintf(output_file, "<div class=\"blog-item\">\n");
         fprintf(output_file, "<div class=\"triangle-bg\" style=\"--bg-image: url('%s');\"></div>\n", metadata.image); //<div class=\"category-badge\">AI</div>
         fprintf(output_file, "    <h3><a href=\"%s\" class=\"blog-title\">%s</a></h3>\n", metadata.link, metadata.title);
@@ -205,7 +198,6 @@ void writeMetadatasToBlogList(const char* input_filename,
     // Write the end of the HTML document
     // fprintf(output_file, "</body>\n</html>");
 
-    fclose(input_file);
     fclose(output_file);
 }
 
@@ -742,6 +734,22 @@ static void copy_metadata_field(char* destination, size_t destination_size,
     }
 }
 
+static bool parse_bool(const char* value) {
+    if (value == NULL || value[0] == '\0') return false;
+
+    char normalized[32] = {0};
+    size_t n = 0;
+    for (size_t i = 0; i < sizeof(normalized) - 1 && value[i] != '\0'; i++) {
+        if (isspace((unsigned char)value[i])) continue;
+        normalized[n++] = (char)tolower((unsigned char)value[i]);
+    }
+    normalized[n] = '\0';
+
+    return strcmp(normalized, "1") == 0 || strcmp(normalized, "true") == 0 ||
+           strcmp(normalized, "yes") == 0 || strcmp(normalized, "y") == 0 ||
+           strcmp(normalized, "on") == 0;
+}
+
 void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
     bool overflow_warned = false;
     FILE* file = fopen(filename, "r");
@@ -790,6 +798,10 @@ void parse_txt(const char* filename, EntryMap entryMap[], int* count) {
             else if (strcmp(key, "time:") == 0)
                 copy_metadata_field(currentEntry.entry.time,
                                     sizeof(currentEntry.entry.time), value);
+            else if (strcmp(key, "hidden:") == 0)
+                currentEntry.entry.hidden = parse_bool(value);
+            else if (strcmp(key, "visible:") == 0)
+                currentEntry.entry.hidden = !parse_bool(value);
 
             // Save the key as well (filename)
             if (strcmp(key, "filename:") == 0)
@@ -921,6 +933,7 @@ void generateRssFeed(const char* metadata_txt,
 
     int n_items = 0;
     for (int i = 0; i < count; ++i) {
+        if (maps[i].entry.hidden) continue;
         time_t t = 0;
         if (!parse_metadata_datetime_local(maps[i].entry.date, &t)) {
             /* If parsing fails, push to epoch 0 so it ends last */
