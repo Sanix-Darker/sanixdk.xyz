@@ -4,15 +4,15 @@ title: I REACHED MY LIMITS WITH GITHUB
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/i-reached-my-limits-with-github/gitci.png
 date: 2026-08-20 05:21PM
 tags: #github #actions #cicd #go #devops
-time: 9 min
+time: 7 min
 
 path: ./content/blogs/how-i-hacked-my-token-cost-burnt.md
 link: /blogs/how-i-hacked-my-token-cost-burnt
-title: HOW I HACKED MY TOKEN/COST BURNT WITH MATHS
+title: HOW I HACKED MY TOKEN COSTS WITH MATHS
 image: https://cdn.jsdelivr.net/gh/sanix-darker/sanixdk.xyz@master/content/assets/how-i-hacked-my-token-cost-burnt/rdr-icon.png
 date: 2026-07-12 03:51PM
 tags: #ai #agents #rust #performance #opensource #cost
-time: 9 min
+time: 8 min
 
 path: ./content/blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3.md
 link: /blogs/i-added-a-brain-to-my-fridge-it-backfired-hard-1-3
