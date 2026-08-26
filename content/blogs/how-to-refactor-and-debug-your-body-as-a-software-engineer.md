@@ -2,7 +2,7 @@
 
 ## HOW TO REFACTOR YOUR BODY AS A SOFTWARE ENGINEER
 
-`2025-10-25 08:24 PM` • 20 min read • **#body** **#hack** **#refactor** **#debug**
+`2025-10-25 08:24 PM` • 12 min read • **#body** **#hack** **#refactor** **#debug**
 
 ---
 
@@ -12,253 +12,153 @@
 
 ### WHAT'S NEW?
 
-- First of all, thank you for all the support and attention brought to the previous post I made regarding the [CSV parser](https://sanixdk.xyz/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made). I'm still working on it, I wasn't expecting it to blow up that much, we're already near 100 stars on the GitHub repository, and I wanted to say thank you again.
-- Now the website has an RSS feed, you can get the link here: [feed-link](https://sanixdk.xyz/feed.xml)
+- Thanks for the support on my [CSV parser post](https://sanixdk.xyz/blogs/how-i-accidentally-created-the-fastest-csv-parser-ever-made). The project is still moving, and the repository is getting close to 100 stars.
+- The site now has an [RSS feed](https://sanixdk.xyz/feed.xml).
 
 ### DISCLAIMERS
 
-- I am not a professional coach, I know nothing as a professional
-- All elements listed here are from my own experiments, my own body, my mistakes, don't expect some advice to be always true
-- I will illustrate some of my points with random code snippets, in order to make it more understandable for any software engineer reading this
+I am not a coach, doctor, or dietitian. This post describes my own experiments and mistakes. It is not a training or medical plan. Stop when you feel sharp pain, and ask a qualified professional about injuries, medical conditions, or major diet changes.
+
+The code below is only a way to explain the idea. Your body is not a program, and an exercise is not a function with perfectly predictable output.
 
 ---
 
-### BRUTE FORCE TECHNIQUE
+### MY FIRST APPROACH: DO EVERYTHING
 
-Well, where do I start? You see, working on your body is like working on a side project, that little folder in your computer you created to have fun at the beginning, and time to time, either you're still incrementing on it or you just skip paying attention to it...
-I can easily assimilate the workout to be like learning Vim and trying to work with it, you will feel like shit in terms of productivity and everything, questioning yourself on that choice every single day, but at some point you will find out it was worth it. You need to see working from home as working out at home is like dev on local, and push deploy is the gym sale. There's something about the environment that changes everything, just like how your code behaves differently in production versus localhost.
+When I started going to the gym, I used the same method I often used on programming problems: try the obvious solution first and worry about optimization later.
 
-As a noob knowing nothing, I was going to the gym every day when I started...
-See it like a programming problem you have to solve, the first approach is to brute force (well, most of the time). Let's say we have a matrix, a 2-dimensional array and you're asked to search for a specific item. Usually, the easiest solution would have been to loop until you find the item:
+I trained my whole body every day. I wanted progress immediately, so I copied a routine inspired by Saitama from *One-Punch Man*: 100 push-ups, 100 sit-ups, 100 squats, and a 10-kilometre run every day. I also liked Garou's constant adaptation in the series, although my own adaptation was much less dramatic.
 
-```python
-found = False
-for row in range(1, 101):
-    for col in range(1, 101):
-        if item == matrix[row][col]:
-            found = True
-```
+I could not do 100 push-ups in one set. I broke them into ten sets of ten. I split the sit-ups and squats in the same way. Running was worse. Three kilometres already felt like a serious test.
 
-This can be ok on 100... but not okay on 1 Million items...
+The first week left me sore enough to make normal tasks difficult. I was working from home, so I could sometimes code from bed when my legs did not want to cooperate. This was not a clever training method. It was too much work with no plan for recovery.
 
-This is how I started my journey in the gym, trying everything at the same time, by training the full body every day...
-
-You see, I am also a fan of anime and manga (if you recognize the person in the top image of this blog post... you know what I mean, shoutout to [GAROU](https://onepunchman.fandom.com/wiki/Garou) from One Punch Man, which is a character I really like because his body evolves every time he fights an opponent).
-
-So this is how I was splitting my gym... just like Saitama said "100 push-ups, 100 sit-ups, 100 squats and 10km runs, do it every single day"...
-
-Oh boy, I vaguely remember the first days I decided I will start that craziness. At that time I was unable to do 10 push-ups without gasping out... so I split the 100 into 10x10 push-ups with some minutes to rest, same for the sit-ups, for squats I was at 20x5, and the run... oh boy, I was not even able to do 3km without my body starting to ask for reanimation... nights were pure nightmares for my whole body, I was lucky enough to be able to work remotely, because some mornings, I was unable to move an inch.. and just laying there... with my laptop on my stomach... coding with the small energy I got left in my hands...
-
-The problem with this approach is that it's inefficient, just like our brute force algorithm. You're exhausting all your resources (energy, recovery ability, motivation) without really understanding what works and what doesn't. It's like trying to fix a bug by randomly changing lines of code until something works, you might eventually succeed, but you won't understand why, and you'll probably create more problems along the way.
+The routine looked like this:
 
 ```javascript
-// as an idiot, my initial workout "algorithm"
 while (!muscular) {
     do_everything();
     hope_for_results();
-    // No error handling, no optimization, just brute force the body...
 }
 ```
 
----
-
-### THE RIGHT OPTIMIZATION THROUGH EDUCATION
-
-So just like a dev's technical problem, there is a better solution to search an item in a long matrix, by using techniques like Linear Search in order to split faster and find the item easily. Just to take the previous example, a better solution would be:
-
-```python
-# assuming i sorted it at the begining...
-row_len = len(matrix)
-col_len = len(matrix[0])
-
-# Start at the top-right corner of the matrix
-row, col = 0, col_len - 1
-
-while row < row_len and col >= 0:
-    if matrix[row][col] == item:
-        found = True
-        break
-    elif matrix[row][col] > item:
-        col -= 1  # to move to the left cell
-    else:
-        row += 1  # to move to the down cell
-```
-which IMHO... is much much much faster.
-
-So there we go, I started watching some YouTube tutorials, like everything I know/do today, skateboard, drawing, coding, they all started with a YouTube search on "How to...", exactly how you're about to learn a new programming language or any new tech stack you want to master or get certified in.
-
-I then found some popular gym influencers like Greg Doucette (except for all the drama, that guy has a lot of advice... believe that), Mike Israetel (much more aggressive but also pinpoint advice), Jeff Nippard. There are many more out there, some are going to tell you the truth, others lie just to sell their supplements. It's like Stack Overflow answers, you need to check the upvotes, read the comments, and test things yourself before blindly following advice.
-
-My first weeks were painful as hell. Some days I couldn't lift my arms to wash my hair, other days walking down stairs was a special kind of torture. But here's the thing, this pain is like compiler errors. It's your body's way of telling you something happened, something changed. The difference between good pain (muscle soreness from growth) and bad pain (injury) is like the difference between a warning and a critical error. You need to learn to read these signals.
+The problem was not effort. I had no useful feedback. I changed too many variables at once, so I could not tell which exercise, amount of food, or amount of rest helped. If something hurt, I usually treated it as a challenge instead of a signal to stop and investigate.
 
 ---
 
-### DEBUGGING YOUR BODY: LEARNING TO READ THE ERROR MESSAGES
+### LEARN BEFORE YOU OPTIMIZE
 
-#### KNOW YOUR LIMITS
+I started learning instead of copying routines. I watched videos, read about basic exercise technique, and compared advice from different sources. Greg Doucette, Mike Israetel, and Jeff Nippard were among the people I watched. I did not accept every claim. Fitness advice has the same problem as programming advice: popularity is not proof.
 
-You're a human being...
+I looked for explanations, checked whether several sources agreed, and tested one change at a time. I also learned that a program must fit the person using it. A routine that works for an experienced lifter may be a bad starting point for someone who has not trained before.
 
-not a super saiyan (i mean... for most of us), the most important thing to know is your body limits and when to say "no... I can't do that weight",
-because, even if you have the strongest mind of the MCU, your muscles do have limits, and knowing those boundaries helps you not get injured.
+My training became less dramatic. I used fewer exercises, lighter weights, and more rest. I kept notes about the exercise, weight, sets, reps, and how the session felt. This gave me enough information to make a reasonable change the next time.
 
-#### DEBUG YOUR BODY
+In programming, a search algorithm should match the data. Training works in a similar way: the plan should match your current ability, time, equipment, and recovery. There is no prize for choosing the most complicated routine.
 
-When you're coding and something goes wrong, what do you do? You either use a debugger, or you go the hard way with print statements everywhere to know what and how everything works. Your body works the same way.
+---
 
-Using a coach (video or a random YouTube gym "people") is like using a proper debugger, they can set breakpoints in your form, watch your variables (weight, reps, technique), and help you step through each movement to find where things go wrong. But coaches are expensive, just like enterprise debugging tools, in my case it was YouTube videos, me watching, testing, trying, observing how to do some exercises like different pushups, situps and to develop which muscle groups...
+### DEBUGGING YOUR BODY
 
-```python
-def workout_with_coach(exercise, weight, reps):
-    coach.observe(exercise)
-    while reps > 0:
-        form_check = coach.evaluate_form()
-        if form_check.is_incorrect():
-            coach.correct_form()
-            continue
-        execute_rep()
-        reps -= 1
-    return coach.feedback()
-```
+A debugging session starts with an observation. The same is true in training.
 
-Going solo is like debugging with print/console.log statements. You need to be more creative and observant, not that it doesn't work... but you have to be much more verbose:
+If a movement feels wrong, I ask a few basic questions:
+
+- Did my form change as I got tired?
+- Did I add weight too quickly?
+- Did I sleep enough?
+- Did I warm up properly?
+- Is this normal effort, muscle soreness, or pain that means I should stop?
+
+A coach can help because another person can see problems that are hard to notice yourself. I have mostly learned from videos and recordings of my own workouts. Recording a set lets me review my technique later instead of trusting a tired memory.
 
 ```python
-def debug_workout_solo(exercise, weight, reps):
-    print(f"Starting {exercise} with {weight}kg")
+def review_set(exercise, weight, reps):
     record_video()
 
     for rep in range(reps):
-        print(f"Rep {rep + 1}: check, how does this feel?")
-        if pain_detected():
-            print("WARNING: Sharp pain detected, stopping")
-            break
+        if sharp_pain_detected():
+            stop()
+            return "ask a professional"
         if form_breaking():
-            print("Form degrading, consider lowering weight")
+            stop_or_reduce_weight()
+            return "adjust next set"
 
-    review_video_later()
-    compare_with_youtube_tutorials()
+    review_video()
+    write_down(exercise, weight, reps)
+    return "continue carefully"
 ```
 
-The mirror at your bathroom is your constant output...
+The important part is not the fake function. It is the pause before adding more weight. A mirror, a video, and a training log can show technique. They cannot diagnose an injury. A strange click, swelling, persistent pain, numbness, or weakness deserves attention from a qualified professional.
 
-Your muscle soreness is your log file...
-
-That weird clicking in your shoulder is a warning that needs investigation...
-
-You need to learn the difference between "undefined behavior" (bad form that might work today but will cause problems later) and "expected output" (proper muscle fatigue after a good workout)... even if that comes with a lot of practice over time.
+Do not use pain as a test of discipline. Effort is part of training. Sharp or worsening pain is a reason to stop.
 
 ---
 
-### NUTRITION AND RECOVERY
+### FOOD IS NOT A COMPILER FLAG
 
-When I started the journey I was skinny... i mean, like extremely skinny IMHO, around 78kg in total (I'm 107kg now). From my research, in order to gain muscle, I needed to understand that my body is just an I/O system. What you put in determines what you get out... not trash tho, but back in the day, I was doing everything to gain a lot of weight... eating 2 pizza XXL per day, burgers, etc... but only on that BULKING phase.
+I was very thin when I began. I weighed about 78 kilograms. I now weigh about 107 kilograms, but the change took years and was not a straight line.
 
-Think of nutrition like managing memory in your programs.
+At first I tried to gain weight by eating whatever was easy. There were days with two extra-large pizzas and burgers. That gave me calories, but it did not give me a good routine. I also made the mistake of pushing food too hard. On some nights I felt sick or vomited. That was not progress. It was a sign that I needed to stop forcing the process and get better advice.
 
-I tried protein shakes, it was working well but I was having a lot of issues on maintaining the intake in a long run, so I was on proteins only time to time, not every day.
+Food supports training, but it is not a simple input-output system. Appetite, activity, sleep, health, and food quality all affect the result. Protein, carbohydrates, and fats each have useful roles, but no single number works for everyone. A dietitian can help if you need a precise plan or have a medical condition.
 
-But you need to see protein as your heap allocation for building new muscle structures. Carbohydrates are your quick-access cache for immediate energy. Fats are your long-term storage, necessary for hormone production and overall system stability. And just like memory leaks can crash your program, nutritional deficiencies will crash your gains.
+Protein shakes helped me when eating enough was difficult. I did not use them consistently, and I did not need them for every meal. They are a convenient food, not a shortcut.
 
-```javascript
-class BodySystem {
-    constructor(weight, height, age) {
-        this.weight = weight;
-        this.metabolicRate = this.calculateBMR(weight, height, age);
-        this.maintenanceCalories = this.metabolicRate * 1.5;
-    }
-
-    bulkMode() {
-        // Allocate extra resources for growth
-        this.targetCalories = this.maintenanceCalories + 500;
-        this.proteinGrams = this.weight * 2.2;
-        console.log("Bulk mode: Prepare for increased resource consumption");
-    }
-
-    cutMode() {
-        // Garbage collection mode, remove excess
-        this.targetCalories = this.maintenanceCalories - 500;
-        this.proteinGrams = this.weight * 2.5; // Higher to preserve muscle
-        console.log("Cut mode: Optimizing for efficiency");
-    }
-}
-```
-
-But here's what nobody tells you about gaining weight as a skinny person, it's like trying to scale a system that was built for different specifications. Your stomach is used to processing small amounts, your appetite regulation is tuned for maintenance, and suddenly you're trying to force 3000+ calories through a system designed for 2000. It takes time to adapt, just like gradually scaling up server capacity, some nights I was just vomiting everything I ate in the day (yes... that's how badly I wanted to change).
-
-Recovery is your garbage collection and system maintenance. Sleep is when your body runs its cleanup processes, repairs damaged tissues, and consolidates the "motor patterns" you learned during training. Skipping sleep to train more is like skipping garbage collection to process more requests, eventually, your system will crash.
+Sleep matters just as much. When I slept badly, my sessions suffered. Recovery is not lost time. It is part of the training plan. Adding more work while ignoring sleep is like adding requests to a service that is already failing health checks.
 
 ---
 
-### YOUR BODY AS A LONG-TERM PROJECT
+### KEEP THE PROJECT SMALL ENOUGH TO CONTINUE
 
-As I said at the beginning, you need to see your body like a side project, but one that you can't abandon when it gets boring. It requires constant commits, MR/PR, regular refactoring, and occasional major version updates. Some days you'll push breaking changes (injuries), other days you'll have beautiful clean merges (perfect workouts where everything clicks).
+My best results came from making the routine repeatable. Three short sessions that I can perform every week are more useful than one extreme session followed by two weeks of soreness.
 
-The thing about fitness that's exactly like programming is that consistency beats intensity. Writing code for 30 minutes every day will make you a better programmer than doing one 10-hour session per week. Same with the gym, three solid 45-minute workouts beat one 3-hour marathon session.
+I track the basics:
 
 ```bash
-# Your fitness git log should look like this:
 git log --oneline
-xxxx Monday: Upper body, bench press PR 85kg (or more if you are a freak)
-xxxx Wednesday: Legs, squats feeling strong
-xxxx Friday: Full body, good form throughout
-
-# and maybe not like this:
-xxx Monday: 3 hour destroy everything session...
-[followed by 2 weeks of nothing due to burnout/injury]
+xxxx Monday: upper body, steady bench press
+xxxx Wednesday: legs, controlled squats
+xxxx Friday: full body, good technique
 ```
 
-Just like you wouldn't deploy to production without testing, don't attempt max weights without proper warm-up. Just like you version control your code, track your workouts. Just like you read documentation before using a new library, learn proper form before adding weight.
+The log does not need to be impressive. It needs to be accurate. I record what I did, then try to improve one small part when recovery allows it. That may mean one more repetition, a small weight increase, cleaner form, or the same work feeling easier.
+
+I also warm up before heavy work. I learn an exercise with a light weight before increasing it. I do not treat a personal record as a requirement for every session. A good session can be one where I practiced the movement and finished without aggravating an old problem.
 
 ---
 
-### WHEN YOUR PROGRESS THROWS A NULL POINTER EXCEPTION
+### WHEN PROGRESS STOPS
 
-Eventually, you'll hit plateaus, periods where despite doing everything "right", you see no progress. This is your body's equivalent of a performance bottleneck. Maybe you need to refactor your approach (change your program), maybe you need to adjust your resources (eat more/less), or maybe you just need to clear cache and restart (take a deload week).
+Plateaus happen. My weight can stay the same for weeks. A lift can stop improving. Motivation can disappear even when the routine is sound.
 
-These plateaus taught me patience in a way that debugging taught me persistence. Sometimes the solution isn't to work harder but to work smarter. Sometimes you need to step back, review your logs (workout journal), analyze your metrics (weight, reps, measurements), and find the bottleneck in your system.
+I start by checking the log rather than changing everything. Am I actually training as often as I think? Has my sleep changed? Am I eating enough for my goal? Did I increase the workload too quickly? Is the exercise still appropriate?
 
----
+Sometimes the answer is rest. A lighter week can help when fatigue has accumulated. Sometimes the answer is a smaller calorie change or a different exercise. Sometimes the answer is that I need help from a coach or health professional.
 
-### MY RETROSPECTIVE
-
-After 3 years of treating my body like a coding project, here are the design patterns that actually work for me:
-
-- Don't try to implement everything at once. Start with basic compound movements, nail the form, then add complexity.
-
-- Your body is always in production. There's no rollback for injuries. Test new exercises with light weight first.
-
-- What gets measured gets improved. Track your lifts, your weight, your calories. Data doesn't lie, but feelings do.
-
-- Whether it's anatomy, nutrition science, or exercise mechanics, understanding the "why" makes the "how" much more effective.
-
-- When something hurts or isn't working, don't ignore it. Debug it. Is it form? Recovery? Nutrition? Treat problems systematically.
-
-- Just like you can't run modern games on a 10-year-old laptop without upgrades, you can't lift heavy without building the foundation first. Respect your current specs while working to upgrade them.
-
-
-IMHO, the beautiful thing about approaching fitness like a software engineer is that we're already wired for systematic problem-solving, incremental progress, and debugging when things go wrong. We understand that complex systems require patience, that optimization is an iterative process, and that sometimes the elegant solution is better than the brute force approach.
-
-Your body is the most complex system you'll ever work on, and unlike your code, you can't just spin up a new instance if you break this one. So treat it with the same respect you'd give to a production database, regular backups (rest days), careful maintenance (mobility work), thoughtful updates (progressive overload), and always, always have a rollback plan (deload weeks).
-
-Remember: every expert was once a disaster. Every big lift started with an empty barbell. Every transformation began with someone who couldn't do a single push-up properly. The only difference between those who succeed and those who don't isn't talent or genetics, it's the willingness to treat failure as a learning opportunity rather than a reason to quit.
-
-Now if you'll excuse me, it's leg day, and these squats aren't going to debug themselves.
-
-```python
-if __name__ == "__main__":
-    gym_session = WorkoutSession("legs")
-    try:
-        gym_session.execute()
-    except ExhaustedError:
-        print("YESSS !!!!")
-    finally:
-        protein_shake.consume()
-        rest.sleep(8 * 3600)  # 8 hours
-```
+A plateau is information. It is not proof that the whole project failed.
 
 ---
 
-*What's your experience with fitness as a developer? Have you found any interesting parallels between coding and training? Drop a comment or reach out, I'd love to hear your debugging stories from the gym!*
+### WHAT I WOULD DO DIFFERENTLY
+
+After three years, I would start with a much smaller plan:
+
+- Learn a few basic movements and use a weight that allows controlled repetitions.
+- Train on a schedule that leaves room for sleep and normal life.
+- Track sessions without turning every number into a judgment.
+- Change one variable at a time when progress slows.
+- Stop for sharp pain and get help when a problem does not settle.
+- Eat enough regular food to support the goal instead of trying to force calories in one burst.
+
+The software analogy helped me make training less mysterious. Logs helped me notice patterns. Small changes kept the routine manageable. The analogy also has limits: a body has bad days, changing needs, and risks that a program does not.
+
+I still enjoy the engineering part of it. I like testing a routine, finding what causes a problem, and making a careful adjustment. I just do not want to optimize so aggressively that I forget the system belongs to a person.
+
+The goal is a routine you can continue when motivation is ordinary.
+
+---
+
+*What's your experience with fitness as a developer? Have you found useful parallels between coding and training? Share your experience or your gym debugging stories.*
 
 ---
